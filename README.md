@@ -12,10 +12,6 @@ Galaxy Shader 的 Minecraft Java 光影源码，当前最新版本 **1.3.0**（�
 
 ![主世界效果](Galaxy%20Shader/previews/main.png)
 
-末地（合成场景 GPU 渲染预览，非实际游戏截图）：
-
-![末地](Galaxy%20Shader/previews/end.png)
-
 末地行星天空特写：
 
 ![末地行星天空](Galaxy%20Shader/previews/end-sky.png)
