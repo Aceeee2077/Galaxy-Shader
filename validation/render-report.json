@@ -1,0 +1,430 @@
+{
+  "type": "Synthetic scene; not Minecraft gameplay",
+  "gpu": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA GeForce RTX 5080 Laptop GPU/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 616.64",
+    "glsl": "4.60 NVIDIA"
+  },
+  "scenarios": {
+    "day": {
+      "mean": 0.6068514585494995,
+      "std": 0.15405923128128052,
+      "stages": {
+        "composite": {
+          "min": 0.0214080810546875,
+          "max": 9.390625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.21875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.28125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.46875
+        },
+        "composite4": {
+          "min": 0.12744140625,
+          "max": 1.0
+        }
+      }
+    },
+    "sunset": {
+      "mean": 0.42698439955711365,
+      "std": 0.22584183514118195,
+      "stages": {
+        "composite": {
+          "min": 0.01506805419921875,
+          "max": 7.97265625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 2.5625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.359375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.109375
+        },
+        "composite4": {
+          "min": 0.1025390625,
+          "max": 1.0
+        }
+      }
+    },
+    "night": {
+      "mean": 0.13246718049049377,
+      "std": 0.0741003155708313,
+      "stages": {
+        "composite": {
+          "min": 0.0015230178833007812,
+          "max": 6.63671875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.734375
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.078125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.8515625
+        },
+        "composite4": {
+          "min": 0.03179931640625,
+          "max": 1.0
+        }
+      }
+    },
+    "rain": {
+      "mean": 0.5090050101280212,
+      "std": 0.17161507904529572,
+      "stages": {
+        "composite": {
+          "min": 0.05322265625,
+          "max": 5.81640625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.53125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.8984375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.71875
+        },
+        "composite4": {
+          "min": 0.244384765625,
+          "max": 0.9951171875
+        }
+      }
+    },
+    "thunder": {
+      "mean": 0.37082064151763916,
+      "std": 0.11801183223724365,
+      "stages": {
+        "composite": {
+          "min": 0.03692626953125,
+          "max": 4.84375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.5859375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.453125
+        },
+        "composite4": {
+          "min": 0.18798828125,
+          "max": 0.9912109375
+        }
+      }
+    },
+    "underwater": {
+      "mean": 0.30403390526771545,
+      "std": 0.15422284603118896,
+      "stages": {
+        "composite": {
+          "min": 0.011993408203125,
+          "max": 3.216796875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.01123046875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.006103515625
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.00146484375
+        },
+        "composite4": {
+          "min": 0.0860595703125,
+          "max": 0.97900390625
+        }
+      }
+    },
+    "cave": {
+      "mean": 0.22120076417922974,
+      "std": 0.29698479175567627,
+      "stages": {
+        "composite": {
+          "min": 0.002231597900390625,
+          "max": 6.5546875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.71875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.046875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.875
+        },
+        "composite4": {
+          "min": 0.0401611328125,
+          "max": 1.0
+        }
+      }
+    },
+    "nether": {
+      "mean": 0.17663191258907318,
+      "std": 0.16881023347377777,
+      "stages": {
+        "composite": {
+          "min": 0.0009369850158691406,
+          "max": 4.37109375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.6171875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.3671875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.31640625
+        },
+        "composite4": {
+          "min": 0.0256195068359375,
+          "max": 0.9970703125
+        }
+      }
+    },
+    "end": {
+      "mean": 0.12769238650798798,
+      "std": 0.10862933844327927,
+      "stages": {
+        "composite": {
+          "min": 0.0018634796142578125,
+          "max": 6.1875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.53125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.9453125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.7890625
+        },
+        "composite4": {
+          "min": 0.036468505859375,
+          "max": 1.0
+        }
+      }
+    },
+    "profile_POTATO": {
+      "mean": 0.5659704804420471,
+      "std": 0.16580705344676971,
+      "stages": {
+        "composite": {
+          "min": 0.0157318115234375,
+          "max": 9.5625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.15625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.15625
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.375
+        },
+        "composite4": {
+          "min": 0.1031494140625,
+          "max": 1.0
+        }
+      }
+    },
+    "profile_LOW": {
+      "mean": 0.5813431143760681,
+      "std": 0.1655425727367401,
+      "stages": {
+        "composite": {
+          "min": 0.0157318115234375,
+          "max": 9.5625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.15625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.21875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.421875
+        },
+        "composite4": {
+          "min": 0.1031494140625,
+          "max": 1.0
+        }
+      }
+    },
+    "profile_MEDIUM": {
+      "mean": 0.6036413311958313,
+      "std": 0.1547577977180481,
+      "stages": {
+        "composite": {
+          "min": 0.021575927734375,
+          "max": 9.515625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.1875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.28125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.46875
+        },
+        "composite4": {
+          "min": 0.128173828125,
+          "max": 1.0
+        }
+      }
+    },
+    "profile_HIGH": {
+      "mean": 0.6068514585494995,
+      "std": 0.15405923128128052,
+      "stages": {
+        "composite": {
+          "min": 0.0214080810546875,
+          "max": 9.390625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.21875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.28125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.46875
+        },
+        "composite4": {
+          "min": 0.12744140625,
+          "max": 1.0
+        }
+      }
+    },
+    "profile_ULTRA": {
+      "mean": 0.611873209476471,
+      "std": 0.15305829048156738,
+      "stages": {
+        "composite": {
+          "min": 0.0214691162109375,
+          "max": 9.3359375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.1875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.28125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.484375
+        },
+        "composite4": {
+          "min": 0.127685546875,
+          "max": 1.0
+        }
+      }
+    },
+    "profile_CINEMATIC": {
+      "mean": 0.6156725883483887,
+      "std": 0.14784157276153564,
+      "stages": {
+        "composite": {
+          "min": 0.02130126953125,
+          "max": 9.3359375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.1875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.28125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.484375
+        },
+        "composite4": {
+          "min": 0.13330078125,
+          "max": 1.0
+        }
+      }
+    },
+    "pbr_camera_effects": {
+      "mean": 0.6094015836715698,
+      "std": 0.14948567748069763,
+      "stages": {
+        "composite": {
+          "min": 0.0214080810546875,
+          "max": 9.390625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.21875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.28125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.46875
+        },
+        "composite4": {
+          "min": 0.129150390625,
+          "max": 1.0
+        }
+      }
+    }
+  },
+  "shader_sha256": "fbd5b7166d71e5aaa0f23c6fa10e7629865ea3ca4c2051e6509640f37d9cfac7",
+  "identical_state_replay": "bit-identical 8-bit output",
+  "static_camera_motion_blur_max_8bit_difference": 0
+}

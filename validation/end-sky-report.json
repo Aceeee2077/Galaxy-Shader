@@ -1,0 +1,13 @@
+{
+  "type": "Synthetic GPU sky fixture; not Minecraft gameplay",
+  "shader_sha256": "fbd5b7166d71e5aaa0f23c6fa10e7629865ea3ca4c2051e6509640f37d9cfac7",
+  "checks": {
+    "opaque_terrain_unchanged": true,
+    "orbits_change_at_fixed_camera": true,
+    "zero_speed_freezes_sky": true,
+    "all_speeds_match_at_clock_reset": true,
+    "disabled_sky_is_static": true,
+    "other_dimensions_unchanged": true
+  },
+  "status": "passed"
+}

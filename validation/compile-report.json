@@ -1,0 +1,26 @@
+{
+  "entrypoint_files": 256,
+  "options": 28,
+  "profiles": [
+    "POTATO",
+    "LOW",
+    "MEDIUM",
+    "HIGH",
+    "ULTRA",
+    "CINEMATIC"
+  ],
+  "static": "passed",
+  "gpu": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA GeForce RTX 5080 Laptop GPU/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 616.64",
+    "glsl": "4.60 NVIDIA"
+  },
+  "driver_compile": "passed",
+  "linked_unique_programs": 1014,
+  "entrypoint_configuration_pairs": 2048,
+  "seconds": 37.59,
+  "shader_sha256": "fbd5b7166d71e5aaa0f23c6fa10e7629865ea3ca4c2051e6509640f37d9cfac7",
+  "full_matrix": true,
+  "game_validation": "User logs reproduced clear-color parsing and undefined format-token failures. Both fixed; full gameplay acceptance remains pending."
+}

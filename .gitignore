@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+tools/.cache/
+validation/expanded/
+validation/*.bin
+
+# Generated validation media and parser diagnostics. They are reproducible
+# with tools/validate.py, tools/render_smoke.py and tools/check_iris_directives.py.
+validation/*.png
+validation/*.gif
+validation/iris-*.txt
+
+# Optional: if release archives are hosted on GitHub Releases instead of in the
+# repository, uncomment these two lines:
+# Galaxy Shader-*.zip
+# Galaxy Shader-*.zip.sha256
