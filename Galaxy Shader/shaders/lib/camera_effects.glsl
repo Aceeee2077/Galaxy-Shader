@@ -1,9 +1,8 @@
 #ifndef SE_CAMERA_EFFECTS
 #define SE_CAMERA_EFFECTS
 #include "/lib/noise.glsl"
-uniform sampler2D colortex0, colortex3, depthtex0;
-vec3 cameraEffects(vec2 uv) {
-    vec3 color=texture2D(colortex0,uv).rgb;
+vec3 cameraEffects(vec2 uv, vec3 inputColor) {
+    vec3 color=inputColor;
     if(texture2D(colortex3,uv).b>0.5) return color;
 #if DOF_QUALITY > 0
     float d=texture2D(depthtex0,uv).r;

@@ -1,3 +1,3 @@
 #version 330 compatibility
 #define DIMENSION -1
-#include "/program/translucent.fsh"
+#include "/program/weather.fsh"

@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.5.0 — 2026-09-13
+
+- 新增专用 `gbuffers_weather` 片元程序：保留 Iris/Minecraft 的降雨几何与遮挡关系，但以多层程序化线条重建雨滴外观，支持风向倾斜、远近密度、速度层次与雷光响应；低档按编译期预算减少层数，POTATO 使用轻量后备。
+- 雨线形状进一步改为随机相位的短分段：连续纵向遮罩会被切成不同长度与间隔的雨丝，并加入头尾渐隐、明显风切斜率和远近尺度变化；单纯加快纹理滚动不再产生贯穿画面的竖线。
+- 修正降雨卡片透明区域被程序化雨线填满后反复叠加的问题；有效纹理遮罩现在严格限制雨线覆盖，远处透明度和单卡密度同步降低，避免整屏发白或出现矩形雨幕。
+- 新增共享天气状态模型，将 `rainStrength`、`wetness`、`thunderStrength` 与用户云量连续组合，统一驱动 Clear / Cloudy / Rain / Thunderstorm 的天空、云层、太阳亮度、环境光、雾、水面与表面材质，天气开始与结束不会硬切。
+- 水面新增多尺度、随机相位的圆形 ripple，随时间扩散并衰减；雨势与雷暴提高法线扰动、Fresnel 反射和高光。向上且具有天空光照的地表新增小型 splash 法线与亮边。
+- 湿润 PBR 扩展到普通地形与树叶：Iris `wetness` 负责缓慢积累/干燥，暴露面逐渐变暗、降低 roughness，并继续使用既有 SSR/环境回退，不改动 G-buffer 布局。
+- 体积光升级为晨昏 God Rays：阴影贴图 ray marching 使用采样明暗方差表现树冠/地形缝隙，森林阴影与低太阳角度增强，正午自动减弱，并限制能量以避免全屏发白。
+- 地形雾升级为 height fog + valley fog + distance haze：低地与接近海平面的区域更浓，高地更薄，清晨、降雨、雷暴与湿润天气自动增密；雾积分仍截止于场景深度，不穿过不透明墙体。
+- 闪电事件现在同时照亮天空、云层、雾、体积介质、地形 splash 与水面高光。
+- 新增「天气」设置页及 `WEATHER_QUALITY`、`TERRAIN_FOG_QUALITY`、`RAIN_INTENSITY`、`RIPPLE_STRENGTH`、`GODRAY_STRENGTH` 中英文选项；POTATO / LOW / MEDIUM / HIGH / ULTRA / CINEMATIC 均配置独立预算。
+- 保留 1.4.0 的 PBR、SSR、PCSS、GTAO、TAA、末地天空、Bloom、色调映射和现有 pass/缓冲区架构。
+
+## 1.4.0 — 2026-09-12
+
+- 新增 TAA/Temporal Accumulation：`colortex7` 持久化 HDR 历史与深度，使用前帧矩阵/相机位置进行几何与天空重投影，并加入屏幕边界、历史深度、相机切换、运动幅度和亮度差异拒绝。
+- 新增 3×3 YCoCg 邻域裁剪，手部像素跳过历史累计；保留可选 FXAA。为兼容 Iris、GUI 与手部渲染，本版不启用 projection jitter，动态实体也尚无独立 motion vector。
+- 阴影升级为 PCSS-like blocker search、半影估算与可变 PCF；近接触阴影更锐利，遮挡距离增大时更柔和；远距离继续自动降为 4 tap。各档编译期预算从 PCF 4 tap 到 CINEMATIC 16+24 tap。
+- AO 升级为 GTAO-style 方向性地平线搜索，使用约 1.5 方块世界半径、深度重建、法线/距离边缘权重；AO 与屏幕空间颜色传递已拆分。
+- SSR 加入自适应步进、距离相关厚度、二分细化、多因子命中置信度与低成本粗糙反射；miss 继续按 confidence 回退环境反射。
+- 新增 Legacy Filmic、ACES-like、AgX-like 三种色调映射（默认 AgX-like），改善高光 rolloff、暗部保持与轻微夜间白平衡；自动曝光适应更慢、洞穴增益更克制，Bloom 阈值收紧。
+- 体积光加入稳定像素抖动；TAA 开启时使用八帧相位变化，关闭时保持固定 pattern。
+- 新增 Temporal、AO 设置页，并更新六档预设、中英文 name/value/comment、架构文档、验证器与打包版本。
+- 尚未实现：Voxel GI、Path Tracing、Volumetric Clouds、POM；这些不属于 1.4.0 范围。
+
 ## 1.3.0 — 2026-09-07
 
 - 末地行星视觉升级：四颗行星改为独立的公转速度（内圈快、外圈慢）、轨道距离与视尺寸，不再像同一模板复制；环巨星的光环按自身半径成比例绘制。

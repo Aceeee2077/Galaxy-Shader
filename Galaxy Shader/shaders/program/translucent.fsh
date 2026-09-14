@@ -31,16 +31,19 @@ void main() {
         vec3 waterLight=ambientRadiance(vec3(0,1,0),vLight.y)+directionalRadiance()*0.12;
         vec3 transmission=behind*absorb+biome*waterLight*(1.0-absorb);
         float fresnel=0.02+0.98*pow(1.0-sat(dot(n,safeNormalize(-vPlayer))),5.0);
+        fresnel=sat(fresnel+weatherStormAmount()*weatherRainAmount()*0.035);
         vec3 env=environmentReflection(vPlayer,n,0.07,vLight.y);
         vec4 ssr=traceReflection(colortex4,view,n,0.07);
         Material m=defaultMaterial(toLinear(tex.rgb),n);
-        m.normal=n; m.f0=vec3(0.02); m.roughness=0.075;
+        m.normal=n; m.f0=vec3(0.02); m.roughness=mix(0.075,0.055,weatherStormAmount());
         vec3 spec=vec3(0.0);
 #if DIMENSION == 0
         spec=specularBRDF(m,safeNormalize(-vPlayer),lightDirection())*directionalRadiance()*
              shadowVisibility(vPlayer,n,true)*smoothstep(0.05,0.4,vLight.y);
 #endif
-        vec3 color=mix(transmission,mix(env,ssr.rgb,ssr.a),fresnel)+spec;
+        vec3 stormHighlight=lightningBoltPosition.w*vec3(0.42,0.56,0.82)*
+                            (0.25+0.75*fresnel)*weatherRainAmount();
+        vec3 color=mix(transmission,mix(env,ssr.rgb,ssr.a),fresnel)+spec+stormHighlight;
         color=mix(behind,color,smoothstep(0.0,0.18,thickness));
         // The opaque background has already been transmitted exactly once.
         gl_FragData[0]=vec4(max(color,vec3(0)),1.0);

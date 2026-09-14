@@ -22,6 +22,7 @@ The authored shaders use GLSL 330 compatibility input conventions. Iris translat
 | colortex4 | RGBA16F | Immutable lit opaque scene including procedural sky, copied by deferred |
 | colortex5 | R11F_G11F_B10F, quarter width/height | Bright pass and final blurred bloom |
 | colortex6 | R11F_G11F_B10F, quarter width/height | Horizontal blur intermediate |
+| colortex7 | RGBA16F, persistent ping-pong | Resolved HDR history in RGB and normalized previous-frame view depth in A |
 | depthtex0 | Loader depth | All depth-writing geometry |
 | depthtex1 | Loader depth | Opaque scene used by screen effects and water |
 | shadowtex0 | Loader depth | Orthographic shadow map, manual comparisons |
@@ -33,19 +34,19 @@ Format declarations are Iris metadata inside a multiline comment: the Iris prepr
 ## Pass sequence
 
 1. **shadow**: matching vegetation animation, alpha cutout, omit transparent water/glass shadows.
-2. **gbuffers**: forward HDR lighting with normal/specular material evaluation. Dedicated variants handle terrain, entities, block entities, hands, sky suppression, glint, beams and weather.
+2. **gbuffers**: forward HDR lighting with normal/specular material evaluation. Dedicated variants handle terrain, entities, block entities, hands, sky suppression, glint and beams. `gbuffers_weather` keeps Iris precipitation geometry but uses its own procedural wind-driven rain fragment program. Terrain wetness, roughness reduction and exposed-surface splash normals are written through the existing material attachments.
 3. **deferred**: procedural sky for clear depth; bounded AO/indirect sampling for valid opaque surfaces; glossy surface SSR; copy completed opaque scene to colortex4.
-4. **transparent geometry**: water samples the opaque copy with a depth-tested refractive offset, absorption, Fresnel and reflections. Other translucent surfaces preserve their atlas alpha. Particles render after deferred. Hands retain a post-process mask, including the transparent-hand path.
-5. **composite**: dimension-aware fog and shadow-sampled volumetric light. Hand pixels bypass these effects.
+4. **transparent geometry**: water samples the opaque copy with a depth-tested refractive offset, absorption, Fresnel and reflections; rain adds expanding procedural normal rings and storm wind disturbance. Other translucent surfaces preserve their atlas alpha. Particles and precipitation render after deferred. Hands retain a post-process mask, including the transparent-hand path.
+5. **composite**: dimension-aware height/valley/distance fog and shadow-sampled volumetric light. The reconstructed surface depth terminates fog and light integration at opaque terrain. Dawn/dusk shaft contrast is derived from variation between shadow-map samples; lightning contributes bounded scatter. Hand pixels bypass these effects.
 6. **composite1/2/3**: bright-pass downsampling and separable Gaussian blur at quarter width/height.
-7. **composite4**: optional camera effects, restrained bloom, bounded smoothed exposure, Filmic, color grading and gamma.
-8. **final**: edge-adaptive FXAA on display RGB. Minecraft remains responsible for subsequent HUD/GUI rendering.
+7. **composite4**: reproject and reject/clamp temporal history into colortex7; optional camera effects; restrained bloom; selectable Filmic/ACES-like/AgX-like mapping, color grading and gamma into colortex0.
+8. **final**: optional edge-adaptive FXAA on display RGB. Minecraft remains responsible for subsequent HUD/GUI rendering.
 
 ## Cost and stability choices
 
-No history color, TAA jitter, stochastic per-frame sample rotation, voxel allocation or compute dispatch is used. SSAO and SSR reject background and offscreen samples; SSR refines accepted intersections and fades at edges. Volumetrics integrate a finite distance and reuse one cloud attenuation estimate along each ray. Exposure gain is bounded even with no eye light.
+TAA uses a persistent HDR/depth history, previous camera matrices, depth/screen/camera-cut rejection and a YCoCg neighborhood clamp. It intentionally does not jitter the projection or depend on per-object motion vectors. PCSS uses compile-time blocker/filter budgets with deterministic rotation. GTAO-style AO uses deterministic directional horizons, so it does not require a separate noisy AO buffer or blur pass. SSR rejects background/offscreen samples and returns a multi-factor confidence. Volumetrics integrate a finite distance and use frame-varying jitter only when TAA is enabled. No voxel allocation or compute dispatch is used.
 
-Profiles change real compile-time loop budgets. Lower profiles turn off expensive effect branches while retaining a complete rendering path. Shadows use fixed sample patterns and a 2-block shadow camera grid. The engine still controls shadow camera updates, culling and world-coordinate wrapping, which need in-game movement tests.
+Profiles change real compile-time loop budgets. `WEATHER_QUALITY` controls procedural rain/ripple layers, while `TERRAIN_FOG_QUALITY` controls lowland fog noise; coherent zero-rain branches avoid evaluating ripple fields in clear weather. Lower profiles turn off expensive effect branches while retaining a complete rendering path. Shadows use fixed sample patterns and a 2-block shadow camera grid. The engine still controls shadow camera updates, culling and world-coordinate wrapping, which need in-game movement tests.
 
 ## Development and validation
 
@@ -63,6 +64,6 @@ python tools/build.py --package
 
 `validate.py` expands and checks includes, options, profile values, default HIGH equivalence, menu reachability, dimension entrypoints and draw-buffer declarations. It compiles and links on the real GPU for all profiles, all-off settings, forced PBR/camera effects, both LabPBR macro states and all dimension paths. Identical expanded programs are compiled once.
 
-`render_smoke.py` rasterizes synthetic geometry and water through the shipped programs, constructs real depth/shadow buffers, executes the post passes, checks framebuffer completeness and GL errors, reads back every post stage for finite pixels, rejects blank final outputs, and compares identical-frame replay and static-camera motion blur. Its images are explicitly labeled synthetic; they are not gameplay evidence.
+`render_smoke.py` rasterizes synthetic geometry, water and precipitation through the shipped programs, constructs real depth/shadow buffers, executes the post passes, checks framebuffer completeness and GL errors, reads back every post stage for finite pixels, rejects blank final outputs, and compares identical-frame replay and static-camera motion blur. It includes distinct clear, cloudy, rain, and thunder states. Its images are explicitly labeled synthetic; they are not gameplay evidence.
 
 The build command rejects packaging if compile/render/Iris directive reports do not match the current shader SHA-256, or if only quick compilation was run. `check_iris_directives.py` executes the real Iris CPU directive parser in the supplied JAR; this catches configuration syntax that a GLSL driver accepts but Iris does not. ZIP contents are byte-checked against the source, CRC-checked, and verified to contain `shaders/` at the root. Reports and diagnostic images remain in `validation/`.

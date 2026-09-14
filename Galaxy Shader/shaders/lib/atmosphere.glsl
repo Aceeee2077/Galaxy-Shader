@@ -2,6 +2,7 @@
 #define SE_ATMOSPHERE
 #include "/lib/noise.glsl"
 #include "/lib/end_sky.glsl"
+#include "/lib/weather.glsl"
 vec3 sunlightColor() {
     float h = max(sunDirection().y,0.0);
     return mix(vec3(1.0,0.32,0.10),vec3(1.0,0.95,0.85),smoothstep(0.0,0.4,h));
@@ -12,7 +13,8 @@ vec3 directionalRadiance() {
     vec3 sun = sunlightColor() * (2.8*SUN_INTENSITY);
     float phase = 0.45 + 0.55 * abs(float(moonPhase)-4.0)/4.0;
     vec3 moon = vec3(0.12,0.15,0.20)*NIGHT_BRIGHTNESS*phase;
-    return mix(moon,sun,d)*horizon*(1.0-0.78*rainStrength)*(1.0-0.35*thunderStrength);
+    return mix(moon,sun,d)*horizon*(1.0-0.64*weatherRainAmount())*
+           (1.0-0.42*weatherStormAmount());
 }
 vec3 atmosphere(vec3 ray, bool disks) {
 #if DIMENSION == -1
@@ -36,17 +38,20 @@ vec3 atmosphere(vec3 ray, bool disks) {
     scatter += vec3(0.52,0.12,0.035)*sunset*pow(1.0-h,4.0)*(0.25+0.75*pow(max(mu,0.0),3.0));
     vec3 night = mix(vec3(0.006,0.009,0.018),vec3(0.018,0.023,0.037),pow(1.0-h,3.0))*NIGHT_BRIGHTNESS;
     vec3 sky = mix(night,scatter,day);
-    sky = mix(sky,vec3(luminance(sky))*vec3(0.92,0.96,1.0),rainStrength*0.80);
-    sky *= 1.0-0.50*thunderStrength;
+    float overcast=weatherOvercastAmount();
+    vec3 cloudySky=mix(vec3(0.16,0.20,0.25),vec3(0.055,0.070,0.095),weatherStormAmount());
+    cloudySky*=mix(0.42,1.0,day);
+    sky=mix(sky,cloudySky,overcast*0.74);
+    sky *= 1.0-0.22*weatherStormAmount();
     if (disks && ray.y>-0.02) {
-        sky += sunlightColor()*14.0*smoothstep(0.99988,0.99996,mu)*day*(1.0-rainStrength);
+        sky += sunlightColor()*14.0*smoothstep(0.99988,0.99996,mu)*day*(1.0-overcast);
         vec3 moon = worldDirection(moonPosition);
-        sky += vec3(1.2,1.3,1.5)*smoothstep(0.99976,0.99994,dot(ray,moon))*(1.0-day)*(1.0-rainStrength);
+        sky += vec3(1.2,1.3,1.5)*smoothstep(0.99976,0.99994,dot(ray,moon))*(1.0-day)*(1.0-overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
         float star = step(0.996,hash12(floor(starUV)))*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
-        sky += vec3(star*0.7*(1.0-day)*(1.0-rainStrength)*smoothstep(0.0,0.2,ray.y));
+        sky += vec3(star*0.7*(1.0-day)*(1.0-overcast)*smoothstep(0.0,0.2,ray.y));
     }
-    sky += lightningBoltPosition.w*vec3(0.10,0.12,0.16);
+    sky += lightningBoltPosition.w*vec3(0.24,0.30,0.43)*(0.45+0.55*weatherStormAmount());
     return max(sky,vec3(0.0));
 #endif
 }

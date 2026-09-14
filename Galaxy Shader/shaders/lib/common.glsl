@@ -13,7 +13,7 @@ uniform ivec2 eyeBrightnessSmooth;
 uniform float viewWidth, viewHeight, near, far, frameTimeCounter;
 uniform float rainStrength, wetness, thunderStrength, nightVision, blindness, darknessFactor;
 uniform float centerDepthSmooth;
-uniform int isEyeInWater, moonPhase;
+uniform int isEyeInWater, moonPhase, frameCounter;
 uniform int heldItemId, heldItemId2, heldBlockLightValue, heldBlockLightValue2;
 const float PI = 3.14159265359;
 float sat(float x) { return clamp(x, 0.0, 1.0); }

@@ -11,7 +11,8 @@ vec3 ambientRadiance(vec3 n, float sky) {
 #else
     float hemi=0.50+0.50*max(n.y,0.0);
     vec3 outdoor=mix(vec3(0.018,0.022,0.031)*NIGHT_BRIGHTNESS,vec3(0.27,0.32,0.38),dayAmount());
-    outdoor*=1.0-0.45*thunderStrength;
+    outdoor=mix(outdoor,vec3(luminance(outdoor))*vec3(0.84,0.90,1.0),weatherOvercastAmount()*0.46);
+    outdoor*=1.0-0.42*weatherStormAmount();
     return vec3(0.007)+outdoor*pow(sky,2.0)*hemi;
 #endif
 }

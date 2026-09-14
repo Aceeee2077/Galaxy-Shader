@@ -17,9 +17,9 @@ public class IrisDirectiveCheck {
         var holder = new DispatchingDirectiveHolder();
         var constructor = PackRenderTargetDirectives.class.getDeclaredConstructor(Set.class);
         constructor.setAccessible(true);
-        var targets = constructor.newInstance(Set.of(0,1,2,3,4,5,6));
+        var targets = constructor.newInstance(Set.of(0,1,2,3,4,5,6,7));
         targets.acceptDirectives(holder);
-        for (int i = 0; i < 4; i++) {
+        for (int i : new int[] {0, 1, 2, 3, 7}) {
             String name = "colortex" + i + "ClearColor";
             holder.acceptConstVec4Directive(name, value -> received.put(name, value));
         }
@@ -27,18 +27,20 @@ public class IrisDirectiveCheck {
         for (var directive : ConstDirectiveParser.findDirectives(source)) {
             holder.processDirective(directive);
         }
-        if (received.size() != 4) throw new AssertionError("Missing callbacks: " + received);
-        for (int i : new int[] {0, 2, 3}) {
+        if (received.size() != 5) throw new AssertionError("Missing callbacks: " + received);
+        for (int i : new int[] {0, 2, 3, 7}) {
             if (!received.get("colortex" + i + "ClearColor").equals(new Vector4f(0, 0, 0, 0)))
                 throw new AssertionError("Incorrect clear color " + i);
         }
         if (!received.get("colortex1ClearColor").equals(new Vector4f(0.5f, 0.5f, 1, 1)))
             throw new AssertionError("Incorrect normal clear color");
-        String[] expected = {"RGBA16F", "RGBA16F", "RGBA16F", "RGBA8", "RGBA16F", "R11F_G11F_B10F", "R11F_G11F_B10F"};
+        String[] expected = {"RGBA16F", "RGBA16F", "RGBA16F", "RGBA8", "RGBA16F", "R11F_G11F_B10F", "R11F_G11F_B10F", "RGBA16F"};
         for (int i=0; i<expected.length; i++) {
             String actual = targets.getRenderTargetSettings().get(i).getInternalFormat().name();
             if (!expected[i].equals(actual)) throw new AssertionError("Wrong format at " + i + ": " + actual);
         }
-        System.out.println("PASS: actual Iris preprocessor and render-target parser accepted 7 exact formats and 4 exact clear colors.");
+        if (targets.getRenderTargetSettings().get(7).shouldClear())
+            throw new AssertionError("Temporal history target must persist between frames");
+        System.out.println("PASS: actual Iris preprocessor and render-target parser accepted 8 exact formats, 5 exact clear colors, and persistent colortex7.");
     }
 }

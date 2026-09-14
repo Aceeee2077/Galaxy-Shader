@@ -1,11 +1,11 @@
 {
-  "shader_sha256": "fbd5b7166d71e5aaa0f23c6fa10e7629865ea3ca4c2051e6509640f37d9cfac7",
+  "shader_sha256": "50c1e38abb2dff6fbb1e0347b9ab53093cd522996dac63a2d6ead7348aa44876",
   "status": "passed",
   "parser_versions": [
     {
       "iris": "iris-fabric-1.11.2+mc26.2.jar",
       "status": "passed",
-      "result": "PASS: actual Iris preprocessor and render-target parser accepted 7 exact formats and 4 exact clear colors."
+      "result": "PASS: actual Iris preprocessor and render-target parser accepted 8 exact formats, 5 exact clear colors, and persistent colortex7."
     }
   ],
   "scope": "Actual Iris GLSL preprocessor, render-target format and clear-color parsers; not full gameplay."

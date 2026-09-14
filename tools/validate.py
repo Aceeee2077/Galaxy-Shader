@@ -53,7 +53,7 @@ def static_checks():
         if path.suffix=='.fsh' and path.stem!='final':
             targets=re.findall(r'/\* DRAWBUFFERS:(\d+) \*/',expanded)
             assert len(targets)==1,(path,targets)
-            assert all(int(x)<=6 for x in targets[0]),str(path)
+            assert all(int(x)<=7 for x in targets[0]),str(path)
     settings=(SHADERS/'lib/settings.glsl').read_text()
     options={}
     for line in settings.splitlines():

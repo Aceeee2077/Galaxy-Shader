@@ -8,12 +8,27 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
     vec3 start=view+n*0.12;
     vec4 result=vec4(0.0);
 #if SSR_QUALITY > 0
-    if(roughness>0.65) return result;
-    int count=SSR_QUALITY*12;
-    float previousT=0.1;
-    for(int i=0;i<48;++i) {
-        if(i>=count) break;
-        float t=0.18+pow((float(i)+1.0)/float(count),1.6)*64.0;
+    if(roughness>0.62 || direction.z>0.05) return result;
+#if SSR_QUALITY == 1
+    const int count=12;
+    const float maxDistance=36.0;
+#elif SSR_QUALITY == 2
+    const int count=20;
+    const float maxDistance=52.0;
+#elif SSR_QUALITY == 3
+    const int count=28;
+    const float maxDistance=64.0;
+#else
+    const int count=40;
+    const float maxDistance=80.0;
+#endif
+    float previousT=0.08;
+    float t=previousT;
+    for(int i=0;i<count;++i) {
+        float progress=(float(i)+1.0)/float(count);
+        // Small near-camera steps retain contact; steps grow with travel distance.
+        t+=mix(0.10,maxDistance/float(count)*2.1,progress*progress);
+        if(t>maxDistance) break;
         vec3 p=start+direction*t;
         if(p.z>=-near) break;
         vec2 uv=projectView(p);
@@ -22,7 +37,8 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
         if(skyDepth(d)>0.5) { previousT=t; continue; }
         float sceneZ=viewPosition(uv,d).z;
         float delta=sceneZ-p.z;
-        if(delta>0.0 && delta<0.3+(t-previousT)*abs(direction.z)*1.5 && t>0.5) {
+        float thickness=(0.10+t*0.006)+(t-previousT)*abs(direction.z)*0.9;
+        if(delta>0.0 && delta<thickness && t>0.35) {
             float lo=previousT, hi=t;
             for(int j=0;j<5;++j) {
                 float mid=(lo+hi)*0.5;
@@ -34,9 +50,25 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
             vec3 hit=start+direction*hi;
             uv=projectView(hit);
             float hitDepth=texture2D(depthtex1,uv).r;
-            if(skyDepth(hitDepth)>0.5 || abs(viewPosition(uv,hitDepth).z-hit.z)>0.7) break;
+            float hitError=abs(viewPosition(uv,hitDepth).z-hit.z);
+            if(skyDepth(hitDepth)>0.5 || hitError>thickness*1.5) break;
             float edge=smoothstep(0.0,0.08,min(min(uv.x,uv.y),min(1.0-uv.x,1.0-uv.y)));
-            result=vec4(texture2D(scene,uv).rgb,edge*(1.0-smoothstep(0.15,0.65,roughness)));
+            float depthConfidence=1.0-smoothstep(thickness*0.25,thickness*1.5,hitError);
+            float angleConfidence=smoothstep(0.02,0.35,abs(dot(n,direction)));
+            float distanceConfidence=1.0-smoothstep(maxDistance*0.55,maxDistance,t);
+            float roughnessConfidence=1.0-smoothstep(0.15,0.62,roughness);
+            vec2 blur=pixelSize()*(1.0+roughness*8.0);
+            vec3 reflected=texture2D(scene,uv).rgb;
+            if(roughness>0.15) {
+                reflected*=0.40;
+                reflected+=(texture2D(scene,uv+vec2(blur.x,0)).rgb+
+                            texture2D(scene,uv-vec2(blur.x,0)).rgb+
+                            texture2D(scene,uv+vec2(0,blur.y)).rgb+
+                            texture2D(scene,uv-vec2(0,blur.y)).rgb)*0.15;
+            }
+            float confidence=edge*depthConfidence*angleConfidence*
+                             distanceConfidence*roughnessConfidence;
+            result=vec4(reflected,confidence);
             break;
         }
         previousT=t;

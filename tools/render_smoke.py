@@ -50,14 +50,20 @@ class Renderer:
         pattern=np.ones((16,16,4),np.float32)
         y,x=np.mgrid[0:16,0:16]; pattern[:,:,:3]*=(0.83+0.17*((x+y)%2))[:,:,None]
         self.checker=self.texture(16,16,data=pattern)
+        rain=np.ones((64,64,4),np.float32)
+        ry,rx=np.mgrid[0:64,0:64]
+        lane=np.minimum(np.mod(rx+ry*0.08,16.0),16.0-np.mod(rx+ry*0.08,16.0))
+        rain[:,:,3]=(np.exp(-np.square(lane/0.75))*
+                     (0.45+0.55*np.square(np.sin((ry+rx*0.07)*0.31))))
+        self.rain=self.texture(64,64,data=rain)
         self.normal=self.texture(1,1,data=np.array([[[0.5,0.5,1,1]]],np.float32))
         self.spec=self.texture(1,1,data=np.array([[[0,0.04,0,1]]],np.float32))
         self.shadow_depth=self.texture(2048,2048,depth=True)
         self.shadow_color=self.texture(2048,2048)
         self.depth=self.texture(width,height,depth=True)
         self.opaque_depth=self.texture(width,height,depth=True)
-        self.buffers={i:self.texture(width//4 if i in [5,6] else width,height//4 if i in [5,6] else height,internal_format=0x8C3A if i in [5,6] else 0x8058 if i==3 else 0x881A) for i in range(7)}
-        self.spare={i:self.texture(width//4 if i in [5,6] else width,height//4 if i in [5,6] else height,internal_format=0x8C3A if i in [5,6] else 0x8058 if i==3 else 0x881A) for i in range(7)}
+        self.buffers={i:self.texture(width//4 if i in [5,6] else width,height//4 if i in [5,6] else height,internal_format=0x8C3A if i in [5,6] else 0x8058 if i==3 else 0x881A) for i in range(8)}
+        self.spare={i:self.texture(width//4 if i in [5,6] else width,height//4 if i in [5,6] else height,internal_format=0x8C3A if i in [5,6] else 0x8058 if i==3 else 0x881A) for i in range(8)}
         self.final=self.texture(width,height)
 
     def call(self,name,result,args,*values): return self.gl.fn(name,result,*args)(*values)
@@ -110,7 +116,8 @@ class Renderer:
         program=self.programs[key]
         self.call('glUseProgram',None,[U],program)
         for uniform,value in self.uniforms.items(): self.uniform(program,uniform,value)
-        samplers={'texture':self.checker,'normals':self.normal,'specular':self.spec,'shadowtex0':self.shadow_depth,'depthtex0':self.depth,'depthtex1':self.opaque_depth,**{f'colortex{i}':t for i,t in self.buffers.items()}}
+        base_texture=self.rain if name=='gbuffers_weather' else self.checker
+        samplers={'texture':base_texture,'normals':self.normal,'specular':self.spec,'shadowtex0':self.shadow_depth,'depthtex0':self.depth,'depthtex1':self.opaque_depth,**{f'colortex{i}':t for i,t in self.buffers.items()}}
         for unit,(sampler,texture) in enumerate(samplers.items()):
             self.call('glActiveTexture',None,[U],0x84C0+unit)
             self.call('glBindTexture',None,[U,U],0x0DE1,texture)
@@ -167,10 +174,18 @@ class Renderer:
             self.call('glVertex3f',None,[F,F,F],x,y,0)
         self.call('glEnd',None,[])
 
-    def render(self,kind='day',profile='HIGH',options=None,time=25.0):
+    def clear_history(self):
+        self.call('glClearColor',None,[F,F,F,F],0,0,0,0)
+        for texture in [self.buffers[7],self.spare[7]]:
+            self.bind_fbo([texture])
+            self.call('glClear',None,[U],0x4000)
+
+    def render(self,kind='day',profile='HIGH',options=None,time=25.0,preserve_history=False):
         self.check('initialization')
+        if not preserve_history:self.clear_history()
         folder={'nether':'world-1','end':'world1'}.get(kind,'world0')
         opts=dict(zip(PROFILE_KEYS,PROFILES[profile])); opts.update(options or {})
+        if kind=='cloudy': opts['CLOUD_COVERAGE']=0.9
         sun=normalized([0.5,0.8,0.4])
         if kind=='sunset': sun=normalized([0.8,0.06,-0.2])
         if kind=='night':sun=-sun
@@ -187,9 +202,10 @@ class Renderer:
             'shadowLightPosition':self.rotation[:3,:3]@light*100,
             'viewWidth':float(self.w),'viewHeight':float(self.h),'near':0.05,'far':128.0,
             'rainStrength':1.0 if kind in ['rain','thunder'] else 0.0,
-            'wetness':1.0 if kind in ['rain','thunder'] else 0.0,
+            'wetness':1.0 if kind in ['rain','thunder'] else 0.18 if kind=='cloudy' else 0.0,
             'thunderStrength':1.0 if kind=='thunder' else 0.0,
-            'frameTimeCounter':time,'isEyeInWater':1 if kind=='underwater' else 0,
+            'frameTimeCounter':time,'frameCounter':int(time*20)%720720,
+            'isEyeInWater':1 if kind=='underwater' else 0,
             'moonPhase':4,'eyeBrightnessSmooth':[40,0 if kind in ['cave','nether','end'] else 240],
             'fogColor':[0.35,0.07,0.025] if kind=='nether' else [0.4,0.55,0.7],
             'skyColor':[0.4,0.6,0.85], 'alphaTestRef':0.1,'centerDepthSmooth':0.9975,
@@ -231,8 +247,23 @@ class Renderer:
             p=self.use('gbuffers_water',folder,opts)
             self.quad(p,[(-10,63.8,7),(1,63.8,7),(1,63.8,-5),(-10,63.8,-5)],(0,1,0),(0.28,0.55,0.67),10000)
             self.check('water')
+        # Exercise the dedicated procedural precipitation pass. In Minecraft,
+        # Iris provides these camera-facing quads and the vanilla atlas mask.
+        if kind in ['rain','thunder']:
+            self.bind_fbo([self.buffers[0]],self.depth)
+            self.call('glEnable',None,[U],0x0B71)
+            self.call('glEnable',None,[U],0x0BE2)
+            self.call('glBlendFuncSeparate',None,[U,U,U,U],0x0302,0x0303,1,0x0303)
+            self.call('glDepthMask',None,[C.c_ubyte],0)
+            self.matrix(0x1701,self.projection); self.matrix(0x1700,self.rotation@self.translation)
+            p=self.use('gbuffers_weather',folder,opts)
+            for x,z in [(-8,10),(-1,7),(6,3)]:
+                self.quad(p,[(x-4,61,z),(x+4,61,z),(x+4,79,z),(x-4,79,z)],(0,0,1),(1,1,1))
+            self.call('glDepthMask',None,[C.c_ubyte],1)
+            self.call('glDisable',None,[U],0x0BE2)
+            self.check('weather')
         self.call('glDisable',None,[U],0x0B71)
-        stages=[('composite',[0]),('composite1',[5]),('composite2',[6]),('composite3',[5]),('composite4',[0])]
+        stages=[('composite',[0]),('composite1',[5]),('composite2',[6]),('composite3',[5]),('composite4',[0,7])]
         stage_metrics={}
         for name,outputs in stages:
             small=outputs[0] in [5,6]
@@ -273,10 +304,15 @@ def main():
     report['shader_sha256']=shader_digest()
     images=[]
     try:
-        for kind in ['day','sunset','night','rain','thunder','underwater','cave','nether','end']:
+        for kind in ['day','cloudy','sunset','night','rain','thunder','underwater','cave','nether','end']:
             im,metrics=renderer.render(kind)
             im.save(output/f'{kind}.png'); images.append((kind,im)); report['scenarios'][kind]=metrics
             print(f'{kind}: mean={metrics["mean"]:.4f}, std={metrics["std"]:.4f}',flush=True)
+        weather_means={name:report['scenarios'][name]['mean'] for name in ['day','cloudy','rain','thunder']}
+        separations={f'{a}_vs_{b}':abs(weather_means[a]-weather_means[b])
+                     for a,b in [('day','cloudy'),('cloudy','rain'),('rain','thunder')]}
+        assert min(separations.values())>0.01,('Weather states too similar',separations)
+        report['weather_state_mean_separation']=separations
         for profile in PROFILES:
             _,metrics=renderer.render('day',profile)
             report['scenarios'][f'profile_{profile}']=metrics
@@ -290,8 +326,19 @@ def main():
         delta=int(np.abs(np.asarray(still,dtype=int)-np.asarray(blur,dtype=int)).max())
         assert delta<=1,f'Static-camera motion blur: {delta}'
         report['static_camera_motion_blur_max_8bit_difference']=delta
+        temporal_first,_=renderer.render('day',time=60.0)
+        temporal_second,_=renderer.render('day',time=60.0,preserve_history=True)
+        temporal_delta=int(np.abs(np.asarray(temporal_first,dtype=int)-np.asarray(temporal_second,dtype=int)).max())
+        assert temporal_delta<=3,f'Static temporal resolve instability: {temporal_delta}'
+        report['static_temporal_max_8bit_difference']=temporal_delta
+        rain_first,_=renderer.render('rain',time=70.0)
+        rain_later,_=renderer.render('rain',time=70.35)
+        rain_delta=int(np.abs(np.asarray(rain_first,dtype=int)-np.asarray(rain_later,dtype=int)).max())
+        assert rain_delta>2,f'Procedural rain/ripple field is not animating: {rain_delta}'
+        report['animated_rain_max_8bit_difference']=rain_delta
     finally:renderer.close()
-    sheet=Image.new('RGB',(640*3,394*3),(16,20,24)); draw=ImageDraw.Draw(sheet)
+    rows=(len(images)+2)//3
+    sheet=Image.new('RGB',(640*3,394*rows),(16,20,24)); draw=ImageDraw.Draw(sheet)
     for i,(label,im) in enumerate(images):
         x=(i%3)*640; y=(i//3)*394
         sheet.paste(im,(x,y+34)); draw.text((x+14,y+9),'SYNTHETIC GPU FIXTURE / '+label.upper(),fill=(220,228,232))

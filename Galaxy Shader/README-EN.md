@@ -1,6 +1,6 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.3.0 · Community Project**
+**Photorealistic Minecraft Shader · 1.5.0 · Community Project**
 
 Galaxy Shader is a natural-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
 
@@ -13,6 +13,10 @@ The first feature set is implemented and has passed standalone GPU compilation a
 Overworld:
 
 ![Overworld](previews/main.png)
+
+**1.5.0 — weather and atmosphere update:** Adds a dedicated procedural precipitation pass that uses the game's rain geometry while replacing its visible streaks with wind-driven layers, near/far density, and lightning response. Water receives multi-scale expanding and fading ripple rings; upward, sky-exposed block surfaces receive small splash impacts. Stone, paths, wood, and foliage darken smoothly with Iris `wetness`, lose roughness, and gain reflections. Clouds, sky, sun, fog, terrain, water, and volumetric accumulation now respond together to Clear / Cloudy / Rain / Thunderstorm. Dawn/dusk volumetrics ray-march the shadow map and use alternating lit/occluded samples to form shafts through canopy gaps, with automatic midday reduction and an energy cap. Terrain fog combines height fog, lowland/valley noise, and distance haze, stopping at scene depth so foreground walls remain opaque.
+
+**1.4.0 — temporal stability update:** Adds configurable HDR TAA history with camera/depth/screen rejection and a 3×3 YCoCg neighborhood clamp; contact-hardening PCSS shadows; world-radius directional horizon AO; SSR adaptive stepping, thickness handling, hit confidence, and rough reflection resolve; Legacy Filmic, ACES-like, and AgX-like tone mapping; more restrained exposure and bloom; and TAA-aware volumetric jitter. Projection jitter remains disabled to protect hand rendering and Iris compatibility.
 
 
 End planetary sky close-up:
@@ -40,9 +44,9 @@ End planetary sky close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.3.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.5.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.3.0.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.5.0.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -52,20 +56,20 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | System | Implementation |
 | --- | --- |
 | Lighting | Dynamic sun/moon direction, warm sunrise/sunset tint, weather attenuation, hemispheric ambient light, minimum cave brightness, held-light approximation |
-| Shadows | Stable grid single orthographic shadow map, PCF, distance- and sun-elevation-based softening, normal offset, depth bias, distance fade |
+| Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
 | Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient |
 | End sky | Procedural planetary sky: four planets on independent orbits/speeds/sizes (including a ringed giant) with lit-side atmospheric glow, central star, fixed starfield; controlled by `END_PLANETS` / `END_ORBIT_SPEED`, End only |
-| Clouds & weather | FBM cloud layer, cloud shadows, cloudiness/wind speed, wet surfaces in rain, thunder dimming, real lightning illumination |
-| Water | Multi-frequency animated wave normals, rain ripples, Fresnel, sky reflection, SSR, refraction, absorption, depth tint, shore fade, underwater fog |
-| Reflections | Screen-space reflections for wet or LabPBR smooth surfaces; refined ray intersections, edge fade, roughness fade, environment fallback |
+| Clouds & weather | Procedural wind-driven rain streaks, near/far density, cloudy/rain/storm color and attenuation, smooth wetness accumulation, block splashes, real lightning illumination |
+| Water | Multi-frequency wave normals, multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, sky reflection, SSR, refraction, absorption, depth tint, shore fade, underwater fog |
+| Reflections | SSR for wet or LabPBR smooth surfaces; adaptive stepping, thickness/refinement, hit confidence, inexpensive rough resolve, environment fallback |
 | Vegetation | Grass, flowers, crops, leaves, vines; world-coordinate and gust-driven motion; matching animation for tall-plant halves and the shadow pass |
-| AO / indirect | World-radius-limited screen-space AO, short-range color transport, ambient diffuse approximation |
+| AO / indirect | Directional GTAO-style horizon search with world radius and edge-aware weighting; separate short-range color transport |
 | Materials | LabPBR normals, linear roughness, dielectric F0/metal, material AO, emissive read; vanilla parameters when no resource pack provides them |
 | Emissives | Torch, lantern, soul fire, lava, redstone, sea lantern, end rod, campfire, lit furnace and other classified emissives |
-| Atmospheric fog | Distance/height/weather/cave/underwater fog; warm volcanic fog in the Nether; dark nebula and void fog in the End |
-| Volumetric light | Shadow-map sampling along the view ray, combined with directional phase, cloud attenuation, and fog density |
-| Post-processing | HDR bright-pass, quarter-resolution downsample, two-pass Gaussian bloom, Filmic curve, gamma, saturation/contrast |
-| Camera | Bounded smoothed exposure approximation, FXAA, optional depth of field and camera motion blur (both off in default presets) |
+| Atmospheric fog | Depth-occluded height fog, lowland/valley fog, distance haze, and weather/humidity response; warm volcanic fog in the Nether; dark nebula and void fog in the End |
+| Volumetric light | Shadow-map ray marching, canopy-contrast shafts, dawn/dusk boost with midday suppression, cloud attenuation, and lightning scatter |
+| Post-processing | Restrained HDR bloom, Legacy Filmic / ACES-like / AgX-like mapping, slower bounded exposure and natural white balance |
+| Camera | Reprojected TAA history, rejection and YCoCg neighborhood clamp; optional light FXAA, depth of field and camera motion blur |
 
 ## Recommended settings and quality presets
 
@@ -73,12 +77,12 @@ Default is `HIGH`: 2048 shadow resolution, 128-block shadow distance, soft shado
 
 | Preset | Shadow map / distance | Effect budget |
 | --- | --- | --- |
-| POTATO | 1024 / 64 | Low clouds and water, low bloom; SSR, AO, indirect and volumetric light off |
-| LOW | 1024 / 96 | Low AO; SSR, indirect and volumetric light off |
-| MEDIUM | 2048 / 96 | Low SSR/AO/volumetric, medium clouds and water |
-| HIGH | 2048 / 128 | Default; soft shadows, moderate screen-space effects, low indirect light |
-| ULTRA | 4096 / 192 | Higher sample counts, longer shadows and cloud detail |
-| CINEMATIC | 8192 / 256 | Highest sample budget, screenshot DoF on; motion blur remains off |
+| POTATO | 1024 / 64 | TAA/PCSS/SSR/AO/indirect/volumetrics/advanced weather/terrain fog off; four-tap PCF |
+| LOW | 1024 / 96 | Low TAA, AO, rain ripples, and terrain fog; PCF; SSR/indirect/volumetrics off |
+| MEDIUM | 2048 / 96 | Medium TAA/weather; low PCSS/GTAO/SSR/volumetrics/terrain fog |
+| HIGH | 2048 / 128 | Default; high TAA/weather and medium PCSS/GTAO/SSR/volumetrics/terrain fog |
+| ULTRA | 4096 / 192 | Maximum weather/terrain fog and higher PCSS/GTAO/SSR/volumetric budgets |
+| CINEMATIC | 8192 / 256 | 16+24 PCSS, maximum weather/atmosphere/screen-space budgets and screenshot DoF |
 
 Lowering `SSR`, `Volumetric Light`, and shadow resolution is usually the fastest way to cut cost. A single 8192² 32-bit depth map is roughly 256 MiB before other Iris targets and caches. Do not use CINEMATIC as a daily setting.
 
@@ -95,7 +99,8 @@ If you are sure a pack is LabPBR 1.3 but does not declare the format, choose **F
 - A single shadow map is used rather than cascaded shadow maps; thin glass/water does not cast colored shadows. Far shadows fade to sky-lit occlusion; extreme terrain still needs real-game inspection.
 - Indirect light and emissives are approximated. Vanilla lightmaps carry no source color, so ordinary local light stays warm; colored sources come from emissive surfaces, screen-space color transport, and held light, and do not equal colored voxel GI.
 - Clouds are a procedural plane at height 280 rather than full volumetric clouds. Flying above the cloud layer, world-coordinate resets, and long-distance travel still need real-game inspection.
-- Auto-exposure uses Iris's smoothed eye light rather than a full-scene luminance histogram. FXAA has no TAA history buffer and cannot fully remove distant temporal shimmer.
+- Minecraft/Iris directly exposes Clear, Rain, Thunder, and continuous `rainStrength` / `wetness`. The pack derives its Cloudy mood continuously from configured cloud cover, residual wetness, and light attenuation; it does not add a new game weather type. Surface splash exposure uses skylight and face orientation, so per-drop occlusion under complex overhangs remains approximate.
+- TAA does not jitter the projection; moving entities have no dedicated motion vectors and rely on depth, luminance, and neighborhood rejection. Auto-exposure still uses Iris's smoothed eye light rather than a full-scene histogram.
 - Terrain and block entities support material normals; ordinary entities and armor do not have full LabPBR reads. Named metals use matching F0 for direct specular highlights, with an Albedo-metal approximation for environment reflections.
 - The HUD is not blurred by default; post-processing applies to the world view. The held item has its own mask, but GUI, third person, enchant glints, beacons, and special objects still require in-game acceptance.
 - Emissive regions are approximated through material textures or block type/brightness thresholds; fine-grained emissive detail such as furnace sides is less precise than dedicated PBR emissive maps.

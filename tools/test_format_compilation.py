@@ -11,7 +11,7 @@ class FormatCompilationRegression(unittest.TestCase):
         try:
             vertex=expand(SHADERS/'deferred.vsh')
             fixed=expand(SHADERS/'deferred.fsh')
-            block=re.search(r'/\*\s*\n(const int colortex0Format.*?const int colortex6Format[^;]*;)\s*\n\*/',fixed,re.S)
+            block=re.search(r'/\*\s*\n(const int colortex0Format.*?const int colortex7Format[^;]*;)\s*\n\*/',fixed,re.S)
             self.assertIsNotNone(block)
             old=fixed[:block.start()]+block[1]+fixed[block.end():]
             with self.assertRaisesRegex(RuntimeError, 'RGBA16F'):
