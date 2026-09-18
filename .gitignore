@@ -10,6 +10,27 @@ validation/*.png
 validation/*.gif
 validation/iris-*.txt
 
+# Legacy release archives are kept out of the repository. The current release
+# (Galaxy Shader-1.10.0.zip) and the original 1.5.0 archive remain tracked.
+Galaxy Shader-1.6.0.zip
+Galaxy Shader-1.6.0.zip.sha256
+Galaxy Shader-1.7.1.zip
+Galaxy Shader-1.7.1.zip.sha256
+Galaxy Shader-1.7.2.zip
+Galaxy Shader-1.7.2.zip.sha256
+Galaxy Shader-1.7.3.zip
+Galaxy Shader-1.7.3.zip.sha256
+Galaxy Shader-1.7.4.zip
+Galaxy Shader-1.7.4.zip.sha256
+Galaxy Shader-1.8.0.zip
+Galaxy Shader-1.8.0.zip.sha256
+Galaxy Shader-1.8.1.zip
+Galaxy Shader-1.8.1.zip.sha256
+Galaxy Shader-1.9.0.zip
+Galaxy Shader-1.9.0.zip.sha256
+Galaxy Shader-1.9.1.zip
+Galaxy Shader-1.9.1.zip.sha256
+
 # Optional: if release archives are hosted on GitHub Releases instead of in the
 # repository, uncomment these two lines:
 # Galaxy Shader-*.zip
