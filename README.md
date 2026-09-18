@@ -2,7 +2,7 @@
 
 Galaxy Shader 的 Minecraft Java 光影源码，当前最新版本 **1.10.0**（末地与宇宙天空、天象事件、群系氛围、四季、世界粒子、云型系统、扩展天气、地表季节响应，以及水体/洞穴深度）。玩家安装与功能说明见 [Galaxy Shader/README.md](Galaxy Shader/README.md)，英文版见 [README-EN.md](Galaxy Shader/README-EN.md)。
 
-目标：Minecraft Java 26.2、Fabric、Iris、Sodium、OpenGL。当前为首轮实现：GPU 编译与合成场景渲染已检查，Minecraft 游戏内兼容性与 FPS 尚未验收。
+目标：Minecraft Java 26.2、Fabric、Iris、Sodium、OpenGL。FPS暂未测试。
 
 最新发布安装包为 `Galaxy Shader-1.10.0.zip` 及其校验值；历史版本后续可改用 GitHub Releases 管理。
 
