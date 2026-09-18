@@ -30,8 +30,9 @@ float adaptedExposure() {
     float sky=sat(float(eyeBrightnessSmooth.y)/240.0);
     float block=sat(float(eyeBrightnessSmooth.x)/240.0);
     float illumination=max(sky*mix(0.16,1.0,dayAmount()),block*0.45);
-    // Iris smooths the eye lightmap over time; bounded gain keeps caves dark.
-    gain=mix(1.38,0.94,sqrt(illumination));
+    // Iris smooths the eye lightmap over time; a lower peak keeps caves dark
+    // and daylight from washing out, giving the image a softer shoulder.
+    gain=mix(1.12,0.84,sqrt(illumination));
 #endif
     return gain*EXPOSURE;
 }

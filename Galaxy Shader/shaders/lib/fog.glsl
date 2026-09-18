@@ -2,13 +2,15 @@
 #define SE_FOG
 #include "/lib/atmosphere.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/seasons.glsl"
+#include "/lib/biome.glsl"
 vec3 applyFog(vec3 color, vec3 player, bool sky) {
     float distanceToEye=length(player);
     vec3 ray=safeNormalize(player);
     float density=0.0;
     vec3 scatter=vec3(0.0);
     if(isEyeInWater==1) {
-        vec3 absorb=exp(-vec3(0.20,0.075,0.040)*distanceToEye*FOG_DENSITY);
+        vec3 absorb=exp(-vec3(0.34,0.10,0.055)*distanceToEye*FOG_DENSITY);
         float eyeSky=float(eyeBrightnessSmooth.y)/240.0;
         vec3 under=vec3(0.012,0.085,0.105)*mix(0.2,1.0,eyeSky*dayAmount());
         color=color*absorb+under*(1.0-absorb);
@@ -46,9 +48,22 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
         float heightDensity=heightFog*(0.00045+morning*0.0018+rain*0.0017);
         float valleyDensity=pockets*(0.0010+morning*0.0042+rain*0.0028+storm*0.0018);
         density=mix(0.0010,distanceHaze+heightDensity+valleyDensity,outdoor);
+        density*=mix(0.90,1.10,dayVariation())*biomeFogDensity();
         vec3 clearScatter=atmosphere(ray,false);
         vec3 wetScatter=mix(vec3(0.20,0.25,0.30),vec3(0.10,0.125,0.17),storm);
         scatter=mix(vec3(0.008,0.009,0.012),mix(clearScatter,wetScatter,overcast*0.68),outdoor);
+        scatter*=mix(0.94,1.06,dayVariation())*seasonFogTint()*biomeFogTint();
+        scatter+=vec3(0.30,0.22,0.14)*biomeDustHaze()*outdoor*dayAmount()*0.25;
+#if WEATHER_EFFECTS == 1
+        float sandstorm=biomeDesert()*smoothstep(0.25,0.75,storm)*(1.0-rain*0.3);
+        float blizzard=max(float(biome_precipitation==2),smoothstep(0.75,0.98,biomeCold()))*
+                       smoothstep(0.10,0.50,rain+storm*0.4);
+        float fogBank=smoothstep(0.45,0.85,valleyNoise)*smoothstep(0.20,0.70,overcast);
+        density*=1.0+sandstorm*2.8+blizzard*1.6+fogBank*0.20;
+        scatter=mix(scatter,vec3(0.48,0.34,0.19),sandstorm*0.55);
+        scatter=mix(scatter,vec3(0.62,0.66,0.72),blizzard*0.40);
+        scatter=mix(scatter,vec3(0.30,0.34,0.38),fogBank*0.12);
+#endif
         scatter+=lightningBoltPosition.w*vec3(0.20,0.27,0.40)*
                  (rain*0.55+storm*0.45);
 #endif

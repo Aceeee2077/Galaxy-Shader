@@ -2,8 +2,8 @@
 #define SE_BLOOM
 vec3 brightPass(vec3 c) {
 float lum=luminance(c);
-    float knee=sat((lum-1.15)/0.65);
-    float contribution=max(lum-1.65,0.0)+knee*knee*0.10;
+    float knee=sat((lum-1.25)/0.65);
+    float contribution=max(lum-1.75,0.0)+knee*knee*0.10;
     return min(c*(contribution/max(lum,0.0001)),vec3(8.0));
 }
 vec3 gaussianBlur(sampler2D source, vec2 uv, vec2 direction) {

@@ -1,6 +1,6 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.5.0 · Community Project**
+**Photorealistic Minecraft Shader · 1.10.0 · Community Project**
 
 Galaxy Shader is a natural-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
 
@@ -15,6 +15,28 @@ Overworld:
 ![Overworld](previews/main.png)
 
 **1.5.0 — weather and atmosphere update:** Adds a dedicated procedural precipitation pass that uses the game's rain geometry while replacing its visible streaks with wind-driven layers, near/far density, and lightning response. Water receives multi-scale expanding and fading ripple rings; upward, sky-exposed block surfaces receive small splash impacts. Stone, paths, wood, and foliage darken smoothly with Iris `wetness`, lose roughness, and gain reflections. Clouds, sky, sun, fog, terrain, water, and volumetric accumulation now respond together to Clear / Cloudy / Rain / Thunderstorm. Dawn/dusk volumetrics ray-march the shadow map and use alternating lit/occluded samples to form shafts through canopy gaps, with automatic midday reduction and an energy cap. Terrain fog combines height fog, lowland/valley noise, and distance haze, stopping at scene depth so foreground walls remain opaque.
+
+**1.6.0 — volumetric clouds, colored light, rainbow, and daily sky variation:** Overworld clouds are upgraded to a ray-marched volumetric field whose base and thickness respond to rain/storms, with forward self-shadowing and silver-lining scatter; low presets keep the single-plane fallback. Emissive blocks now project screen-space colored light onto visible geometry, controlled by `COLORED_LIGHT_QUALITY`. A post-rain rainbow was added, and sky, cloud coverage, and fog density now vary by calendar day.
+
+**1.7.0 — cosmic sky and End planet update:** The End planetary system now has seven planets with dramatically spread orbits, obvious near/far apparent size and orbital-speed differences, and axial rotation decoupled from orbital motion. The Overworld night sky gains a tilted Milky Way band with colored nebulas, low northern aurora, occasional shooting stars, and a distant banded planet, controlled by `COSMIC_SKY_QUALITY`.
+
+**1.7.1 — aurora and shooting-star tuning:** Removes the faint distant planet from the Overworld night sky; the northern aurora is brighter, taller, and more layered, and shooting stars occur more often.
+
+**1.7.2 — softer lighting:** Reduces automatic exposure gain, direct sun intensity, daytime ambient light, and block light, while raising the bloom threshold and lowering bloom strength for a gentler, less blown-out image.
+
+**1.7.3 — volumetric cloud blending:** Reworks the cloud density curve with a wider soft threshold and two soft vertical lobes, adds sky ambient color and horizon/distance soft transitions, and removes the hard detail cutouts for a more integrated sky.
+
+**1.7.4 — water and underwater visibility:** Rain/wind now blur the refracted underwater background and raise surface reflection, making it harder to see into water from land. Underwater vision gains distance blur and stronger absorption, so the surface and land lose focus and become murkier with depth.
+
+**1.8.0 — seasons:** Adds `SEASON_MODE` (Auto / Spring / Summer / Autumn / Winter) and `SEASON_STRENGTH`. Auto follows the calendar year and continuously drives sky, sunlight, ambient light, fog, cloud coverage, and foliage color; a specific season can also be forced for screenshots or themed worlds.
+
+**1.8.1 — End celestial rework:** The seven planets now have far stronger orbit-distance and size contrast, with dust trails along each orbit. Planet night sides receive ambient fill so they no longer read as black holes. The central star is replaced by a single wormhole (dark event horizon, photon ring, and tilted dusty accretion disk), and the ringed giant's rings use layered radial bands and noise clumps instead of a solid ring.
+
+**1.9.0 — celestial events and biome atmosphere:** Adds `CELESTIAL_EVENTS`: calendar-driven meteor showers, comets, aurora storms, a solar eclipse and a rare supernova. Adds `BIOME_BLEND`: temperature and rainfall now shift regional mood — warm desert haze, humid jungle/swamp fog, and colder blue light with stronger aurora in cold biomes.
+
+**1.9.1 — water and cave depth:** Underwater gains blue-green god rays and flowing caustics, shorelines gain wind-driven foam, and water refraction uses stronger depth parallax. Caves gain a faint bioluminescent ambient and drifting motes for more depth in the dark.
+
+**1.10.0 — particles, cloud types, extended weather, surface seasons:** Adds `PARTICLE_LAYER` (pollen/dust, fireflies, spores, snow, hail, embers, cosmic motes), `CLOUD_TYPES` (cumulus/stratus/cirrus/storm anvil), `WEATHER_EFFECTS` (sandstorms, blizzards, fog banks) and `SURFACE_SEASONS` (winter frost/snow, patchier autumn leaves, rain puddles, summer heat shimmer).
 
 **1.4.0 — temporal stability update:** Adds configurable HDR TAA history with camera/depth/screen rejection and a 3×3 YCoCg neighborhood clamp; contact-hardening PCSS shadows; world-radius directional horizon AO; SSR adaptive stepping, thickness handling, hit confidence, and rough reflection resolve; Legacy Filmic, ACES-like, and AgX-like tone mapping; more restrained exposure and bloom; and TAA-aware volumetric jitter. Projection jitter remains disabled to protect hand rendering and Iris compatibility.
 
@@ -44,9 +66,9 @@ End planetary sky close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.5.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.10.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.5.0.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.10.0.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -57,16 +79,17 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | --- | --- |
 | Lighting | Dynamic sun/moon direction, warm sunrise/sunset tint, weather attenuation, hemispheric ambient light, minimum cave brightness, held-light approximation |
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
-| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient |
-| End sky | Procedural planetary sky: four planets on independent orbits/speeds/sizes (including a ringed giant) with lit-side atmospheric glow, central star, fixed starfield; controlled by `END_PLANETS` / `END_ORBIT_SPEED`, End only |
-| Clouds & weather | Procedural wind-driven rain streaks, near/far density, cloudy/rain/storm color and attenuation, smooth wetness accumulation, block splashes, real lightning illumination |
-| Water | Multi-frequency wave normals, multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, sky reflection, SSR, refraction, absorption, depth tint, shore fade, underwater fog |
+| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events |
+| End sky | Procedural planetary sky: seven planets on independent orbits/speeds/sizes (including a ringed giant), fast inner and slow outer orbits with obvious near/far scale, per-planet axial rotation and lit-side atmospheric glow, central star, fixed starfield; controlled by `END_PLANETS` / `END_ORBIT_SPEED`, End only |
+| Clouds & weather | Ray-marched volumetric clouds (single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
+| Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |
+| Water | Multi-frequency wave normals, multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, sky reflection, SSR, depth-parallax refraction, absorption, shoreline foam, underwater caustics and blue-green volumetrics, underwater distance blur, deep-water fog |
 | Reflections | SSR for wet or LabPBR smooth surfaces; adaptive stepping, thickness/refinement, hit confidence, inexpensive rough resolve, environment fallback |
 | Vegetation | Grass, flowers, crops, leaves, vines; world-coordinate and gust-driven motion; matching animation for tall-plant halves and the shadow pass |
 | AO / indirect | Directional GTAO-style horizon search with world radius and edge-aware weighting; separate short-range color transport |
 | Materials | LabPBR normals, linear roughness, dielectric F0/metal, material AO, emissive read; vanilla parameters when no resource pack provides them |
-| Emissives | Torch, lantern, soul fire, lava, redstone, sea lantern, end rod, campfire, lit furnace and other classified emissives |
-| Atmospheric fog | Depth-occluded height fog, lowland/valley fog, distance haze, and weather/humidity response; warm volcanic fog in the Nether; dark nebula and void fog in the End |
+| Emissives | Torch, lantern, soul fire, lava, redstone, sea lantern, end rod, campfire, lit furnace and other classified emissives; visible emissive surfaces project screen-space colored light onto geometry |
+| Atmospheric fog | Depth-occluded height fog, lowland/valley fog, distance haze, and weather/humidity response, with biome temperature/rainfall shifting fog colour and density; warm volcanic fog in the Nether; dark nebula and void fog in the End |
 | Volumetric light | Shadow-map ray marching, canopy-contrast shafts, dawn/dusk boost with midday suppression, cloud attenuation, and lightning scatter |
 | Post-processing | Restrained HDR bloom, Legacy Filmic / ACES-like / AgX-like mapping, slower bounded exposure and natural white balance |
 | Camera | Reprojected TAA history, rejection and YCoCg neighborhood clamp; optional light FXAA, depth of field and camera motion blur |
@@ -97,8 +120,8 @@ If you are sure a pack is LabPBR 1.3 but does not declare the format, choose **F
 - In-game acceptance is still pending; GPU tests use synthetic block scenes and do not include Iris runtime shader translation, real chunk streaming, game UI, mod interoperability, or player input.
 - SSR can only reflect **opaque** content already on screen; off-screen content uses an environment approximation. Water refraction is based on the opaque scene; refraction through multiple glass/water layers is not solved recursively.
 - A single shadow map is used rather than cascaded shadow maps; thin glass/water does not cast colored shadows. Far shadows fade to sky-lit occlusion; extreme terrain still needs real-game inspection.
-- Indirect light and emissives are approximated. Vanilla lightmaps carry no source color, so ordinary local light stays warm; colored sources come from emissive surfaces, screen-space color transport, and held light, and do not equal colored voxel GI.
-- Clouds are a procedural plane at height 280 rather than full volumetric clouds. Flying above the cloud layer, world-coordinate resets, and long-distance travel still need real-game inspection.
+- Indirect light and emissives are approximated. Vanilla lightmaps carry no source color; the new colored light comes from screen-space propagation of visible emissive surfaces and cannot reach off-screen or fully occluded sources, so it does not equal Photon's voxel flood-fill / colored GI.
+- Overworld clouds are ray-marched along the view ray rather than a 3D voxel cloud field. Flying above the cloud layer, world-coordinate resets, and long-distance travel still need real-game inspection.
 - Minecraft/Iris directly exposes Clear, Rain, Thunder, and continuous `rainStrength` / `wetness`. The pack derives its Cloudy mood continuously from configured cloud cover, residual wetness, and light attenuation; it does not add a new game weather type. Surface splash exposure uses skylight and face orientation, so per-drop occlusion under complex overhangs remains approximate.
 - TAA does not jitter the projection; moving entities have no dedicated motion vectors and rely on depth, luminance, and neighborhood rejection. Auto-exposure still uses Iris's smoothed eye light rather than a full-scene histogram.
 - Terrain and block entities support material normals; ordinary entities and armor do not have full LabPBR reads. Named metals use matching F0 for direct specular highlights, with an Albedo-metal approximation for environment reflections.

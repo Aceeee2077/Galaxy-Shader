@@ -4,12 +4,14 @@
 // Include after /lib/common.glsl: cloudShadow() needs lightDirection().
 #include "/lib/noise.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/seasons.glsl"
 
 float cloudDensity(vec2 position) {
     vec2 p = position*0.0025+vec2(frameTimeCounter*0.009*CLOUD_SPEED,0.0);
     float n = fbm(p, min(CLOUD_QUALITY+2,6));
     float cover = CLOUD_COVERAGE + weatherOvercastAmount()*0.16 +
-                  weatherRainAmount()*0.16 + weatherStormAmount()*0.10;
+                  weatherRainAmount()*0.16 + weatherStormAmount()*0.10 +
+                  (dayVariation() - 0.5) * 0.10 + seasonCoverageBias();
     return smoothstep(0.72-cover*0.50,0.90-cover*0.50,n);
 }
 

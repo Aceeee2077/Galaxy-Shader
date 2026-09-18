@@ -3,6 +3,7 @@
 #include "/lib/pbr.glsl"
 #include "/lib/reflections.glsl"
 #include "/lib/ssao.glsl"
+#include "/lib/colored_light.glsl"
 varying vec2 texcoord;
 /* DRAWBUFFERS:04 */
 void main() {
@@ -20,6 +21,7 @@ void main() {
             vec3 n=safeNormalize(nr.xyz*2.0-1.0);
             vec4 indirect=screenIndirect(uv,view,n);
             color=color*indirect.a+indirect.rgb*texture2D(colortex2,uv).rgb;
+            color+=screenColoredLight(uv,view,n)*texture2D(colortex2,uv).rgb;
             if(nr.a<0.65) {
                 vec4 albedo=texture2D(colortex2,uv);
                 vec3 f0=albedo.a<0.0 ? albedo.rgb : vec3(albedo.a);

@@ -3,6 +3,10 @@
 #include "/lib/noise.glsl"
 #include "/lib/end_sky.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/night_sky.glsl"
+#include "/lib/seasons.glsl"
+#include "/lib/biome.glsl"
+#include "/lib/celestial.glsl"
 vec3 sunlightColor() {
     float h = max(sunDirection().y,0.0);
     return mix(vec3(1.0,0.32,0.10),vec3(1.0,0.95,0.85),smoothstep(0.0,0.4,h));
@@ -10,11 +14,11 @@ vec3 sunlightColor() {
 vec3 directionalRadiance() {
     float d = dayAmount();
     float horizon = smoothstep(0.0,0.12,abs(sunDirection().y));
-    vec3 sun = sunlightColor() * (2.8*SUN_INTENSITY);
+    vec3 sun = sunlightColor() * (2.00*SUN_INTENSITY) * seasonSunTint();
     float phase = 0.45 + 0.55 * abs(float(moonPhase)-4.0)/4.0;
-    vec3 moon = vec3(0.12,0.15,0.20)*NIGHT_BRIGHTNESS*phase;
+    vec3 moon = vec3(0.12,0.15,0.20)*NIGHT_BRIGHTNESS*phase*seasonSkyTint();
     return mix(moon,sun,d)*horizon*(1.0-0.64*weatherRainAmount())*
-           (1.0-0.42*weatherStormAmount());
+           (1.0-0.42*weatherStormAmount())*(1.0-0.88*eclipseAmount());
 }
 vec3 atmosphere(vec3 ray, bool disks) {
 #if DIMENSION == -1
@@ -38,19 +42,51 @@ vec3 atmosphere(vec3 ray, bool disks) {
     scatter += vec3(0.52,0.12,0.035)*sunset*pow(1.0-h,4.0)*(0.25+0.75*pow(max(mu,0.0),3.0));
     vec3 night = mix(vec3(0.006,0.009,0.018),vec3(0.018,0.023,0.037),pow(1.0-h,3.0))*NIGHT_BRIGHTNESS;
     vec3 sky = mix(night,scatter,day);
+    // Subtle daily variation keeps consecutive Minecraft days from looking identical.
+    sky *= mix(0.94, 1.06, dayVariation()) * seasonSkyTint() * biomeSkyTint();
+    float eclipse=eclipseAmount();
+    sky *= 1.0-0.72*eclipse;
     float overcast=weatherOvercastAmount();
     vec3 cloudySky=mix(vec3(0.16,0.20,0.25),vec3(0.055,0.070,0.095),weatherStormAmount());
     cloudySky*=mix(0.42,1.0,day);
     sky=mix(sky,cloudySky,overcast*0.74);
     sky *= 1.0-0.22*weatherStormAmount();
     if (disks && ray.y>-0.02) {
-        sky += sunlightColor()*14.0*smoothstep(0.99988,0.99996,mu)*day*(1.0-overcast);
+        sky += sunlightColor()*14.0*smoothstep(0.99988,0.99996,mu)*day*(1.0-overcast)*(1.0-0.95*eclipse);
+        sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
         vec3 moon = worldDirection(moonPosition);
         sky += vec3(1.2,1.3,1.5)*smoothstep(0.99976,0.99994,dot(ray,moon))*(1.0-day)*(1.0-overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
         float star = step(0.996,hash12(floor(starUV)))*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
         sky += vec3(star*0.7*(1.0-day)*(1.0-overcast)*smoothstep(0.0,0.2,ray.y));
+#if COSMIC_SKY_QUALITY > 0
+        float cosmicNight = (1.0-day)*(1.0-overcast*0.82);
+        sky += galaxyNebula(ray)*cosmicNight*(0.55+0.45*float(COSMIC_SKY_QUALITY>=2));
+#if COSMIC_SKY_QUALITY >= 2
+        sky += auroraSky(ray,cosmicNight*biomeAuroraBoost()*(1.0+auroraStormAmount()*0.9));
+        sky += shootingStars(ray)*cosmicNight*(1.0+meteorShowerAmount()*2.2);
+        sky += cometSky(ray,cosmicNight);
+        sky += supernovaSky(ray,cosmicNight);
+#endif
+#endif
     }
+#if WEATHER_QUALITY > 0
+    // Primary rainbow around the anti-solar point. It appears while rain is
+    // active but the sun is still above the horizon, and fades in heavy overcast.
+    float rainbowRain = weatherRainAmount();
+    if (rainbowRain > 0.02 && day > 0.15) {
+        float cosAnti = sat(dot(ray, -sun));
+        float angle = acos(clamp(cosAnti, -1.0, 1.0));
+        float band = 1.0 - smoothstep(0.085, 0.22, abs(angle - 0.733));
+        float arc = smoothstep(0.0, 0.16, ray.y) * (1.0 - overcast);
+        if (band > 0.0) {
+            float hue = fract((angle - 0.61) / 0.18);
+            vec3 bow = 0.5 + 0.5 * cos(6.2831853 * (hue + vec3(0.0, 0.33, 0.67)));
+            sky += bow * band * arc * rainbowRain * (1.0 - overcast) *
+                   day * 0.34;
+        }
+    }
+#endif
     sky += lightningBoltPosition.w*vec3(0.24,0.30,0.43)*(0.45+0.55*weatherStormAmount());
     return max(sky,vec3(0.0));
 #endif

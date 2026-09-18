@@ -2,6 +2,19 @@
 #define SE_WEATHER
 #include "/lib/noise.glsl"
 
+// A stable per-calendar-day seed so clouds, haze and sunsets vary between days
+// without ever animating randomly inside a single day. Iris provides the date.
+float dayVariation() {
+#if defined(IS_IRIS)
+    float dayOfYear = float(currentDate.y * 30 + currentDate.z);
+    if (dayOfYear < 1.0) dayOfYear = 90.0;
+    return fract(sin(dot(vec2(dayOfYear, float(currentDate.x)), vec2(12.9898, 78.233))) *
+                 43758.5453);
+#else
+    return 0.5;
+#endif
+}
+
 float weatherRainAmount() {
     return sat(rainStrength * RAIN_INTENSITY);
 }

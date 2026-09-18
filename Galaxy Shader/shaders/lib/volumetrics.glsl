@@ -5,6 +5,32 @@
 vec3 volumetricLight(vec3 player) {
     vec3 result=vec3(0.0);
 #if VOLUMETRIC_QUALITY > 0 && DIMENSION == 0
+    if(isEyeInWater==1) {
+        // Underwater shafts: shorter integration, blue-green scattering and a
+        // stronger forward lobe so the surface sun reads through the volume.
+        float lengthRay=min(length(player),72.0);
+        vec3 ray=safeNormalize(player);
+        float forward=max(dot(ray,lightDirection()),0.0);
+        int count=VOLUMETRIC_QUALITY*4;
+        float density=0.0035*FOG_DENSITY;
+        float visibility=0.0;
+        float jitter=hash12(gl_FragCoord.xy);
+#if TAA_QUALITY > 0
+        jitter=fract(jitter+float(frameCounter%8)*0.61803398875);
+#endif
+        for(int i=0;i<20;++i) {
+            if(i>=count) break;
+            float t=(float(i)+jitter)/float(count)*lengthRay;
+            vec3 p=ray*t;
+            float lit=shadowVisibility(p,vec3(0.0),false);
+            visibility+=lit*exp(-t*density);
+        }
+        float mean=visibility/float(count);
+        float extinction=1.0-exp(-lengthRay*density);
+        vec3 waterLight=mix(vec3(0.05,0.28,0.32),vec3(0.10,0.45,0.50),dayAmount());
+        result=waterLight*mean*(0.30+0.70*pow(forward,3.0))*extinction*GODRAY_STRENGTH*0.55;
+        return min(result,vec3(0.35));
+    }
     if(isEyeInWater!=0) return result;
     float lengthRay=min(length(player),min(shadowDistance,96.0));
     vec3 ray=safeNormalize(player);

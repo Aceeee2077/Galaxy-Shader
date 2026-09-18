@@ -2,6 +2,8 @@ varying float vCloudShadow;
 #include "/lib/common.glsl"
 #include "/lib/lighting.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/seasons.glsl"
+#include "/lib/biome.glsl"
 uniform sampler2D texture, normals, specular;
 uniform vec4 entityColor;
 uniform float alphaTestRef;
@@ -52,6 +54,10 @@ void main() {
     float wet=weatherWetness()*exposure;
     m.albedo*=1.0-0.25*wet;
     m.roughness=mix(m.roughness,min(m.roughness,0.10),wet*0.86);
+    float puddleNoise=valueNoise((vPlayer.xz+cameraPosition.xz)*0.35);
+    float puddle=step(0.58,puddleNoise)*smoothstep(0.80,0.98,vLight.y)*upward*wet;
+    m.roughness=mix(m.roughness,0.02,puddle);
+    m.albedo*=1.0-0.12*puddle;
 #if WEATHER_QUALITY > 0
     float activeRain=weatherRainAmount()*exposure;
     if(activeRain>0.001) {
@@ -60,6 +66,30 @@ void main() {
         rainSplash=pow(impact.z,2.5)*activeRain*RIPPLE_STRENGTH;
     }
 #endif
+#endif
+#if DIMENSION == 0
+    float seasonFoliage=step(10000.5,vId)*step(vId,10005.5);
+    if(seasonFoliage>0.5) {
+        vec4 sw=seasonWeights();
+        float leafNoise=valueNoise((vPlayer.xz+cameraPosition.xz)*0.08);
+        vec3 autumnTint=mix(vec3(1.38,0.52,0.16),vec3(1.45,0.80,0.18),leafNoise);
+        vec3 leafTint=vec3(0.90,1.16,0.70)*sw.x + vec3(1.00,1.00,1.00)*sw.y +
+                     autumnTint*sw.z + vec3(0.74,0.70,0.56)*sw.w;
+        m.albedo*=mix(vec3(1.0),leafTint,sat(SEASON_STRENGTH));
+    }
+#endif
+#if DIMENSION == 0 && SURFACE_SEASONS == 1
+    vec4 swSnow=seasonWeights();
+    float snowBiome=float(biome_precipitation==2);
+    float coldWinter=smoothstep(0.75,0.98,biomeCold())*max(swSnow.w,0.0);
+    float snowNow=max(snowBiome*max(weatherRainAmount(),0.30),coldWinter);
+    float upwardSnow=smoothstep(0.65,0.95,m.normal.y);
+    float snowMask=sat(snowNow*upwardSnow);
+    m.albedo=mix(m.albedo,vec3(0.78,0.80,0.84),snowMask*0.55);
+    m.roughness=mix(m.roughness,0.40,snowMask*0.50);
+    if(seasonFoliage>0.5 && snowNow>0.0) {
+        m.albedo=mix(m.albedo,vec3(0.62,0.66,0.72),sat(snowNow*0.35));
+    }
 #endif
     vec3 color=shadeSurface(m,vPlayer,vLight,vId);
 #if WET_SURFACES == 1 && DIMENSION == 0

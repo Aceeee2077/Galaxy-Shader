@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.5.0'
+VERSION = '1.10.0'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -42,29 +42,32 @@ PROGRAMS = {
 PROFILE_KEYS = ['shadowMapResolution','shadowDistance','SHADOW_QUALITY','TAA_QUALITY','CLOUD_QUALITY',
                 'WATER_QUALITY','SSR_QUALITY','AO_QUALITY','INDIRECT_QUALITY',
                 'VOLUMETRIC_QUALITY','WEATHER_QUALITY','TERRAIN_FOG_QUALITY',
-                'BLOOM_QUALITY','DOF_QUALITY','MOTION_BLUR']
+                'BLOOM_QUALITY','DOF_QUALITY','MOTION_BLUR','COLORED_LIGHT_QUALITY',
+                'COSMIC_SKY_QUALITY']
 PROFILES = {
-    'POTATO': [1024,'64.0',1,0,1,1,0,0,0,0,0,0,1,0,0],
-    'LOW': [1024,'96.0',1,1,1,1,0,1,0,0,1,1,1,0,0],
-    'MEDIUM': [2048,'96.0',2,2,2,2,1,1,0,1,2,1,2,0,0],
-    'HIGH': [2048,'128.0',3,3,3,2,2,2,1,2,3,2,2,0,0],
-    'ULTRA': [4096,'192.0',4,3,4,3,3,3,2,3,4,3,3,0,0],
-    'CINEMATIC': [8192,'256.0',5,3,4,3,4,4,2,4,4,3,3,3,0],
+    'POTATO': [1024,'64.0',1,0,1,1,0,0,0,0,0,0,1,0,0,0,0],
+    'LOW': [1024,'96.0',1,1,1,1,0,1,0,0,1,1,1,0,0,0,1],
+    'MEDIUM': [2048,'96.0',2,2,2,2,1,1,0,1,2,1,2,0,0,1,1],
+    'HIGH': [2048,'128.0',3,3,3,2,2,2,1,2,3,2,2,0,0,2,2],
+    'ULTRA': [4096,'192.0',4,3,4,3,3,3,2,3,4,3,3,0,0,2,3],
+    'CINEMATIC': [8192,'256.0',5,3,4,3,4,4,2,4,4,3,3,3,0,3,3],
 }
 SCREENS = {
-    'LIGHTING': 'SUN_INTENSITY NIGHT_BRIGHTNESS INDIRECT_QUALITY VOLUMETRIC_QUALITY',
+    'LIGHTING': 'SUN_INTENSITY NIGHT_BRIGHTNESS INDIRECT_QUALITY VOLUMETRIC_QUALITY COLORED_LIGHT_QUALITY',
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY WIND_STRENGTH NIGHT_BRIGHTNESS',
-    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SPEED',
-    'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER',
+    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SPEED CLOUD_TYPES',
+    'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
     'WATER': 'WATER_QUALITY WATER_WAVES RIPPLE_STRENGTH SSR_QUALITY',
     'REFLECTIONS': 'SSR_QUALITY WET_SURFACES',
-    'MATERIALS': 'PBR_MODE WET_SURFACES',
+    'MATERIALS': 'PBR_MODE WET_SURFACES SURFACE_SEASONS',
     'POST_PROCESS': 'BLOOM_QUALITY TONEMAP_MODE EXPOSURE AUTO_EXPOSURE SATURATION CONTRAST DOF_QUALITY MOTION_BLUR',
     'PERFORMANCE': 'shadowMapResolution shadowDistance TAA_QUALITY CLOUD_QUALITY WEATHER_QUALITY TERRAIN_FOG_QUALITY SSR_QUALITY AO_QUALITY INDIRECT_QUALITY VOLUMETRIC_QUALITY',
+    'COSMIC_SKY': 'COSMIC_SKY_QUALITY CELESTIAL_EVENTS',
+    'SEASONS': 'SEASON_MODE SEASON_STRENGTH',
 }
 
 def write(path, data):
@@ -97,7 +100,7 @@ def generate():
         'size.buffer.colortex5=0.25 0.25', 'size.buffer.colortex6=0.25 0.25',
         'screen=<profile> [LIGHTING] [TEMPORAL] [SHADOWS] [AO] [ATMOSPHERE] [CLOUDS] [WEATHER] [END_SKY] [WATER] [REFLECTIONS] [MATERIALS] [POST_PROCESS] [PERFORMANCE]',
         'screen.columns=2',
-        'sliders=CLOUD_COVERAGE CLOUD_SPEED WATER_WAVES RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY WIND_STRENGTH SUN_INTENSITY NIGHT_BRIGHTNESS',
+        'sliders=CLOUD_COVERAGE CLOUD_SPEED WATER_WAVES RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY WIND_STRENGTH SUN_INTENSITY NIGHT_BRIGHTNESS SEASON_STRENGTH',
     ]
     for name, values in PROFILES.items():
         props.append(f'profile.{name}='+' '.join(f'{k}:{v}' for k,v in zip(PROFILE_KEYS,values)))
@@ -124,6 +127,14 @@ def generate():
         'SSR_QUALITY':('Screen-space reflections','屏幕空间反射'),
         'AO_QUALITY':('Ambient occlusion','环境光遮蔽'),
         'INDIRECT_QUALITY':('Indirect lighting','间接光照'),
+        'COLORED_LIGHT_QUALITY':('Colored light','彩色光源'),
+        'COSMIC_SKY_QUALITY':('Cosmic sky','宇宙天空'),
+        'CELESTIAL_EVENTS':('Celestial events','天象事件'),
+        'BIOME_BLEND':('Biome atmosphere','群系氛围'),
+        'PARTICLE_LAYER':('Particle layer','世界粒子'),
+        'CLOUD_TYPES':('Cloud types','云型系统'),
+        'WEATHER_EFFECTS':('Extended weather','扩展天气'),
+        'SURFACE_SEASONS':('Surface seasons','地表季节响应'),
         'VOLUMETRIC_QUALITY':('Volumetric light','体积光'),
         'WEATHER_QUALITY':('Weather quality','天气质量'),
         'TERRAIN_FOG_QUALITY':('Terrain fog quality','地形雾质量'),
@@ -141,9 +152,11 @@ def generate():
         'NIGHT_BRIGHTNESS':('Night brightness','夜间亮度'),
         'END_PLANETS':('End planetary sky','末地行星天空'),
         'END_ORBIT_SPEED':('Orbital speed','行星公转速度'),
+        'SEASON_MODE':('Season','季节'),
+        'SEASON_STRENGTH':('Season strength','季节强度'),
     }
-    en_screens=['Lighting','Temporal','Shadows','Ambient Occlusion','Atmosphere','Clouds','Weather','End Sky','Water','Reflections','Materials','Post Processing','Performance']
-    zh_screens=['光照','时域渲染','阴影','环境光遮蔽','大气','云层','天气','末地星空','水体','反射','材质','后期处理','性能']
+    en_screens=['Lighting','Temporal','Shadows','Ambient Occlusion','Atmosphere','Clouds','Weather','End Sky','Water','Reflections','Materials','Post Processing','Performance','Cosmic Sky','Seasons']
+    zh_screens=['光照','时域渲染','阴影','环境光遮蔽','大气','云层','天气','末地星空','水体','反射','材质','后期处理','性能','宇宙天空','四季']
     for lang,index in [('en_us',0),('zh_cn',1)]:
         lines=[f'option.{key}={values[index]}' for key,values in labels.items()]
         for i,key in enumerate(SCREENS):
@@ -152,12 +165,23 @@ def generate():
         for option in ['CLOUD_QUALITY','WEATHER_QUALITY','SSR_QUALITY','AO_QUALITY','VOLUMETRIC_QUALITY','BLOOM_QUALITY','DOF_QUALITY','MOTION_BLUR']:
             for v in range(5): lines.append(f'value.{option}.{v}={quality[v]}')
         for v in range(4): lines.append(f'value.TERRAIN_FOG_QUALITY.{v}={quality[v]}')
+        for v in range(4): lines.append(f'value.COLORED_LIGHT_QUALITY.{v}={quality[v]}')
+        for v in range(4): lines.append(f'value.COSMIC_SKY_QUALITY.{v}={quality[v]}')
         for v in range(1,5): lines.append(f'value.SHADOW_QUALITY.{v}={quality[v]}')
         lines.append(f'value.SHADOW_QUALITY.5={"Cinematic" if index==0 else "电影级"}')
         for option in ['AUTO_EXPOSURE','WET_SURFACES','END_PLANETS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         for v,label in enumerate(['Off','Auto (declared LabPBR)','Force LabPBR'] if index==0 else ['关闭','自动识别 LabPBR','强制 LabPBR']):
             lines.append(f'value.PBR_MODE.{v}={label}')
+        season_mode=['Auto','Spring','Summer','Autumn','Winter'] if index==0 else ['自动','春','夏','秋','冬']
+        for v,label in enumerate(season_mode):
+            lines.append(f'value.SEASON_MODE.{v}={label}')
+        for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
+            lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
+        lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
+        for option in ['CLOUD_TYPES','WEATHER_EFFECTS','SURFACE_SEASONS']:
+            lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
+        lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
         for v,label in enumerate(['Off','Low','Medium','High'] if index==0 else ['关闭','低','中','高']):
             lines.append(f'value.TAA_QUALITY.{v}={label}')
@@ -183,6 +207,16 @@ def generate():
             'RAIN_INTENSITY':('Scales procedural rain visibility without changing Minecraft weather state.','缩放程序化雨线可见度，不改变 Minecraft 天气状态。'),
             'RIPPLE_STRENGTH':('Scales expanding rain rings on water and small impacts on exposed surfaces.','缩放水面扩散雨纹与暴露表面的细小落雨冲击。'),
             'GODRAY_STRENGTH':('Scales shadow-mapped dawn and dusk shafts; midday is reduced automatically.','缩放带阴影遮挡的晨昏光柱；正午会自动减弱。'),
+            'COLORED_LIGHT_QUALITY':('Screen-space colored light from emissive blocks. Voxel flood-fill is reserved for a later Iris compute pass.','来自发光方块的屏幕空间彩色光源；体素 flood-fill 留待后续 Iris 计算着色器版本。'),
+            'COSMIC_SKY_QUALITY':('Galaxy band, nebulas, aurora and shooting stars in the Overworld night sky.','主世界夜空中的银河带、星云、极光与流星。'),
+            'SEASON_MODE':('Auto follows the calendar year; manual modes force a season for screenshots or themed worlds.','自动跟随日历年份；手动模式可固定季节，便于截图或主题世界。'),
+            'SEASON_STRENGTH':('Blends seasonal sky, light, fog, cloud and foliage changes toward the vanilla look at zero.','控制季节对天空、光照、雾、云量和植被颜色的影响强度；为 0 时接近原版观感。'),
+            'CELESTIAL_EVENTS':('Calendar-driven meteor showers, comets, aurora storms, a solar eclipse and a rare supernova. Frequent compresses the schedule.','按日历出现流星雨、彗星、极光风暴、日食与稀有超新星；频繁模式会压缩周期。'),
+            'BIOME_BLEND':('Lets temperature and rainfall shift fog, haze and ambient colour: dry desert haze, humid jungle/swamp fog, cold blue tundra light.','让温度与降雨改变雾、霾与环境色：沙漠热霾、丛林/沼泽湿雾、寒冷苔原偏蓝。'),
+            'PARTICLE_LAYER':('Procedural airborne particles: pollen and dust by day, fireflies at night, storm snow and hail, Nether embers and End motes.','程序化空气粒子：白天花粉/尘埃、夜晚萤火、暴风雪与冰雹、下界余烬、末地尘埃。'),
+            'CLOUD_TYPES':('Chooses cumulus, stratus, cirrus and storm anvil shapes from weather and season instead of one cloud field.','按天气与季节在积云、层云、卷云和雷暴砧状云之间切换，而不是单一云场。'),
+            'WEATHER_EFFECTS':('Adds desert sandstorms, cold-biome blizzards and low fog banks on top of the shared weather state.','在共享天气状态上增加沙漠沙尘暴、寒冷地区暴雪和低空雾团。'),
+            'SURFACE_SEASONS':('Winter frost/snow on top faces, patchier autumn leaves, rain puddles and summer heat shimmer.','冬季顶面霜雪、更斑驳的秋叶、雨后水洼与夏季热浪扭曲。'),
         }
         lines += [f'option.{k}.comment={v[index]}' for k,v in tips.items()]
         write(SHADERS/'lang'/f'{lang}.lang','\n'.join(lines)+'\n')

@@ -15,6 +15,11 @@ uniform float rainStrength, wetness, thunderStrength, nightVision, blindness, da
 uniform float centerDepthSmooth;
 uniform int isEyeInWater, moonPhase, frameCounter;
 uniform int heldItemId, heldItemId2, heldBlockLightValue, heldBlockLightValue2;
+uniform ivec3 currentDate;
+uniform ivec2 currentYearTime;
+uniform int worldTime, worldDay;
+uniform int biome, biome_category, biome_precipitation;
+uniform float rainfall, temperature;
 const float PI = 3.14159265359;
 float sat(float x) { return clamp(x, 0.0, 1.0); }
 vec3 safeNormalize(vec3 v) { return v * inversesqrt(max(dot(v,v), 1e-12)); }
