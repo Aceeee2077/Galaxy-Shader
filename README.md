@@ -8,11 +8,11 @@ Galaxy Shader 的 Minecraft Java 光影源码，当前最新版本 **1.12.2**：
 
 ## 效果预览
 
-1.12.2 合成 GPU 预览（非游戏截图）：
+1.12.2 游戏截图：
 
 ![主世界效果](Galaxy%20Shader/previews/main.png)
 
-末地裂隙核心与巨行星特写：
+末地裂隙核心与巨行星特写 (合成 GPU 预览)：
 
 ![末地行星天空](Galaxy%20Shader/previews/end-sky.png)
 
