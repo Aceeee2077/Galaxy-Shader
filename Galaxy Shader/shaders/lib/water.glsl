@@ -5,12 +5,13 @@ vec3 waterNormal(vec3 world, vec3 geometric, float distanceToEye) {
     float t=frameTimeCounter;
     vec2 gradient=vec2(0.0);
 #if WATER_QUALITY > 0
-    for(int i=0;i<4;++i) {
-        if(i>WATER_QUALITY) break;
+    int waves=min(WATER_QUALITY+1,3);
+    for(int i=0;i<3;++i) {
+        if(i>=waves) break;
         float fi=float(i);
         vec2 dir=vec2(cos(fi*2.17+0.2),sin(fi*2.17+0.2));
         float frequency=0.8+fi*1.6;
-        float amplitude=0.065/(1.0+fi);
+        float amplitude=0.050/(1.0+fi);
         gradient+=dir*cos(dot(world.xz,dir)*frequency+t*(1.1+fi*0.37))*amplitude;
     }
     float rain=weatherRainAmount();

@@ -1,8 +1,18 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.10.0 · Community Project**
+**Photorealistic Minecraft Shader · 1.12.1 · Community Project**
 
 Galaxy Shader is a natural-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
+
+**1.12.1 — parameter alignment against Photon 1.3 defaults:** Ambient occlusion now uses a 2-block world radius with 12 samples at High instead of 18; PCSS shadows follow the reference pack's "three blocker samples plus six to twelve filter taps" range, cutting a lit fragment from 20 to 14 shadow fetches; water adopts its per-block absorption coefficients (water column 0.39/0.14/0.07, underwater 0.20/0.08/0.04) so deep water keeps its blue-green instead of crushing to black and underwater visibility improves; volumetric light mirrors the reference shaft budget by halving its samples once the view is well above the horizon. Every one of these is an equivalent parameter reimplemented here - no Photon code was copied.
+
+**1.12.0 — End rework and Photon-style performance pass:** The End centrepiece is no longer a black hole or wormhole. The former event horizon, photon ring and accretion disk are replaced by a **rift core**: a faceted crystal core, four long diffraction streaks, two counter-facing plasma jets, and two belts of shattered shards driven by angular sectors (each shard hashes its own radius, thickness and tint, and some sectors stay empty). The silhouette is spiked and segmented rather than a round horizon with a smooth dust disk. The giant's limb glow and ring dust move to cold violet-silver tones to match the new ambient light. Budgets across reflections, clouds, water and volumetrics were rebalanced: clouds drop fine noise detail in the far part of the march and use 16/24/36 direct-sky steps, with two longer light samples replacing three short ones; reflections use a single cloud sheet instead of a second volumetric march; water reflects the analytic sky by default and optional screen-space hits moved to the new `WATER_REFLECTIONS` option (on for ULTRA/CINEMATIC); water refraction is one displaced lookup plus at most one extra tap. Cumulative 1280x720 HIGH A/B against 1.11.2: clouds -37.2%, sunset -37.3%, daytime terrain/water -36.9%, rain -51.0%, underwater -36.6%; mean 8-bit difference 0.73-1.18 for clouds/sunset/day/rain and 2.99 underwater (the visible result of the absorption change), and the water draw itself is roughly 90% cheaper. Report: `validation/performance-report.json`; this is not Minecraft FPS.
+
+**1.11.2 — Overworld performance:** Preserves direct-sky cloud detail, shadow resolution, volumetric light and SSR. Medium/High cloud shadows use low-frequency density with mean fine-detail compensation; reflected clouds use half the view steps. Colored light rejects non-emissive samples first, and indirect light skips zero-contribution shading.
+
+**1.11.1 / 1.11.0:** Removes the six legacy End planets and their orbital dust tracks, leaving the ringed giant, the central object and a fixed starfield, and upgrades clouds to three-dimensional billows with edge erosion. The black hole centrepiece of those releases was replaced by the rift core in 1.12.0.
+
+Start with HIGH; use ULTRA for finer clouds. Golden-hour rays require low sunlight and scene occluders. Bundled previews are synthetic GPU renders of the actual shaders, not Minecraft captures or a claim of pixel-identical reference matching.
 
 ## Delivery status
 
@@ -10,7 +20,7 @@ The first feature set is implemented and has passed standalone GPU compilation a
 
 ## Previews
 
-Overworld:
+1.12.1 synthetic GPU views (not Minecraft captures):
 
 ![Overworld](previews/main.png)
 
@@ -41,7 +51,7 @@ Overworld:
 **1.4.0 — temporal stability update:** Adds configurable HDR TAA history with camera/depth/screen rejection and a 3×3 YCoCg neighborhood clamp; contact-hardening PCSS shadows; world-radius directional horizon AO; SSR adaptive stepping, thickness handling, hit confidence, and rough reflection resolve; Legacy Filmic, ACES-like, and AgX-like tone mapping; more restrained exposure and bloom; and TAA-aware volumetric jitter. Projection jitter remains disabled to protect hand rendering and Iris compatibility.
 
 
-End planetary sky close-up:
+End rift core and ringed giant close-up:
 
 ![End planetary sky](previews/end-sky.png)
 
@@ -66,9 +76,9 @@ End planetary sky close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.10.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.12.1.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.10.0.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.12.1.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -80,10 +90,10 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | Lighting | Dynamic sun/moon direction, warm sunrise/sunset tint, weather attenuation, hemispheric ambient light, minimum cave brightness, held-light approximation |
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
 | Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events |
-| End sky | Procedural planetary sky: seven planets on independent orbits/speeds/sizes (including a ringed giant), fast inner and slow outer orbits with obvious near/far scale, per-planet axial rotation and lit-side atmospheric glow, central star, fixed starfield; controlled by `END_PLANETS` / `END_ORBIT_SPEED`, End only |
-| Clouds & weather | Ray-marched volumetric clouds (single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
+| End sky | Rift core (faceted crystal core, four diffraction streaks, bipolar plasma jets, two belts of shattered shards), one ringed giant and a fixed starfield; `END_PLANETS` / `END_ORBIT_SPEED`, End only |
+| Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
 | Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |
-| Water | Multi-frequency wave normals, multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, sky reflection, SSR, depth-parallax refraction, absorption, shoreline foam, underwater caustics and blue-green volumetrics, underwater distance blur, deep-water fog |
+| Water | Multi-frequency wave normals (up to three layers), multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, analytic sky reflection (`WATER_REFLECTIONS` can add traced hits), one displaced refraction lookup plus one extra tap, Beer-Lambert absorption, shoreline foam, underwater caustics and blue-green volumetrics, deep-water fog |
 | Reflections | SSR for wet or LabPBR smooth surfaces; adaptive stepping, thickness/refinement, hit confidence, inexpensive rough resolve, environment fallback |
 | Vegetation | Grass, flowers, crops, leaves, vines; world-coordinate and gust-driven motion; matching animation for tall-plant halves and the shadow pass |
 | AO / indirect | Directional GTAO-style horizon search with world radius and edge-aware weighting; separate short-range color transport |
@@ -91,7 +101,7 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | Emissives | Torch, lantern, soul fire, lava, redstone, sea lantern, end rod, campfire, lit furnace and other classified emissives; visible emissive surfaces project screen-space colored light onto geometry |
 | Atmospheric fog | Depth-occluded height fog, lowland/valley fog, distance haze, and weather/humidity response, with biome temperature/rainfall shifting fog colour and density; warm volcanic fog in the Nether; dark nebula and void fog in the End |
 | Volumetric light | Shadow-map ray marching, canopy-contrast shafts, dawn/dusk boost with midday suppression, cloud attenuation, and lightning scatter |
-| Post-processing | Restrained HDR bloom, Legacy Filmic / ACES-like / AgX-like mapping, slower bounded exposure and natural white balance |
+| Post-processing | Restrained HDR bloom, Legacy Filmic / ACES-like / Natural Filmic mapping, bounded exposure and natural white balance |
 | Camera | Reprojected TAA history, rejection and YCoCg neighborhood clamp; optional light FXAA, depth of field and camera motion blur |
 
 ## Recommended settings and quality presets
@@ -103,11 +113,11 @@ Default is `HIGH`: 2048 shadow resolution, 128-block shadow distance, soft shado
 | POTATO | 1024 / 64 | TAA/PCSS/SSR/AO/indirect/volumetrics/advanced weather/terrain fog off; four-tap PCF |
 | LOW | 1024 / 96 | Low TAA, AO, rain ripples, and terrain fog; PCF; SSR/indirect/volumetrics off |
 | MEDIUM | 2048 / 96 | Medium TAA/weather; low PCSS/GTAO/SSR/volumetrics/terrain fog |
-| HIGH | 2048 / 128 | Default; high TAA/weather and medium PCSS/GTAO/SSR/volumetrics/terrain fog |
-| ULTRA | 4096 / 192 | Maximum weather/terrain fog and higher PCSS/GTAO/SSR/volumetric budgets |
-| CINEMATIC | 8192 / 256 | 16+24 PCSS, maximum weather/atmosphere/screen-space budgets and screenshot DoF |
+| HIGH | 2048 / 128 | Default; high TAA/weather and medium PCSS/GTAO/SSR/volumetrics/terrain fog; 24-step clouds; water reflects the analytic sky |
+| ULTRA | 4096 / 192 | Maximum weather/terrain fog and higher PCSS/GTAO/SSR/volumetric budgets; 36-step clouds; water adds traced hits |
+| CINEMATIC | 8192 / 256 | 16+24 PCSS, maximum weather/atmosphere/screen-space budgets and screenshot DoF; water adds traced hits |
 
-Lowering `SSR`, `Volumetric Light`, and shadow resolution is usually the fastest way to cut cost. A single 8192² 32-bit depth map is roughly 256 MiB before other Iris targets and caches. Do not use CINEMATIC as a daily setting.
+Lowering `SSR`, `Volumetric Light`, `Cloud quality`, and shadow resolution is usually the fastest way to cut cost. Keeping water reflections on "Sky only" is far cheaper than "Sky + screen space", so leave the default when chasing frame rate. A single 8192² 32-bit depth map is roughly 256 MiB before other Iris targets and caches. Do not use CINEMATIC as a daily setting.
 
 ## LabPBR resource packs
 
@@ -119,9 +129,10 @@ If you are sure a pack is LabPBR 1.3 but does not declare the format, choose **F
 
 - In-game acceptance is still pending; GPU tests use synthetic block scenes and do not include Iris runtime shader translation, real chunk streaming, game UI, mod interoperability, or player input.
 - SSR can only reflect **opaque** content already on screen; off-screen content uses an environment approximation. Water refraction is based on the opaque scene; refraction through multiple glass/water layers is not solved recursively.
+- Water reflects the analytic sky by default (`WATER_REFLECTIONS` = Sky only), so on-screen trees, hills and buildings do not appear in the water. Choosing "Sky + screen space" adds those traced hits and costs noticeably more at the water pixels.
 - A single shadow map is used rather than cascaded shadow maps; thin glass/water does not cast colored shadows. Far shadows fade to sky-lit occlusion; extreme terrain still needs real-game inspection.
 - Indirect light and emissives are approximated. Vanilla lightmaps carry no source color; the new colored light comes from screen-space propagation of visible emissive surfaces and cannot reach off-screen or fully occluded sources, so it does not equal Photon's voxel flood-fill / colored GI.
-- Overworld clouds are ray-marched along the view ray rather than a 3D voxel cloud field. Flying above the cloud layer, world-coordinate resets, and long-distance travel still need real-game inspection.
+- Overworld clouds are ray-marched along the view ray rather than a 3D voxel cloud field, and distant samples keep only the large billow shape. Flying above the cloud layer, world-coordinate resets, and long-distance travel still need real-game inspection.
 - Minecraft/Iris directly exposes Clear, Rain, Thunder, and continuous `rainStrength` / `wetness`. The pack derives its Cloudy mood continuously from configured cloud cover, residual wetness, and light attenuation; it does not add a new game weather type. Surface splash exposure uses skylight and face orientation, so per-drop occlusion under complex overhangs remains approximate.
 - TAA does not jitter the projection; moving entities have no dedicated motion vectors and rely on depth, luminance, and neighborhood rejection. Auto-exposure still uses Iris's smoothed eye light rather than a full-scene histogram.
 - Terrain and block entities support material normals; ordinary entities and armor do not have full LabPBR reads. Named metals use matching F0 for direct specular highlights, with an Albedo-metal approximation for environment reflections.

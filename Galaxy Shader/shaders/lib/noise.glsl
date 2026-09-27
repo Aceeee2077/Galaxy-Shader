@@ -11,6 +11,18 @@ float valueNoise(vec2 p) {
     return mix(mix(hash12(i), hash12(i+vec2(1,0)), f.x),
                mix(hash12(i+vec2(0,1)), hash12(i+vec2(1,1)), f.x), f.y);
 }
+// Interpolate all eight corners: cloud volume changes along height as well as XZ.
+float volumeNoise(vec3 p) {
+    vec3 i=floor(p), f=fract(p);
+    f=f*f*(3.0-2.0*f);
+    vec2 a=i.xz+i.y*vec2(37.0,113.0);
+    vec2 b=a+vec2(37.0,113.0);
+    float lo=mix(mix(hash12(a),hash12(a+vec2(1,0)),f.x),
+                 mix(hash12(a+vec2(0,1)),hash12(a+vec2(1,1)),f.x),f.z);
+    float hi=mix(mix(hash12(b),hash12(b+vec2(1,0)),f.x),
+                 mix(hash12(b+vec2(0,1)),hash12(b+vec2(1,1)),f.x),f.z);
+    return mix(lo,hi,f.y);
+}
 float fbm(vec2 p, int octaves) {
     float sum = 0.0, weight = 0.5;
     for (int i=0; i<6; ++i) {

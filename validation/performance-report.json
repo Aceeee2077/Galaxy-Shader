@@ -1,0 +1,169 @@
+{
+  "type": "1280x720 HIGH synthetic GPU draw timings; not Minecraft FPS",
+  "gpu": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA GeForce RTX 5080 Laptop GPU/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 616.64",
+    "glsl": "4.60 NVIDIA"
+  },
+  "baseline": "Galaxy Shader-1.11.2-baseline.zip",
+  "shader_sha256": "0ac3379c309bbb4734bcab5ffed4879e70a2b414dd75133832cd0877831b5a1a",
+  "scenarios": {
+    "clouds": {
+      "gpu_ms": {
+        "before": {
+          "deferred": 4.3414079999999995,
+          "gbuffers_water": 0.002688,
+          "composite": 0.204992,
+          "composite1": 0.008832,
+          "composite2": 0.003712,
+          "composite3": 0.003712,
+          "composite4": 0.03256,
+          "final": 0.011904
+        },
+        "after": {
+          "deferred": 2.666256,
+          "gbuffers_water": 0.002704,
+          "composite": 0.164416,
+          "composite1": 0.009184000000000001,
+          "composite2": 0.003776,
+          "composite3": 0.003712,
+          "composite4": 0.032192,
+          "final": 0.011792
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 4.609807999999999,
+        "after": 2.894032
+      },
+      "draw_time_reduction_percent": 37.22011849517376,
+      "mean_abs_8bit_difference": 1.18240234375,
+      "p95_abs_8bit_difference": 4.0
+    },
+    "sunset": {
+      "gpu_ms": {
+        "before": {
+          "deferred": 4.511648,
+          "gbuffers_water": 0.003088,
+          "composite": 0.20464,
+          "composite1": 0.015776,
+          "composite2": 0.007968,
+          "composite3": 0.004144,
+          "composite4": 0.032928,
+          "final": 0.02608
+        },
+        "after": {
+          "deferred": 2.75568,
+          "gbuffers_water": 0.003104,
+          "composite": 0.164848,
+          "composite1": 0.012672,
+          "composite2": 0.0043040000000000005,
+          "composite3": 0.00416,
+          "composite4": 0.032976000000000005,
+          "final": 0.033743999999999996
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 4.806272,
+        "after": 3.011488
+      },
+      "draw_time_reduction_percent": 37.34253908226584,
+      "mean_abs_8bit_difference": 0.7323126446759259,
+      "p95_abs_8bit_difference": 3.0
+    },
+    "day": {
+      "gpu_ms": {
+        "before": {
+          "deferred": 1.223328,
+          "gbuffers_water": 0.15295999999999998,
+          "composite": 0.230896,
+          "composite1": 0.015856000000000002,
+          "composite2": 0.004128,
+          "composite3": 0.00408,
+          "composite4": 0.036096,
+          "final": 0.027072
+        },
+        "after": {
+          "deferred": 0.779008,
+          "gbuffers_water": 0.010848,
+          "composite": 0.21665600000000002,
+          "composite1": 0.009312,
+          "composite2": 0.003952000000000001,
+          "composite3": 0.003776,
+          "composite4": 0.033631999999999995,
+          "final": 0.012736
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 1.694416,
+        "after": 1.06992
+      },
+      "draw_time_reduction_percent": 36.856120338806996,
+      "mean_abs_8bit_difference": 1.022861328125,
+      "p95_abs_8bit_difference": 4.0
+    },
+    "rain": {
+      "gpu_ms": {
+        "before": {
+          "deferred": 1.455248,
+          "gbuffers_water": 0.088752,
+          "composite": 0.211232,
+          "composite1": 0.010304,
+          "composite2": 0.006,
+          "composite3": 0.00392,
+          "composite4": 0.034895999999999996,
+          "final": 0.012928
+        },
+        "after": {
+          "deferred": 0.635616,
+          "gbuffers_water": 0.011568,
+          "composite": 0.18448,
+          "composite1": 0.009184,
+          "composite2": 0.00368,
+          "composite3": 0.00368,
+          "composite4": 0.033616,
+          "final": 0.012144
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 1.82328,
+        "after": 0.893968
+      },
+      "draw_time_reduction_percent": 50.96924224474573,
+      "mean_abs_8bit_difference": 0.9420656105324074,
+      "p95_abs_8bit_difference": 4.0
+    },
+    "underwater": {
+      "gpu_ms": {
+        "before": {
+          "deferred": 1.246368,
+          "gbuffers_water": 0.154,
+          "composite": 0.13848,
+          "composite1": 0.009072,
+          "composite2": 0.003696,
+          "composite3": 0.003776,
+          "composite4": 0.033648,
+          "final": 0.011712
+        },
+        "after": {
+          "deferred": 0.800752,
+          "gbuffers_water": 0.011264,
+          "composite": 0.116704,
+          "composite1": 0.016655999999999997,
+          "composite2": 0.00408,
+          "composite3": 0.004064,
+          "composite4": 0.034816,
+          "final": 0.025967999999999998
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 1.600752,
+        "after": 1.014304
+      },
+      "draw_time_reduction_percent": 36.63578118284405,
+      "mean_abs_8bit_difference": 2.988972800925926,
+      "p95_abs_8bit_difference": 9.0
+    }
+  },
+  "status": "passed"
+}

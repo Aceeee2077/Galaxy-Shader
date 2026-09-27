@@ -11,7 +11,7 @@ vec3 volumetricLight(vec3 player) {
         float lengthRay=min(length(player),72.0);
         vec3 ray=safeNormalize(player);
         float forward=max(dot(ray,lightDirection()),0.0);
-        int count=VOLUMETRIC_QUALITY*4;
+        int count=VOLUMETRIC_QUALITY*3;
         float density=0.0035*FOG_DENSITY;
         float visibility=0.0;
         float jitter=hash12(gl_FragCoord.xy);
@@ -32,15 +32,19 @@ vec3 volumetricLight(vec3 player) {
         return min(result,vec3(0.35));
     }
     if(isEyeInWater!=0) return result;
-    float lengthRay=min(length(player),min(shadowDistance,96.0));
+    float lengthRay=min(length(player),shadowDistance);
     vec3 ray=safeNormalize(player);
     float forward=max(dot(ray,lightDirection()),0.0);
-    float broadPhase=pow(forward,5.0)*0.72+pow(forward,18.0)*1.35+0.035;
+    float broadPhase=pow(forward,4.0)*0.85+pow(forward,16.0)*1.45+0.055;
     float lowSun=dawnDuskAmount();
     float canopy=1.0-smoothstep(0.54,0.96,float(eyeBrightnessSmooth.y)/240.0);
-    int count=VOLUMETRIC_QUALITY*6;
+    int count=VOLUMETRIC_QUALITY*8;
+    // Rays towards the zenith integrate a short, mostly empty path. The
+    // reference pack drops its shaft budget from 20 horizon steps to 4 straight
+    // up, so well above the horizon this halves the sample count.
+    if(ray.y>0.30) count=max(count/2,4);
     float rain=weatherRainAmount(), storm=weatherStormAmount();
-    float density=(0.00065+lowSun*0.00125+rain*0.0028+storm*0.0015)*FOG_DENSITY;
+    float density=(0.00065+lowSun*0.0032+rain*0.0034+storm*0.0015)*FOG_DENSITY;
     float cloudFactor=cloudShadow(ray*(lengthRay*0.5)+cameraPosition);
     float visibility=0.0, visibilitySquared=0.0;
     float jitter=hash12(gl_FragCoord.xy);
@@ -48,7 +52,7 @@ vec3 volumetricLight(vec3 player) {
     // An eight-frame phase is safe because the resolved image is accumulated.
     jitter=fract(jitter+float(frameCounter%8)*0.61803398875);
 #endif
-    for(int i=0;i<24;++i) {
+    for(int i=0;i<40;++i) {
         if(i>=count) break;
         float t=(float(i)+jitter)/float(count)*lengthRay;
         vec3 p=ray*t;

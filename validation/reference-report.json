@@ -1,0 +1,165 @@
+{
+  "type": "Synthetic GPU reference views, not Minecraft gameplay",
+  "shader_sha256": "0ac3379c309bbb4734bcab5ffed4879e70a2b414dd75133832cd0877831b5a1a",
+  "checks": {
+    "cloud_mean_difference": 55.76043852880658,
+    "cloud_spatial_difference_std": 41.80000339608396
+  },
+  "cumulus": {
+    "mean": 0.7616527676582336,
+    "std": 0.12096720933914185,
+    "stages": {
+      "composite": {
+        "min": 0.082763671875,
+        "max": 6.32421875
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 4.5625
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 4.375
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 3.90625
+      },
+      "composite4": {
+        "min": 0.31201171875,
+        "max": 0.98876953125
+      }
+    }
+  },
+  "golden-clouds": {
+    "mean": 0.7998911738395691,
+    "std": 0.12191513180732727,
+    "stages": {
+      "composite": {
+        "min": 0.318359375,
+        "max": 9.484375
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 4.5625
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 4.0625
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 3.84375
+      },
+      "composite4": {
+        "min": 0.58447265625,
+        "max": 1.0
+      }
+    }
+  },
+  "rain-clouds": {
+    "mean": 0.6753851771354675,
+    "std": 0.07439686357975006,
+    "stages": {
+      "composite": {
+        "min": 0.28271484375,
+        "max": 3.373046875
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 1.140625
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 1.046875
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 0.59375
+      },
+      "composite4": {
+        "min": 0.56591796875,
+        "max": 1.0
+      }
+    }
+  },
+  "cosmos": {
+    "mean": 0.20487262308597565,
+    "std": 0.2779538631439209,
+    "stages": {
+      "composite": {
+        "min": 0.000461578369140625,
+        "max": 3.912109375
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 0.625
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 0.375
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 0.109375
+      },
+      "composite4": {
+        "min": 0.0140228271484375,
+        "max": 1.0
+      }
+    }
+  },
+  "golden-terrain": {
+    "mean": 0.697741687297821,
+    "std": 0.22956721484661102,
+    "stages": {
+      "composite": {
+        "min": 0.060882568359375,
+        "max": 8.2890625
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 4.25
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 3.46875
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 2.5625
+      },
+      "composite4": {
+        "min": 0.2437744140625,
+        "max": 1.0
+      }
+    }
+  },
+  "golden-rain": {
+    "mean": 0.6165595054626465,
+    "std": 0.1784716695547104,
+    "stages": {
+      "composite": {
+        "min": 0.05621337890625,
+        "max": 4.69921875
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 0.7890625
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 0.65625
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 0.3984375
+      },
+      "composite4": {
+        "min": 0.2349853515625,
+        "max": 1.0
+      }
+    }
+  },
+  "status": "passed"
+}

@@ -10,16 +10,16 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
 #if SSR_QUALITY > 0
     if(roughness>0.62 || direction.z>0.05) return result;
 #if SSR_QUALITY == 1
-    const int count=12;
+    const int count=8;
     const float maxDistance=36.0;
 #elif SSR_QUALITY == 2
-    const int count=20;
+    const int count=14;
     const float maxDistance=52.0;
 #elif SSR_QUALITY == 3
-    const int count=28;
+    const int count=20;
     const float maxDistance=64.0;
 #else
-    const int count=40;
+    const int count=28;
     const float maxDistance=80.0;
 #endif
     float previousT=0.08;
@@ -40,7 +40,7 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
         float thickness=(0.10+t*0.006)+(t-previousT)*abs(direction.z)*0.9;
         if(delta>0.0 && delta<thickness && t>0.35) {
             float lo=previousT, hi=t;
-            for(int j=0;j<5;++j) {
+            for(int j=0;j<3;++j) {
                 float mid=(lo+hi)*0.5;
                 vec3 mp=start+direction*mid;
                 vec2 mu=projectView(mp);
@@ -60,11 +60,11 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
             vec2 blur=pixelSize()*(1.0+roughness*8.0);
             vec3 reflected=texture2D(scene,uv).rgb;
             if(roughness>0.15) {
-                reflected*=0.40;
-                reflected+=(texture2D(scene,uv+vec2(blur.x,0)).rgb+
-                            texture2D(scene,uv-vec2(blur.x,0)).rgb+
-                            texture2D(scene,uv+vec2(0,blur.y)).rgb+
-                            texture2D(scene,uv-vec2(0,blur.y)).rgb)*0.15;
+                // One diagonal cross instead of four axis taps: rough hits are
+                // a soft sheen, so the cheaper kernel is visually equivalent.
+                reflected*=0.62;
+                reflected+=(texture2D(scene,uv+vec2(blur.x,blur.y)).rgb+
+                            texture2D(scene,uv-vec2(blur.x,blur.y)).rgb)*0.19;
             }
             float confidence=edge*depthConfidence*angleConfidence*
                              distanceConfidence*roughnessConfidence;
@@ -78,7 +78,10 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
 }
 vec3 environmentReflection(vec3 player, vec3 n, float roughness, float skyLight) {
     vec3 ray=reflect(safeNormalize(player),n);
-    vec3 env=skyWithClouds(ray,player+cameraPosition,false);
+    // Cheaper reflected sky: the ambient probe is a low-frequency fallback that
+    // screen-space hits refine, so it uses the single cloud sheet instead of a
+    // second volumetric march.
+    vec3 env=skyReflection(ray,player+cameraPosition);
     env=mix(env,atmosphere(vec3(0,1,0),false),roughness*0.6);
     return env*mix(0.04,1.0,skyLight*skyLight);
 }

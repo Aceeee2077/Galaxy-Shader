@@ -13,7 +13,10 @@ Target instance: Minecraft 26.2 / Fabric / Iris 1.11.2+mc26.2 / matching Sodium 
 | Buildings | Village, indoor room, torch-lit room; no major light leaks | Not run |
 | Caves | Cave, deep cave, lava cave; light falloff and readable nearby surfaces | Not run |
 | Dimensions | Enter/leave Nether and End; correct sky/fog and no stale buffers | Not run |
+| End rework | Rift core, two shard belts, bipolar jets and the ringed giant read correctly; `END_PLANETS` / `END_ORBIT_SPEED` still behave | Not run |
 | Water | Above/below surface, shore, boat, intersecting glass, moving reflections | Not run |
+| Water reflections | `WATER_REFLECTIONS` sky-only vs sky + screen space; cost and look on both | Not run |
+| Cloud detail LOD | Cloud silhouette when standing still, walking, flyover and after a coordinate wrap | Not run |
 | Movement | Walking, sprinting, rapid turns, elytra, teleports, coordinate wrap | Not run |
 | Camera | First/third person; opaque and translucent held items | Not run |
 | GUI | HUD, hotbar, inventory, chat and screens remain legible | Not run |

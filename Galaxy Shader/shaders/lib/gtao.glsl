@@ -2,30 +2,34 @@
 #define SE_GTAO
 
 // A compact GTAO-style horizon search. Samples are grouped into screen-space
-// directions, but their radius is projected from a 1.5-block world radius.
-// Depth and normal weights act as a bilateral guard at silhouettes.
+// slices, but their radius is projected from a 2-block world radius, matching
+// the reference pack's AO radius. Depth and normal weights act as a bilateral
+// guard at silhouettes.
 float gtaoVisibility(vec2 uv, vec3 view, vec3 worldNormal) {
 #if AO_QUALITY == 0 || DIMENSION != 0
     return 1.0;
 #else
     vec3 viewNormal = safeNormalize(mat3(gbufferModelView) * worldNormal);
-    const float radius = 1.5;
+    const float radius = 2.0;
     vec2 radiusUV = vec2(gbufferProjection[0][0], gbufferProjection[1][1]) *
                     radius / max(-view.z, 1.0) * 0.5;
     radiusUV = min(radiusUV, vec2(0.14));
 #if AO_QUALITY == 1
-    const int directions = 4;
+    const int directions = 3;
     const int steps = 2;
 #elif AO_QUALITY == 2
+    const int directions = 4;
+    const int steps = 3;
+#elif AO_QUALITY == 3
     const int directions = 6;
     const int steps = 3;
 #else
-    const int directions = 8;
+    const int directions = 6;
     const int steps = 4;
 #endif
     float occlusion = 0.0;
     float directionWeight = 0.0;
-    float rotation = hash12(floor(gl_FragCoord.xy * 0.25)) * 2.0 * PI;
+    const float rotation = PI * 0.125; // Stable directions prevent 4x4 AO speckle.
     for (int directionIndex = 0; directionIndex < directions; ++directionIndex) {
         float angle = (float(directionIndex) + 0.5) * 2.0 * PI /
                       float(directions) + rotation;

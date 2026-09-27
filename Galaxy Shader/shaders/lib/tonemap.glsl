@@ -11,17 +11,17 @@ vec3 acesLike(vec3 x) {
     x=max(x,vec3(0.0));
     return clamp((x*(2.30*x+0.035))/(x*(2.18*x+0.58)+0.14),0.0,1.0);
 }
-vec3 agxLike(vec3 x) {
-    // Luminance-domain log encoding and a smooth sigmoid approximate AgX's
-    // wide highlight shoulder without depending on a LUT or color extension.
+vec3 naturalFilmic(vec3 x) {
+    // Luminance shoulder preserves hue and true black. The old log sigmoid
+    // mapped 0.01 linear to a bright grey, flattening shadows and the End sky.
     x=max(x,vec3(0.0));
     float lum=max(luminance(x),1e-6);
-    float encoded=clamp((log2(lum)+10.0)/16.0,0.0,1.0);
-    float shaped=encoded*encoded*(3.0-2.0*encoded);
-    shaped=pow(shaped,1.18);
+    float shaped=(lum*(2.0*lum+0.025))/(lum*(2.0*lum+0.65)+0.15);
     vec3 mapped=x*(shaped/lum);
-    float highlight=smoothstep(0.55,1.0,shaped);
-    mapped=mix(mapped,vec3(luminance(mapped)),highlight*0.12);
+    // Bring only out-of-gamut highlights toward white, avoiding channel clipping.
+    float peak=max(mapped.r,max(mapped.g,mapped.b));
+    float highlight=sat((peak-1.0)/max(peak-shaped,1e-5));
+    mapped=mix(mapped,vec3(shaped),highlight);
     return clamp(mapped,0.0,1.0);
 }
 float adaptedExposure() {
@@ -43,7 +43,7 @@ vec3 gradeColor(vec3 hdr) {
 #elif TONEMAP_MODE == 1
     vec3 c=acesLike(exposed);
 #else
-    vec3 c=agxLike(exposed);
+    vec3 c=naturalFilmic(exposed);
 #endif
     // Very mild white balance: nights remain readable without a blue/purple cast.
     vec3 balance=mix(vec3(1.025,1.0,0.965),vec3(1.0),dayAmount());

@@ -9,7 +9,8 @@ vec3 ambientRadiance(vec3 n, float sky) {
 #if DIMENSION == -1
     return mix(vec3(0.075,0.025,0.009),toLinear(fogColor)*0.35,0.45)*(0.75+0.25*max(n.y,0.0));
 #elif DIMENSION == 1
-    return vec3(0.055,0.049,0.073)*(0.8+0.2*max(n.y,0.0));
+    // Cool violet ambient matching the rift core that lights the End.
+    return vec3(0.135,0.135,0.170)*(0.65+0.35*max(n.y,0.0));
 #else
     float hemi=0.50+0.50*max(n.y,0.0);
     vec3 outdoor=mix(vec3(0.018,0.022,0.031)*NIGHT_BRIGHTNESS,vec3(0.18,0.22,0.28),dayAmount());
@@ -30,6 +31,9 @@ vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
     if (nl>0.0 && lm.y>0.02) shadow=shadowVisibility(player,m.normal,true);
     shadow*=vCloudShadow*smoothstep(0.02,0.40,lm.y);
     direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*directionalRadiance()*shadow;
+#elif DIMENSION == 1
+    shadow=shadowVisibility(player,m.normal,true);
+    direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*vec3(0.90,0.80,0.58)*shadow;
 #endif
     float block=pow(lm.x,3.0)*0.95;
     vec3 ambient=ambientRadiance(m.normal,lm.y)*m.ao;

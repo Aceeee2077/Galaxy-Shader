@@ -27,14 +27,15 @@ void main() {
 #endif
 #if DIMENSION == 0
         if(isEyeInWater==1 && !sky) {
-            // Underwater distance blur prevents the surface and land from
-            // remaining razor-sharp, matching the increased absorption fog.
+#if WATER_QUALITY > 2
+            // Only the highest water profile pays for the distance blur; the
+            // absorption fog already carries the depth cue at lower profiles.
             float uz=length(viewPosition(texcoord,d));
             vec2 ublur=pixelSize()*(1.0+uz*0.06);
             vec3 ucolor=color;
             float uweight=1.0;
-            int utaps=6;
-            for(int i=1;i<6;++i) {
+            int utaps=4;
+            for(int i=1;i<4;++i) {
                 vec2 suv=clamp(texcoord+diskSample(i,utaps)*ublur,pixelSize(),1.0-pixelSize());
                 float sd=texture2D(depthtex0,suv).r;
                 if(texture2D(colortex3,suv).b>0.5) continue;
@@ -44,10 +45,16 @@ void main() {
                 uweight+=w;
             }
             color=ucolor/uweight;
+#endif
             // Animated caustic veins on underwater terrain.
             vec3 world=cameraPosition+player;
             vec2 causticPos=world.xz*0.35+vec2(frameTimeCounter*0.030,frameTimeCounter*0.021);
-            float caustics=causticField(causticPos)*0.70+causticField(causticPos*0.5+vec2(5.0,3.0))*0.50;
+            float caustics=causticField(causticPos);
+#if WATER_QUALITY > 1
+            caustics=caustics*0.70+causticField(causticPos*0.5+vec2(5.0,3.0))*0.50;
+#else
+            caustics*=1.20;
+#endif
             color+=vec3(0.08,0.20,0.22)*caustics*exp(-length(player)*0.025)*0.55;
         }
 #endif

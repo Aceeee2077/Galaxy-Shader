@@ -180,7 +180,7 @@ class Renderer:
             self.bind_fbo([texture])
             self.call('glClear',None,[U],0x4000)
 
-    def render(self,kind='day',profile='HIGH',options=None,time=25.0,preserve_history=False):
+    def render(self,kind='day',profile='HIGH',options=None,time=25.0,preserve_history=False,sun_direction=None):
         self.check('initialization')
         if not preserve_history:self.clear_history()
         folder={'nether':'world-1','end':'world1'}.get(kind,'world0')
@@ -189,6 +189,7 @@ class Renderer:
         sun=normalized([0.5,0.8,0.4])
         if kind=='sunset': sun=normalized([0.8,0.06,-0.2])
         if kind=='night':sun=-sun
+        if sun_direction is not None:sun=normalized(sun_direction)
         light=sun if sun[1]>=0 else -sun
         sm=look_at(light*128,np.zeros(3)); sp=np.eye(4,dtype=np.float32)
         sp[0,0]=sp[1,1]=1/128; sp[2,2]=-1/256
@@ -281,7 +282,12 @@ class Renderer:
         assert np.isfinite(pixels).all(),kind
         rgb=pixels[:,:,:3]
         assert rgb.min()>=0 and rgb.max()<=1.001,kind
-        assert rgb.std()>0.015 and rgb.mean()>0.005,('Blank output',kind)
+        if kind=='end' and opts.get('END_PLANETS',1)==0:
+            # A star-only black sky intentionally has little spatial variance.
+            # Still require visible nonuniform content, not an empty framebuffer.
+            assert rgb.std()>0.001 and np.ptp(rgb)>0.05,('Blank star field',kind)
+        else:
+            assert rgb.std()>0.015 and rgb.mean()>0.005,('Blank output',kind)
         image=Image.fromarray(np.uint8(np.clip(rgb[::-1],0,1)*255))
         return image,{'mean':float(rgb.mean()),'std':float(rgb.std()),'stages':stage_metrics}
 

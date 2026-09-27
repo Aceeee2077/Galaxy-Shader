@@ -7,7 +7,7 @@ vec3 shadowCoordinate(vec3 player) {
     return p.xyz/max(abs(p.w),1e-6)*0.5+0.5;
 }
 float shadowVisibility(vec3 player, vec3 normal, bool soft) {
-#if DIMENSION != 0
+#if DIMENSION == -1
     return 1.0;
 #else
     float texelWorld = 2.0*shadowDistance/float(shadowMapResolution);
@@ -19,24 +19,28 @@ float shadowVisibility(vec3 player, vec3 normal, bool soft) {
 
     float distanceFade = length(player.xz) / shadowDistance;
     float sunStretch = 1.0 + 1.35 * (1.0 - abs(sunDirection().y));
-    float angle = hash12(floor((player.xz + cameraPosition.xz) * 0.25)) * 2.0 * PI;
+    float angle = valueNoise((player.xz + cameraPosition.xz) * 0.25) * 2.0 * PI;
     mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
 
 #if SHADOW_QUALITY == 1
     const int blockerSamples = 0;
     const int filterSamples = 4;
 #elif SHADOW_QUALITY == 2
-    const int blockerSamples = 6;
-    const int filterSamples = 8;
+    const int blockerSamples = 3;
+    const int filterSamples = 6;
 #elif SHADOW_QUALITY == 3
-    const int blockerSamples = 8;
-    const int filterSamples = 12;
+    // Blocker search and filter taps follow the reference pack's defaults
+    // (three blocker samples, six to twelve filter taps) instead of the
+    // previous 8 + 12, which cost roughly a third more shadow fetches per lit
+    // fragment. Higher profiles keep a wider penumbra budget.
+    const int blockerSamples = 4;
+    const int filterSamples = 10;
 #elif SHADOW_QUALITY == 4
-    const int blockerSamples = 12;
-    const int filterSamples = 16;
+    const int blockerSamples = 6;
+    const int filterSamples = 12;
 #else
-    const int blockerSamples = 16;
-    const int filterSamples = 24;
+    const int blockerSamples = 8;
+    const int filterSamples = 16;
 #endif
 
     // PCSS blocker search: only depths in front of the receiver can cast here.

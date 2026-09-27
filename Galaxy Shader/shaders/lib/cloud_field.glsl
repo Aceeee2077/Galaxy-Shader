@@ -7,7 +7,7 @@
 #include "/lib/seasons.glsl"
 
 float cloudDensity(vec2 position) {
-    vec2 p = position*0.0025+vec2(frameTimeCounter*0.009*CLOUD_SPEED,0.0);
+    vec2 p = position*0.0024+vec2(frameTimeCounter*0.010*CLOUD_SPEED,0.0)+vec2(41.7,13.2);
     float n = fbm(p, min(CLOUD_QUALITY+2,6));
     float cover = CLOUD_COVERAGE + weatherOvercastAmount()*0.16 +
                   weatherRainAmount()*0.16 + weatherStormAmount()*0.10 +

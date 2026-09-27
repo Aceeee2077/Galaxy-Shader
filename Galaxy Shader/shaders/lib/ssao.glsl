@@ -25,10 +25,11 @@ vec4 screenIndirect(vec2 uv, vec3 view, vec3 worldNormal) {
         vec3 dir=delta/max(dist,0.001);
         float range=1.0-smoothstep(radius*0.25,radius,dist);
         float facing=max(dot(n,dir)-0.08,0.0);
+        weight+=1.0;
+        if(facing*range<=0.0) continue;
         vec3 otherNormal=safeNormalize(mat3(gbufferModelView)*(texture2D(colortex1,suv).xyz*2.0-1.0));
         float exchange=max(dot(otherNormal,-dir),0.0)*facing*range;
         bounce+=min(texture2D(colortex0,suv).rgb,vec3(3.0))*exchange;
-        weight+=1.0;
     }
     bounce/=max(weight,1.0);
 #endif

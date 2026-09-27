@@ -70,6 +70,10 @@ void main() {
     vec3 rainColor = mix(toLinear(vec3(0.30, 0.37, 0.46)),
                          toLinear(vec3(0.52, 0.59, 0.67)), nearFactor);
     rainColor *= 0.82 + breakup * 0.24;
+    float backlight=pow(max(dot(safeNormalize(vPlayer),sunDirection()),0.0),6.0);
+    rainColor*=mix(0.18,1.0,dayAmount());
+    rainColor+=vec3(0.42,0.28,0.10)*dawnDuskAmount()*backlight*
+               smoothstep(0.2,0.9,vLight.y);
     rainColor += lightningBoltPosition.w * vec3(0.24, 0.32, 0.48) * (0.30 + storm);
     gl_FragData[0] = vec4(rainColor, min(alpha, 0.38));
 #endif

@@ -21,10 +21,10 @@ vec3 screenColoredLight(vec2 uv, vec3 view, vec3 worldNormal) {
         if (i >= count) break;
         vec2 suv = uv + diskSample(i, count) * radiusUV;
         if (screenInside(suv) < 0.5) continue;
-        float depth = texture2D(depthtex1, suv).r;
-        if (skyDepth(depth) > 0.5) continue;
         vec4 meta = texture2D(colortex3, suv);
         if (meta.g < 0.015 || meta.b > 0.5) continue;
+        float depth = texture2D(depthtex1, suv).r;
+        if (skyDepth(depth) > 0.5) continue;
 
         vec3 sourceView = viewPosition(suv, depth);
         vec3 delta = sourceView - view;

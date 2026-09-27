@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.10.0'
+VERSION = '1.12.1'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -40,17 +40,17 @@ PROGRAMS = {
 }
 
 PROFILE_KEYS = ['shadowMapResolution','shadowDistance','SHADOW_QUALITY','TAA_QUALITY','CLOUD_QUALITY',
-                'WATER_QUALITY','SSR_QUALITY','AO_QUALITY','INDIRECT_QUALITY',
+                'WATER_QUALITY','WATER_REFLECTIONS','SSR_QUALITY','AO_QUALITY','INDIRECT_QUALITY',
                 'VOLUMETRIC_QUALITY','WEATHER_QUALITY','TERRAIN_FOG_QUALITY',
                 'BLOOM_QUALITY','DOF_QUALITY','MOTION_BLUR','COLORED_LIGHT_QUALITY',
                 'COSMIC_SKY_QUALITY']
 PROFILES = {
-    'POTATO': [1024,'64.0',1,0,1,1,0,0,0,0,0,0,1,0,0,0,0],
-    'LOW': [1024,'96.0',1,1,1,1,0,1,0,0,1,1,1,0,0,0,1],
-    'MEDIUM': [2048,'96.0',2,2,2,2,1,1,0,1,2,1,2,0,0,1,1],
-    'HIGH': [2048,'128.0',3,3,3,2,2,2,1,2,3,2,2,0,0,2,2],
-    'ULTRA': [4096,'192.0',4,3,4,3,3,3,2,3,4,3,3,0,0,2,3],
-    'CINEMATIC': [8192,'256.0',5,3,4,3,4,4,2,4,4,3,3,3,0,3,3],
+    'POTATO': [1024,'64.0',1,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0],
+    'LOW': [1024,'96.0',1,1,1,1,0,0,1,0,0,1,1,1,0,0,0,1],
+    'MEDIUM': [2048,'96.0',2,2,2,2,0,1,1,0,1,2,1,2,0,0,1,1],
+    'HIGH': [2048,'128.0',3,3,3,2,0,2,2,1,2,3,2,2,0,0,2,2],
+    'ULTRA': [4096,'192.0',4,3,4,3,1,3,3,2,3,4,3,3,0,0,2,3],
+    'CINEMATIC': [8192,'256.0',5,3,4,3,1,4,4,2,4,4,3,3,3,0,3,3],
 }
 SCREENS = {
     'LIGHTING': 'SUN_INTENSITY NIGHT_BRIGHTNESS INDIRECT_QUALITY VOLUMETRIC_QUALITY COLORED_LIGHT_QUALITY',
@@ -61,7 +61,7 @@ SCREENS = {
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SPEED CLOUD_TYPES',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
-    'WATER': 'WATER_QUALITY WATER_WAVES RIPPLE_STRENGTH SSR_QUALITY',
+    'WATER': 'WATER_QUALITY WATER_WAVES WATER_REFLECTIONS RIPPLE_STRENGTH SSR_QUALITY',
     'REFLECTIONS': 'SSR_QUALITY WET_SURFACES',
     'MATERIALS': 'PBR_MODE WET_SURFACES SURFACE_SEASONS',
     'POST_PROCESS': 'BLOOM_QUALITY TONEMAP_MODE EXPOSURE AUTO_EXPOSURE SATURATION CONTRAST DOF_QUALITY MOTION_BLUR',
@@ -124,6 +124,7 @@ def generate():
         'CLOUD_QUALITY':('Cloud quality','云层质量'),
         'CLOUD_COVERAGE':('Cloud coverage','云量'), 'CLOUD_SPEED':('Cloud speed','云速'),
         'WATER_QUALITY':('Water quality','水体质量'), 'WATER_WAVES':('Water waves','水波强度'),
+        'WATER_REFLECTIONS':('Water reflections','水面反射'),
         'SSR_QUALITY':('Screen-space reflections','屏幕空间反射'),
         'AO_QUALITY':('Ambient occlusion','环境光遮蔽'),
         'INDIRECT_QUALITY':('Indirect lighting','间接光照'),
@@ -183,25 +184,28 @@ def generate():
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
+        lines += ['value.WATER_REFLECTIONS.0='+('Sky only' if index==0 else '仅天空反射'),
+                  'value.WATER_REFLECTIONS.1='+('Sky + screen space' if index==0 else '天空 + 屏幕空间')]
         for v,label in enumerate(['Off','Low','Medium','High'] if index==0 else ['关闭','低','中','高']):
             lines.append(f'value.TAA_QUALITY.{v}={label}')
-        for v,label in enumerate(['Legacy Filmic','ACES-like','AgX-like'] if index==0 else ['传统 Filmic','类 ACES','类 AgX']):
+        for v,label in enumerate(['Legacy Filmic','ACES-like','Natural Filmic'] if index==0 else ['传统 Filmic','类 ACES','自然电影曲线']):
             lines.append(f'value.TONEMAP_MODE.{v}={label}')
         lines += ['value.INDIRECT_QUALITY.0='+quality[0], 'value.INDIRECT_QUALITY.1='+quality[1], 'value.INDIRECT_QUALITY.2='+quality[3]]
         lines += [f'profile.{p}={p.title()}' for p in PROFILES]
         tips = {
-            'END_PLANETS':('Four orbiting planets, a ringed giant, a central star and a fixed starfield. End only.','仅末地：四颗公转行星（含带环巨星）、中央恒星和固定星空。'),
+            'END_PLANETS':('One ringed giant, a faceted rift core with shard belts and a fixed starfield. End only.','仅末地：一颗带环巨行星、带碎片的裂隙核心与固定星空。'),
             'END_ORBIT_SPEED':('0 freezes the planets; 0.5 / 1 / 2 changes orbital and axial speed.','0 为静止；0.5 / 1 / 2 倍速度同时控制公转与自转。'),
             'PBR_MODE':('Auto reads packs declaring LabPBR. Use Force only with an undeclared LabPBR pack.','自动读取声明 LabPBR 的资源包；仅对未声明格式的 LabPBR 包使用强制模式。'),
             'DOF_QUALITY':('For screenshots. Off by default.','推荐仅用于截图，默认关闭。'),
             'MOTION_BLUR':('Camera motion only. Excludes hand pixels. Off by default.','仅相机运动模糊，排除手持物区域，默认关闭。'),
             'AUTO_EXPOSURE':('Uses the temporally smoothed eye lightmap, with a bounded exposure gain.','使用平滑眼部亮度估算曝光，并限制提亮幅度。'),
             'SSR_QUALITY':('Off-screen rays fall back to sky or dim indoor environment.','屏幕外反射回退为天空或室内环境近似。'),
+            'WATER_REFLECTIONS':('Sky reflection keeps water cheap; screen space adds traced hits on top for Ultra and Cinematic.','天空反射最省性能；屏幕空间会在其基础上叠加命中反射，供极高与电影级使用。'),
             'shadowMapResolution':('8192 consumes substantially more GPU memory.','8192 档会显著增加显存占用。'),
             'TAA_QUALITY':('Reprojects HDR history with depth rejection and neighborhood clamping; FXAA remains optional.','重投影 HDR 历史，并使用深度拒绝和邻域裁剪；FXAA 仍可选。'),
             'SHADOW_QUALITY':('Medium and above use contact-hardening PCSS; Low uses a four-tap PCF fallback.','中档及以上使用接触硬化 PCSS；低档使用四采样 PCF 后备。'),
             'AO_QUALITY':('Directional horizon AO uses a world-space radius and edge-aware samples.','方向性地平线 AO 使用世界空间半径与边缘感知采样。'),
-            'TONEMAP_MODE':('AgX-like is the natural-color default; ACES-like and the legacy curve remain available.','默认类 AgX 以保持自然色彩；也可选择类 ACES 与传统曲线。'),
+            'TONEMAP_MODE':('Natural Filmic preserves black levels, hue and soft highlights; ACES-like and the legacy curve remain available.','默认自然电影曲线保留黑位、色相与柔和高光；也可选择类 ACES 与传统曲线。'),
             'WEATHER_QUALITY':('Controls procedural rain layers, surface splashes and water ripples. Off restores the lightweight fallback.','控制程序化雨线层次、地表飞溅和水面涟漪；关闭时使用轻量后备效果。'),
             'TERRAIN_FOG_QUALITY':('Adds height, valley and distance fog with terrain depth occlusion.','加入高度雾、山谷雾与远景霾，并由地形深度遮挡。'),
             'RAIN_INTENSITY':('Scales procedural rain visibility without changing Minecraft weather state.','缩放程序化雨线可见度，不改变 Minecraft 天气状态。'),

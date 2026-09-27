@@ -9,7 +9,7 @@
 #include "/lib/celestial.glsl"
 vec3 sunlightColor() {
     float h = max(sunDirection().y,0.0);
-    return mix(vec3(1.0,0.32,0.10),vec3(1.0,0.95,0.85),smoothstep(0.0,0.4,h));
+    return mix(vec3(1.0,0.49,0.19),vec3(1.0,0.95,0.85),smoothstep(0.0,0.4,h));
 }
 vec3 directionalRadiance() {
     float d = dayAmount();
@@ -39,7 +39,7 @@ vec3 atmosphere(vec3 ray, bool disks) {
     vec3 scatter = (1.0-transmit)*vec3(0.48,0.64,0.90)*rayleigh;
     scatter += sunlightColor()*mie*0.012*smoothstep(-0.12,0.1,sun.y);
     float sunset = (1.0-smoothstep(0.03,0.35,abs(sun.y)))*smoothstep(-0.15,0.0,sun.y);
-    scatter += vec3(0.52,0.12,0.035)*sunset*pow(1.0-h,4.0)*(0.25+0.75*pow(max(mu,0.0),3.0));
+    scatter += vec3(0.72,0.34,0.10)*sunset*pow(1.0-h,2.5)*(0.35+0.65*pow(max(mu,0.0),3.0));
     vec3 night = mix(vec3(0.006,0.009,0.018),vec3(0.018,0.023,0.037),pow(1.0-h,3.0))*NIGHT_BRIGHTNESS;
     vec3 sky = mix(night,scatter,day);
     // Subtle daily variation keeps consecutive Minecraft days from looking identical.
@@ -49,6 +49,8 @@ vec3 atmosphere(vec3 ray, bool disks) {
     float overcast=weatherOvercastAmount();
     vec3 cloudySky=mix(vec3(0.16,0.20,0.25),vec3(0.055,0.070,0.095),weatherStormAmount());
     cloudySky*=mix(0.42,1.0,day);
+    // Low sunlight still colors rain clouds; midday and night retain cool storms.
+    cloudySky=mix(cloudySky,vec3(0.40,0.31,0.17),sunset*0.72);
     sky=mix(sky,cloudySky,overcast*0.74);
     sky *= 1.0-0.22*weatherStormAmount();
     if (disks && ray.y>-0.02) {

@@ -10,7 +10,7 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
     float density=0.0;
     vec3 scatter=vec3(0.0);
     if(isEyeInWater==1) {
-        vec3 absorb=exp(-vec3(0.34,0.10,0.055)*distanceToEye*FOG_DENSITY);
+        vec3 absorb=exp(-WATER_ABSORPTION_UNDERWATER*distanceToEye*FOG_DENSITY);
         float eyeSky=float(eyeBrightnessSmooth.y)/240.0;
         vec3 under=vec3(0.012,0.085,0.105)*mix(0.2,1.0,eyeSky*dayAmount());
         color=color*absorb+under*(1.0-absorb);
@@ -45,12 +45,17 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
         float pockets=smoothstep(0.34,0.76,valleyNoise)*valleyHeight*
                       smoothstep(10.0,46.0,distanceToEye);
         float distanceHaze=0.00075+overcast*0.00075+rain*0.0010;
-        float heightDensity=heightFog*(0.00045+morning*0.0018+rain*0.0017);
-        float valleyDensity=pockets*(0.0010+morning*0.0042+rain*0.0028+storm*0.0018);
+        float heightDensity=heightFog*(0.00045+morning*0.0038+rain*0.0024);
+        float valleyDensity=pockets*(0.0010+morning*0.0060+rain*0.0038+storm*0.0024);
         density=mix(0.0010,distanceHaze+heightDensity+valleyDensity,outdoor);
         density*=mix(0.90,1.10,dayVariation())*biomeFogDensity();
         vec3 clearScatter=atmosphere(ray,false);
         vec3 wetScatter=mix(vec3(0.20,0.25,0.30),vec3(0.10,0.125,0.17),storm);
+        float sunward=pow(max(dot(ray,sunDirection()),0.0),3.0);
+        vec3 goldenHaze=sunlightColor()*vec3(0.66,0.60,0.49);
+        clearScatter=mix(clearScatter,goldenHaze,morning*(0.38+sunward*0.45));
+        wetScatter=mix(wetScatter,goldenHaze,morning*0.72);
+        wetScatter*=mix(0.10,1.0,dayAmount());
         scatter=mix(vec3(0.008,0.009,0.012),mix(clearScatter,wetScatter,overcast*0.68),outdoor);
         scatter*=mix(0.94,1.06,dayVariation())*seasonFogTint()*biomeFogTint();
         scatter+=vec3(0.30,0.22,0.14)*biomeDustHaze()*outdoor*dayAmount()*0.25;
