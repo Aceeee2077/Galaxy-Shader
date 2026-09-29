@@ -1,6 +1,6 @@
 # Galaxy Shader
 
-Galaxy Shader 的 Minecraft Java 光影源码，当前最新版本 **1.12.2**：末地中央天体由黑洞/虫洞改为裂隙核心（多面水晶核心、衍射星芒、对向喷流与碎裂石片带），并按 Photon 方向重做水面与水下开销——水面反射默认为解析天空反射（`WATER_REFLECTIONS` 可选叠加屏幕空间命中）、折射改为单次偏移采样、云层远段自动降级细节、反射不再二次 march 体积云。1.12.2 进一步参考 Photon 1.3 的默认参数调整了环境光遮蔽半径/采样、PCSS 阴影采样区间、水体每格吸收系数与体积光天顶采样。玩家安装与功能说明见 [Galaxy Shader/README.md](Galaxy Shader/README.md)，英文版见 [README-EN.md](Galaxy Shader/README-EN.md)。
+Galaxy Shader--Minecraft Java 光影，当前最新版本 **1.12.2**：末地中央天体由黑洞/虫洞改为裂隙核心（多面水晶核心、衍射星芒、对向喷流与碎裂石片带），并按 Photon 方向重做水面与水下开销——水面反射默认为解析天空反射（`WATER_REFLECTIONS` 可选叠加屏幕空间命中）、折射改为单次偏移采样、云层远段自动降级细节、反射不再二次 march 体积云。1.12.2 进一步参考 Photon 1.3 的默认参数调整了环境光遮蔽半径/采样、PCSS 阴影采样区间、水体每格吸收系数与体积光天顶采样。玩家安装与功能说明见 [Galaxy Shader/README.md](Galaxy Shader/README.md)，英文版见 [README-EN.md](Galaxy Shader/README-EN.md)。
 
 目标：Minecraft Java 26.2、Fabric、Iris、Sodium、OpenGL。FPS暂未测试。
 
