@@ -44,6 +44,14 @@ vec3 specularBRDF(Material m, vec3 v, vec3 l) {
     return min(d*vis*fresnelSchlick(m.f0,dot(v,h))*nl,vec3(16.0));
 }
 vec3 emissionTint(float id) {
+    if(id==10110.0) return vec3(1.0,0.025,0.018);
+    if(id==10111.0) return vec3(0.08,0.25,1.0);
+    if(id==10112.0) return vec3(0.22,0.90,1.0);
+    if(id==10113.0) return vec3(0.10,1.0,0.27);
+    if(id==10114.0) return vec3(1.0,0.57,0.08);
+    if(id==10115.0) return vec3(0.88,0.94,1.0);
+    if(id==10116.0) return vec3(1.0,0.37,0.13);
+    if(id==10117.0) return vec3(0.67,0.30,1.0);
     if(id==10102.0) return vec3(0.18,0.78,1.0);
     if(id==10103.0) return vec3(1.0,0.23,0.025);
     if(id==10104.0) return vec3(1.0,0.04,0.015);

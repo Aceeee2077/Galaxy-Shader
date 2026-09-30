@@ -73,19 +73,22 @@ vec3 atmosphere(vec3 ray, bool disks) {
 #endif
     }
 #if WEATHER_QUALITY > 0
-    // Primary rainbow around the anti-solar point. It appears while rain is
-    // active but the sun is still above the horizon, and fades in heavy overcast.
-    float rainbowRain = weatherRainAmount();
-    if (rainbowRain > 0.02 && day > 0.15) {
-        float cosAnti = sat(dot(ray, -sun));
-        float angle = acos(clamp(cosAnti, -1.0, 1.0));
-        float band = 1.0 - smoothstep(0.085, 0.22, abs(angle - 0.733));
-        float arc = smoothstep(0.0, 0.16, ray.y) * (1.0 - overcast);
-        if (band > 0.0) {
-            float hue = fract((angle - 0.61) / 0.18);
-            vec3 bow = 0.5 + 0.5 * cos(6.2831853 * (hue + vec3(0.0, 0.33, 0.67)));
-            sky += bow * band * arc * rainbowRain * (1.0 - overcast) *
-                   day * 0.34;
+    // A single ordered spectral arc around the anti-solar point. Iris wetness
+    // lets it linger briefly after rain while direct daylight is returning.
+    float rainbowMoisture = max(weatherRainAmount(), weatherWetness() * 0.72);
+    if (rainbowMoisture > 0.025 && sun.y > 0.02 && ray.y > 0.0) {
+        float angle = acos(clamp(dot(ray, -sun), -1.0, 1.0));
+        float spectral = (angle - 0.655) / 0.145;
+        if (spectral > 0.0 && spectral < 1.0) {
+            float edge = smoothstep(0.0, 0.09, spectral) *
+                         (1.0 - smoothstep(0.91, 1.0, spectral));
+            vec3 bow = mix(vec3(0.40, 0.16, 0.74), vec3(0.10, 0.32, 0.95), smoothstep(0.06, 0.24, spectral));
+            bow = mix(bow, vec3(0.06, 0.80, 0.40), smoothstep(0.23, 0.46, spectral));
+            bow = mix(bow, vec3(0.98, 0.86, 0.12), smoothstep(0.46, 0.68, spectral));
+            bow = mix(bow, vec3(1.0, 0.22, 0.07), smoothstep(0.68, 0.94, spectral));
+            float clearSky = 1.0 - overcast * 0.72;
+            sky += bow * edge * smoothstep(0.0, 0.10, ray.y) *
+                   rainbowMoisture * clearSky * day * 0.62;
         }
     }
 #endif

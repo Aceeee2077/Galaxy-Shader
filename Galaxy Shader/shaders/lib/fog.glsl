@@ -12,7 +12,7 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
     if(isEyeInWater==1) {
         vec3 absorb=exp(-WATER_ABSORPTION_UNDERWATER*distanceToEye*FOG_DENSITY);
         float eyeSky=float(eyeBrightnessSmooth.y)/240.0;
-        vec3 under=vec3(0.012,0.085,0.105)*mix(0.2,1.0,eyeSky*dayAmount());
+        vec3 under=vec3(0.009,0.065,0.080)*mix(0.2,1.0,eyeSky*dayAmount());
         color=color*absorb+under*(1.0-absorb);
     } else if(isEyeInWater==2) {
         color=mix(color,vec3(1.1,0.17,0.005),1.0-exp(-distanceToEye*1.6));

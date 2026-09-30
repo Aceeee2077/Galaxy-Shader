@@ -54,15 +54,15 @@ void main() {
             behind/=behindWeight;
         }
 #endif
-        float turbidity=rain*(0.55+storm*0.45);
-        vec3 absorb=exp(-WATER_ABSORPTION*(thickness*(1.0+turbidity*1.6))*FOG_DENSITY);
-        vec3 biome=mix(vec3(0.018,0.09,0.11),toLinear(vColor.rgb)*0.22,0.35);
+        float turbidity=rain*(0.35+storm*0.35);
+        vec3 absorb=exp(-WATER_ABSORPTION*(thickness*(1.0+turbidity))*FOG_DENSITY);
+        vec3 biome=mix(vec3(0.010,0.065,0.075),toLinear(vColor.rgb)*0.16,0.25);
         vec3 waterLight=ambientRadiance(vec3(0,1,0),vLight.y)+directionalRadiance()*0.12;
         vec3 transmission=behind*absorb+biome*waterLight*(1.0-absorb);
-        transmission=mix(transmission,biome*0.85,turbidity*0.45);
+        transmission=mix(transmission,biome*0.85,turbidity*0.16);
         float f0=pow((WATER_REFRACT_IOR-1.0)/(WATER_REFRACT_IOR+1.0),2.0);
         float fresnel=f0+(1.0-f0)*pow(1.0-sat(dot(n,safeNormalize(-vPlayer))),5.0);
-        fresnel=sat(fresnel+rain*0.10+storm*rain*0.05);
+        fresnel=sat(fresnel+rain*0.06+storm*rain*0.04);
         // Reflected sky is analytic and cheap; traced hits stay opt-in because
         // the screen-space march is the most expensive thing a water pixel can
         // do. The ambient scale matches the shared environment probe.

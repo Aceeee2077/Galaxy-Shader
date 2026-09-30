@@ -31,7 +31,7 @@ void main() {
             // Only the highest water profile pays for the distance blur; the
             // absorption fog already carries the depth cue at lower profiles.
             float uz=length(viewPosition(texcoord,d));
-            vec2 ublur=pixelSize()*(1.0+uz*0.06);
+            vec2 ublur=pixelSize()*(0.45+uz*0.018);
             vec3 ucolor=color;
             float uweight=1.0;
             int utaps=4;

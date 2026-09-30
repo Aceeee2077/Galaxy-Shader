@@ -44,6 +44,21 @@ void main() {
         m.emission=max(m.emission,bright*0.8);
         m.albedo=mix(m.albedo,m.albedo*emissionTint(vId)*1.6,bright*0.45);
     }
+    if(vId>=10110.0 && vId<=10117.0) {
+        // Ore flecks have color contrast; the neutral host rock stays dark.
+        float hi=max(tex.r,max(tex.g,tex.b));
+        float lo=min(tex.r,min(tex.g,tex.b));
+        float chroma=hi-lo;
+        float vein=smoothstep(0.25,0.58,hi)*smoothstep(0.035,0.17,chroma);
+        if(vId==10115.0) vein=smoothstep(0.34,0.67,hi)*
+                               smoothstep(0.018,0.09,chroma);
+        if(vId==10117.0) vein=smoothstep(0.23,0.55,hi)*
+                               smoothstep(0.025,0.12,chroma);
+        vec3 mineralColor=emissionTint(vId);
+        m.albedo=mix(m.albedo,mineralColor*0.72,vein*0.70);
+        m.emission=max(m.emission,vein*1.20);
+        m.roughness=mix(m.roughness,0.22,vein*0.65);
+    }
 #ifdef EMISSIVE
     m.emission=max(m.emission,0.8);
 #endif

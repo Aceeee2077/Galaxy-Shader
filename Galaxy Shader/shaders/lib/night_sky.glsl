@@ -33,27 +33,27 @@ vec3 galaxyNebula(vec3 ray) {
     return color * (1.0 - dust * 0.35);
 }
 
-// Low, slowly shifting aurora curtains near the northern horizon. The ribbons
-// use several overtone frequencies so they stay broad and readable at night.
+// Layered aurora ribbons with fine vertical folds and a soft lower glow.
 vec3 auroraSky(vec3 ray, float night) {
-    float horizon = 1.0 - smoothstep(-0.04, 0.38, ray.y);
-    if (horizon <= 0.0 || night <= 0.0) return vec3(0.0);
-    vec3 north = normalize(vec3(0.0, 0.0, -1.0));
-    float azimuth = dot(normalize(vec3(ray.x, 0.0, ray.z)), north);
-    float band = smoothstep(0.10, 1.00, azimuth * 0.5 + 0.5);
-    if (band <= 0.0) return vec3(0.0);
-    float time = frameTimeCounter * 0.22;
-    float curtain = sin(ray.x * 5.0 + time) * 0.42 +
-                    sin(ray.x * 9.0 - time * 0.65) * 0.32 +
-                    sin(ray.x * 17.0 + time * 0.35) * 0.18;
-    float vertical = 0.5 + 0.5 * sin(ray.y * 15.0 - time * 0.8);
-    float detail = pow(skyNoise3(vec3(ray.x * 5.0, ray.y * 12.0 + time * 0.5, 11.0)), 2.0);
-    float shape = band * horizon * mix(0.30, 1.0, detail) * (0.55 + 0.45 * vertical);
-    vec3 color = mix(vec3(0.05, 0.24, 0.12), vec3(0.12, 0.62, 0.30), curtain * 0.5 + 0.5);
-    color += vec3(0.04, 0.02, 0.18) * detail;
-    color += vec3(0.12, 0.30, 0.50) * pow(vertical, 3.0) * 0.22;
-    float strength = COSMIC_SKY_QUALITY == 3 ? 1.0 : 0.72;
-    return color * shape * night * strength;
+    if (ray.y < 0.0 || ray.y > 0.72 || night <= 0.0) return vec3(0.0);
+    float azimuth = atan(ray.x, -ray.z);
+    float north = 1.0 - smoothstep(1.10, 2.20, abs(azimuth));
+    if (north <= 0.0) return vec3(0.0);
+    float time = frameTimeCounter * 0.035;
+    float warp = sin(azimuth * 5.0 + time) * 0.043 +
+                 sin(azimuth * 11.0 - time * 0.73) * 0.019;
+    float folds = 0.58 + 0.42 * pow(0.5 + 0.5 * sin(azimuth * 68.0 +
+                   sin(azimuth * 12.0 + time) * 2.0 - time * 1.5), 4.0);
+    float lower = exp(-pow((ray.y - 0.19 - warp) / 0.095, 2.0));
+    float upper = exp(-pow((ray.y - 0.36 + warp * 0.65) / 0.13, 2.0));
+    float veil = (1.0 - smoothstep(0.04, 0.68, ray.y)) *
+                 smoothstep(0.0, 0.09, ray.y);
+    float variation = 0.68 + 0.32 * skyNoise3(vec3(azimuth * 3.0, ray.y * 7.0, time * 0.2));
+    vec3 green = vec3(0.035, 0.47, 0.24) * lower;
+    vec3 violet = vec3(0.24, 0.09, 0.38) * upper;
+    vec3 cyan = vec3(0.035, 0.17, 0.24) * (lower + upper) * 0.48;
+    float strength = COSMIC_SKY_QUALITY == 3 ? 1.0 : 0.78;
+    return (green + violet + cyan) * folds * veil * variation * north * night * strength;
 }
 
 // Occasional short streaks. Conservative by default: they are bright, brief, and
