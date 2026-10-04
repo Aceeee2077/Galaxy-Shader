@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.12.1. Defaults correspond to HIGH.
+// Galaxy Shader 1.12.3. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -41,6 +41,9 @@ const vec3 WATER_ABSORPTION_UNDERWATER = vec3(0.055, 0.029, 0.018);
 #define SATURATION 1.0 // [0.8 0.9 1.0 1.1 1.2]
 #define CONTRAST 1.0 // [0.9 1.0 1.1]
 #define FOG_DENSITY 1.0 // [0.5 0.75 1.0 1.25 1.5]
+// Scales the dawn/dusk haze band and its volume light. 0 gives a crisp clear
+// sunrise, 1 keeps a light morning mist and 2 restores a heavy fog bank.
+#define DAWN_HAZE 1.0 // [0.0 0.5 1.0 1.5 2.0]
 #define DOF_QUALITY 0 // [0 1 2 3]
 #define MOTION_BLUR 0 // [0 1 2 3]
 #define AA_QUALITY 1 // [0 1]

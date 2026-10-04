@@ -43,7 +43,10 @@ float cloudDensity3D(vec3 p, bool lightSample, float detail) {
     vec4 sw = seasonWeights();
     float wAnvil = storm;
     float wStrat = overcast * (1.0 - storm);
-    float wCirrus = (1.0 - overcast) * max(sw.y, sw.w) * 0.55;
+    // Cirrus is a thin veil, so it takes a much smaller share than the cumulus
+    // deck. The old weight left a permanent sheet over a clear sky and made a
+    // sunny morning look like flat overcast.
+    float wCirrus = (1.0 - overcast) * max(sw.y, sw.w) * 0.26;
     float wCum = max(0.0, 1.0 - wAnvil - wStrat - wCirrus);
     float wSum = max(wAnvil + wStrat + wCirrus + wCum, 1e-4);
     wAnvil /= wSum; wStrat /= wSum; wCirrus /= wSum; wCum /= wSum;
@@ -83,7 +86,10 @@ float cloudDensity3D(vec3 p, bool lightSample, float detail) {
     if(detail>0.5 && !lightSample) billow+=volumeNoise(q*4.07-9.2)*0.11;
     else billow+=0.055;
     float bank=smoothstep(0.25,0.72,base);
-    float threshold=mix(0.62,0.32,coverage);
+    // The low end of the coverage range has to keep real gaps. A high floor let
+    // a near-horizontal view saturate the whole sky no matter how few clouds
+    // the setting asked for, which read as overcast on a clear day.
+    float threshold=mix(0.74,0.34,coverage);
     float tower=pow(h,1.8)*(0.18-0.06*wAnvil);
     float shape=sat((bank*0.46+billow*0.54-threshold-tower)*5.8);
     float erosion;
@@ -92,7 +98,7 @@ float cloudDensity3D(vec3 p, bool lightSample, float detail) {
     erosion*=1.0-shape;
     shape=sat(shape-erosion);
     float sheet=smoothstep(0.40-coverage*0.24,0.72,base)*vertical;
-    return mix(shape*edgeBottom*edgeTop,sheet,wStrat*0.60+wCirrus*0.85);
+    return mix(shape*edgeBottom*edgeTop,sheet,wStrat*0.60+wCirrus*0.60);
 }
 
 // Cheap forward light march for self-shadowing and sun-facing silver linings.

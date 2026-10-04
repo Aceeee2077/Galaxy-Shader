@@ -1,8 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.12.1 · Community Project**
+**Photorealistic Minecraft Shader · 1.12.3 · Community Project**
 
 自然色彩方向的 Minecraft Java 光影包。使用 OpenGL 光栅渲染、阴影贴图和屏幕空间效果，保留方块轮廓。无需编译，不依赖外部噪声贴图，也不需要额外资源包。
+
+**1.12.3 晴天清晨修复：** 修复「晴天清晨/傍晚看起来和阴天一样」。体积光的各向同性散射常数项在低太阳角度下把整个天穹铺上暖白色，且光柱项没有按视线方向加权；晨昏雾系数过大，晴天清晨能见度只剩约四分之一；云量还会被当作阴天来压暗阳光与天空。现在体积光天空侧的各向同性项降到约 1/8、光柱按前向相位 `0.10 + 0.90·cos²` 加权（朝太阳的丁达尔光柱不变），晨昏高度雾/山谷雾密度与暖霾混合比例减半，云量只增加云而不再压暗光照，云密度阈值与卷云权重同步收紧。新增「大气」页参数 `DAWN_HAZE`（0 / 0.5 / 1 / 1.5 / 2，默认 1）：0 为通透晴天，2 恢复浓厚晨雾。
 
 **1.12.1 参数对齐（参考 Photon 1.3 的默认值）：** 环境光遮蔽世界半径改为 2.0 格、高档采样由 18 次降为 12 次；PCSS 阴影对齐「3 次遮挡搜索 + 6–12 次滤波」区间，高档每个受光片元的阴影采样由 20 次降为 14 次；水体采用 Photon 的每格吸收系数（水柱 0.39/0.14/0.07，水下 0.20/0.08/0.04），深水不再压向黑色、水下能见度更高更偏蓝绿；体积光参考其晨昏光束步数分布，仰角超过约 17° 后采样减半。这些都是本项目自行实现的等效参数，没有复制其代码。
 
@@ -76,9 +78,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.12.1.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.12.3.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.12.1.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.12.3.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
@@ -146,6 +148,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 - **材质过亮或反光异常**：将 `PBR_MODE` 设为 Auto 或 Off，检查资源包是否确为 LabPBR。
 - **帧率低**：切换 MEDIUM/LOW，降低反射、体积光、阴影距离，关闭景深/动态模糊。
 - **截图太暗/太亮**：调整 Exposure；需要固定曝光时关闭 Eye Adaptation。
+- **清晨/傍晚发灰，像阴天**：先看「大气」页的 `晨昏雾霾`（`DAWN_HAZE`），默认 1，设为 0 会得到通透的晴天，2 则是浓雾晨景；再确认「云层」页的 `云量` 没有开得太高——云量现在只增加云，不会再把阳光和天空一起压暗。
 - **反射在屏幕外缺失**：这是屏幕空间反射的范围限制；包内已有环境回退。
 
 ## License / Credits

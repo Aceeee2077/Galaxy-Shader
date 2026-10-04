@@ -1,14 +1,14 @@
 # Galaxy Shader
 
-Galaxy Shader--Minecraft Java 光影，当前最新版本 **1.12.2**：末地中央天体由黑洞/虫洞改为裂隙核心（多面水晶核心、衍射星芒、对向喷流与碎裂石片带），并按 Photon 方向重做水面与水下开销——水面反射默认为解析天空反射（`WATER_REFLECTIONS` 可选叠加屏幕空间命中）、折射改为单次偏移采样、云层远段自动降级细节、反射不再二次 march 体积云。1.12.2 进一步参考 Photon 1.3 的默认参数调整了环境光遮蔽半径/采样、PCSS 阴影采样区间、水体每格吸收系数与体积光天顶采样。玩家安装与功能说明见 [Galaxy Shader/README.md](Galaxy Shader/README.md)，英文版见 [README-EN.md](Galaxy Shader/README-EN.md)。
+Galaxy Shader--Minecraft Java 光影，当前最新版本 **1.12.3**：修复「晴天清晨/傍晚看起来和阴天一样」——体积光的各向同性散射与光柱项在低太阳角度下把整个天穹铺上暖白色，晨昏雾系数过大又让晴天清晨的能见度只剩约四分之一，云量还会被当作阴天压暗阳光与天空；现在天空侧各向同性项降到约 1/8、光柱按前向相位加权、晨昏雾减半、云量只增加云，并新增「大气」页的 `DAWN_HAZE` 晨昏雾霾参数（0–2，默认 1）。1.12.2 把末地中央天体由黑洞/虫洞改为裂隙核心（多面水晶核心、衍射星芒、对向喷流与碎裂石片带），并按 Photon 方向重做水面与水下开销——水面反射默认为解析天空反射（`WATER_REFLECTIONS` 可选叠加屏幕空间命中）、折射改为单次偏移采样、云层远段自动降级细节、反射不再二次 march 体积云；同时参考 Photon 1.3 的默认参数调整了环境光遮蔽半径/采样、PCSS 阴影采样区间、水体每格吸收系数与体积光天顶采样。玩家安装与功能说明见 [Galaxy Shader/README.md](Galaxy Shader/README.md)，英文版见 [README-EN.md](Galaxy Shader/README-EN.md)。
 
 目标：Minecraft Java 26.2、Fabric、Iris、Sodium、OpenGL。FPS暂未测试。
 
-最新安装包为 `Galaxy Shader-1.12.2.zip` 及其校验值。
+最新安装包为 `Galaxy Shader-1.12.3.zip` 及其校验值。
 
 ## 效果预览
 
-1.12.2 游戏截图：
+游戏截图：
 
 ![主世界效果](Galaxy%20Shader/previews/main.png)
 
@@ -18,9 +18,9 @@ Galaxy Shader--Minecraft Java 光影，当前最新版本 **1.12.2**：末地中
 
 ## 目录结构
 
-- `Galaxy Shader/`：MIT 光影源码（1.12.2）、菜单与随包文档。
+- `Galaxy Shader/`：MIT 光影源码（1.12.3）、菜单与随包文档。
 - `tools/`：入口生成、GPU 编译、离屏渲染和确定性打包工具。
 - `validation/`：纳入版本管理的验证报告与测试清单；合成场景 PNG/GIF 等生成产物仅保留本地，不入库。
-- `Galaxy Shader-1.12.2.zip` / `.sha256`：最新安装包与 SHA-256 校验值。
+- `Galaxy Shader-1.12.3.zip` / `.sha256`：最新安装包与 SHA-256 校验值。
 
 开发与验证流程见 [Galaxy Shader/ARCHITECTURE.md](Galaxy Shader/ARCHITECTURE.md)。

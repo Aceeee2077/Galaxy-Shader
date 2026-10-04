@@ -70,7 +70,7 @@ void main() {
 #endif
         color+=particleLayer(airWorld,airDistance)*particleVisibility;
         if(!sky || isEyeInWater!=0) color=applyFog(color,player,sky);
-        color+=volumetricLight(player);
+        color+=volumetricLight(player,sky);
 #if DIMENSION == 0
         float caveFactor=(1.0-smoothstep(0.02,0.30,float(eyeBrightnessSmooth.y)/240.0))*float(isEyeInWater==0);
         if(caveFactor>0.0 && !sky) {

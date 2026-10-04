@@ -30,9 +30,12 @@ float weatherWetness() {
 }
 
 float weatherOvercastAmount() {
-    float manualClouds = smoothstep(0.38, 0.66, CLOUD_COVERAGE);
+    // Only a genuinely overcast cloud setting darkens the light and greys the
+    // sky. The default coverage may add clouds without flattening a clear day
+    // into the same look as rain or a storm.
+    float manualClouds = smoothstep(0.46, 0.82, CLOUD_COVERAGE);
     return sat(max(weatherRainAmount() * 0.84, weatherWetness() * 0.38) +
-               manualClouds * 0.42 + weatherStormAmount() * 0.18);
+               manualClouds * 0.34 + weatherStormAmount() * 0.18);
 }
 
 float dawnDuskAmount() {

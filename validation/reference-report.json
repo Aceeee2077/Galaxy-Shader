@@ -1,84 +1,84 @@
 {
   "type": "Synthetic GPU reference views, not Minecraft gameplay",
-  "shader_sha256": "0ac3379c309bbb4734bcab5ffed4879e70a2b414dd75133832cd0877831b5a1a",
+  "shader_sha256": "e86b876fd4db10700830197cc6750767d0c491216463fd5eb1ca0cdefdd1ee9c",
   "checks": {
-    "cloud_mean_difference": 55.76043852880658,
-    "cloud_spatial_difference_std": 41.80000339608396
+    "cloud_mean_difference": 66.13067836934157,
+    "cloud_spatial_difference_std": 55.04895261812034
   },
   "cumulus": {
-    "mean": 0.7616527676582336,
-    "std": 0.12096720933914185,
+    "mean": 0.7878707647323608,
+    "std": 0.15226057171821594,
     "stages": {
       "composite": {
-        "min": 0.082763671875,
-        "max": 6.32421875
+        "min": 0.0302581787109375,
+        "max": 6.30859375
       },
       "composite1": {
         "min": 0.0,
-        "max": 4.5625
+        "max": 4.25
       },
       "composite2": {
         "min": 0.0,
-        "max": 4.375
+        "max": 3.9375
       },
       "composite3": {
         "min": 0.0,
-        "max": 3.90625
+        "max": 3.75
       },
       "composite4": {
-        "min": 0.31201171875,
-        "max": 0.98876953125
+        "min": 0.1710205078125,
+        "max": 0.9912109375
       }
     }
   },
   "golden-clouds": {
-    "mean": 0.7998911738395691,
-    "std": 0.12191513180732727,
+    "mean": 0.7743542790412903,
+    "std": 0.12642738223075867,
     "stages": {
       "composite": {
-        "min": 0.318359375,
-        "max": 9.484375
+        "min": 0.1011962890625,
+        "max": 8.265625
       },
       "composite1": {
         "min": 0.0,
-        "max": 4.5625
+        "max": 4.25
       },
       "composite2": {
         "min": 0.0,
-        "max": 4.0625
+        "max": 3.09375
       },
       "composite3": {
         "min": 0.0,
-        "max": 3.84375
+        "max": 2.34375
       },
       "composite4": {
-        "min": 0.58447265625,
+        "min": 0.33740234375,
         "max": 1.0
       }
     }
   },
   "rain-clouds": {
-    "mean": 0.6753851771354675,
-    "std": 0.07439686357975006,
+    "mean": 0.6464270353317261,
+    "std": 0.08772780001163483,
     "stages": {
       "composite": {
-        "min": 0.28271484375,
-        "max": 3.373046875
+        "min": 0.2498779296875,
+        "max": 3.716796875
       },
       "composite1": {
         "min": 0.0,
-        "max": 1.140625
+        "max": 1.375
       },
       "composite2": {
         "min": 0.0,
-        "max": 1.046875
+        "max": 1.296875
       },
       "composite3": {
         "min": 0.0,
-        "max": 0.59375
+        "max": 0.953125
       },
       "composite4": {
-        "min": 0.56591796875,
+        "min": 0.533203125,
         "max": 1.0
       }
     }
@@ -110,53 +110,53 @@
     }
   },
   "golden-terrain": {
-    "mean": 0.697741687297821,
-    "std": 0.22956721484661102,
+    "mean": 0.628572940826416,
+    "std": 0.2566312253475189,
     "stages": {
       "composite": {
-        "min": 0.060882568359375,
-        "max": 8.2890625
+        "min": 0.0413818359375,
+        "max": 8.1484375
       },
       "composite1": {
         "min": 0.0,
-        "max": 4.25
+        "max": 3.0625
       },
       "composite2": {
         "min": 0.0,
-        "max": 3.46875
+        "max": 2.1875
       },
       "composite3": {
         "min": 0.0,
-        "max": 2.5625
+        "max": 1.296875
       },
       "composite4": {
-        "min": 0.2437744140625,
+        "min": 0.1783447265625,
         "max": 1.0
       }
     }
   },
   "golden-rain": {
-    "mean": 0.6165595054626465,
-    "std": 0.1784716695547104,
+    "mean": 0.5884634852409363,
+    "std": 0.1963847130537033,
     "stages": {
       "composite": {
-        "min": 0.05621337890625,
-        "max": 4.69921875
+        "min": 0.047515869140625,
+        "max": 4.82421875
       },
       "composite1": {
         "min": 0.0,
-        "max": 0.7890625
+        "max": 1.109375
       },
       "composite2": {
         "min": 0.0,
-        "max": 0.65625
+        "max": 0.984375
       },
       "composite3": {
         "min": 0.0,
-        "max": 0.3984375
+        "max": 0.625
       },
       "composite4": {
-        "min": 0.2349853515625,
+        "min": 0.2044677734375,
         "max": 1.0
       }
     }

@@ -39,7 +39,10 @@ vec3 atmosphere(vec3 ray, bool disks) {
     vec3 scatter = (1.0-transmit)*vec3(0.48,0.64,0.90)*rayleigh;
     scatter += sunlightColor()*mie*0.012*smoothstep(-0.12,0.1,sun.y);
     float sunset = (1.0-smoothstep(0.03,0.35,abs(sun.y)))*smoothstep(-0.15,0.0,sun.y);
-    scatter += vec3(0.72,0.34,0.10)*sunset*pow(1.0-h,2.5)*(0.35+0.65*pow(max(mu,0.0),3.0));
+    // Keep the warm band close to the horizon and on the sun's side. The old
+    // isotropic share tinted most of the dome, so a low morning sun washed the
+    // whole sky into the same flat grey as overcast weather.
+    scatter += vec3(0.72,0.34,0.10)*sunset*pow(1.0-h,3.5)*(0.20+0.80*pow(max(mu,0.0),3.0));
     vec3 night = mix(vec3(0.006,0.009,0.018),vec3(0.018,0.023,0.037),pow(1.0-h,3.0))*NIGHT_BRIGHTNESS;
     vec3 sky = mix(night,scatter,day);
     // Subtle daily variation keeps consecutive Minecraft days from looking identical.

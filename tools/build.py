@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.12.1'
+VERSION = '1.12.3'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -57,7 +57,7 @@ SCREENS = {
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SPEED CLOUD_TYPES',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
@@ -100,7 +100,7 @@ def generate():
         'size.buffer.colortex5=0.25 0.25', 'size.buffer.colortex6=0.25 0.25',
         'screen=<profile> [LIGHTING] [TEMPORAL] [SHADOWS] [AO] [ATMOSPHERE] [CLOUDS] [WEATHER] [END_SKY] [WATER] [REFLECTIONS] [MATERIALS] [POST_PROCESS] [PERFORMANCE]',
         'screen.columns=2',
-        'sliders=CLOUD_COVERAGE CLOUD_SPEED WATER_WAVES RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY WIND_STRENGTH SUN_INTENSITY NIGHT_BRIGHTNESS SEASON_STRENGTH',
+        'sliders=CLOUD_COVERAGE CLOUD_SPEED WATER_WAVES RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY NIGHT_BRIGHTNESS SEASON_STRENGTH',
     ]
     for name, values in PROFILES.items():
         props.append(f'profile.{name}='+' '.join(f'{k}:{v}' for k,v in zip(PROFILE_KEYS,values)))
@@ -145,7 +145,8 @@ def generate():
         'BLOOM_QUALITY':('Bloom','泛光'), 'EXPOSURE':('Exposure','曝光'),
         'AUTO_EXPOSURE':('Eye adaptation','自动曝光'),
         'SATURATION':('Saturation','饱和度'), 'CONTRAST':('Contrast','对比度'),
-        'FOG_DENSITY':('Fog density','雾浓度'), 'DOF_QUALITY':('Depth of field','景深'),
+        'FOG_DENSITY':('Fog density','雾浓度'), 'DAWN_HAZE':('Dawn/dusk haze','晨昏雾霾'),
+        'DOF_QUALITY':('Depth of field','景深'),
         'MOTION_BLUR':('Motion blur','动态模糊'), 'AA_QUALITY':('FXAA fallback','FXAA 后备抗锯齿'),
         'TONEMAP_MODE':('Tone mapping','色调映射'),
         'PBR_MODE':('LabPBR materials','LabPBR 材质'), 'WIND_STRENGTH':('Vegetation wind','植被风力'),
@@ -208,6 +209,7 @@ def generate():
             'TONEMAP_MODE':('Natural Filmic preserves black levels, hue and soft highlights; ACES-like and the legacy curve remain available.','默认自然电影曲线保留黑位、色相与柔和高光；也可选择类 ACES 与传统曲线。'),
             'WEATHER_QUALITY':('Controls procedural rain layers, surface splashes and water ripples. Off restores the lightweight fallback.','控制程序化雨线层次、地表飞溅和水面涟漪；关闭时使用轻量后备效果。'),
             'TERRAIN_FOG_QUALITY':('Adds height, valley and distance fog with terrain depth occlusion.','加入高度雾、山谷雾与远景霾，并由地形深度遮挡。'),
+            'DAWN_HAZE':('Scales the sunrise/sunset haze band and its volume light. 0 keeps a crisp clear sky, 2 restores a heavy morning fog bank.','缩放日出日落的霾带与对应体积光。0 为通透晴天，2 恢复浓厚晨雾。'),
             'RAIN_INTENSITY':('Scales procedural rain visibility without changing Minecraft weather state.','缩放程序化雨线可见度，不改变 Minecraft 天气状态。'),
             'RIPPLE_STRENGTH':('Scales expanding rain rings on water and small impacts on exposed surfaces.','缩放水面扩散雨纹与暴露表面的细小落雨冲击。'),
             'GODRAY_STRENGTH':('Scales shadow-mapped dawn and dusk shafts; midday is reduced automatically.','缩放带阴影遮挡的晨昏光柱；正午会自动减弱。'),

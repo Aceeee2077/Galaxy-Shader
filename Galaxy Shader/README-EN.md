@@ -1,8 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.12.1 · Community Project**
+**Photorealistic Minecraft Shader · 1.12.3 · Community Project**
 
 Galaxy Shader is a natural-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
+
+**1.12.3 — clear-morning fix:** A clear sunrise or sunset no longer renders like overcast weather. Three terms independent of the sun elevation were brightening the whole sky: the isotropic constant in the volumetric light, the shaft term that carried no view-direction weight, and the dawn haze coefficients, which cut clear-morning visibility to roughly a quarter. On top of that, the cloud-coverage setting doubled as an overcast switch and dimmed the sunlight and sky with it. The sky-side isotropic term is now about an eighth of its old value, shafts are weighted by a forward phase (`0.10 + 0.90·cos²`, so sunward god rays are unchanged), dawn height/valley fog density and the warm-haze blend are halved, cloud coverage only adds clouds while the density threshold and cirrus weight are tightened, and the warm atmospheric band stays near the horizon on the sun's side. New Atmosphere-page option `DAWN_HAZE` (0 / 0.5 / 1 / 1.5 / 2, default 1): 0 is a crisp clear sky, 2 restores a heavy morning fog bank.
 
 **1.12.1 — parameter alignment against Photon 1.3 defaults:** Ambient occlusion now uses a 2-block world radius with 12 samples at High instead of 18; PCSS shadows follow the reference pack's "three blocker samples plus six to twelve filter taps" range, cutting a lit fragment from 20 to 14 shadow fetches; water adopts its per-block absorption coefficients (water column 0.39/0.14/0.07, underwater 0.20/0.08/0.04) so deep water keeps its blue-green instead of crushing to black and underwater visibility improves; volumetric light mirrors the reference shaft budget by halving its samples once the view is well above the horizon. Every one of these is an equivalent parameter reimplemented here - no Photon code was copied.
 
@@ -76,9 +78,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.12.1.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.12.3.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.12.1.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.12.3.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -146,6 +148,7 @@ If you are sure a pack is LabPBR 1.3 but does not declare the format, choose **F
 - **Too bright or odd reflections:** set `PBR_MODE` to Auto or Off, and check whether the resource pack really is LabPBR.
 - **Low frame rate:** switch to MEDIUM/LOW, lower reflections, volumetric light and shadow distance, and disable DoF/motion blur.
 - **Screenshot too dark/too bright:** adjust Exposure; disable Eye Adaptation if you need a fixed exposure.
+- **Grey, overcast-looking morning or dusk:** start with `Dawn/dusk haze` (`DAWN_HAZE`) on the Atmosphere page. The default is 1; 0 gives a crisp clear sky and 2 restores a heavy fog bank. Then check that `Cloud coverage` is not set very high - coverage now only adds clouds instead of dimming the sunlight and sky with them.
 - **Missing off-screen reflections:** that is the screen-space reflection range limit; the pack already includes an environment fallback.
 
 ## License / credits

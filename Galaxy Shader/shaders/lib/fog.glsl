@@ -32,7 +32,7 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
         float lowHeight=min(cameraPosition.y,targetHeight);
         float heightFog=exp(-max(midpointHeight-62.0,0.0)/42.0);
         float valleyHeight=exp(-max(lowHeight-66.0,0.0)/19.0);
-        float morning=dawnDuskAmount();
+        float morning=dawnDuskAmount()*DAWN_HAZE;
         float overcast=weatherOvercastAmount();
         float rain=weatherRainAmount();
         float storm=weatherStormAmount();
@@ -45,15 +45,18 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
         float pockets=smoothstep(0.34,0.76,valleyNoise)*valleyHeight*
                       smoothstep(10.0,46.0,distanceToEye);
         float distanceHaze=0.00075+overcast*0.00075+rain*0.0010;
-        float heightDensity=heightFog*(0.00045+morning*0.0038+rain*0.0024);
-        float valleyDensity=pockets*(0.0010+morning*0.0060+rain*0.0038+storm*0.0024);
+        // Morning haze is a band near the horizon, not a global whiteout: the
+        // old coefficients cut clear-morning visibility to roughly a quarter
+        // and made a sunny dawn read as thick overcast.
+        float heightDensity=heightFog*(0.00045+morning*0.0018+rain*0.0024);
+        float valleyDensity=pockets*(0.0010+morning*0.0026+rain*0.0038+storm*0.0024);
         density=mix(0.0010,distanceHaze+heightDensity+valleyDensity,outdoor);
         density*=mix(0.90,1.10,dayVariation())*biomeFogDensity();
         vec3 clearScatter=atmosphere(ray,false);
         vec3 wetScatter=mix(vec3(0.20,0.25,0.30),vec3(0.10,0.125,0.17),storm);
         float sunward=pow(max(dot(ray,sunDirection()),0.0),3.0);
         vec3 goldenHaze=sunlightColor()*vec3(0.66,0.60,0.49);
-        clearScatter=mix(clearScatter,goldenHaze,morning*(0.38+sunward*0.45));
+        clearScatter=mix(clearScatter,goldenHaze,morning*(0.26+sunward*0.34));
         wetScatter=mix(wetScatter,goldenHaze,morning*0.72);
         wetScatter*=mix(0.10,1.0,dayAmount());
         scatter=mix(vec3(0.008,0.009,0.012),mix(clearScatter,wetScatter,overcast*0.68),outdoor);
