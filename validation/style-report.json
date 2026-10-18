@@ -1,0 +1,224 @@
+{
+  "type": "Synthetic GPU style comparison; not Minecraft gameplay or FPS",
+  "gpu": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA GeForce RTX 5080 Laptop GPU/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 617.42",
+    "glsl": "4.60 NVIDIA"
+  },
+  "baseline": "tools/.cache/photon-style-before.zip",
+  "shader_sha256": "5876975ea4825bbbf5e2f7f3431d3f65d7e05b2ec1c24e05764b353472505d0f",
+  "scenarios": {
+    "noon": {
+      "mean_abs_8bit_difference": 13.066244212962962,
+      "p95_abs_8bit_difference": 40.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 0.590416,
+          "gbuffers_water": 0.0172,
+          "composite": 0.132416,
+          "composite1": 0.008816000000000001,
+          "composite2": 0.003984,
+          "composite3": 0.004064,
+          "composite4": 0.021456000000000003,
+          "final": 0.010208
+        },
+        "after": {
+          "deferred": 0.60048,
+          "gbuffers_water": 0.021952,
+          "composite": 0.134512,
+          "composite1": 0.008448,
+          "composite2": 0.0041919999999999995,
+          "composite3": 0.004144,
+          "composite4": 0.021648,
+          "final": 0.009696
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 0.78856,
+        "after": 0.805072
+      }
+    },
+    "morning-clouds": {
+      "mean_abs_8bit_difference": 17.713317901234568,
+      "p95_abs_8bit_difference": 44.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 1.52536,
+          "gbuffers_water": 0.002992,
+          "composite": 0.099936,
+          "composite1": 0.008624,
+          "composite2": 0.004,
+          "composite3": 0.004111999999999999,
+          "composite4": 0.020736,
+          "final": 0.009808
+        },
+        "after": {
+          "deferred": 1.54952,
+          "gbuffers_water": 0.002976,
+          "composite": 0.099984,
+          "composite1": 0.009248,
+          "composite2": 0.0040160000000000005,
+          "composite3": 0.0040479999999999995,
+          "composite4": 0.021504000000000002,
+          "final": 0.009871999999999999
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 1.675568,
+        "after": 1.701168
+      }
+    },
+    "noon-clouds": {
+      "mean_abs_8bit_difference": 7.105606995884774,
+      "p95_abs_8bit_difference": 31.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 1.495184,
+          "gbuffers_water": 0.003008,
+          "composite": 0.10152,
+          "composite1": 0.009088,
+          "composite2": 0.0040479999999999995,
+          "composite3": 0.004128,
+          "composite4": 0.021471999999999998,
+          "final": 0.010112
+        },
+        "after": {
+          "deferred": 1.5250080000000001,
+          "gbuffers_water": 0.002976,
+          "composite": 0.101824,
+          "composite1": 0.009184,
+          "composite2": 0.0041600000000000005,
+          "composite3": 0.004128,
+          "composite4": 0.021408,
+          "final": 0.009904
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 1.64856,
+        "after": 1.678592
+      }
+    },
+    "sunset": {
+      "mean_abs_8bit_difference": 9.790598636831275,
+      "p95_abs_8bit_difference": 28.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 0.594768,
+          "gbuffers_water": 0.018528000000000003,
+          "composite": 0.13331199999999999,
+          "composite1": 0.009167999999999999,
+          "composite2": 0.004064,
+          "composite3": 0.00408,
+          "composite4": 0.021584,
+          "final": 0.010159999999999999
+        },
+        "after": {
+          "deferred": 0.612528,
+          "gbuffers_water": 0.021904,
+          "composite": 0.134496,
+          "composite1": 0.008496,
+          "composite2": 0.004111999999999999,
+          "composite3": 0.004064,
+          "composite4": 0.02208,
+          "final": 0.009648
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 0.7956639999999999,
+        "after": 0.8173279999999999
+      }
+    },
+    "rain": {
+      "mean_abs_8bit_difference": 10.328969264403293,
+      "p95_abs_8bit_difference": 25.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 0.448736,
+          "gbuffers_water": 0.019616,
+          "composite": 0.115744,
+          "composite1": 0.008816000000000001,
+          "composite2": 0.003872,
+          "composite3": 0.003696,
+          "composite4": 0.021776,
+          "final": 0.011632
+        },
+        "after": {
+          "deferred": 0.463648,
+          "gbuffers_water": 0.02248,
+          "composite": 0.115984,
+          "composite1": 0.008384,
+          "composite2": 0.003744,
+          "composite3": 0.003808,
+          "composite4": 0.021936,
+          "final": 0.009712
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 0.633888,
+        "after": 0.649696
+      }
+    },
+    "night": {
+      "mean_abs_8bit_difference": 7.5133275462962965,
+      "p95_abs_8bit_difference": 43.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 0.596016,
+          "gbuffers_water": 0.018751999999999998,
+          "composite": 0.11416,
+          "composite1": 0.007968,
+          "composite2": 0.003744,
+          "composite3": 0.003712,
+          "composite4": 0.021184,
+          "final": 0.010048
+        },
+        "after": {
+          "deferred": 0.6132,
+          "gbuffers_water": 0.021632,
+          "composite": 0.11424000000000001,
+          "composite1": 0.008832,
+          "composite2": 0.003776,
+          "composite3": 0.00392,
+          "composite4": 0.022128000000000002,
+          "final": 0.009904
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 0.7755839999999999,
+        "after": 0.797632
+      }
+    },
+    "underwater": {
+      "mean_abs_8bit_difference": 3.79818158436214,
+      "p95_abs_8bit_difference": 8.0,
+      "gpu_draw_ms": {
+        "before": {
+          "deferred": 0.58368,
+          "gbuffers_water": 0.018656,
+          "composite": 0.068176,
+          "composite1": 0.00904,
+          "composite2": 0.0040479999999999995,
+          "composite3": 0.003936,
+          "composite4": 0.021984,
+          "final": 0.010272
+        },
+        "after": {
+          "deferred": 0.607008,
+          "gbuffers_water": 0.021856,
+          "composite": 0.068832,
+          "composite1": 0.009568,
+          "composite2": 0.004032,
+          "composite3": 0.00376,
+          "composite4": 0.022047999999999998,
+          "final": 0.009968000000000001
+        }
+      },
+      "measured_draw_sum_ms": {
+        "before": 0.719792,
+        "after": 0.747072
+      }
+    }
+  },
+  "status": "rendered for visual review"
+}

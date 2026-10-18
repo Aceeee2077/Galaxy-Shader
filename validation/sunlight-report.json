@@ -1,0 +1,245 @@
+{
+  "type": "Synthetic woodland; not Minecraft gameplay",
+  "baseline": "Galaxy Shader-1.13.0.zip",
+  "shader_sha256": "b0fe9e6737b83096e884f3251572b05dc9732b92ead4d6ffc0d151249f673e77",
+  "options": {
+    "CLOUD_COVERAGE": 0.35
+  },
+  "scenarios": {
+    "low-sun-before": {
+      "mean": 0.46531274914741516,
+      "std": 0.2798331379890442,
+      "stages": {
+        "composite": {
+          "min": 0.0157928466796875,
+          "max": 4.671875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 2.4375
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.1875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.53125
+        },
+        "composite4": {
+          "min": 0.092529296875,
+          "max": 1.0
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35
+      }
+    },
+    "low-sun-after": {
+      "mean": 0.5104488134384155,
+      "std": 0.2949960231781006,
+      "stages": {
+        "composite": {
+          "min": 0.01490020751953125,
+          "max": 12.4765625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.75
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 6.1875
+        },
+        "composite4": {
+          "min": 0.0931396484375,
+          "max": 1.0
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35
+      }
+    },
+    "clear-sun-before": {
+      "mean": 0.45634427666664124,
+      "std": 0.2526796758174896,
+      "stages": {
+        "composite": {
+          "min": 0.0181427001953125,
+          "max": 15.15625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 4.5
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 2.25
+        },
+        "composite4": {
+          "min": 0.10113525390625,
+          "max": 1.0
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35,
+        "CLOUD_QUALITY": 0
+      }
+    },
+    "clear-sun-after": {
+      "mean": 0.48034775257110596,
+      "std": 0.24923765659332275,
+      "stages": {
+        "composite": {
+          "min": 0.01537322998046875,
+          "max": 21.96875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 5.25
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 3.25
+        },
+        "composite4": {
+          "min": 0.09521484375,
+          "max": 1.0
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35,
+        "CLOUD_QUALITY": 0
+      }
+    },
+    "noon-before": {
+      "mean": 0.5295394659042358,
+      "std": 0.23731695115566254,
+      "stages": {
+        "composite": {
+          "min": 0.00351715087890625,
+          "max": 3.34375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 2.03125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.9375
+        },
+        "composite4": {
+          "min": 0.035919189453125,
+          "max": 0.95458984375
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35
+      }
+    },
+    "noon-after": {
+      "mean": 0.5739028453826904,
+      "std": 0.24106459319591522,
+      "stages": {
+        "composite": {
+          "min": 0.0031147003173828125,
+          "max": 4.8984375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.5625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 3.5
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 3.375
+        },
+        "composite4": {
+          "min": 0.033721923828125,
+          "max": 0.97509765625
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35
+      }
+    },
+    "rain-before": {
+      "mean": 0.4351438283920288,
+      "std": 0.16341078281402588,
+      "stages": {
+        "composite": {
+          "min": 0.0174560546875,
+          "max": 1.322265625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.015625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0113525390625
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0057373046875
+        },
+        "composite4": {
+          "min": 0.1085205078125,
+          "max": 0.9228515625
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35
+      }
+    },
+    "rain-after": {
+      "mean": 0.442549467086792,
+      "std": 0.17468012869358063,
+      "stages": {
+        "composite": {
+          "min": 0.016815185546875,
+          "max": 1.93359375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.17578125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.1328125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.072265625
+        },
+        "composite4": {
+          "min": 0.10595703125,
+          "max": 0.984375
+        }
+      },
+      "options": {
+        "CLOUD_COVERAGE": 0.35
+      }
+    }
+  },
+  "status": "rendered for visual review"
+}

@@ -10,7 +10,7 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
     float density=0.0;
     vec3 scatter=vec3(0.0);
     if(isEyeInWater==1) {
-        vec3 absorb=exp(-WATER_ABSORPTION_UNDERWATER*distanceToEye*FOG_DENSITY);
+        vec3 absorb=exp(-WATER_ABSORPTION_UNDERWATER*distanceToEye*FOG_DENSITY/WATER_CLARITY);
         float eyeSky=float(eyeBrightnessSmooth.y)/240.0;
         vec3 under=vec3(0.009,0.065,0.080)*mix(0.2,1.0,eyeSky*dayAmount());
         color=color*absorb+under*(1.0-absorb);
@@ -44,19 +44,28 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
 #endif
         float pockets=smoothstep(0.34,0.76,valleyNoise)*valleyHeight*
                       smoothstep(10.0,46.0,distanceToEye);
-        float distanceHaze=0.00075+overcast*0.00075+rain*0.0010;
+        float distanceHaze=0.00050+overcast*0.00075+rain*0.0010;
         // Morning haze is a band near the horizon, not a global whiteout: the
         // old coefficients cut clear-morning visibility to roughly a quarter
         // and made a sunny dawn read as thick overcast.
-        float heightDensity=heightFog*(0.00045+morning*0.0018+rain*0.0024);
-        float valleyDensity=pockets*(0.0010+morning*0.0026+rain*0.0038+storm*0.0024);
+        // Reference Mie falloff starts 7 blocks above sea level and halves
+        // every 7 blocks. Keep this low mist distinct from broad aerial haze.
+        float lowMist=exp2(-max(midpointHeight-69.0,0.0)/7.0);
+        float heightDensity=heightFog*(0.00035+rain*0.0024)+lowMist*morning*0.0020;
+        float valleyDensity=pockets*(0.0007+morning*0.0016+rain*0.0038+storm*0.0024);
         density=mix(0.0010,distanceHaze+heightDensity+valleyDensity,outdoor);
         density*=mix(0.90,1.10,dayVariation())*biomeFogDensity();
         vec3 clearScatter=atmosphere(ray,false);
         vec3 wetScatter=mix(vec3(0.20,0.25,0.30),vec3(0.10,0.125,0.17),storm);
         float sunward=pow(max(dot(ray,sunDirection()),0.0),3.0);
+        float golden=goldenHourAmount()*(1.0-overcast)*DAWN_HAZE;
+        // Dawn haze accumulates along distant, low paths. Nearby terrain keeps
+        // contrast; facing away from the sun receives much less warm scatter.
+        density+=golden*lowMist*outdoor*(0.0002+sunward*0.0006);
         vec3 goldenHaze=sunlightColor()*vec3(0.66,0.60,0.49);
-        clearScatter=mix(clearScatter,goldenHaze,morning*(0.26+sunward*0.34));
+        clearScatter=mix(clearScatter,goldenHaze,sat(morning*(0.12+sunward*0.30)));
+        clearScatter=mix(clearScatter,sunlightColor()*vec3(0.90,0.82,0.72),
+                         sat(golden*(0.18+sunward*0.38)));
         wetScatter=mix(wetScatter,goldenHaze,morning*0.72);
         wetScatter*=mix(0.10,1.0,dayAmount());
         scatter=mix(vec3(0.008,0.009,0.012),mix(clearScatter,wetScatter,overcast*0.68),outdoor);
@@ -74,6 +83,9 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
 #endif
         scatter+=lightningBoltPosition.w*vec3(0.20,0.27,0.40)*
                  (rain*0.55+storm*0.45);
+        // The sky and its cloud march already contain aerial scattering.
+        // Terrain fog must not lay a second grey veil over the entire dome.
+        if(sky) density=0.0;
 #endif
         float amount=1.0-exp(-distanceToEye*density*FOG_DENSITY);
         if(!sky) amount=max(amount,smoothstep(far*0.72,far*0.99,length(player.xz)));

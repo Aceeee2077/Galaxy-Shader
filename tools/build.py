@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.12.3'
+VERSION = '1.14.0'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -53,20 +53,20 @@ PROFILES = {
     'CINEMATIC': [8192,'256.0',5,3,4,3,1,4,4,2,4,4,3,3,3,0,3,3],
 }
 SCREENS = {
-    'LIGHTING': 'SUN_INTENSITY NIGHT_BRIGHTNESS INDIRECT_QUALITY VOLUMETRIC_QUALITY COLORED_LIGHT_QUALITY',
+    'LIGHTING': 'SUN_INTENSITY SUN_ANGULAR_RADIUS SKYLIGHT_STRENGTH NIGHT_BRIGHTNESS INDIRECT_QUALITY VOLUMETRIC_QUALITY COLORED_LIGHT_QUALITY',
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
-    'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY',
+    'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
     'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER',
-    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SPEED CLOUD_TYPES',
+    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
-    'WATER': 'WATER_QUALITY WATER_WAVES WATER_REFLECTIONS RIPPLE_STRENGTH SSR_QUALITY',
+    'WATER': 'WATER_QUALITY WATER_WAVES WATER_REFLECTIONS WATER_CLARITY RIPPLE_STRENGTH SSR_QUALITY',
     'REFLECTIONS': 'SSR_QUALITY WET_SURFACES',
     'MATERIALS': 'PBR_MODE WET_SURFACES SURFACE_SEASONS',
-    'POST_PROCESS': 'BLOOM_QUALITY TONEMAP_MODE EXPOSURE AUTO_EXPOSURE SATURATION CONTRAST DOF_QUALITY MOTION_BLUR',
+    'POST_PROCESS': 'BLOOM_QUALITY BLOOM_STRENGTH TONEMAP_MODE EXPOSURE AUTO_EXPOSURE SATURATION CONTRAST DOF_QUALITY MOTION_BLUR',
     'PERFORMANCE': 'shadowMapResolution shadowDistance TAA_QUALITY CLOUD_QUALITY WEATHER_QUALITY TERRAIN_FOG_QUALITY SSR_QUALITY AO_QUALITY INDIRECT_QUALITY VOLUMETRIC_QUALITY',
-    'COSMIC_SKY': 'COSMIC_SKY_QUALITY CELESTIAL_EVENTS',
+    'COSMIC_SKY': 'COSMIC_SKY_QUALITY COSMIC_SKY_STRENGTH CELESTIAL_EVENTS',
     'SEASONS': 'SEASON_MODE SEASON_STRENGTH',
 }
 
@@ -98,9 +98,9 @@ def generate():
         'shadow.culling=true', 'rain.depth=false', 'beacon.beam.depth=false',
         'particles.ordering=after',
         'size.buffer.colortex5=0.25 0.25', 'size.buffer.colortex6=0.25 0.25',
-        'screen=<profile> [LIGHTING] [TEMPORAL] [SHADOWS] [AO] [ATMOSPHERE] [CLOUDS] [WEATHER] [END_SKY] [WATER] [REFLECTIONS] [MATERIALS] [POST_PROCESS] [PERFORMANCE]',
+        'screen=<profile> [LIGHTING] [TEMPORAL] [SHADOWS] [AO] [ATMOSPHERE] [CLOUDS] [WEATHER] [COSMIC_SKY] [END_SKY] [WATER] [REFLECTIONS] [MATERIALS] [POST_PROCESS] [SEASONS] [PERFORMANCE]',
         'screen.columns=2',
-        'sliders=CLOUD_COVERAGE CLOUD_SPEED WATER_WAVES RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY NIGHT_BRIGHTNESS SEASON_STRENGTH',
+        'sliders=CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED WATER_WAVES WATER_CLARITY SHADOW_SOFTNESS SKYLIGHT_STRENGTH COSMIC_SKY_STRENGTH BLOOM_STRENGTH RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY SUN_ANGULAR_RADIUS NIGHT_BRIGHTNESS SEASON_STRENGTH',
     ]
     for name, values in PROFILES.items():
         props.append(f'profile.{name}='+' '.join(f'{k}:{v}' for k,v in zip(PROFILE_KEYS,values)))
@@ -120,16 +120,22 @@ def generate():
         'shadowMapResolution':('Shadow resolution','阴影分辨率'),
         'shadowDistance':('Shadow distance','阴影距离'),
         'SHADOW_QUALITY':('PCSS shadows','PCSS 柔和阴影'),
+        'SHADOW_SOFTNESS':('Shadow softness','阴影柔和度'),
+        'SKYLIGHT_STRENGTH':('Sky fill strength','天空补光强度'),
+        'SUN_ANGULAR_RADIUS':('Sun angular radius','太阳角半径'),
+        'CLOUD_SHADOW_STRENGTH':('Cloud shadow strength','云影强度'),
         'TAA_QUALITY':('Temporal anti-aliasing','时域抗锯齿'),
         'CLOUD_QUALITY':('Cloud quality','云层质量'),
         'CLOUD_COVERAGE':('Cloud coverage','云量'), 'CLOUD_SPEED':('Cloud speed','云速'),
         'WATER_QUALITY':('Water quality','水体质量'), 'WATER_WAVES':('Water waves','水波强度'),
         'WATER_REFLECTIONS':('Water reflections','水面反射'),
+        'WATER_CLARITY':('Water clarity','水体清澈度'),
         'SSR_QUALITY':('Screen-space reflections','屏幕空间反射'),
         'AO_QUALITY':('Ambient occlusion','环境光遮蔽'),
         'INDIRECT_QUALITY':('Indirect lighting','间接光照'),
         'COLORED_LIGHT_QUALITY':('Colored light','彩色光源'),
         'COSMIC_SKY_QUALITY':('Cosmic sky','宇宙天空'),
+        'COSMIC_SKY_STRENGTH':('Galaxy / aurora strength','银河 / 极光强度'),
         'CELESTIAL_EVENTS':('Celestial events','天象事件'),
         'BIOME_BLEND':('Biome atmosphere','群系氛围'),
         'PARTICLE_LAYER':('Particle layer','世界粒子'),
@@ -143,6 +149,7 @@ def generate():
         'RIPPLE_STRENGTH':('Rain ripple strength','雨滴涟漪强度'),
         'GODRAY_STRENGTH':('God ray strength','丁达尔光强度'),
         'BLOOM_QUALITY':('Bloom','泛光'), 'EXPOSURE':('Exposure','曝光'),
+        'BLOOM_STRENGTH':('Bloom strength','泛光强度'),
         'AUTO_EXPOSURE':('Eye adaptation','自动曝光'),
         'SATURATION':('Saturation','饱和度'), 'CONTRAST':('Contrast','对比度'),
         'FOG_DENSITY':('Fog density','雾浓度'), 'DAWN_HAZE':('Dawn/dusk haze','晨昏雾霾'),
@@ -194,12 +201,20 @@ def generate():
         lines += ['value.INDIRECT_QUALITY.0='+quality[0], 'value.INDIRECT_QUALITY.1='+quality[1], 'value.INDIRECT_QUALITY.2='+quality[3]]
         lines += [f'profile.{p}={p.title()}' for p in PROFILES]
         tips = {
+            'SUN_INTENSITY':('Scales direct sunlight and the compact solar glow. Default 1 gives bright clear-day light; use 0.75 for a softer look.','缩放直射阳光与太阳周围的局部柔光。默认 1 为明媚晴天，0.75 为柔和观感。'),
+            'SKYLIGHT_STRENGTH':('Scales directional sky fill and ground bounce. Closed caves keep their dark floor.','缩放随天空方向变化的补光与地面反弹光，封闭洞穴仍保留暗部。'),
+            'SHADOW_SOFTNESS':('Scales contact-hardening penumbra in world units without adding filter samples.','以世界单位缩放接触硬化半影，不增加阴影采样次数。'),
+            'WATER_CLARITY':('Higher values reduce water absorption above and below the surface. 1 is the balanced default.','数值越高，水面与水下的吸收越弱，默认 1 平衡浅水通透与深水颜色。'),
+            'COSMIC_SKY_STRENGTH':('Scales the Overworld galaxy and aurora, independently of stars and End planets. Default 0.25 keeps a subtle night sky.','控制主世界银河与极光，独立于星星和末地行星。默认 0.25 为克制夜空，1 恢复完整强度。'),
+            'BLOOM_STRENGTH':('Scales soft-knee HDR bloom independently of its quality. 0 disables the contribution.','独立于质量缩放柔和阈值 HDR 泛光，0 关闭泛光贡献。'),
             'END_PLANETS':('One ringed giant, a faceted rift core with shard belts and a fixed starfield. End only.','仅末地：一颗带环巨行星、带碎片的裂隙核心与固定星空。'),
             'END_ORBIT_SPEED':('0 freezes the planets; 0.5 / 1 / 2 changes orbital and axial speed.','0 为静止；0.5 / 1 / 2 倍速度同时控制公转与自转。'),
             'PBR_MODE':('Auto reads packs declaring LabPBR. Use Force only with an undeclared LabPBR pack.','自动读取声明 LabPBR 的资源包；仅对未声明格式的 LabPBR 包使用强制模式。'),
             'DOF_QUALITY':('For screenshots. Off by default.','推荐仅用于截图，默认关闭。'),
             'MOTION_BLUR':('Camera motion only. Excludes hand pixels. Off by default.','仅相机运动模糊，排除手持物区域，默认关闭。'),
-            'AUTO_EXPOSURE':('Uses the temporally smoothed eye lightmap, with a bounded exposure gain.','使用平滑眼部亮度估算曝光，并限制提亮幅度。'),
+            'AUTO_EXPOSURE':('Off by default, matching Photon 1.3 fixed exposure. Enable for bounded adaptation from the smoothed eye lightmap.','默认关闭，参考 Photon 1.3 的固定曝光；开启后使用平滑眼部亮度估算有限幅度的曝光适应。'),
+            'SUN_ANGULAR_RADIUS':('Radius in degrees. Default 2 matches Photon 1.3; controls the solar disk and PCSS penumbra together.','单位为度，默认 2 参考 Photon 1.3；同时控制太阳盘大小与 PCSS 半影宽度。'),
+            'CLOUD_SHADOW_STRENGTH':('Extinction under dense clouds. Default 0.8 follows Photon 1.3; sky fill remains in cloud shade.','浓云下直射光的遮挡强度，默认 0.8 参考 Photon 1.3；云下仍有天空补光。'),
             'SSR_QUALITY':('Off-screen rays fall back to sky or dim indoor environment.','屏幕外反射回退为天空或室内环境近似。'),
             'WATER_REFLECTIONS':('Sky reflection keeps water cheap; screen space adds traced hits on top for Ultra and Cinematic.','天空反射最省性能；屏幕空间会在其基础上叠加命中反射，供极高与电影级使用。'),
             'shadowMapResolution':('8192 consumes substantially more GPU memory.','8192 档会显著增加显存占用。'),

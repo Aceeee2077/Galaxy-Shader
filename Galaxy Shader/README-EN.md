@@ -1,8 +1,32 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.12.3 · Community Project**
+**Photorealistic Minecraft Shader · 1.14.0 · Community Project**
 
 Galaxy Shader is a natural-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
+
+**1.14.0 — Photon parameter calibration:** The supplied Photon 1.3 defaults inform a 2-degree sun radius shared by the visible disk and PCSS penumbra, 0.8 cloud-shadow strength and fixed exposure at 1. Daylight changes chroma with solar elevation; cool sky fill and a small warm bounce shape outdoor shade. Low morning mist halves every seven blocks above Y=69. Warm twilight is more local, with a blue dome and pink horizon after sunset.
+
+Reset all settings before selecting HIGH. Selecting a profile alone does not reset personal sun-radius, cloud-shadow or exposure settings. New controls are Lighting → Sun angular radius and Clouds → Cloud shadow strength. See the [parameter mapping](REFERENCE-PHOTON.md).
+
+![Calibration before/after (synthetic GPU fixtures, old on the left)](previews/photon-calibration.png)
+
+The following notes describe earlier releases; 1.14.0 supersedes their visual calibration.
+
+**1.13.1 — sunny daylight:** Low-angle sunlight previously suffered both air-mass attenuation and a horizon fade while diffuse sky fill stayed strong. This update removes the double suppression, strengthens and gently warms direct sunlight, and confines warm twilight scattering closer to the sun and horizon. Sunlit grass, wood and leaf edges separate more clearly from cool shade. A compact aureole surrounds the solar disk and remains behind clouds. Volumetric visibility moments now share optical-weight normalization, preventing uniformly lit air from generating artificial shafts. Rain still attenuates direct light.
+
+**Sunrise / sunset:** Low solar elevations produce an amber lower sky, depth-dependent golden mist and a wave-broken solar path on water. The golden atmosphere fades out by a sun elevation of about 13 degrees. `DAWN_HAZE` controls the extra dawn mist (default 1); 0 removes that mist while retaining sunrise sky colours.
+
+Reset settings and start with HIGH. `SUN_INTENSITY=1.0` already uses the new sunny calibration; try 0.75 for softer lighting or 1.25 for stronger sunlight. Keep exposure at 1.0. Previews are synthetic; gameplay appearance remains to be checked.
+
+![Sunny preview (synthetic; clouds disabled to inspect solar glow)](previews/sunlight.png)
+
+**1.13.0 — natural lighting, inspired by Photon:** Daylight is more neutral at noon and attenuates with low sun elevation. Surfaces, water and volumetric clouds share a directional sky-fill model; shadowed faces keep cool detail, and foliage gains shadow-constrained transmission. A thin high cloud layer sits behind cumulus. PCSS derives penumbra from world-space blocker separation. Clear dawn haze is lighter, and terrain fog no longer overlays the sky a second time. Water uses an IOR of 1.333, clearer shallows and blue-green depth; shoreline foam responds to lighting. Galaxy/aurora strength defaults to 25%, while stars and the End sky retain their identity. Soft-knee bloom and gently desaturated highlights keep bright surfaces restrained. These effects are implemented independently in this project.
+
+New controls: `SKYLIGHT_STRENGTH` (Lighting, default 1), `SHADOW_SOFTNESS` (Shadows, 1.25), `WATER_CLARITY` (Water, 1), `BLOOM_STRENGTH` (Post Processing, 1), and `COSMIC_SKY_STRENGTH` (Cosmic Sky, 0.25). Cosmic Sky and Seasons are now reachable from the root menu. Reset to defaults or start with HIGH after installation, then adjust to taste; higher water clarity reduces absorption.
+
+1.13.0 synthetic GPU preview (not a Minecraft capture):
+
+![Natural lighting preview](previews/photon-style.png)
 
 **1.12.3 — clear-morning fix:** A clear sunrise or sunset no longer renders like overcast weather. Three terms independent of the sun elevation were brightening the whole sky: the isotropic constant in the volumetric light, the shaft term that carried no view-direction weight, and the dawn haze coefficients, which cut clear-morning visibility to roughly a quarter. On top of that, the cloud-coverage setting doubled as an overcast switch and dimmed the sunlight and sky with it. The sky-side isotropic term is now about an eighth of its old value, shafts are weighted by a forward phase (`0.10 + 0.90·cos²`, so sunward god rays are unchanged), dawn height/valley fog density and the warm-haze blend are halved, cloud coverage only adds clouds while the density threshold and cirrus weight are tightened, and the warm atmospheric band stays near the horizon on the sun's side. New Atmosphere-page option `DAWN_HAZE` (0 / 0.5 / 1 / 1.5 / 2, default 1): 0 is a crisp clear sky, 2 restores a heavy morning fog bank.
 
@@ -78,9 +102,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.12.3.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.14.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.12.3.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.14.0.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

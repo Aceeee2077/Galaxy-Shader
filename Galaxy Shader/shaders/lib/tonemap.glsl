@@ -18,6 +18,9 @@ vec3 naturalFilmic(vec3 x) {
     float lum=max(luminance(x),1e-6);
     float shaped=(lum*(2.0*lum+0.025))/(lum*(2.0*lum+0.65)+0.15);
     vec3 mapped=x*(shaped/lum);
+    // Gently lose chroma as highlights approach display white, keeping sunlit
+    // stone and cloud rims pearly instead of fluorescent. Greys are unchanged.
+    mapped=mix(mapped,vec3(shaped),smoothstep(0.45,0.98,shaped)*0.12);
     // Bring only out-of-gamut highlights toward white, avoiding channel clipping.
     float peak=max(mapped.r,max(mapped.g,mapped.b));
     float highlight=sat((peak-1.0)/max(peak-shaped,1e-5));

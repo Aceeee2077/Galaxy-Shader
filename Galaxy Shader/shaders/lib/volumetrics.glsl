@@ -51,9 +51,9 @@ vec3 volumetricLight(vec3 player, bool sky) {
     // up, so well above the horizon this halves the sample count.
     if(ray.y>0.30) count=max(count/2,4);
     float rain=weatherRainAmount(), storm=weatherStormAmount();
-    float density=(0.00065+morningHaze*0.0011+rain*0.0034+storm*0.0015)*FOG_DENSITY;
+    float density=(0.00035+morningHaze*0.0005+rain*0.0034+storm*0.0015)*FOG_DENSITY;
     float cloudFactor=cloudShadow(ray*(lengthRay*0.5)+cameraPosition);
-    float visibility=0.0, visibilitySquared=0.0;
+    float visibility=0.0, visibilitySquared=0.0, weightSum=0.0;
     float jitter=hash12(gl_FragCoord.xy);
 #if TAA_QUALITY > 0
     // An eight-frame phase is safe because the resolved image is accumulated.
@@ -67,9 +67,12 @@ vec3 volumetricLight(vec3 player, bool sky) {
         float transmittance=exp(-t*density);
         visibility+=lit*transmittance;
         visibilitySquared+=lit*lit*transmittance;
+        weightSum+=transmittance;
     }
-    float mean=visibility/float(count);
-    float variance=max(visibilitySquared/float(count)-mean*mean,0.0);
+    // Normalize both moments by the same optical weight. A fully lit path has
+    // zero visibility variance, so it cannot create artificial shafts/haze.
+    float mean=visibility/max(weightSum,1e-5);
+    float variance=max(visibilitySquared/max(weightSum,1e-5)-mean*mean,0.0);
     // Alternating lit/shadowed samples indicate foliage or terrain gaps and form
     // visible shafts. Low sun and forest shade strengthen them; noon suppresses.
     float shaftContrast=sqrt(variance)*(0.55+canopy*1.1)*lowSun;

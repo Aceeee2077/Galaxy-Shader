@@ -19,8 +19,9 @@ float cloudShadow(vec3 world) {
 #if DIMENSION == 0 && CLOUD_QUALITY > 0
     vec3 l = lightDirection();
     vec2 p = world.xz+l.xz*clamp((280.0-world.y)/max(l.y,0.08),0.0,4000.0);
-    return 1.0-cloudDensity(p)*(0.30+weatherOvercastAmount()*0.18+
-                               weatherRainAmount()*0.22);
+    // Photon 1.3 defaults to 80% cloud-shadow strength. Keep cloud coverage
+    // separate from extinction; the sky light still illuminates cloud shade.
+    return 1.0-cloudDensity(p)*CLOUD_SHADOW_STRENGTH;
 #else
     return 1.0;
 #endif

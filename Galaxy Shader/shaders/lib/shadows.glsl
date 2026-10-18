@@ -47,10 +47,11 @@ float shadowVisibility(vec3 player, vec3 normal, bool soft) {
     float blockerDepth = 0.0;
     float blockers = 0.0;
 #if SHADOW_QUALITY > 1
-    float searchRadius = (1.2 + 2.0 * distanceFade) * sunStretch /
+    float searchRadius = (2.5 + 1.5 * distanceFade) * sunStretch * sqrt(SHADOW_SOFTNESS) /
                          float(shadowMapResolution);
     for (int i = 0; i < blockerSamples; ++i) {
-        vec2 sampleUV = coord.xy + rotation * diskSample(i, blockerSamples) * searchRadius;
+        vec2 searchOffset=i==0 ? vec2(0.0) : diskSample(i-1,max(blockerSamples-1,1));
+        vec2 sampleUV = coord.xy + rotation * searchOffset * searchRadius;
         float sampleDepth = texture2D(shadowtex0, sampleUV).r;
         if (sampleDepth < coord.z - bias) {
             blockerDepth += sampleDepth;
@@ -63,9 +64,11 @@ float shadowVisibility(vec3 player, vec3 normal, bool soft) {
     if (blockers > 0.0) {
         blockerDepth /= blockers;
         // Contact hardening: receiver/blocker separation grows the penumbra.
-        float separation = max(coord.z - blockerDepth, 0.0) /
-                           max(blockerDepth, 0.02);
-        float lightSize = 34.0 * sunStretch;
+        // Orthographic depths have no perspective divide by blocker depth.
+        // Recover separation in blocks so softness survives resolution changes.
+        float separation = max(coord.z - blockerDepth, 0.0)*2.0 /
+                           max(abs(shadowProjection[2][2]),1e-5);
+        float lightSize = tan(SUN_ANGULAR_RADIUS*(PI/180.0))*SHADOW_SOFTNESS / texelWorld;
         filterRadiusTexels = clamp(0.55 + separation * lightSize, 0.55,
                                    2.2 + float(SHADOW_QUALITY) * 0.9);
     }

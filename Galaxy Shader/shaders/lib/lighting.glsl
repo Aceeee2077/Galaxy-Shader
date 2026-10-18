@@ -12,13 +12,10 @@ vec3 ambientRadiance(vec3 n, float sky) {
     // Cool violet ambient matching the rift core that lights the End.
     return vec3(0.135,0.135,0.170)*(0.65+0.35*max(n.y,0.0));
 #else
-    float hemi=0.50+0.50*max(n.y,0.0);
-    vec3 outdoor=mix(vec3(0.018,0.022,0.031)*NIGHT_BRIGHTNESS,vec3(0.18,0.22,0.28),dayAmount());
-    outdoor=mix(outdoor,vec3(luminance(outdoor))*vec3(0.84,0.90,1.0),weatherOvercastAmount()*0.46);
-    outdoor*=1.0-0.42*weatherStormAmount();
+    vec3 outdoor=skyIrradiance(n);
     float cave=1.0-smoothstep(0.02,0.28,sky);
     vec3 biolum=vec3(0.0015,0.0045,0.0042)*cave;
-    return vec3(0.007)+outdoor*pow(sky,2.0)*hemi*seasonAmbientTint()*biomeAmbientTint()+biolum;
+    return vec3(0.004)+outdoor*pow(sat(sky),2.0)*seasonAmbientTint()*biomeAmbientTint()+biolum;
 #endif
 }
 vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
@@ -28,9 +25,19 @@ vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
     float shadow=1.0;
     vec3 direct=vec3(0.0);
 #if DIMENSION == 0
-    if (nl>0.0 && lm.y>0.02) shadow=shadowVisibility(player,m.normal,true);
+    float foliage=step(10000.5,id)*step(id,10005.5);
+    if ((nl>0.0 || foliage>0.5) && lm.y>0.02) shadow=shadowVisibility(player,m.normal,true);
     shadow*=vCloudShadow*smoothstep(0.02,0.40,lm.y);
     direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*directionalRadiance()*shadow;
+    // Thin leaves/grass transmit a bounded warm lobe when viewed against the
+    // sun. The same shadow visibility prevents transmission through terrain.
+    float forward=pow(max(dot(-v,light),0.0),5.0);
+    direct+=sqrt(max(m.albedo,vec3(0.0)))*foliage*(1.0-m.metal)*
+            (0.06+0.36*forward)*(1.0-nl)*directionalRadiance()*shadow;
+    // Small warm bounce complements the cool sky probe in outdoor shade.
+    // Lightmap and AO gates reject closed caves and deep crevices.
+    direct+=m.albedo*(1.0-m.metal)*directionalRadiance()*0.020*
+            (1.0-shadow)*pow(sat(lm.y),4.0)*m.ao;
 #elif DIMENSION == 1
     shadow=shadowVisibility(player,m.normal,true);
     direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*vec3(0.90,0.80,0.58)*shadow;

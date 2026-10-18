@@ -26,7 +26,7 @@ void main() {
         float rain=weatherRainAmount();
         float storm=weatherStormAmount();
         // Only wave slope displaces the background; flat water stays sharp.
-        // The modest IOR follows iterationT 3.2.0.
+        // Water's IOR controls both refraction and the Fresnel reflection.
         vec2 slope=(mat3(gbufferModelView)*(n-geometric)).xy;
         float refractStrength=(1.0-1.0/WATER_REFRACT_IOR)*
                               (0.15+rain*(0.12+storm*0.06));
@@ -55,7 +55,7 @@ void main() {
         }
 #endif
         float turbidity=rain*(0.35+storm*0.35);
-        vec3 absorb=exp(-WATER_ABSORPTION*(thickness*(1.0+turbidity))*FOG_DENSITY);
+        vec3 absorb=exp(-WATER_ABSORPTION*(thickness*(1.0+turbidity))*FOG_DENSITY/WATER_CLARITY);
         vec3 biome=mix(vec3(0.010,0.065,0.075),toLinear(vColor.rgb)*0.16,0.25);
         vec3 waterLight=ambientRadiance(vec3(0,1,0),vLight.y)+directionalRadiance()*0.12;
         vec3 transmission=behind*absorb+biome*waterLight*(1.0-absorb);
@@ -74,11 +74,16 @@ void main() {
 #endif
         Material m=defaultMaterial(toLinear(tex.rgb),n);
         m.f0=vec3(f0); m.roughness=mix(0.075,0.055,storm);
+#if DIMENSION == 0
+        // The resolved wave slopes carry the broadening at sunrise; a tighter
+        // microfacet lobe keeps the reflected solar path bright and segmented.
+        m.roughness=mix(m.roughness,0.045,goldenHourAmount()*(1.0-rain));
+#endif
         vec3 spec=vec3(0.0);
 #if DIMENSION == 0
         // A single shadow tap keeps the sun glint without a PCSS blocker search.
         spec=specularBRDF(m,safeNormalize(-vPlayer),lightDirection())*directionalRadiance()*
-             shadowVisibility(vPlayer,n,false)*smoothstep(0.05,0.4,vLight.y);
+             shadowVisibility(vPlayer,n,false)*vCloudShadow*smoothstep(0.05,0.4,vLight.y);
 #endif
         vec3 stormHighlight=lightningBoltPosition.w*vec3(0.42,0.56,0.82)*
                             (0.25+0.75*fresnel)*rain;
@@ -90,7 +95,12 @@ void main() {
             float foamNoise=valueNoise(foamPos)*0.62+valueNoise(foamPos*2.17+vec2(9.3,4.1))*0.38;
             float foamBand=shore*smoothstep(0.42,0.78,foamNoise)*
                            (0.55+0.45*sin(thickness*9.0-frameTimeCounter*2.2));
-            color=mix(color,vec3(0.72,0.80,0.82),sat(foamBand*0.60));
+            vec3 foamLight=ambientRadiance(vec3(0.0,1.0,0.0),vLight.y);
+#if DIMENSION == 0
+            foamLight+=directionalRadiance()*max(lightDirection().y,0.0)*
+                       shadowVisibility(vPlayer,geometric,false)*vCloudShadow;
+#endif
+            color=mix(color,vec3(0.72,0.80,0.82)*foamLight,sat(foamBand*0.45));
         }
         // The opaque background has already been transmitted exactly once.
         gl_FragData[0]=vec4(max(color,vec3(0)),1.0);

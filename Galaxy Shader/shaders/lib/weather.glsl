@@ -44,6 +44,13 @@ float dawnDuskAmount() {
            smoothstep(-0.10, 0.045, sunHeight);
 }
 
+// Narrow golden-hour window. At higher sun elevations the clear-day lighting
+// takes over, so dawn colour and mist cannot become a permanent amber filter.
+float goldenHourAmount() {
+    float h=sunDirection().y;
+    return smoothstep(-0.075,0.015,h)*(1.0-smoothstep(0.06,0.22,h));
+}
+
 vec2 weatherWindDirection() {
     vec2 direction = vec2(0.84, 0.38);
     float turn = valueNoise(vec2(frameTimeCounter * 0.015, 17.0)) - 0.5;

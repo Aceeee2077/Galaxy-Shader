@@ -169,12 +169,8 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
 
     float storm = weatherStormAmount();
     float overcast = weatherOvercastAmount();
-    float day = dayAmount();
-    vec3 litColor = mix(sunlightColor() * 2.8, vec3(1.15,1.20,1.28), overcast * 0.65);
-    litColor = mix(litColor, vec3(0.42,0.46,0.54), storm * 0.75);
-    litColor = mix(vec3(0.018,0.026,0.046)*NIGHT_BRIGHTNESS,litColor,day);
-    vec3 cloudAmbient=mix(vec3(0.010,0.016,0.026)*NIGHT_BRIGHTNESS,
-                         vec3(0.20,0.27,0.38),day)*(1.0-storm*0.65);
+    vec3 litColor = directionalRadiance()*1.25;
+    vec3 cloudAmbient=skyIrradiance(vec3(0.0,1.0,0.0))*1.15;
     vec3 airColor=atmosphere(ray,false);
     float jitter=hash12(gl_FragCoord.xy);
 #if TAA_QUALITY > 0
@@ -197,9 +193,9 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
         float powder = 1.0 - exp(-density * 3.5);
         // Direct transport plus two broad multiple-scattering approximations.
         // Occluded cores stay grey while thin sun-facing edges remain luminous.
-        float multiple=0.22*pow(shadow,0.35)+0.08*pow(shadow,0.12);
+        float multiple=0.18*pow(shadow,0.35)+0.06*pow(shadow,0.12);
         vec3 radiance=litColor*(shadow*phase*(0.65+powder*0.35)+multiple);
-        radiance+=cloudAmbient*mix(0.30,1.0,height);
+        radiance+=cloudAmbient*mix(0.48,1.0,height);
         radiance += lightningBoltPosition.w * vec3(0.50, 0.60, 0.78) *
                     density * (0.30 + 0.70 * storm);
         float sigma = 0.035 * (1.0 + overcast * 0.25);
@@ -218,6 +214,29 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
 }
 
 #endif
+
+// A separate, optically thin ice-cloud layer behind the cumulus deck. It uses
+// only 2D noise, preserving the existing volume sample budget and reflection
+// fallback. Weather suppresses it as the lower storm deck takes over.
+vec3 highCloudLayer(vec3 sky, vec3 ray, vec3 origin) {
+#if DIMENSION == 0 && CLOUD_QUALITY > 0 && CLOUD_TYPES == 1
+    if(ray.y<=0.01) return sky;
+    float t=(920.0-origin.y)/ray.y;
+    if(t<=0.0) return sky;
+    vec2 p=(origin.xz+ray.xz*t)*vec2(0.00065,0.0018);
+    p+=vec2(frameTimeCounter*0.002*CLOUD_SPEED,21.3);
+    float warp=valueNoise(p*0.65)*1.8;
+    float wisps=fbm(p+vec2(warp,-warp*0.25),min(CLOUD_QUALITY+1,4));
+    float streak=0.5+0.5*sin(p.y*5.0+warp*5.0);
+    float density=smoothstep(0.47,0.72,wisps)*(0.30+0.70*streak);
+    float alpha=density*0.24*(1.0-weatherOvercastAmount())*
+                smoothstep(0.01,0.18,ray.y);
+    vec3 radiance=directionalRadiance()*0.45+skyIrradiance(vec3(0.0,1.0,0.0));
+    return mix(sky,radiance,alpha);
+#else
+    return sky;
+#endif
+}
 
 // Single-plane cloud sheet. It costs two density lookups and is shared by the
 // lowest cloud profile and by the cheap reflection path, so reflective pixels
@@ -256,6 +275,7 @@ vec3 skyReflection(vec3 ray, vec3 origin) {
 vec3 skyWithClouds(vec3 ray, vec3 origin, bool disks) {
     vec3 sky = atmosphere(ray, disks);
 #if DIMENSION == 0 && CLOUD_QUALITY > 0
+    sky = highCloudLayer(sky, ray, origin);
 #if CLOUD_QUALITY >= 2
     sky = volumetricClouds(sky, ray, origin, !disks);
 #else

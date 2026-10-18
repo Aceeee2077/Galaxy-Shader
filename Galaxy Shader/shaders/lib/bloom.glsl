@@ -1,9 +1,11 @@
 #ifndef SE_BLOOM
 #define SE_BLOOM
 vec3 brightPass(vec3 c) {
-float lum=luminance(c);
-    float knee=sat((lum-1.25)/0.65);
-    float contribution=max(lum-1.75,0.0)+knee*knee*0.10;
+    float lum=luminance(c);
+    // Continuous soft knee: small luminous surfaces bloom before clipping,
+    // while ordinary diffuse surfaces stay below the shoulder.
+    float knee=clamp(lum-0.75,0.0,1.0);
+    float contribution=max(lum-1.25,knee*knee*0.25);
     return min(c*(contribution/max(lum,0.0001)),vec3(8.0));
 }
 vec3 gaussianBlur(sampler2D source, vec2 uv, vec2 direction) {

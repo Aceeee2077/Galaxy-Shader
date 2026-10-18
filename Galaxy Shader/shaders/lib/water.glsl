@@ -10,10 +10,18 @@ vec3 waterNormal(vec3 world, vec3 geometric, float distanceToEye) {
         if(i>=waves) break;
         float fi=float(i);
         vec2 dir=vec2(cos(fi*2.17+0.2),sin(fi*2.17+0.2));
-        float frequency=0.8+fi*1.6;
-        float amplitude=0.050/(1.0+fi);
-        gradient+=dir*cos(dot(world.xz,dir)*frequency+t*(1.1+fi*0.37))*amplitude;
+        float frequency=0.65+fi*1.45;
+        float amplitude=0.043/(1.0+fi);
+        vec2 crossDir=vec2(-dir.y,dir.x);
+        float modulation=sin(dot(world.xz,crossDir)*0.37-t*0.28)*0.65;
+        gradient+=dir*cos(dot(world.xz,dir)*frequency+t*(0.9+fi*0.31)+modulation)*amplitude;
     }
+#if WATER_QUALITY >= 2
+    // Small capillary slopes break the low sun's reflection into moving glints
+    // along its physical reflection path instead of a single smooth patch.
+    gradient+=vec2(sin(world.x*4.7+world.z*0.8-t*2.5),
+                   sin(world.z*5.3-world.x*0.6+t*2.1))*0.008;
+#endif
     float rain=weatherRainAmount();
     if(rain>0.001) {
         vec3 ripple=rainRippleField(world.xz,1.35);

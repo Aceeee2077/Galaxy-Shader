@@ -17,7 +17,12 @@ Target instance: Minecraft 26.2 / Fabric / Iris 1.11.2+mc26.2 / matching Sodium 
 | Water | Above/below surface, shore, boat, intersecting glass, moving reflections | Not run |
 | Water reflections | `WATER_REFLECTIONS` sky-only vs sky + screen space; cost and look on both | Not run |
 | Cloud detail LOD | Cloud silhouette when standing still, walking, flyover and after a coordinate wrap | Not run |
+| Natural lighting (1.13.0) | Neutral noon, cool sky fill in shade, warm leaf transmission against the sun, no transmitted light in closed caves | Not run |
+| Cloud layers (1.13.0) | Thin high clouds behind cumulus; below/inside/above each layer, rain transition and CLOUD_TYPES off | Not run |
+| Style controls (1.13.0) | Sky fill, shadow softness across resolutions, water clarity, bloom strength, galaxy/aurora strength and reachable Cosmic Sky/Seasons menus | Not run |
+| Sunny / sunrise (1.13.1) | Clear sun versus shade; local solar glow; amber dawn sky, distant warm mist and moving water glints; transition back to blue daylight; DAWN_HAZE 0/1/2 | Not run |
 | Movement | Walking, sprinting, rapid turns, elytra, teleports, coordinate wrap | Not run |
+| Photon calibration (1.14.0) | Restore defaults; 2-degree solar radius, contact-hardening shadows, cloud shadow 0.8; fixed exposure crossing indoors; low morning fog versus hilltops; blue-hour transition | Not run |
 | Camera | First/third person; opaque and translucent held items | Not run |
 | GUI | HUD, hotbar, inventory, chat and screens remain legible | Not run |
 | Transparency | Glass, stained glass, ice, water, leaves; sorting/cutout correctness | Not run |

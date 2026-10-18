@@ -1,0 +1,174 @@
+{
+  "type": "Synthetic lake; not Minecraft gameplay",
+  "shader_sha256": "53bb8c536783eedc98b8d5f53d6f2a377119c57d78c53cd856815b283c585ef3",
+  "baseline": "tools/.cache/photon13-calibration-before.zip",
+  "options": {
+    "CLOUD_QUALITY": 0
+  },
+  "scenarios": {
+    "sunrise-before": {
+      "mean": 0.5364664793014526,
+      "std": 0.23825474083423615,
+      "stages": {
+        "composite": {
+          "min": 0.0219879150390625,
+          "max": 45.96875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 5.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 3.96875
+        },
+        "composite4": {
+          "min": 0.118408203125,
+          "max": 1.0
+        }
+      }
+    },
+    "sunrise-after": {
+      "mean": 0.5291450619697571,
+      "std": 0.2394019216299057,
+      "stages": {
+        "composite": {
+          "min": 0.0169830322265625,
+          "max": 49.375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.4375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 7.0625
+        },
+        "composite4": {
+          "min": 0.11474609375,
+          "max": 1.0
+        }
+      }
+    },
+    "early-morning-before": {
+      "mean": 0.5537278056144714,
+      "std": 0.2395651638507843,
+      "stages": {
+        "composite": {
+          "min": 0.0166015625,
+          "max": 54.1875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 7.75
+        },
+        "composite4": {
+          "min": 0.10821533203125,
+          "max": 1.0
+        }
+      }
+    },
+    "early-morning-after": {
+      "mean": 0.5848503112792969,
+      "std": 0.24093031883239746,
+      "stages": {
+        "composite": {
+          "min": 0.0157623291015625,
+          "max": 49.34375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 7.75
+        },
+        "composite4": {
+          "min": 0.1214599609375,
+          "max": 1.0
+        }
+      }
+    },
+    "noon-before": {
+      "mean": 0.400945782661438,
+      "std": 0.16339130699634552,
+      "stages": {
+        "composite": {
+          "min": 0.01265716552734375,
+          "max": 1.0859375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.00016021728515625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 3.62396240234375e-05
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 7.62939453125e-06
+        },
+        "composite4": {
+          "min": 0.0791015625,
+          "max": 0.9404296875
+        }
+      }
+    },
+    "noon-after": {
+      "mean": 0.4462190568447113,
+      "std": 0.17536242306232452,
+      "stages": {
+        "composite": {
+          "min": 0.0126190185546875,
+          "max": 1.134765625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.00020599365234375
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 4.57763671875e-05
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 9.5367431640625e-06
+        },
+        "composite4": {
+          "min": 0.08905029296875,
+          "max": 0.99755859375
+        }
+      }
+    }
+  },
+  "checks": {
+    "hdr_solar_path_moves_with_sun": true,
+    "water_glint_x_centroids": [
+      415.48920452885346,
+      538.944594407624
+    ]
+  },
+  "status": "passed; appearance reviewed in paired synthetic views"
+}
