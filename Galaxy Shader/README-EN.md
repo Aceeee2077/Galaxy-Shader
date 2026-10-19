@@ -1,16 +1,22 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.14.0 · Community Project**
+**Photorealistic Minecraft Shader · 1.14.1 · Community Project**
 
-Galaxy Shader is a natural-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
+Galaxy Shader is a bright, warm-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
+
+**1.14.1 — bright warm palette:** Warm golden daylight replaces the neutral sun, sky fill loses its strong blue bias and outdoor shade receives more sky and ground bounce. Fixed exposure defaults to **1.25**, saturation to **1.1**, with contrast at **1**. White balance runs before tone mapping so bright neutral surfaces approach white smoothly. Foliage stays green, the sky stays blue, and sky-light/AO gates still reject outdoor bounce in closed caves. No extra texture samples or march steps are added.
+
+After updating, **reset shader settings**, then select HIGH. Quality profiles alone do not reset saved exposure or saturation. Synthetic GPU checks passed; Minecraft gameplay appearance and FPS remain unverified.
+
+![Warm palette comparison (synthetic GPU fixtures, 1.14.0 left, 1.14.1 right)](previews/warm-palette.png)
+
+The following notes describe earlier releases; 1.14.1 supersedes their visual calibration.
 
 **1.14.0 — Photon parameter calibration:** The supplied Photon 1.3 defaults inform a 2-degree sun radius shared by the visible disk and PCSS penumbra, 0.8 cloud-shadow strength and fixed exposure at 1. Daylight changes chroma with solar elevation; cool sky fill and a small warm bounce shape outdoor shade. Low morning mist halves every seven blocks above Y=69. Warm twilight is more local, with a blue dome and pink horizon after sunset.
 
 Reset all settings before selecting HIGH. Selecting a profile alone does not reset personal sun-radius, cloud-shadow or exposure settings. New controls are Lighting → Sun angular radius and Clouds → Cloud shadow strength. See the [parameter mapping](REFERENCE-PHOTON.md).
 
 ![Calibration before/after (synthetic GPU fixtures, old on the left)](previews/photon-calibration.png)
-
-The following notes describe earlier releases; 1.14.0 supersedes their visual calibration.
 
 **1.13.1 — sunny daylight:** Low-angle sunlight previously suffered both air-mass attenuation and a horizon fade while diffuse sky fill stayed strong. This update removes the double suppression, strengthens and gently warms direct sunlight, and confines warm twilight scattering closer to the sun and horizon. Sunlit grass, wood and leaf edges separate more clearly from cool shade. A compact aureole surrounds the solar disk and remains behind clouds. Volumetric visibility moments now share optical-weight normalization, preventing uniformly lit air from generating artificial shafts. Rain still attenuates direct light.
 
@@ -102,9 +108,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.14.0.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.14.1.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.14.0.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.14.1.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

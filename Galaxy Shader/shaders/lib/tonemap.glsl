@@ -41,6 +41,11 @@ float adaptedExposure() {
 }
 vec3 gradeColor(vec3 hdr) {
     vec3 exposed=max(hdr,vec3(0))*adaptedExposure();
+    // Balance in HDR so bright stone and clouds roll toward white with the
+    // tone curve. A daytime warmth keeps blue skies and green foliage distinct.
+#if DIMENSION == 0
+    exposed*=mix(vec3(1.025,1.0,0.965),vec3(1.045,1.005,0.945),dayAmount());
+#endif
 #if TONEMAP_MODE == 0
     vec3 c=legacyFilmic(exposed);
 #elif TONEMAP_MODE == 1
@@ -48,9 +53,6 @@ vec3 gradeColor(vec3 hdr) {
 #else
     vec3 c=naturalFilmic(exposed);
 #endif
-    // Very mild white balance: nights remain readable without a blue/purple cast.
-    vec3 balance=mix(vec3(1.025,1.0,0.965),vec3(1.0),dayAmount());
-    c*=balance;
     c=mix(vec3(luminance(c)),c,SATURATION);
     c=(c-0.5)*CONTRAST+0.5;
     return pow(clamp(c,0.0,1.0),vec3(1.0/2.2));

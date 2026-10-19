@@ -40,7 +40,8 @@ void main() {
             noon=sample(sunPosition=[0,1,0])
             morning=sample(sunPosition=[0,0.18,-math.sqrt(1-0.18**2)])
             sunrise=sample(sunPosition=[0,0.055,-math.sqrt(1-0.055**2)])
-            self.assertGreater(float(noon[2]/noon[0]),0.94,'Daylight must remain near-neutral')
+            self.assertGreater(float(noon[2]/noon[0]),0.78,'Warm daylight must retain blue energy')
+            self.assertLess(float(noon[2]/noon[0]),0.90,'Daylight must have a warm bias')
             self.assertGreater(float(noon[2]),float(morning[2]))
             self.assertGreater(float(morning[2]),float(sunrise[2]))
             self.assertGreater(float(sunrise[0]/sunrise[2]),4.0,'Low sun must warm naturally')
@@ -59,7 +60,7 @@ void main() {
             outdoor=sample(testMode=2,eyeBrightnessSmooth=[0,240])
             cave=sample(eyeBrightnessSmooth=[0,0])
             np.testing.assert_array_equal(outdoor,cave)
-            self.assertAlmostEqual(float(outdoor[0]),1.0,places=3)
+            self.assertAlmostEqual(float(outdoor[0]),1.25,places=3)
 
             low=sample(testMode=3,eyeBrightnessSmooth=[0,240],cameraPosition=[0,65,0],
                        sunPosition=[0,0.055,-1])

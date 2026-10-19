@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.14.0'
+VERSION = '1.14.1'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -212,7 +212,9 @@ def generate():
             'PBR_MODE':('Auto reads packs declaring LabPBR. Use Force only with an undeclared LabPBR pack.','自动读取声明 LabPBR 的资源包；仅对未声明格式的 LabPBR 包使用强制模式。'),
             'DOF_QUALITY':('For screenshots. Off by default.','推荐仅用于截图，默认关闭。'),
             'MOTION_BLUR':('Camera motion only. Excludes hand pixels. Off by default.','仅相机运动模糊，排除手持物区域，默认关闭。'),
-            'AUTO_EXPOSURE':('Off by default, matching Photon 1.3 fixed exposure. Enable for bounded adaptation from the smoothed eye lightmap.','默认关闭，参考 Photon 1.3 的固定曝光；开启后使用平滑眼部亮度估算有限幅度的曝光适应。'),
+            'AUTO_EXPOSURE':('Off by default for stable brightness. Fixed exposure defaults to 1.25 for a brighter warm look.','默认关闭以保持稳定亮度；固定曝光默认 1.25，画面更明亮温暖。'),
+            'EXPOSURE':('HDR exposure before tone mapping. Default 1.25 opens midtones while the filmic shoulder protects highlights.','色调映射前的 HDR 曝光，默认 1.25 提亮中间调，电影曲线保留高光层次。'),
+            'SATURATION':('Default 1.1 gives vivid foliage, wood and sky while keeping their colors distinct.','默认 1.1，让植被、木材与天空更鲜明，同时保留各自颜色。'),
             'SUN_ANGULAR_RADIUS':('Radius in degrees. Default 2 matches Photon 1.3; controls the solar disk and PCSS penumbra together.','单位为度，默认 2 参考 Photon 1.3；同时控制太阳盘大小与 PCSS 半影宽度。'),
             'CLOUD_SHADOW_STRENGTH':('Extinction under dense clouds. Default 0.8 follows Photon 1.3; sky fill remains in cloud shade.','浓云下直射光的遮挡强度，默认 0.8 参考 Photon 1.3；云下仍有天空补光。'),
             'SSR_QUALITY':('Off-screen rays fall back to sky or dim indoor environment.','屏幕外反射回退为天空或室内环境近似。'),

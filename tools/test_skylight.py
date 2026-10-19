@@ -48,6 +48,8 @@ void main() {
             self.assertGreater(float(up.mean()),float(side.mean()))
             self.assertGreater(float(side.mean()),float(down.mean()))
             self.assertGreater(float(down.min()),0.0,'Ground-facing surfaces retain bounce')
+            self.assertGreater(float(side[0]),float(side[2]),'Outdoor side fill must be warm')
+            self.assertLess(float(up[2]/up[0]),1.15,'Sky fill must not turn shade strongly blue')
             storm=sample(testNormal=[0.0,1.0,0.0],rainStrength=1.0,thunderStrength=1.0)
             self.assertLess(float(storm.mean()),float(up.mean()))
             night=sample(rainStrength=0.0,thunderStrength=0.0,sunPosition=[0.0,-0.8,0.6])

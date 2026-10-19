@@ -1,16 +1,22 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.14.0 · Community Project**
+**Photorealistic Minecraft Shader · 1.14.1 · Community Project**
 
-自然色彩方向的 Minecraft Java 光影包。使用 OpenGL 光栅渲染、阴影贴图和屏幕空间效果，保留方块轮廓。无需编译，不依赖外部噪声贴图，也不需要额外资源包。
+明亮暖色方向的 Minecraft Java 光影包。使用 OpenGL 光栅渲染、阴影贴图和屏幕空间效果，保留方块轮廓。无需编译，不依赖外部噪声贴图，也不需要额外资源包。
+
+**1.14.1 暖色鲜明更新：** 白昼阳光改为暖金色，减弱天空补光的蓝色倾向，提高户外阴影与地面反弹光。固定曝光默认 **1.25**、饱和度 **1.1**、对比度保持 **1**；白平衡放在 HDR 色调映射前处理，让亮部仍能柔和过渡到白色。草木保留绿色、天空保留蓝色，封闭洞穴仍受天空光和 AO 约束。没有增加纹理采样或光线步数。
+
+更新后先在光影设置中**恢复默认设置**，再选择 HIGH。只切换质量预设不会重置旧曝光与饱和度。合成 GPU 检查通过，实际 Minecraft 画面与 FPS 仍待验收。
+
+![暖色前后对照（合成 GPU 场景，左 1.14.0、右 1.14.1）](previews/warm-palette.png)
+
+以下为先前版本记录；当前效果以 1.14.1 为准。
 
 **1.14.0 Photon 参数校准：** 参考你提供的 Photon 1.3 默认值，将太阳角半径设为 2°，同时用于太阳盘和 PCSS 半影；云影默认强度为 0.8，自动曝光默认关闭，曝光保持 1。日光按太阳高度渐变，正午更中性、晨昏偏暖；树荫保留冷色天空补光及少量暖反弹。低地晨雾从海平面上 7 格开始每 7 格减半，天空的黄色范围收窄，日落后保留蓝调和局部粉色地平线。
 
 安装后先恢复默认设置，再选择 HIGH；仅切换预设不会重置个人太阳半径、云影和曝光设置。新增菜单：「光照 → 太阳角半径」「云层 → 云影强度」。[详细参数映射](REFERENCE-PHOTON.md)。
 
 ![本次校准前后（合成 GPU 场景，左旧右新）](previews/photon-calibration.png)
-
-以下为先前版本记录；当前效果以 1.14.0 为准。
 
 **1.13.1 明媚阳光更新：** 低角度太阳原先同时受到空气质量系数与地平线淡出衰减，导致直射光明显弱于天空补光。这次取消重复压暗、提高晴天直射光、略微暖化日光，并收紧晨昏暖色天空的范围。树荫保留冷色，草地、木板与树叶的受光面更亮；太阳周围增加局部柔光，云层仍能遮挡太阳。体积光现在按相同的光学权重计算均值和方差，均匀受光的空气不会生成额外光束，从而减少前景泛灰。雨天直射光依然受天气衰减。
 
@@ -102,9 +108,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.14.0.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.14.1.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.14.0.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.14.1.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

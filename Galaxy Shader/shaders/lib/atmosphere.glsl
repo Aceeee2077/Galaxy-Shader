@@ -9,11 +9,11 @@
 #include "/lib/celestial.glsl"
 vec3 sunlightColor() {
     float h = max(sunDirection().y,0.0);
-    // Relative optical path: warm light at grazing incidence, near-neutral
-    // daylight overhead. Separate chroma from the existing luminance budget,
+    // Relative optical path: golden light at grazing incidence, warm daylight
+    // overhead. Separate chroma from the existing luminance budget,
     // avoiding another scalar attenuation of the low sun or its water glints.
     float extraPath=max(inversesqrt(h*h+0.0025)-1.0,0.0);
-    vec3 tint=vec3(1.0,0.985,0.965)*exp(-vec3(0.0,0.045,0.135)*extraPath);
+    vec3 tint=vec3(1.0,0.94,0.83)*exp(-vec3(0.0,0.045,0.135)*extraPath);
     float energy=mix(0.66,0.97,smoothstep(0.0,0.45,h));
     return tint*(energy/max(luminance(tint),1e-4));
 }
@@ -25,22 +25,22 @@ vec3 skyIrradiance(vec3 n) {
     float overcast=weatherOvercastAmount();
     float skyHemisphere=sat(n.y*0.5+0.5);
     vec3 zenith=mix(vec3(0.012,0.018,0.030)*NIGHT_BRIGHTNESS,
-                    vec3(0.22,0.29,0.40),day);
+                    vec3(0.32,0.335,0.35),day);
     vec3 horizon=mix(vec3(0.018,0.023,0.034)*NIGHT_BRIGHTNESS,
-                     mix(vec3(0.28,0.30,0.33),vec3(0.25,0.275,0.33),lowSun*0.65),day);
+                     mix(vec3(0.38,0.34,0.29),vec3(0.36,0.30,0.24),lowSun*0.65),day);
     vec3 cloudy=mix(vec3(0.015,0.019,0.027)*NIGHT_BRIGHTNESS,
-                    vec3(0.22,0.24,0.27),day);
+                    vec3(0.29,0.28,0.265),day);
     zenith=mix(zenith,cloudy,overcast*0.85);
     horizon=mix(horizon,cloudy,overcast*0.85);
     float sunward=0.5+0.5*dot(n.xz,sunDirection().xz);
     vec3 upper=zenith*skyHemisphere+horizon*(1.0-abs(n.y))*0.24;
     upper+=sunlightColor()*lowSun*day*sunward*(1.0-overcast)*0.025;
-    // Muted ground bounce gives undersides shape without lifting closed caves.
+    // Warm ground bounce opens outdoor shade without lifting closed caves.
     vec3 ground=mix(vec3(0.003,0.004,0.006)*NIGHT_BRIGHTNESS,
-                    vec3(0.055,0.047,0.035),day)*(1.0-skyHemisphere);
+                    vec3(0.080,0.067,0.047),day)*(1.0-skyHemisphere);
     // Low sun illuminates a small part of the dome. Reducing diffuse fill here
-    // preserves bright sun-facing surfaces against cool, readable tree shade.
-    float twilightFill=1.0-0.42*lowSun*day*(1.0-overcast);
+    // preserves sun/shade separation while keeping morning shade readable.
+    float twilightFill=1.0-0.30*lowSun*day*(1.0-overcast);
     return (upper+ground)*twilightFill*(1.0-weatherStormAmount()*0.42)*
            (1.0-0.65*eclipseAmount())*SKYLIGHT_STRENGTH;
 }

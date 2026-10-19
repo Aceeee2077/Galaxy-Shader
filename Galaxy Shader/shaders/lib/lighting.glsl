@@ -34,9 +34,9 @@ vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
     float forward=pow(max(dot(-v,light),0.0),5.0);
     direct+=sqrt(max(m.albedo,vec3(0.0)))*foliage*(1.0-m.metal)*
             (0.06+0.36*forward)*(1.0-nl)*directionalRadiance()*shadow;
-    // Small warm bounce complements the cool sky probe in outdoor shade.
+    // Warm bounce complements the sky probe in outdoor shade.
     // Lightmap and AO gates reject closed caves and deep crevices.
-    direct+=m.albedo*(1.0-m.metal)*directionalRadiance()*0.020*
+    direct+=m.albedo*(1.0-m.metal)*directionalRadiance()*0.035*
             (1.0-shadow)*pow(sat(lm.y),4.0)*m.ao;
 #elif DIMENSION == 1
     shadow=shadowVisibility(player,m.normal,true);

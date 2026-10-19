@@ -1,38 +1,12 @@
 {
   "type": "Synthetic lake; not Minecraft gameplay",
-  "shader_sha256": "53bb8c536783eedc98b8d5f53d6f2a377119c57d78c53cd856815b283c585ef3",
-  "baseline": "tools/.cache/photon13-calibration-before.zip",
+  "shader_sha256": "2875759f4cf7b801996ae838b9e6da6d0bcad715e7b54425cd800528853a122a",
+  "baseline": "Galaxy Shader-1.14.0.zip",
   "options": {
     "CLOUD_QUALITY": 0
   },
   "scenarios": {
     "sunrise-before": {
-      "mean": 0.5364664793014526,
-      "std": 0.23825474083423615,
-      "stages": {
-        "composite": {
-          "min": 0.0219879150390625,
-          "max": 45.96875
-        },
-        "composite1": {
-          "min": 0.0,
-          "max": 8.0
-        },
-        "composite2": {
-          "min": 0.0,
-          "max": 5.0
-        },
-        "composite3": {
-          "min": 0.0,
-          "max": 3.96875
-        },
-        "composite4": {
-          "min": 0.118408203125,
-          "max": 1.0
-        }
-      }
-    },
-    "sunrise-after": {
       "mean": 0.5291450619697571,
       "std": 0.2394019216299057,
       "stages": {
@@ -58,13 +32,13 @@
         }
       }
     },
-    "early-morning-before": {
-      "mean": 0.5537278056144714,
-      "std": 0.2395651638507843,
+    "sunrise-after": {
+      "mean": 0.5766055583953857,
+      "std": 0.24267181754112244,
       "stages": {
         "composite": {
-          "min": 0.0166015625,
-          "max": 54.1875
+          "min": 0.0181732177734375,
+          "max": 51.03125
         },
         "composite1": {
           "min": 0.0,
@@ -72,19 +46,19 @@
         },
         "composite2": {
           "min": 0.0,
-          "max": 7.875
+          "max": 7.4375
         },
         "composite3": {
           "min": 0.0,
-          "max": 7.75
+          "max": 7.0625
         },
         "composite4": {
-          "min": 0.10821533203125,
+          "min": 0.1400146484375,
           "max": 1.0
         }
       }
     },
-    "early-morning-after": {
+    "early-morning-before": {
       "mean": 0.5848503112792969,
       "std": 0.24093031883239746,
       "stages": {
@@ -110,33 +84,33 @@
         }
       }
     },
-    "noon-before": {
-      "mean": 0.400945782661438,
-      "std": 0.16339130699634552,
+    "early-morning-after": {
+      "mean": 0.6301437616348267,
+      "std": 0.23634259402751923,
       "stages": {
         "composite": {
-          "min": 0.01265716552734375,
-          "max": 1.0859375
+          "min": 0.01715087890625,
+          "max": 51.28125
         },
         "composite1": {
           "min": 0.0,
-          "max": 0.00016021728515625
+          "max": 8.0
         },
         "composite2": {
           "min": 0.0,
-          "max": 3.62396240234375e-05
+          "max": 7.875
         },
         "composite3": {
           "min": 0.0,
-          "max": 7.62939453125e-06
+          "max": 7.75
         },
         "composite4": {
-          "min": 0.0791015625,
-          "max": 0.9404296875
+          "min": 0.143310546875,
+          "max": 1.0
         }
       }
     },
-    "noon-after": {
+    "noon-before": {
       "mean": 0.4462190568447113,
       "std": 0.17536242306232452,
       "stages": {
@@ -161,13 +135,39 @@
           "max": 0.99755859375
         }
       }
+    },
+    "noon-after": {
+      "mean": 0.4970901608467102,
+      "std": 0.19231316447257996,
+      "stages": {
+        "composite": {
+          "min": 0.01354217529296875,
+          "max": 1.07421875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.000232696533203125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 5.14984130859375e-05
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.1444091796875e-05
+        },
+        "composite4": {
+          "min": 0.10870361328125,
+          "max": 1.0
+        }
+      }
     }
   },
   "checks": {
     "hdr_solar_path_moves_with_sun": true,
     "water_glint_x_centroids": [
-      415.48920452885346,
-      538.944594407624
+      415.5433225508586,
+      538.9451140267125
     ]
   },
   "status": "passed; appearance reviewed in paired synthetic views"

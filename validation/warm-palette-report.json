@@ -1,0 +1,456 @@
+{
+  "type": "Synthetic GPU fixtures; not Minecraft screenshots",
+  "baseline": "Galaxy Shader-1.14.0.zip",
+  "shader_sha256": "2875759f4cf7b801996ae838b9e6da6d0bcad715e7b54425cd800528853a122a",
+  "scenarios": {
+    "woodland-morning-before": {
+      "mean": 0.4923241436481476,
+      "std": 0.2962588369846344,
+      "stages": {
+        "composite": {
+          "min": 0.0187835693359375,
+          "max": 11.0859375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 7.8125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.25
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.4375
+        },
+        "composite4": {
+          "min": 0.1195068359375,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.2401537359484689,
+      "foreground_red_blue_ratio": 1.1201015627991964
+    },
+    "woodland-morning-after": {
+      "mean": 0.546947717666626,
+      "std": 0.2808770537376404,
+      "stages": {
+        "composite": {
+          "min": 0.019439697265625,
+          "max": 11.5703125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 7.9375
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.5
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.6875
+        },
+        "composite4": {
+          "min": 0.138671875,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.32759406376331396,
+      "foreground_red_blue_ratio": 1.3940794599761621
+    },
+    "woodland-noon-before": {
+      "mean": 0.5677748918533325,
+      "std": 0.24273087084293365,
+      "stages": {
+        "composite": {
+          "min": 0.003322601318359375,
+          "max": 4.81640625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.5
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 3.4375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 3.3125
+        },
+        "composite4": {
+          "min": 0.03857421875,
+          "max": 0.99609375
+        }
+      },
+      "foreground_luminance": 0.5241721987941782,
+      "foreground_red_blue_ratio": 1.438255179783314
+    },
+    "woodland-noon-after": {
+      "mean": 0.6077142953872681,
+      "std": 0.24484539031982422,
+      "stages": {
+        "composite": {
+          "min": 0.00429534912109375,
+          "max": 5.078125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 3.6875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 3.625
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 3.5
+        },
+        "composite4": {
+          "min": 0.050628662109375,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.5949199366867889,
+      "foreground_red_blue_ratio": 1.8709741894065879
+    },
+    "woodland-overcast-before": {
+      "mean": 0.5124555230140686,
+      "std": 0.24376410245895386,
+      "stages": {
+        "composite": {
+          "min": 0.004413604736328125,
+          "max": 2.697265625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.421875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.359375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.1875
+        },
+        "composite4": {
+          "min": 0.045806884765625,
+          "max": 0.95068359375
+        }
+      },
+      "foreground_luminance": 0.37031897757428583,
+      "foreground_red_blue_ratio": 1.2271732774866022
+    },
+    "woodland-overcast-after": {
+      "mean": 0.561730146408081,
+      "std": 0.2427186220884323,
+      "stages": {
+        "composite": {
+          "min": 0.005352020263671875,
+          "max": 2.87109375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.53125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.46875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.28125
+        },
+        "composite4": {
+          "min": 0.058807373046875,
+          "max": 0.99853515625
+        }
+      },
+      "foreground_luminance": 0.4475632953166606,
+      "foreground_red_blue_ratio": 1.5200726843764572
+    },
+    "woodland-rain-before": {
+      "mean": 0.47859323024749756,
+      "std": 0.16917335987091064,
+      "stages": {
+        "composite": {
+          "min": 0.0191650390625,
+          "max": 1.7158203125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.14453125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.109375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.05859375
+        },
+        "composite4": {
+          "min": 0.1297607421875,
+          "max": 0.9580078125
+        }
+      },
+      "foreground_luminance": 0.3529655516445776,
+      "foreground_red_blue_ratio": 1.0375887717143568
+    },
+    "woodland-rain-after": {
+      "mean": 0.53976970911026,
+      "std": 0.17548276484012604,
+      "stages": {
+        "composite": {
+          "min": 0.01849365234375,
+          "max": 1.8212890625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.17578125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.130859375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0703125
+        },
+        "composite4": {
+          "min": 0.140625,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.41971257244008714,
+      "foreground_red_blue_ratio": 1.1625148973262434
+    },
+    "lake-sunrise-before": {
+      "mean": 0.5375109910964966,
+      "std": 0.26215845346450806,
+      "stages": {
+        "composite": {
+          "min": 0.016143798828125,
+          "max": 36.03125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.1875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.4375
+        },
+        "composite4": {
+          "min": 0.11090087890625,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.26265968050260224,
+      "foreground_red_blue_ratio": 0.9287917011651972
+    },
+    "lake-sunrise-after": {
+      "mean": 0.5828797221183777,
+      "std": 0.261690616607666,
+      "stages": {
+        "composite": {
+          "min": 0.0173187255859375,
+          "max": 37.1875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.1875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.5625
+        },
+        "composite4": {
+          "min": 0.1358642578125,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.3112229603379932,
+      "foreground_red_blue_ratio": 0.9725029888919549
+    },
+    "lake-noon-before": {
+      "mean": 0.5321254730224609,
+      "std": 0.24290470778942108,
+      "stages": {
+        "composite": {
+          "min": 0.0100250244140625,
+          "max": 3.919921875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 2.5
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.34375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.84375
+        },
+        "composite4": {
+          "min": 0.08172607421875,
+          "max": 0.99609375
+        }
+      },
+      "foreground_luminance": 0.3310716101579521,
+      "foreground_red_blue_ratio": 0.4550161887038821
+    },
+    "lake-noon-after": {
+      "mean": 0.5735529065132141,
+      "std": 0.24163185060024261,
+      "stages": {
+        "composite": {
+          "min": 0.01165008544921875,
+          "max": 4.14453125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 2.65625
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.5
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.96875
+        },
+        "composite4": {
+          "min": 0.1041259765625,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.3825421856277233,
+      "foreground_red_blue_ratio": 0.439188866405878
+    },
+    "interior-night-before": {
+      "mean": 0.11964553594589233,
+      "std": 0.08579118549823761,
+      "stages": {
+        "composite": {
+          "min": 0.0013294219970703125,
+          "max": 5.921875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.421875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.171875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.9296875
+        },
+        "composite4": {
+          "min": 0.02288818359375,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.07398574350187605,
+      "foreground_red_blue_ratio": 0.9830096499211098
+    },
+    "interior-night-after": {
+      "mean": 0.1383778154850006,
+      "std": 0.09783412516117096,
+      "stages": {
+        "composite": {
+          "min": 0.0013294219970703125,
+          "max": 5.921875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.421875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.171875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.9296875
+        },
+        "composite4": {
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.08507322034616312,
+      "foreground_red_blue_ratio": 0.9825475140650861
+    },
+    "interior-cave-before": {
+      "mean": 0.2150852382183075,
+      "std": 0.34614890813827515,
+      "stages": {
+        "composite": {
+          "min": 0.0005478858947753906,
+          "max": 5.828125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 1.96875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 1.953125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.796875
+        },
+        "composite4": {
+          "min": 0.01495361328125,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.026168618119855963,
+      "foreground_red_blue_ratio": 0.8753824758682827
+    },
+    "interior-cave-after": {
+      "mean": 0.22302556037902832,
+      "std": 0.3537006378173828,
+      "stages": {
+        "composite": {
+          "min": 0.000553131103515625,
+          "max": 5.828125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 2.09375
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 2.0625
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.921875
+        },
+        "composite4": {
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "foreground_luminance": 0.02903500085859961,
+      "foreground_red_blue_ratio": 0.9130041730967663
+    }
+  },
+  "status": "rendered for visual review"
+}
