@@ -1,0 +1,264 @@
+{
+  "type": "Synthetic GPU fixtures; not Minecraft screenshots",
+  "baseline": "Galaxy Shader-1.14.1.zip",
+  "shader_sha256": "b5a030431b4c50b9d170d0d99f8052dc4e4ff2262fbe1f10d08c0adca4912c10",
+  "scenarios": {
+    "woodland-morning-before": {
+      "mean": 0.5469477772712708,
+      "std": 0.2808770537376404,
+      "stages": {
+        "composite": {
+          "min": 0.019439697265625,
+          "max": 11.5703125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 7.9375
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.5
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.6875
+        },
+        "composite4": {
+          "min": 0.138671875,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.556358806861394,
+        0.5857269512977488,
+        0.6144007177839583
+      ],
+      "sky_red_blue_ratio": 0.9055308543066275
+    },
+    "woodland-morning-after": {
+      "mean": 0.5479873418807983,
+      "std": 0.2786567211151123,
+      "stages": {
+        "composite": {
+          "min": 0.0197906494140625,
+          "max": 10.8125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 7.75
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.3125
+        },
+        "composite4": {
+          "min": 0.1414794921875,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.5511173416141015,
+        0.5940221458998504,
+        0.6173041297016749
+      ],
+      "sky_red_blue_ratio": 0.8927809083030037
+    },
+    "woodland-low-sun-before": {
+      "mean": 0.5115595459938049,
+      "std": 0.23873651027679443,
+      "stages": {
+        "composite": {
+          "min": 0.014617919921875,
+          "max": 19.25
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.75
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.8125
+        },
+        "composite4": {
+          "min": 0.12176513671875,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.6813206907495019,
+        0.6007690262157609,
+        0.5845955702333523
+      ],
+      "sky_red_blue_ratio": 1.1654564718602587
+    },
+    "woodland-low-sun-after": {
+      "mean": 0.5102555751800537,
+      "std": 0.23421168327331543,
+      "stages": {
+        "composite": {
+          "min": 0.01531219482421875,
+          "max": 16.59375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.75
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 5.8125
+        },
+        "composite4": {
+          "min": 0.1253662109375,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.6544587231992445,
+        0.6139318332265534,
+        0.5825761187199122
+      ],
+      "sky_red_blue_ratio": 1.1233874890666602
+    },
+    "lake-sunrise-before": {
+      "mean": 0.576850414276123,
+      "std": 0.24267028272151947,
+      "stages": {
+        "composite": {
+          "min": 0.0181732177734375,
+          "max": 51.09375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.4375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 7.0625
+        },
+        "composite4": {
+          "min": 0.1400146484375,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.8013324599096237,
+        0.6927373278162182,
+        0.7059926471158722
+      ],
+      "sky_red_blue_ratio": 1.1350436342115717
+    },
+    "lake-sunrise-after": {
+      "mean": 0.5798422694206238,
+      "std": 0.23798267543315887,
+      "stages": {
+        "composite": {
+          "min": 0.0172882080078125,
+          "max": 44.0625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 8.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 7.4375
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 7.0625
+        },
+        "composite4": {
+          "min": 0.136962890625,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.7767832585859502,
+        0.7106703881191673,
+        0.7001776561954428
+      ],
+      "sky_red_blue_ratio": 1.1094088074820196
+    },
+    "lake-noon-before": {
+      "mean": 0.4970901608467102,
+      "std": 0.19231316447257996,
+      "stages": {
+        "composite": {
+          "min": 0.01354217529296875,
+          "max": 1.07421875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.000232696533203125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 5.14984130859375e-05
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.1444091796875e-05
+        },
+        "composite4": {
+          "min": 0.10870361328125,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.4070702379032024,
+        0.5429861951638965,
+        0.759127867882005
+      ],
+      "sky_red_blue_ratio": 0.5362340853572443
+    },
+    "lake-noon-after": {
+      "mean": 0.49757373332977295,
+      "std": 0.19287025928497314,
+      "stages": {
+        "composite": {
+          "min": 0.013427734375,
+          "max": 1.0927734375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.00023651123046875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 5.340576171875e-05
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 1.1444091796875e-05
+        },
+        "composite4": {
+          "min": 0.10821533203125,
+          "max": 1.0
+        }
+      },
+      "sky_mean_rgb": [
+        0.40563596048856654,
+        0.5431317410365631,
+        0.7601475127083546
+      ],
+      "sky_red_blue_ratio": 0.5336279520838834
+    }
+  },
+  "status": "rendered for visual review"
+}

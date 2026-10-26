@@ -28,6 +28,10 @@ Development build procedural moon: phases 0–7, maria and crater mottling, eart
 
 ![Procedural moon phases](Galaxy%20Shader/previews/night-moon.png)
 
+Development build warm sunlight: three-band atmospheric transmittance, a wider sunward twilight band and a warm-core / cool-fringe aureole (synthetic GPU fixtures, 1.14.1 left, development right):
+
+![Warm sunlight comparison](Galaxy%20Shader/previews/warm-sun.png)
+
 ## Directory Structure
 
 - `Galaxy Shader/`: MIT shader code (1.14.1), menus, and bundled documentation.

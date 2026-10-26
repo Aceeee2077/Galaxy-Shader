@@ -18,6 +18,10 @@ After updating, **reset shader settings**, then select HIGH. Quality profiles al
 
 ![Procedural moon phases and full-moon night (synthetic GPU sky)](previews/night-moon.png)
 
+**Development build — warm sunlight (2026-10-26):** Solar colour now comes from a three-band atmospheric transmittance: Rayleigh scattering, Mie extinction and ozone absorption are integrated with solar elevation, so a low sun turns naturally amber. Ozone retains enough green to keep the sky from drifting magenta. The twilight warm band spreads wider toward the sun, and the solar aureole graduates from a warm core to a cool fringe while direct-light brightness and shade contrast stay unchanged. Everything is analytic; no textures, lookup tables or render targets are added. The image below is a 1.14.1 (left) versus development (right) synthetic A/B, not a gameplay capture.
+
+![Warm sunlight comparison (synthetic GPU fixtures, 1.14.1 left, development right)](previews/warm-sun.png)
+
 The following notes describe earlier releases; the installed package you run remains authoritative.
 
 **1.14.0 — Photon parameter calibration:** The supplied Photon 1.3 defaults inform a 2-degree sun radius shared by the visible disk and PCSS penumbra, 0.8 cloud-shadow strength and fixed exposure at 1. Daylight changes chroma with solar elevation; cool sky fill and a small warm bounce shape outdoor shade. Low morning mist halves every seven blocks above Y=69. Warm twilight is more local, with a blue dome and pink horizon after sunset.
