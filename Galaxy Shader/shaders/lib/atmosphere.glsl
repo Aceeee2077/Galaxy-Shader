@@ -4,6 +4,7 @@
 #include "/lib/end_sky.glsl"
 #include "/lib/weather.glsl"
 #include "/lib/night_sky.glsl"
+#include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
 #include "/lib/celestial.glsl"
@@ -53,7 +54,9 @@ vec3 directionalRadiance() {
     float sunVisibility=smoothstep(-0.04,0.045,sunHeight);
     float lowSunGain=mix(1.12,1.0,smoothstep(0.10,0.60,sunHeight));
     vec3 sun = sunlightColor() * (3.35*SUN_INTENSITY*lowSunGain*sunVisibility) * seasonSunTint();
-    float phase = 0.45 + 0.55 * abs(float(moonPhase)-4.0)/4.0;
+    // Moonlight follows the same illuminated fraction as the visible disk, so
+    // a new moon no longer casts most of a full moon's directional light.
+    float phase = 0.06 + 0.94 * moonPhaseFraction();
     vec3 moon = vec3(0.12,0.15,0.20)*NIGHT_BRIGHTNESS*phase*seasonSkyTint();
     moon*=smoothstep(0.0,0.12,abs(sunHeight));
     return mix(moon,sun,d)*(1.0-0.55*weatherOvercastAmount())*(1.0-0.64*weatherRainAmount())*
@@ -126,8 +129,7 @@ vec3 atmosphere(vec3 ray, bool disks) {
         float solarDisk=smoothstep(cos(radius)-diskWidth,cos(radius)+diskWidth,mu);
         sky += sunlightColor()*18.0*solarDisk*day*(1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
         sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
-        vec3 moon = worldDirection(moonPosition);
-        sky += vec3(1.2,1.3,1.5)*smoothstep(0.99976,0.99994,dot(ray,moon))*(1.0-day)*(1.0-overcast);
+        sky += moonSky(ray,1.0-day,overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
         float star = step(0.996,hash12(floor(starUV)))*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
         sky += vec3(star*0.7*(1.0-day)*(1.0-overcast)*smoothstep(0.0,0.2,ray.y));

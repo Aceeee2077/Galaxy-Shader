@@ -180,7 +180,7 @@ class Renderer:
             self.bind_fbo([texture])
             self.call('glClear',None,[U],0x4000)
 
-    def render(self,kind='day',profile='HIGH',options=None,time=25.0,preserve_history=False,sun_direction=None):
+    def render(self,kind='day',profile='HIGH',options=None,time=25.0,preserve_history=False,sun_direction=None,moon_phase=0):
         self.check('initialization')
         if not preserve_history:self.clear_history()
         folder={'nether':'world-1','end':'world1'}.get(kind,'world0')
@@ -207,7 +207,7 @@ class Renderer:
             'thunderStrength':1.0 if kind=='thunder' else 0.0,
             'frameTimeCounter':time,'frameCounter':int(time*20)%720720,
             'isEyeInWater':1 if kind=='underwater' else 0,
-            'moonPhase':4,'eyeBrightnessSmooth':[40,0 if kind in ['cave','nether','end'] else 240],
+            'moonPhase':int(moon_phase),'eyeBrightnessSmooth':[40,0 if kind in ['cave','nether','end'] else 240],
             'fogColor':[0.35,0.07,0.025] if kind=='nether' else [0.4,0.55,0.7],
             'skyColor':[0.4,0.6,0.85], 'alphaTestRef':0.1,'centerDepthSmooth':0.9975,
         }
