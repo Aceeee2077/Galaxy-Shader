@@ -10,7 +10,8 @@ uniform float alphaTestRef;
 varying vec2 vTex, vLight;
 varying vec4 vColor;
 varying vec3 vPlayer, vNormal, vTangent, vBitangent;
-varying float vId;
+// Material IDs are categorical; perspective interpolation can cross emission boundaries.
+flat in float vId;
 /* DRAWBUFFERS:0123 */
 void main() {
     vec4 tex=texture2D(texture,vTex)*vColor;

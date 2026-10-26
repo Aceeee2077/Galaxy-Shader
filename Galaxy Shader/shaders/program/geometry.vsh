@@ -8,7 +8,8 @@ uniform int entityId, blockEntityId, currentRenderedItemId;
 varying vec2 vTex, vLight;
 varying vec4 vColor;
 varying vec3 vPlayer, vNormal, vTangent, vBitangent;
-varying float vId;
+// Material IDs are categorical; perspective interpolation can cross emission boundaries.
+flat out float vId;
 varying float vCloudShadow;
 void main() {
     vec4 view=gl_ModelViewMatrix*gl_Vertex;

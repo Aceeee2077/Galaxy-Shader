@@ -1,6 +1,7 @@
 uniform sampler2D texture;
 varying vec2 vTex;
-varying float vId;
+// Material IDs are categorical; perspective interpolation can cross emission boundaries.
+flat in float vId;
 /* DRAWBUFFERS:0 */
 void main() {
     if(vId==10000.0 || vId==10010.0) discard;

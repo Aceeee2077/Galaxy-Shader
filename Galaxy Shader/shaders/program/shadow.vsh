@@ -3,7 +3,8 @@
 attribute vec4 mc_Entity;
 attribute vec4 mc_midTexCoord;
 varying vec2 vTex;
-varying float vId;
+// Material IDs are categorical; perspective interpolation can cross emission boundaries.
+flat out float vId;
 void main() {
     vec4 shadowView=gl_ModelViewMatrix*gl_Vertex;
     vec3 player=(shadowModelViewInverse*shadowView).xyz;

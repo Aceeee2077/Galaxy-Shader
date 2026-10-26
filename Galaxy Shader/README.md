@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.1 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.2 · Community Project**
+
+**1.15.2 火把闪烁修复：** 材质编号改为逐面恒定传递，避免浮点插值误差导致火把发光像素反复跳变。其他效果与设置保持不变。
 
 明亮暖色方向的 Minecraft Java 光影包。使用 OpenGL 光栅渲染、阴影贴图和屏幕空间效果，保留方块轮廓。无需编译，不依赖外部噪声贴图，也不需要额外资源包。
 
@@ -122,9 +124,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.1.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.2.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.1.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.2.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
