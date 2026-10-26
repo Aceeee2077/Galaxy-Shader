@@ -8,15 +8,37 @@
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
 #include "/lib/celestial.glsl"
+// Three-band analytic transmittance shared by the sun, twilight band and
+// horizon light. Rayleigh scattering (blue-weighted), Mie extinction (nearly
+// neutral) and a small ozone Chappuis absorption (green-weighted) are enough to
+// reproduce the warm-to-red progression without a spectral LUT. The units are
+// relative optical depths, not calibrated atmospheric coefficients.
+vec3 atmosphereTransmittance(float sunHeight) {
+    float h = max(sunHeight, 0.0);
+    float airMass = 1.0 / (h + 0.03); // ~1 at zenith, ~33 at the geometric horizon
+    float ozoneMass = sqrt(airMass);  // ozone sits above the dense lower air
+    vec3 rayleigh = vec3(0.030, 0.060, 0.165);
+    vec3 mie = vec3(0.013, 0.016, 0.021);
+    vec3 ozone = vec3(0.010, 0.020, 0.005);
+    return exp(-(rayleigh + mie) * airMass - ozone * ozoneMass);
+}
 vec3 sunlightColor() {
     float h = max(sunDirection().y,0.0);
-    // Relative optical path: golden light at grazing incidence, warm daylight
-    // overhead. Separate chroma from the existing luminance budget,
-    // avoiding another scalar attenuation of the low sun or its water glints.
-    float extraPath=max(inversesqrt(h*h+0.0025)-1.0,0.0);
-    vec3 tint=vec3(1.0,0.94,0.83)*exp(-vec3(0.0,0.045,0.135)*extraPath);
+    // Scattered light and aerosols soften the extreme geometric-horizon red.
+    // Chroma only: the energy budget stays independent of exposure and glints.
+    vec3 tint=atmosphereTransmittance(h);
+    tint/=max(luminance(tint),1e-4);
+    tint=mix(tint,vec3(1.0),0.05);
     float energy=mix(0.66,0.97,smoothstep(0.0,0.45,h));
     return tint*(energy/max(luminance(tint),1e-4));
+}
+// A warmer cut through the same transmittance for the low sky. The air mass is
+// fixed below the solar disk so the band stays amber instead of turning black
+// red as the sun reaches the horizon.
+vec3 horizonSunTint() {
+    vec3 tint=atmosphereTransmittance(0.06);
+    tint/=max(luminance(tint),1e-4);
+    return tint;
 }
 // A low-order diffuse sky probe, shared by surfaces, clouds and water. Its
 // hemispheres follow sun elevation and weather without another sky ray march.
@@ -70,6 +92,7 @@ vec3 atmosphere(vec3 ray, bool disks) {
     return endCosmos(ray,disks);
 #else
     vec3 sun = sunDirection();
+    vec3 sunTint = sunlightColor();
     float day = dayAmount(), mu = dot(ray,sun);
     float h = max(ray.y,0.0);
     float optical = 1.0/(0.18+pow(h,0.6));
@@ -82,12 +105,16 @@ vec3 atmosphere(vec3 ray, bool disks) {
     // A pale horizon graduates into a blue zenith instead of a uniformly
     // saturated dome. Keep this broad component neutral even at low sun.
     scatter+=vec3(0.095,0.115,0.135)*pow(1.0-h,5.0)*smoothstep(-0.08,0.18,sun.y);
-    scatter += sunlightColor()*mie*0.012*smoothstep(-0.12,0.1,sun.y);
+    scatter += sunTint*mie*0.012*smoothstep(-0.12,0.1,sun.y);
     float sunset = (1.0-smoothstep(0.03,0.35,abs(sun.y)))*smoothstep(-0.15,0.0,sun.y);
-    // Keep the warm band close to the horizon and on the sun's side. The old
-    // isotropic share tinted most of the dome, so a low morning sun washed the
-    // whole sky into the same flat grey as overcast weather.
-    scatter += vec3(0.72,0.34,0.10)*sunset*pow(1.0-h,5.5)*(0.06+0.94*pow(max(mu,0.0),6.0));
+    // Stretch the sun-side lobe so the warm band is a broad glow rather than a
+    // narrow stripe, and tint it through the same transmittance. Ozone keeps
+    // the band amber instead of dull red while the zenith stays blue. A mild
+    // chroma restore counteracts the desaturation of adding it over pale haze.
+    float warmMu=pow(max(mu,0.0),3.2);
+    vec3 warmBand=horizonSunTint()*0.46*sunset*pow(1.0-h,5.0)*(0.04+0.96*warmMu);
+    warmBand=mix(vec3(luminance(warmBand)),warmBand,1.15);
+    scatter+=warmBand;
     float golden=goldenHourAmount()*(1.0-weatherOvercastAmount());
     float goldenAir=golden*pow(1.0-h,2.5)*(0.08+0.92*pow(max(mu,0.0),4.0));
     scatter*=mix(vec3(1.0),vec3(0.98,0.91,0.68),goldenAir);
@@ -112,22 +139,26 @@ vec3 atmosphere(vec3 ray, bool disks) {
     cloudySky=mix(cloudySky,vec3(0.40,0.31,0.17),sunset*0.72);
     sky=mix(sky,cloudySky,overcast*0.74);
     sky *= 1.0-0.22*weatherStormAmount();
-    // A compact solar aureole stays near the disk. Unlike a screen-wide warm
-    // haze, it leaves the blue sky and foreground contrast intact. Lower cloud
-    // layers composite over this light, so their opaque cores occlude it.
+    // A compact solar aureole stays near the disk. The tight lobe decays faster
+    // in blue and the wide lobe slower, so the core reads warm while the outer
+    // aureole gains a cool fringe. This is an angular colour split, not a
+    // screen-space tint, and clouds still composite over it.
     float solarAngle=max(1.0-mu,0.0);
     float radius=SUN_ANGULAR_RADIUS*(PI/180.0);
     float diskEdge=1.0-cos(radius);
     float haloDistance=max(solarAngle-diskEdge,0.0);
-    float solarHalo=exp(-haloDistance*500.0)*0.10+exp(-haloDistance*1800.0)*1.80;
-    sky+=sunlightColor()*solarHalo*day*smoothstep(-0.04,0.045,sun.y)*
+    vec3 tightHalo=exp(-haloDistance*vec3(1400.0,1800.0,2400.0));
+    vec3 wideHalo=exp(-haloDistance*vec3(560.0,500.0,440.0));
+    vec3 haloColor=sunTint*tightHalo*1.70+
+                   mix(sunTint,vec3(0.72,0.82,1.0),0.55)*wideHalo*0.10;
+    sky+=haloColor*day*smoothstep(-0.04,0.045,sun.y)*
          (1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
     if (disks && ray.y>-0.02) {
         // Keep the disk edge stable with resolution; the angular radius also
         // controls contact-hardening shadows, rather than an unrelated size.
         float diskWidth=max(fwidth(mu),diskEdge*0.06);
         float solarDisk=smoothstep(cos(radius)-diskWidth,cos(radius)+diskWidth,mu);
-        sky += sunlightColor()*18.0*solarDisk*day*(1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
+        sky += sunTint*18.0*solarDisk*day*(1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
         sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
         sky += moonSky(ray,1.0-day,overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);

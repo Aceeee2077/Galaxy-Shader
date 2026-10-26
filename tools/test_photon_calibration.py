@@ -21,6 +21,7 @@ void main() {
     if(testMode==1) c=atmosphere(testRay,true)-atmosphere(testRay,false);
     if(testMode==2) c=vec3(adaptedExposure());
     if(testMode==3) c=applyFog(vec3(0.1),vec3(0.0,0.0,-80.0),false);
+    if(testMode==4) c=atmosphere(testRay,true);
     gl_FragColor=vec4(c,1.0);
 }''').replace('#define COSMIC_SKY_QUALITY 2','#define COSMIC_SKY_QUALITY 0')
         p=r.gl.compile(vertex,fragment)
@@ -45,6 +46,11 @@ void main() {
             self.assertGreater(float(noon[2]),float(morning[2]))
             self.assertGreater(float(morning[2]),float(sunrise[2]))
             self.assertGreater(float(sunrise[0]/sunrise[2]),4.0,'Low sun must warm naturally')
+            self.assertGreater(float(sunrise[0]/sunrise[2]),
+                               float(noon[0]/noon[2])*2.5,
+                               'Warmth must grow with air mass')
+            self.assertGreater(float(sunrise[1]/sunrise[2]),1.5,
+                               'Ozone must keep the low sun orange, not magenta')
 
             # The reference radius is 2 degrees, independently of resolution.
             sun=np.array([0,0.2,-math.sqrt(1-0.2**2)])
@@ -55,6 +61,14 @@ void main() {
             outside=sample(testRay=ray_at(2.5))
             self.assertGreater(float(inside.mean()),8.0)
             self.assertLess(float(np.abs(outside).max()),0.001)
+            # The aureole lives outside the occluded-disk difference, so sample
+            # the full sky. Compare B/R to cancel the absolute intensity.
+            inner_halo=sample(testMode=4,sunPosition=sun,testRay=ray_at(2.4))
+            outer_halo=sample(testMode=4,sunPosition=sun,testRay=ray_at(4.0))
+            inner_ratio=float(inner_halo[2]/inner_halo[0])
+            outer_ratio=float(outer_halo[2]/outer_halo[0])
+            self.assertGreater(outer_ratio,inner_ratio*1.3,
+                               'Aureole must cool from the core outward')
 
             # Fixed exposure must not pump when moving from outdoors to caves.
             outdoor=sample(testMode=2,eyeBrightnessSmooth=[0,240])
