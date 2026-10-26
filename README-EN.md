@@ -20,6 +20,10 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ![End planet sky](Galaxy%20Shader/previews/end-sky.png)
 
+Development build night galaxy: rises from one side, crosses overhead near midnight, sets on the other side (synthetic GPU sky, not a gameplay capture):
+
+![Rotating night galaxy](Galaxy%20Shader/previews/night-galaxy.png)
+
 ## Directory Structure
 
 - `Galaxy Shader/`: MIT shader code (1.14.1), menus, and bundled documentation.

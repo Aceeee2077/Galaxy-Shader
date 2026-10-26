@@ -3,7 +3,7 @@
   "gpu": {
     "vendor": "NVIDIA Corporation",
     "renderer": "NVIDIA GeForce RTX 5080 Laptop GPU/PCIe/SSE2",
-    "version": "4.6.0 NVIDIA 617.42",
+    "version": "4.6.0 NVIDIA 621.01",
     "glsl": "4.60 NVIDIA"
   },
   "scenarios": {
@@ -60,8 +60,8 @@
       }
     },
     "sunset": {
-      "mean": 0.522559642791748,
-      "std": 0.25903135538101196,
+      "mean": 0.5223597884178162,
+      "std": 0.258896142244339,
       "stages": {
         "composite": {
           "min": 0.02777099609375,
@@ -86,8 +86,8 @@
       }
     },
     "night": {
-      "mean": 0.13540790975093842,
-      "std": 0.09329146891832352,
+      "mean": 0.12676872313022614,
+      "std": 0.08383984118700027,
       "stages": {
         "composite": {
           "min": 0.0013523101806640625,
@@ -450,7 +450,7 @@
       }
     }
   },
-  "shader_sha256": "2875759f4cf7b801996ae838b9e6da6d0bcad715e7b54425cd800528853a122a",
+  "shader_sha256": "23a50cc0732238069f17aedaca271da001877565e65961248aaa4d20eacaef74",
   "weather_state_mean_separation": {
     "day_vs_cloudy": 0.1471911072731018,
     "cloudy_vs_rain": 0.04972851276397705,

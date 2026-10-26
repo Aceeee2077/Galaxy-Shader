@@ -35,7 +35,7 @@ Format declarations are Iris metadata inside a multiline comment: the Iris prepr
 
 1. **shadow**: matching vegetation animation, alpha cutout, omit transparent water/glass shadows.
 2. **gbuffers**: forward HDR lighting with normal/specular material evaluation. Dedicated variants handle terrain, entities, block entities, hands, sky suppression, glint and beams. `gbuffers_weather` keeps Iris precipitation geometry but uses its own procedural wind-driven rain fragment program. Terrain wetness, roughness reduction and exposed-surface splash normals are written through the existing material attachments.
-3. **deferred**: procedural sky including volumetric clouds, the rainbow term, the Overworld galaxy/nebula/aurora/shooting-star cosmic sky and the End rift core for clear depth; bounded AO/indirect sampling; screen-space colored light from visible emissive surfaces; glossy surface SSR; copy completed opaque scene to colortex4.
+3. **deferred**: procedural sky including volumetric clouds, the rainbow term, the Overworld rotating Milky Way sheet/aurora/shooting-star cosmic sky and the End rift core for clear depth; bounded AO/indirect sampling; screen-space colored light from visible emissive surfaces; glossy surface SSR; copy completed opaque scene to colortex4.
 4. **transparent geometry**: water samples the opaque copy with a depth-tested refractive offset, absorption, Fresnel and an analytic sky reflection; `WATER_REFLECTIONS` can add screen-space hits on top. Rain adds expanding procedural normal rings and storm wind disturbance. Other translucent surfaces preserve their atlas alpha. Particles and precipitation render after deferred. Hands retain a post-process mask, including the transparent-hand path.
 5. **composite**: dimension-aware height/valley/distance fog and shadow-sampled volumetric light. The reconstructed surface depth terminates fog and light integration at opaque terrain. Dawn/dusk shaft contrast is derived from variation between shadow-map samples; lightning contributes bounded scatter. Hand pixels bypass these effects. Fog density and scatter color use the same daily sky seed as the cloud field.
 6. **composite1/2/3**: bright-pass downsampling and separable Gaussian blur at quarter width/height.
@@ -43,6 +43,8 @@ Format declarations are Iris metadata inside a multiline comment: the Iris prepr
 8. **final**: optional edge-adaptive FXAA on display RGB. Minecraft remains responsible for subsequent HUD/GUI rendering.
 
 ## Cost and stability choices
+
+The development build (2026-10-26) replaces the fixed, patchy night band with one procedural Milky Way sheet anchored to the same daily rotation as the sun and moon. The view ray is rotated into the star-fixed frame, so the band rises from one horizon, crosses overhead around midnight and sets on the opposite side without per-frame randomness. Its structure is layered from analytic noise only: a mottled star sheet, a warmer central bulge, a branched dust lane and Great Rift, sparse H-alpha regions and unresolved star grain. Medium and above use 4 or 5 fbm octaves; low uses 3. A ray more than 0.5 radians from the galactic plane returns after one dot product, before any noise. Horizon extinction and a deep-twilight gate control visibility. No texture, lookup table, extra render target or additional march step is introduced, and the independent aurora/event layers keep their previous strength.
 
 Version 1.14.1 changes the default palette to bright warm daylight. Solar chroma is warmer at all daytime elevations, the diffuse hemisphere has less blue energy and more warm horizon/ground fill, and the gated outdoor bounce increases from 0.020 to 0.035. Twilight diffuse suppression is lighter. Fixed exposure is 1.25 and saturation 1.1; contrast remains 1. White balance runs in Overworld HDR before tone mapping, allowing bright neutral surfaces to approach white instead of acquiring a display-space tint. Sky-light and AO gates remain in place; no texture samples or march steps are added. `render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"` produces eight paired woodland/lake/night/cave fixtures and records foreground brightness and red/blue ratios. These are synthetic fixtures, not gameplay captures.
 
@@ -86,6 +88,8 @@ python tools/test_tonemap.py
 python tools/test_skylight.py
 python tools/test_sunlight.py
 python tools/test_photon_calibration.py
+python tools/test_night_galaxy.py
+python tools/render_night_galaxy.py
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py
 python tools/render_sunrise.py

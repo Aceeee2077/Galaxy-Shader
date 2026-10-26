@@ -10,7 +10,11 @@ After updating, **reset shader settings**, then select HIGH. Quality profiles al
 
 ![Warm palette comparison (synthetic GPU fixtures, 1.14.0 left, 1.14.1 right)](previews/warm-palette.png)
 
-The following notes describe earlier releases; 1.14.1 supersedes their visual calibration.
+**Development build — rotating night galaxy (2026-10-26):** The Milky Way is now one continuous sheet bound to the day/night rotation. It rises from one horizon at dusk, crosses overhead near midnight and sets on the opposite side. Its structure follows wide-field sky photographs: a cool blue-white star sheet, a warm central bulge, a branched dust lane and Great Rift, sparse pink H-alpha regions and fine unresolved stars. Everything is analytic noise; no textures, tables or extra render targets are added. The pattern is anchored in the star-fixed frame, so the whole sheet rotates rigidly and never flickers. It develops after twilight and dims toward the horizon through atmospheric extinction. The default 0.25 strength is now more readable than the old band; adjust it under Cosmic Sky → Galaxy / aurora strength. Aurora and event strengths are unchanged. The image below is a synthetic GPU sky, not a gameplay capture.
+
+![Rotating night galaxy (synthetic GPU sky, four phases × four azimuths)](previews/night-galaxy.png)
+
+The following notes describe earlier releases; the installed package you run remains authoritative.
 
 **1.14.0 — Photon parameter calibration:** The supplied Photon 1.3 defaults inform a 2-degree sun radius shared by the visible disk and PCSS penumbra, 0.8 cloud-shadow strength and fixed exposure at 1. Daylight changes chroma with solar elevation; cool sky fill and a small warm bounce shape outdoor shade. Low morning mist halves every seven blocks above Y=69. Warm twilight is more local, with a blue dome and pink horizon after sunset.
 

@@ -20,6 +20,10 @@ Galaxy Shader—Minecraft Java 光影，当前版本 **1.14.1**。整体改为�
 
 ![末地行星天空](Galaxy%20Shader/previews/end-sky.png)
 
+开发版夜间动态银河：黄昏从一侧升起，午夜横跨天顶，黎明在对侧落下（合成 GPU 天空，非游戏截图）：
+
+![夜间动态银河](Galaxy%20Shader/previews/night-galaxy.png)
+
 ## 目录结构
 
 - `Galaxy Shader/`：MIT 光影源码（1.14.1）、菜单与随包文档。

@@ -1,0 +1,849 @@
+{
+  "type": "Synthetic GPU sky fixtures; not Minecraft screenshots",
+  "baseline": "Galaxy Shader-1.14.1.zip",
+  "shader_sha256": "23a50cc0732238069f17aedaca271da001877565e65961248aaa4d20eacaef74",
+  "settings": {
+    "TAA_QUALITY": 0,
+    "CLOUD_COVERAGE": 0.15
+  },
+  "scenarios": {
+    "before-dusk-east": {
+      "mean": 0.2439333200454712,
+      "std": 0.09684550762176514,
+      "stages": {
+        "composite": {
+          "min": 0.012115478515625,
+          "max": 0.65380859375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.09918212890625,
+          "max": 0.87646484375
+        }
+      }
+    },
+    "before-dusk-south": {
+      "mean": 0.20469215512275696,
+      "std": 0.056762512773275375,
+      "stages": {
+        "composite": {
+          "min": 0.0118255615234375,
+          "max": 0.69580078125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.09759521484375,
+          "max": 0.8408203125
+        }
+      }
+    },
+    "before-dusk-west": {
+      "mean": 0.2364111691713333,
+      "std": 0.06858230382204056,
+      "stages": {
+        "composite": {
+          "min": 0.01361083984375,
+          "max": 0.658203125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.10748291015625,
+          "max": 0.83935546875
+        }
+      }
+    },
+    "before-dusk-north": {
+      "mean": 0.25861120223999023,
+      "std": 0.07845982164144516,
+      "stages": {
+        "composite": {
+          "min": 0.0140533447265625,
+          "max": 0.73193359375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.1104736328125,
+          "max": 0.85498046875
+        }
+      }
+    },
+    "after-dusk-east": {
+      "mean": 0.21723341941833496,
+      "std": 0.1095677986741066,
+      "stages": {
+        "composite": {
+          "min": 0.00608062744140625,
+          "max": 0.6474609375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06298828125,
+          "max": 0.873046875
+        }
+      }
+    },
+    "after-dusk-south": {
+      "mean": 0.1831568330526352,
+      "std": 0.08204001933336258,
+      "stages": {
+        "composite": {
+          "min": 0.0057830810546875,
+          "max": 0.6640625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06103515625,
+          "max": 0.8388671875
+        }
+      }
+    },
+    "after-dusk-west": {
+      "mean": 0.17091186344623566,
+      "std": 0.08339942991733551,
+      "stages": {
+        "composite": {
+          "min": 0.00577545166015625,
+          "max": 0.59912109375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06097412109375,
+          "max": 0.82373046875
+        }
+      }
+    },
+    "after-dusk-north": {
+      "mean": 0.17570172250270844,
+      "std": 0.08077306300401688,
+      "stages": {
+        "composite": {
+          "min": 0.00577545166015625,
+          "max": 0.69189453125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06097412109375,
+          "max": 0.849609375
+        }
+      }
+    },
+    "before-evening-east": {
+      "mean": 0.24021130800247192,
+      "std": 0.07823383808135986,
+      "stages": {
+        "composite": {
+          "min": 0.01416015625,
+          "max": 1.509765625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0546875
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.01904296875
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0076904296875
+        },
+        "composite4": {
+          "min": 0.11053466796875,
+          "max": 0.96533203125
+        }
+      }
+    },
+    "before-evening-south": {
+      "mean": 0.2091105878353119,
+      "std": 0.05911874398589134,
+      "stages": {
+        "composite": {
+          "min": 0.012420654296875,
+          "max": 0.69580078125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.10089111328125,
+          "max": 0.8408203125
+        }
+      }
+    },
+    "before-evening-west": {
+      "mean": 0.23874200880527496,
+      "std": 0.06923128664493561,
+      "stages": {
+        "composite": {
+          "min": 0.01441192626953125,
+          "max": 0.658203125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.1124267578125,
+          "max": 0.83935546875
+        }
+      }
+    },
+    "before-evening-north": {
+      "mean": 0.26203685998916626,
+      "std": 0.07821980863809586,
+      "stages": {
+        "composite": {
+          "min": 0.0146636962890625,
+          "max": 0.73193359375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.11376953125,
+          "max": 0.85498046875
+        }
+      }
+    },
+    "after-evening-east": {
+      "mean": 0.20671497285366058,
+      "std": 0.0942002385854721,
+      "stages": {
+        "composite": {
+          "min": 0.007213592529296875,
+          "max": 1.53125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0595703125
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0205078125
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.008056640625
+        },
+        "composite4": {
+          "min": 0.07012939453125,
+          "max": 0.96630859375
+        }
+      }
+    },
+    "after-evening-south": {
+      "mean": 0.1737217903137207,
+      "std": 0.08168960362672806,
+      "stages": {
+        "composite": {
+          "min": 0.005962371826171875,
+          "max": 0.71142578125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06219482421875,
+          "max": 0.84521484375
+        }
+      }
+    },
+    "after-evening-west": {
+      "mean": 0.16770172119140625,
+      "std": 0.07920483499765396,
+      "stages": {
+        "composite": {
+          "min": 0.0058441162109375,
+          "max": 0.60107421875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.061431884765625,
+          "max": 0.82470703125
+        }
+      }
+    },
+    "after-evening-north": {
+      "mean": 0.20005068182945251,
+      "std": 0.09527818858623505,
+      "stages": {
+        "composite": {
+          "min": 0.005889892578125,
+          "max": 0.69189453125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.061737060546875,
+          "max": 0.849609375
+        }
+      }
+    },
+    "before-midnight-east": {
+      "mean": 0.23224110901355743,
+      "std": 0.07677728682756424,
+      "stages": {
+        "composite": {
+          "min": 0.01282501220703125,
+          "max": 0.548828125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.1031494140625,
+          "max": 0.810546875
+        }
+      }
+    },
+    "before-midnight-south": {
+      "mean": 0.21042661368846893,
+      "std": 0.059866901487112045,
+      "stages": {
+        "composite": {
+          "min": 0.0128631591796875,
+          "max": 0.69580078125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.103271484375,
+          "max": 0.8408203125
+        }
+      }
+    },
+    "before-midnight-west": {
+      "mean": 0.2413644939661026,
+      "std": 0.0697178989648819,
+      "stages": {
+        "composite": {
+          "min": 0.0137176513671875,
+          "max": 0.658203125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.107421875,
+          "max": 0.83935546875
+        }
+      }
+    },
+    "before-midnight-north": {
+      "mean": 0.2619817852973938,
+      "std": 0.07848337292671204,
+      "stages": {
+        "composite": {
+          "min": 0.016204833984375,
+          "max": 0.73193359375
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.1219482421875,
+          "max": 0.85498046875
+        }
+      }
+    },
+    "after-midnight-east": {
+      "mean": 0.18157222867012024,
+      "std": 0.09205956757068634,
+      "stages": {
+        "composite": {
+          "min": 0.006519317626953125,
+          "max": 0.5244140625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.0657958984375,
+          "max": 0.80078125
+        }
+      }
+    },
+    "after-midnight-south": {
+      "mean": 0.17471927404403687,
+      "std": 0.09200327843427658,
+      "stages": {
+        "composite": {
+          "min": 0.0065155029296875,
+          "max": 0.6640625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.0657958984375,
+          "max": 0.83984375
+        }
+      }
+    },
+    "after-midnight-west": {
+      "mean": 0.1977854073047638,
+      "std": 0.0901724100112915,
+      "stages": {
+        "composite": {
+          "min": 0.006557464599609375,
+          "max": 0.65185546875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.0660400390625,
+          "max": 0.83447265625
+        }
+      }
+    },
+    "after-midnight-north": {
+      "mean": 0.2035662829875946,
+      "std": 0.08938178420066833,
+      "stages": {
+        "composite": {
+          "min": 0.006633758544921875,
+          "max": 0.69189453125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.0665283203125,
+          "max": 0.849609375
+        }
+      }
+    },
+    "before-dawn-east": {
+      "mean": 0.2245008647441864,
+      "std": 0.07509369403123856,
+      "stages": {
+        "composite": {
+          "min": 0.01165008544921875,
+          "max": 0.54736328125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.0965576171875,
+          "max": 0.810546875
+        }
+      }
+    },
+    "before-dawn-south": {
+      "mean": 0.20845822989940643,
+      "std": 0.059324510395526886,
+      "stages": {
+        "composite": {
+          "min": 0.01171112060546875,
+          "max": 0.69580078125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.096923828125,
+          "max": 0.8408203125
+        }
+      }
+    },
+    "before-dawn-west": {
+      "mean": 0.25516262650489807,
+      "std": 0.08574782311916351,
+      "stages": {
+        "composite": {
+          "min": 0.01453399658203125,
+          "max": 0.66015625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.11309814453125,
+          "max": 0.83984375
+        }
+      }
+    },
+    "before-dawn-north": {
+      "mean": 0.2578713595867157,
+      "std": 0.07958115637302399,
+      "stages": {
+        "composite": {
+          "min": 0.0140533447265625,
+          "max": 0.73291015625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.1104736328125,
+          "max": 0.85498046875
+        }
+      }
+    },
+    "after-dawn-east": {
+      "mean": 0.17429952323436737,
+      "std": 0.09493715316057205,
+      "stages": {
+        "composite": {
+          "min": 0.00577545166015625,
+          "max": 0.54296875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06097412109375,
+          "max": 0.80615234375
+        }
+      }
+    },
+    "after-dawn-south": {
+      "mean": 0.1281457394361496,
+      "std": 0.060665879398584366,
+      "stages": {
+        "composite": {
+          "min": 0.00577545166015625,
+          "max": 0.650390625
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06097412109375,
+          "max": 0.837890625
+        }
+      }
+    },
+    "after-dawn-west": {
+      "mean": 0.19622500240802765,
+      "std": 0.10899472236633301,
+      "stages": {
+        "composite": {
+          "min": 0.00604248046875,
+          "max": 0.607421875
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.062744140625,
+          "max": 0.8232421875
+        }
+      }
+    },
+    "after-dawn-north": {
+      "mean": 0.213639035820961,
+      "std": 0.08607442677021027,
+      "stages": {
+        "composite": {
+          "min": 0.005794525146484375,
+          "max": 0.6953125
+        },
+        "composite1": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite2": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite3": {
+          "min": 0.0,
+          "max": 0.0
+        },
+        "composite4": {
+          "min": 0.06109619140625,
+          "max": 0.8505859375
+        }
+      }
+    }
+  },
+  "checks": {
+    "mean_abs_8bit_difference": 17.958293145576132,
+    "preview": "Galaxy Shader/previews/night-galaxy.png",
+    "comparison": "validation/night-galaxy-comparison.png"
+  },
+  "status": "rendered for visual review"
+}
