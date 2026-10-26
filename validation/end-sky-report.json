@@ -1,6 +1,6 @@
 {
   "type": "Synthetic GPU sky fixture; not Minecraft gameplay",
-  "shader_sha256": "23a50cc0732238069f17aedaca271da001877565e65961248aaa4d20eacaef74",
+  "shader_sha256": "f1de3ea4510e2e04c54bb89dbf114e757a2fb11206e25b7d7017ed1a41c7a620",
   "checks": {
     "opaque_terrain_unchanged": true,
     "orbits_change_at_fixed_camera": true,

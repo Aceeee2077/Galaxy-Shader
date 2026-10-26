@@ -14,6 +14,10 @@ After updating, **reset shader settings**, then select HIGH. Quality profiles al
 
 ![Rotating night galaxy (synthetic GPU sky, four phases × four azimuths)](previews/night-galaxy.png)
 
+**Development build — procedural moon phases (2026-10-26):** The night moon is now analytic: phases 0–7, a soft terminator, maria and crater mottling, faint earthshine and a cool halo around the limb. Directional moonlight follows the illuminated fraction — brightest at full moon and nearly absent at new moon — and rain or thunderstorms dim the disk. The disk and halo are evaluated from the view direction only, with no textures or extra render targets. The image below shows a full-moon night and phases 0–7 (synthetic GPU sky, not a gameplay capture).
+
+![Procedural moon phases and full-moon night (synthetic GPU sky)](previews/night-moon.png)
+
 The following notes describe earlier releases; the installed package you run remains authoritative.
 
 **1.14.0 — Photon parameter calibration:** The supplied Photon 1.3 defaults inform a 2-degree sun radius shared by the visible disk and PCSS penumbra, 0.8 cloud-shadow strength and fixed exposure at 1. Daylight changes chroma with solar elevation; cool sky fill and a small warm bounce shape outdoor shade. Low morning mist halves every seven blocks above Y=69. Warm twilight is more local, with a blue dome and pink horizon after sunset.

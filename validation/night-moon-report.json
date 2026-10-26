@@ -1,0 +1,47 @@
+{
+  "type": "Synthetic GPU sky fixtures; not Minecraft screenshots",
+  "shader_sha256": "f1de3ea4510e2e04c54bb89dbf114e757a2fb11206e25b7d7017ed1a41c7a620",
+  "moon_direction": [
+    0.0,
+    0.5591928958892822,
+    0.8290375471115112
+  ],
+  "phase_order": [
+    "FULL",
+    "WANING GIBBOUS",
+    "LAST QUARTER",
+    "WANING CRESCENT",
+    "NEW",
+    "WAXING CRESCENT",
+    "FIRST QUARTER",
+    "WAXING GIBBOUS"
+  ],
+  "context_draw": {
+    "mean": 0.2164139747619629,
+    "std": 0.11819589883089066,
+    "stages": {
+      "composite": {
+        "min": 0.006839752197265625,
+        "max": 1.23046875
+      },
+      "composite1": {
+        "min": 0.0,
+        "max": 0.0390625
+      },
+      "composite2": {
+        "min": 0.0,
+        "max": 0.01708984375
+      },
+      "composite3": {
+        "min": 0.0,
+        "max": 0.010009765625
+      },
+      "composite4": {
+        "min": 0.06781005859375,
+        "max": 0.908203125
+      }
+    }
+  },
+  "preview": "Galaxy Shader/previews/night-moon.png",
+  "status": "rendered for visual review"
+}

@@ -24,6 +24,10 @@ Development build night galaxy: rises from one side, crosses overhead near midni
 
 ![Rotating night galaxy](Galaxy%20Shader/previews/night-galaxy.png)
 
+Development build procedural moon: phases 0–7, maria and crater mottling, earthshine and halo, with moonlight scaled by the illuminated fraction (synthetic GPU sky):
+
+![Procedural moon phases](Galaxy%20Shader/previews/night-moon.png)
+
 ## Directory Structure
 
 - `Galaxy Shader/`: MIT shader code (1.14.1), menus, and bundled documentation.

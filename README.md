@@ -24,6 +24,10 @@ Galaxy Shader—Minecraft Java 光影，当前版本 **1.14.1**。整体改为�
 
 ![夜间动态银河](Galaxy%20Shader/previews/night-galaxy.png)
 
+开发版程序化月相：0–7 月相、月海与环形山纹理、地照与月华，月光随受照比例变化（合成 GPU 天空）：
+
+![程序化月相](Galaxy%20Shader/previews/night-moon.png)
+
 ## 目录结构
 
 - `Galaxy Shader/`：MIT 光影源码（1.14.1）、菜单与随包文档。
