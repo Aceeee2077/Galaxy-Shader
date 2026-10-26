@@ -1,28 +1,30 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.14.1 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.1 · Community Project**
 
 Galaxy Shader is a bright, warm-color shader pack for Minecraft Java Edition. It uses OpenGL rasterization, shadow mapping, and screen-space effects while keeping block outlines readable. No compilation step is required, no external noise textures are needed, and no extra resource pack is required.
 
-**1.14.1 — bright warm palette:** Warm golden daylight replaces the neutral sun, sky fill loses its strong blue bias and outdoor shade receives more sky and ground bounce. Fixed exposure defaults to **1.25**, saturation to **1.1**, with contrast at **1**. White balance runs before tone mapping so bright neutral surfaces approach white smoothly. Foliage stays green, the sky stays blue, and sky-light/AO gates still reject outdoor bounce in closed caves. No extra texture samples or march steps are added.
+**1.15.1 — night sky and warm sunlight:** Adds one continuous Milky Way sheet bound to the day/night rotation, analytic moon phases 0–7, and solar colour from three-band atmospheric transmittance driven by solar elevation. Low sun turns amber rather than magenta, the twilight band spreads wider toward the sun, and the aureole graduates from a warm core to a cool fringe. No menu options are added; the warm exposure, saturation and shade-fill defaults from 1.14.1 are unchanged.
 
 After updating, **reset shader settings**, then select HIGH. Quality profiles alone do not reset saved exposure or saturation. Synthetic GPU checks passed; Minecraft gameplay appearance and FPS remain unverified.
 
-![Warm palette comparison (synthetic GPU fixtures, 1.14.0 left, 1.14.1 right)](previews/warm-palette.png)
-
-**Development build — rotating night galaxy (2026-10-26):** The Milky Way is now one continuous sheet bound to the day/night rotation. It rises from one horizon at dusk, crosses overhead near midnight and sets on the opposite side. Its structure follows wide-field sky photographs: a cool blue-white star sheet, a warm central bulge, a branched dust lane and Great Rift, sparse pink H-alpha regions and fine unresolved stars. Everything is analytic noise; no textures, tables or extra render targets are added. The pattern is anchored in the star-fixed frame, so the whole sheet rotates rigidly and never flickers. It develops after twilight and dims toward the horizon through atmospheric extinction. The default 0.25 strength is now more readable than the old band; adjust it under Cosmic Sky → Galaxy / aurora strength. Aurora and event strengths are unchanged. The image below is a synthetic GPU sky, not a gameplay capture.
+**1.15.1 — rotating night galaxy (2026-10-26):** The Milky Way is now one continuous sheet bound to the day/night rotation. It rises from one horizon at dusk, crosses overhead near midnight and sets on the opposite side. Its structure follows wide-field sky photographs: a cool blue-white star sheet, a warm central bulge, a branched dust lane and Great Rift, sparse pink H-alpha regions and fine unresolved stars. Everything is analytic noise; no textures, tables or extra render targets are added. The pattern is anchored in the star-fixed frame, so the whole sheet rotates rigidly and never flickers. It develops after twilight and dims toward the horizon through atmospheric extinction. The default 0.25 strength is now more readable than the old band; adjust it under Cosmic Sky → Galaxy / aurora strength. Aurora and event strengths are unchanged. The image below is a synthetic GPU sky, not a gameplay capture.
 
 ![Rotating night galaxy (synthetic GPU sky, four phases × four azimuths)](previews/night-galaxy.png)
 
-**Development build — procedural moon phases (2026-10-26):** The night moon is now analytic: phases 0–7, a soft terminator, maria and crater mottling, faint earthshine and a cool halo around the limb. Directional moonlight follows the illuminated fraction — brightest at full moon and nearly absent at new moon — and rain or thunderstorms dim the disk. The disk and halo are evaluated from the view direction only, with no textures or extra render targets. The image below shows a full-moon night and phases 0–7 (synthetic GPU sky, not a gameplay capture).
+**1.15.1 — procedural moon phases (2026-10-26):** The night moon is now analytic: phases 0–7, a soft terminator, maria and crater mottling, faint earthshine and a cool halo around the limb. Directional moonlight follows the illuminated fraction — brightest at full moon and nearly absent at new moon — and rain or thunderstorms dim the disk. The disk and halo are evaluated from the view direction only, with no textures or extra render targets. The image below shows a full-moon night and phases 0–7 (synthetic GPU sky, not a gameplay capture).
 
 ![Procedural moon phases and full-moon night (synthetic GPU sky)](previews/night-moon.png)
 
-**Development build — warm sunlight (2026-10-26):** Solar colour now comes from a three-band atmospheric transmittance: Rayleigh scattering, Mie extinction and ozone absorption are integrated with solar elevation, so a low sun turns naturally amber. Ozone retains enough green to keep the sky from drifting magenta. The twilight warm band spreads wider toward the sun, and the solar aureole graduates from a warm core to a cool fringe while direct-light brightness and shade contrast stay unchanged. Everything is analytic; no textures, lookup tables or render targets are added. The image below is a 1.14.1 (left) versus development (right) synthetic A/B, not a gameplay capture.
+**1.15.1 — warm sunlight (2026-10-26):** Solar colour now comes from a three-band atmospheric transmittance: Rayleigh scattering, Mie extinction and ozone absorption are integrated with solar elevation, so a low sun turns naturally amber. Ozone retains enough green to keep the sky from drifting magenta. The twilight warm band spreads wider toward the sun, and the solar aureole graduates from a warm core to a cool fringe while direct-light brightness and shade contrast stay unchanged. Everything is analytic; no textures, lookup tables or render targets are added. The image below is a 1.14.1 (left) versus 1.15.1 (right) synthetic A/B, not a gameplay capture.
 
-![Warm sunlight comparison (synthetic GPU fixtures, 1.14.1 left, development right)](previews/warm-sun.png)
+![Warm sunlight comparison (synthetic GPU fixtures, 1.14.1 left, 1.15.1 right)](previews/warm-sun.png)
 
 The following notes describe earlier releases; the installed package you run remains authoritative.
+
+**1.14.1 — bright warm palette:** Warm golden daylight replaces the neutral sun, sky fill loses its strong blue bias and outdoor shade receives more sky and ground bounce. Fixed exposure defaults to **1.25**, saturation to **1.1**, with contrast at **1**. White balance runs before tone mapping so bright neutral surfaces approach white smoothly. Foliage stays green, the sky stays blue, and sky-light/AO gates still reject outdoor bounce in closed caves. No extra texture samples or march steps are added.
+
+![Warm palette comparison (synthetic GPU fixtures, 1.14.0 left, 1.14.1 right)](previews/warm-palette.png)
 
 **1.14.0 — Photon parameter calibration:** The supplied Photon 1.3 defaults inform a 2-degree sun radius shared by the visible disk and PCSS penumbra, 0.8 cloud-shadow strength and fixed exposure at 1. Daylight changes chroma with solar elevation; cool sky fill and a small warm bounce shape outdoor shade. Low morning mist halves every seven blocks above Y=69. Warm twilight is more local, with a blue dome and pink horizon after sunset.
 
@@ -120,9 +122,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.14.1.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.1.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.14.1.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.1.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
