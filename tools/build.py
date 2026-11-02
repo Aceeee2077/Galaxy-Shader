@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.17'
+VERSION = '1.15.18'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -57,7 +57,7 @@ SCREENS = {
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS LUNAR_CORONA GREEN_FLASH ANTISOLAR_RAYS',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS LUNAR_CORONA STAR_SCINTILLATION GREEN_FLASH ANTISOLAR_RAYS',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES NOCTILUCENT_CLOUDS NACREOUS_CLOUDS',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
@@ -100,7 +100,7 @@ def generate():
         'size.buffer.colortex5=0.25 0.25', 'size.buffer.colortex6=0.25 0.25',
         'screen=<profile> [LIGHTING] [TEMPORAL] [SHADOWS] [AO] [ATMOSPHERE] [CLOUDS] [WEATHER] [COSMIC_SKY] [END_SKY] [WATER] [REFLECTIONS] [MATERIALS] [POST_PROCESS] [SEASONS] [PERFORMANCE]',
         'screen.columns=2',
-        'sliders=CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED WATER_WAVES WATER_CLARITY SHADOW_SOFTNESS SKYLIGHT_STRENGTH COSMIC_SKY_STRENGTH BLOOM_STRENGTH RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY SUN_ANGULAR_RADIUS NIGHT_BRIGHTNESS SEASON_STRENGTH TWILIGHT_OPTICS',
+        'sliders=CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED WATER_WAVES WATER_CLARITY SHADOW_SOFTNESS SKYLIGHT_STRENGTH COSMIC_SKY_STRENGTH BLOOM_STRENGTH RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY SUN_ANGULAR_RADIUS NIGHT_BRIGHTNESS SEASON_STRENGTH TWILIGHT_OPTICS STAR_SCINTILLATION',
     ]
     for name, values in PROFILES.items():
         props.append(f'profile.{name}='+' '.join(f'{k}:{v}' for k,v in zip(PROFILE_KEYS,values)))
@@ -162,6 +162,7 @@ def generate():
         'GREEN_FLASH':('Green flash','绿闪'),
         'ICE_HALO_COMPANIONS':('46° halo & arc','46° 晕与环地平弧'),
         'LUNAR_CORONA':('Lunar corona','月华'),
+        'STAR_SCINTILLATION':('Star twinkle','星光闪烁'),
         'ANTISOLAR_RAYS':('Anti-solar rays','反日点光辐条'),
         'DOF_QUALITY':('Depth of field','景深'),
         'MOTION_BLUR':('Motion blur','动态模糊'), 'AA_QUALITY':('FXAA fallback','FXAA 后备抗锯齿'),
@@ -244,6 +245,7 @@ def generate():
             'ICE_HALO_COMPANIONS':('A faint broad 46-degree ice-crystal ring around the sun, and the bright horizontal circumhorizontal arc about 46 degrees below it when the sun climbs above roughly 58 degrees. Clear weather only.','太阳周围一圈宽而淡的 46° 冰晶晕；太阳升高到约 58° 以上时，其下方约 46° 处出现明亮的水平环地平弧。仅晴天可见。'),
             'ANTISOLAR_RAYS':('Faint cloud-shadow spokes converging on the anti-solar point while the sun is low. They only appear in the half of the sky opposite the sun.','太阳低垂时，云影形成的光辐条汇聚于反日点；只出现在背向太阳的半边天空。'),
             'LUNAR_CORONA':('A compact set of pastel diffraction rings around a bright moon in thin cloud. The rings lean blue-white near the disk and warm outside; clear or lightly cloudy nights only.','薄云中的明月周围会出现一组紧凑的柔和衍射环：靠近月面偏蓝白，外圈偏暖。仅在晴朗或少云的夜晚可见。'),
+            'STAR_SCINTILLATION':('Fast, irregular twinkling of stars caused by atmospheric turbulence. It is strongest near the horizon, where the line of sight crosses the most air; set to 0 to hold every star steady.','大气湍流造成的星光快速不规则闪烁；视线穿过更多低层大气的近地平方向最明显。设为 0 可让所有星星保持稳定。'),
             'RAIN_INTENSITY':('Scales procedural rain visibility without changing Minecraft weather state.','缩放程序化雨线可见度，不改变 Minecraft 天气状态。'),
             'RIPPLE_STRENGTH':('Scales expanding rain rings on water and small impacts on exposed surfaces.','缩放水面扩散雨纹与暴露表面的细小落雨冲击。'),
             'GODRAY_STRENGTH':('Scales shadow-mapped dawn and dusk shafts; midday is reduced automatically.','缩放带阴影遮挡的晨昏光柱；正午会自动减弱。'),

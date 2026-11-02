@@ -1,0 +1,15 @@
+{
+  "type": "Synthetic GPU night panorama pair; not a Minecraft screenshot",
+  "shader_sha256": "a029b56c60f7eee7a57599173dbfa9f3b97211985c7c9d2f134a762c019522e2",
+  "resolution": [
+    960,
+    420
+  ],
+  "sample_times_seconds": [
+    0.0,
+    0.35
+  ],
+  "preview_gain": "twinkle 2x",
+  "preview": "Galaxy Shader/previews/star-scintillation.png",
+  "status": "rendered for visual review"
+}

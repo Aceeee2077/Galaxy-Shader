@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.18 — 2026-11-02
+
+- 新增星光闪烁（stellar scintillation）：低层大气湍流让每颗星以独立相位和速率快速明灭，近地平方向因穿过更厚大气而幅度更大。
+- 新增 `STAR_SCINTILLATION` 滑块（默认 1.0，大气设置页；0 关闭），只调制既有星点，不影响银河、极光或流星。
+- 每颗星的相位与速率来自稳定哈希，纯解析计算，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_scintillation.py` 六项 GPU 回归与 `tools/render_scintillation.py` 双时刻星空对照；报告见 `validation/scintillation-report.json`，预览见 `previews/star-scintillation.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.17 — 2026-11-02
 
 - 新增环天顶弧（circumzenithal arc）：太阳低于约 26° 时，高空片状冰晶在太阳上方约 46° 处形成明亮的彩色微笑弧，两端下沉；红边在下、紫边在上，约 30° 以上消失。

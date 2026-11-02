@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.17. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.18. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -51,6 +51,8 @@ const vec3 WATER_ABSORPTION_UNDERWATER = vec3(0.055, 0.029, 0.018);
 #define ICE_HALO_COMPANIONS 1 // [0 1]
 // Pastel diffraction rings in thin cloud around a bright moon.
 #define LUNAR_CORONA 1 // [0 1]
+// Fast atmospheric twinkling of stars, strongest near the horizon.
+#define STAR_SCINTILLATION 1.0 // [0.0 0.5 1.0 1.5 2.0]
 #define CELESTIAL_EVENTS 1 // [0 1 2]
 #define VOLUMETRIC_QUALITY 2 // [0 1 2 3 4]
 #define WEATHER_QUALITY 3 // [0 1 2 3 4]

@@ -11,6 +11,7 @@
 #include "/lib/ice_halo.glsl"
 #include "/lib/ice_halo_extras.glsl"
 #include "/lib/corona.glsl"
+#include "/lib/scintillation.glsl"
 #include "/lib/moonbow.glsl"
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
@@ -189,8 +190,11 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
         sky += moonSky(ray,1.0-day,overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
-        float star = step(0.996,hash12(floor(starUV)))*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
-        sky += vec3(star*0.7*(1.0-day)*(1.0-overcast)*smoothstep(0.0,0.2,ray.y));
+        float starCell = hash12(floor(starUV));
+        float star = step(0.996,starCell)*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
+        float twinkle = starScintillation(hash12(floor(starUV)+13.7),ray.y,
+                                          frameTimeCounter,STAR_SCINTILLATION);
+        sky += vec3(star*twinkle*0.7*(1.0-day)*(1.0-overcast)*smoothstep(0.0,0.2,ray.y));
 #if COSMIC_SKY_QUALITY > 0
         float cosmicNight = (1.0-day)*(1.0-overcast*0.82);
         sky += galaxyNebula(ray)*cosmicNight*(0.55+0.45*float(COSMIC_SKY_QUALITY>=2))*COSMIC_SKY_STRENGTH;
