@@ -1,0 +1,11 @@
+{
+  "type": "Synthetic GPU star field; not a Minecraft screenshot",
+  "shader_sha256": "863b813f961d77af5ef880277f2b737f51e7ba8d8a2528729ba44a77fb2618f0",
+  "resolution": [
+    960,
+    540
+  ],
+  "preview_note": "stars enlarged for review",
+  "preview": "Galaxy Shader/previews/star-colors.png",
+  "status": "rendered for visual review"
+}

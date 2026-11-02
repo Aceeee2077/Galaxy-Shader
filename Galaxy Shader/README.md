@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.24 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.25 · Community Project**
+
+**1.15.25 恒星颜色（2026-11-02）：** 星点不再全部是同一个白色：每颗星根据自己的稳定哈希获得表面温度色，从暖橙、淡黄、近白到冷蓝白连续分布，并叠加独立的亮度差异，让暗星更多、亮星更醒目。颜色只作用于既有星点与闪烁，不改变银河、极光或流星。新增「大气 → 恒星颜色」开关（默认开启）；关闭后恢复原先统一的白色星点。每颗星两次哈希与一次色温插值，不增加贴图、查表或渲染目标。下图为合成 GPU 星空，星点经放大以便观察，不是游戏截图。
+
+![恒星颜色（合成 GPU 星空，星点放大）](previews/star-colors.png)
 
 **1.15.24 日全食日冕与日珥（2026-11-02）：** 月面完全遮住太阳光球后，黑色月盘周围展开淡白色的日冕：弯曲的流苏向四周放射，赤道方向的冕流更宽，极区则收成细羽；月缘还点缀数处红色日珥，并随时间轻微起伏。日冕只在现有日食窗口的食甚前后出现，阴天被压制，日食结束后立即退出。与日食共用 `CELESTIAL_EVENTS` 开关，不新增选项。纯角度解析的极坐标流苏、径向衰减与月缘红色高斯，不增加贴图、查表或渲染目标。下图为合成 GPU 日食特写，日冕亮度经预览放大，不是游戏截图。
 
@@ -212,7 +216,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.24.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.25.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.24 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.25 · Community Project**
+
+**1.15.25 — star colour (2026-11-02):** The star field is no longer one uniform white. Each star now takes a stable surface-temperature tint from its own hash, running from warm orange through pale yellow and near-white to cool blue-white, plus an independent brightness spread so faint stars are more numerous and bright ones stand out. The colour touches only the existing stars and twinkle, never the galaxy, aurora or meteors. A new Atmosphere → Star colour toggle (on by default) restores the previous uniform white field when switched off. Two hashes and one tint interpolation per star add no texture, lookup table or render target. The image below is a synthetic GPU star field with the stars enlarged for review, not a gameplay capture.
+
+![Star colour (synthetic GPU star field, stars enlarged)](previews/star-colors.png)
 
 **1.15.24 — total-eclipse corona and prominences (2026-11-02):** Once the Moon fully hides the solar photosphere, a pale corona opens around the black disk: curved streamers radiate outward, the belt is broader near the solar equator and narrows into fine plumes over the poles, while a few red prominences sit on the limb and shift slowly. It appears only around totality inside the existing eclipse window, is suppressed under overcast and leaves as soon as the eclipse ends. It shares the `CELESTIAL_EVENTS` schedule, with no new option. Analytic polar streamers, radial falloff and a limb-red Gaussian add no texture, lookup table or render target. The image below is a synthetic GPU eclipse close-up with the corona brightened for preview, not a gameplay capture.
 
@@ -212,7 +216,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.24.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.25.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
