@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.2 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.3 · Community Project**
+
+**1.15.3 — twilight optics (2026-11-02):** Adds the anti-solar Earth's shadow and Belt of Venus, a sunward zodiacal-light cone and night airglow. Just after sunset the anti-solar horizon first darkens under a cool blue-grey shadow wedge, capped by a narrow pink-violet belt; the zodiacal light then opens as a silver-yellow cone above the sun's set point, widening and fading with elevation; after full darkness a slow green-teal airglow layer appears around 10° elevation. All three share one Atmosphere → Twilight optics strength slider (default 1), and cloud or storm cover suppresses them. Everything is evaluated analytically from angles and procedural noise, with no texture, lookup table or render target. The image below is a synthetic GPU panorama with preview gain applied; it is not a gameplay capture.
+
+![Twilight optics (synthetic GPU panorama, preview gain)](previews/twilight-optics.png)
 
 **1.15.2 — torch flicker fix:** Material IDs now use flat interpolation, preventing floating-point interpolation errors from toggling torch emission. Other effects and settings are unchanged.
 
@@ -124,9 +128,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.2.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.3.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.2.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.3.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -137,7 +141,7 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | --- | --- |
 | Lighting | Dynamic sun/moon direction, warm sunrise/sunset tint, weather attenuation, hemispheric ambient light, minimum cave brightness, held-light approximation |
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
-| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events |
+| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night airglow |
 | End sky | Rift core (faceted crystal core, four diffraction streaks, bipolar plasma jets, two belts of shattered shards), one ringed giant and a fixed starfield; `END_PLANETS` / `END_ORBIT_SPEED`, End only |
 | Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
 | Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |

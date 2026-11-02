@@ -1,0 +1,22 @@
+{
+  "type": "Synthetic GPU panoramas; not Minecraft screenshots",
+  "shader_sha256": "f2c34f448ba2a46c3c62866d09ff8ffba736946fe336789c63c673b4461be894",
+  "resolution": [
+    960,
+    240
+  ],
+  "scenes": [
+    {
+      "label": "dusk",
+      "sun_height": -0.06,
+      "gain": 6.0
+    },
+    {
+      "label": "midnight",
+      "sun_height": -0.8,
+      "gain": 14.0
+    }
+  ],
+  "preview": "Galaxy Shader/previews/twilight-optics.png",
+  "status": "rendered for visual review"
+}

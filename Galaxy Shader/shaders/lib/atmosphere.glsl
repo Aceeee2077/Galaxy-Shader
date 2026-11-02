@@ -4,6 +4,7 @@
 #include "/lib/end_sky.glsl"
 #include "/lib/weather.glsl"
 #include "/lib/night_sky.glsl"
+#include "/lib/twilight_optics.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -133,6 +134,12 @@ vec3 atmosphere(vec3 ray, bool disks) {
     float eclipse=eclipseAmount();
     sky *= 1.0-0.72*eclipse;
     float overcast=weatherOvercastAmount();
+    // Twilight and dark-sky optics share one strength. The Earth's shadow only
+    // darkens the anti-solar dome, while the Belt of Venus, zodiacal cone and
+    // airglow add light; all are suppressed by cloud and storm cover.
+    float opticsStrength=TWILIGHT_OPTICS*(1.0-overcast);
+    sky*=1.0-0.20*earthShadowMask(ray,sun)*opticsStrength;
+    sky+=twilightOptics(ray,sun,overcast)*TWILIGHT_OPTICS;
     vec3 cloudySky=mix(vec3(0.16,0.20,0.25),vec3(0.055,0.070,0.095),weatherStormAmount());
     cloudySky*=mix(0.42,1.0,day);
     // Low sunlight still colors rain clouds; midday and night retain cool storms.

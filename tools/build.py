@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.2'
+VERSION = '1.15.3'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -57,7 +57,7 @@ SCREENS = {
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
@@ -100,7 +100,7 @@ def generate():
         'size.buffer.colortex5=0.25 0.25', 'size.buffer.colortex6=0.25 0.25',
         'screen=<profile> [LIGHTING] [TEMPORAL] [SHADOWS] [AO] [ATMOSPHERE] [CLOUDS] [WEATHER] [COSMIC_SKY] [END_SKY] [WATER] [REFLECTIONS] [MATERIALS] [POST_PROCESS] [SEASONS] [PERFORMANCE]',
         'screen.columns=2',
-        'sliders=CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED WATER_WAVES WATER_CLARITY SHADOW_SOFTNESS SKYLIGHT_STRENGTH COSMIC_SKY_STRENGTH BLOOM_STRENGTH RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY SUN_ANGULAR_RADIUS NIGHT_BRIGHTNESS SEASON_STRENGTH',
+        'sliders=CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED WATER_WAVES WATER_CLARITY SHADOW_SOFTNESS SKYLIGHT_STRENGTH COSMIC_SKY_STRENGTH BLOOM_STRENGTH RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH EXPOSURE SATURATION CONTRAST FOG_DENSITY DAWN_HAZE WIND_STRENGTH SUN_INTENSITY SUN_ANGULAR_RADIUS NIGHT_BRIGHTNESS SEASON_STRENGTH TWILIGHT_OPTICS',
     ]
     for name, values in PROFILES.items():
         props.append(f'profile.{name}='+' '.join(f'{k}:{v}' for k,v in zip(PROFILE_KEYS,values)))
@@ -153,6 +153,7 @@ def generate():
         'AUTO_EXPOSURE':('Eye adaptation','自动曝光'),
         'SATURATION':('Saturation','饱和度'), 'CONTRAST':('Contrast','对比度'),
         'FOG_DENSITY':('Fog density','雾浓度'), 'DAWN_HAZE':('Dawn/dusk haze','晨昏雾霾'),
+        'TWILIGHT_OPTICS':('Twilight optics','晨昏光学现象'),
         'DOF_QUALITY':('Depth of field','景深'),
         'MOTION_BLUR':('Motion blur','动态模糊'), 'AA_QUALITY':('FXAA fallback','FXAA 后备抗锯齿'),
         'TONEMAP_MODE':('Tone mapping','色调映射'),
@@ -227,6 +228,7 @@ def generate():
             'WEATHER_QUALITY':('Controls procedural rain layers, surface splashes and water ripples. Off restores the lightweight fallback.','控制程序化雨线层次、地表飞溅和水面涟漪；关闭时使用轻量后备效果。'),
             'TERRAIN_FOG_QUALITY':('Adds height, valley and distance fog with terrain depth occlusion.','加入高度雾、山谷雾与远景霾，并由地形深度遮挡。'),
             'DAWN_HAZE':('Scales the sunrise/sunset haze band and its volume light. 0 keeps a crisp clear sky, 2 restores a heavy morning fog bank.','缩放日出日落的霾带与对应体积光。0 为通透晴天，2 恢复浓厚晨雾。'),
+            'TWILIGHT_OPTICS':('Scales the anti-solar Earth shadow and Belt of Venus, the zodiacal-light cone and night airglow. Clear weather only; clouds suppress all three.','缩放反日点地影与金星带、黄道光锥与夜间气辉；仅在晴朗天气出现，云层会压制这三项现象。'),
             'RAIN_INTENSITY':('Scales procedural rain visibility without changing Minecraft weather state.','缩放程序化雨线可见度，不改变 Minecraft 天气状态。'),
             'RIPPLE_STRENGTH':('Scales expanding rain rings on water and small impacts on exposed surfaces.','缩放水面扩散雨纹与暴露表面的细小落雨冲击。'),
             'GODRAY_STRENGTH':('Scales shadow-mapped dawn and dusk shafts; midday is reduced automatically.','缩放带阴影遮挡的晨昏光柱；正午会自动减弱。'),
