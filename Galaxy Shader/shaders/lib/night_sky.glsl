@@ -2,6 +2,7 @@
 #define SE_NIGHT_SKY
 #include "/lib/noise.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/meteor_train.glsl"
 
 float skyNoise3(vec3 p) {
     return (valueNoise(p.xy) + valueNoise(p.yz + 17.3) + valueNoise(p.zx + 31.7)) / 3.0;
@@ -180,7 +181,8 @@ vec3 auroraSky(vec3 ray, float night) {
 }
 
 // Occasional short streaks. Conservative by default: they are bright, brief, and
-// deterministic, and never contribute to the vanilla star field.
+// deterministic, and never contribute to the vanilla star field. After the head
+// has passed, a fainter persistent train lingers along the same path.
 vec3 shootingStars(vec3 ray) {
     vec3 color = vec3(0.0);
 #if COSMIC_SKY_QUALITY >= 2
@@ -190,7 +192,9 @@ vec3 shootingStars(vec3 ray) {
         float period = 7.0 + seed * 14.0;
         float cycle = fract((frameTimeCounter * 0.10 + seed * 37.0) / period);
         float life = smoothstep(0.0, 0.08, cycle) * (1.0 - smoothstep(0.08, 0.34, cycle));
-        if (life <= 0.0) continue;
+        float trainLife = smoothstep(0.12, 0.22, cycle) *
+                          (1.0 - smoothstep(0.44, 0.68, cycle));
+        if (life <= 0.0 && trainLife <= 0.0) continue;
         float azimuth = seed * 6.2831853 + frameTimeCounter * 0.0008;
         float elevation = 0.24 + hash12(vec2(fi, 23.0)) * 0.42;
         vec3 head = vec3(cos(azimuth) * cos(elevation), sin(elevation), sin(azimuth) * cos(elevation));
@@ -200,6 +204,7 @@ vec3 shootingStars(vec3 ray) {
         float along = sat((angle - tailAngle) / max(0.10, 1.0 - tailAngle));
         float proximity = 1.0 - smoothstep(0.0, 0.016 + along * 0.018, angle);
         color += vec3(0.55, 0.75, 1.0) * proximity * life * (0.45 + 0.55 * along) * 1.35;
+        color += meteorTrain(ray, head, tail, trainLife, seed, frameTimeCounter);
     }
 #endif
     return color;

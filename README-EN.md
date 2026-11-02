@@ -1,10 +1,10 @@
 # Galaxy Shader
 
-Galaxy Shader—Minecraft Java shaders, version **1.15.22**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light with a night zodiacal band and gegenschein, night airglow, noctilucent clouds, winter nacreous clouds, 22° ice-crystal halos with moon dogs and a lunar tangent arc, a 46° ring, circumhorizontal arc and circumzenithal arc, a thin-cloud lunar corona, stellar scintillation, an auroral zenith corona, a comet anti-tail, a rainy-night moonbow, a broad fog bow after rain, a sunset green flash and anti-solar ray spokes: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
+Galaxy Shader—Minecraft Java shaders, version **1.15.23**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light with a night zodiacal band and gegenschein, night airglow, noctilucent clouds, winter nacreous clouds, 22° ice-crystal halos with moon dogs and a lunar tangent arc, a 46° ring, circumhorizontal arc and circumzenithal arc, a thin-cloud lunar corona, stellar scintillation, an auroral zenith corona, a comet anti-tail, meteor persistent trains, a rainy-night moonbow, a broad fog bow after rain, a sunset green flash and anti-solar ray spokes: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
 
 Target: Minecraft Java 26.2, Fabric, Iris, Sodium, OpenGL. FPS not yet tested.
 
-The latest installation package is `Galaxy Shader-1.15.22.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
+The latest installation package is `Galaxy Shader-1.15.23.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
 
 ## Effect Preview
 
@@ -35,6 +35,10 @@ End rift core and giant planet close-up (composited GPU preview):
 1.15.3 twilight optics: anti-solar Earth shadow / Belt of Venus, sunward zodiacal light and night airglow (synthetic GPU panorama, preview gain):
 
 ![Twilight optics](Galaxy%20Shader/previews/twilight-optics.png)
+
+1.15.23 meteor persistent train: after a bright meteor passes, a pale green afterglow lingers along its path for a few seconds, broken into slowly drifting knots (synthetic GPU night view, train preview gain):
+
+![Meteor persistent train](Galaxy%20Shader/previews/meteor-train.png)
 
 1.15.22 moon dogs and lunar tangent arc: a low bright moon lights plate ice crystals, adding a cool pair of vertical moon-dog smears at the 22° ring sides and a pale cap tangent to its top (synthetic GPU night panorama, ice-halo preview gain):
 
@@ -114,7 +118,7 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ## Directory Structure
 
-- `Galaxy Shader/`: MIT shader code (1.15.22), menus, and bundled documentation.
+- `Galaxy Shader/`: MIT shader code (1.15.23), menus, and bundled documentation.
 - `tools/`: entrypoint generation, GPU compilation, offscreen rendering, and deterministic packaging tools.
 - `validation/`: version-controlled validation reports and test checklists; generated artifacts such as composited scene PNGs/GIFs are kept locally only and are not checked into the repository.
 - `Galaxy Shader-1.15.11.zip` / `.sha256`: latest installation package and SHA-256 checksum.

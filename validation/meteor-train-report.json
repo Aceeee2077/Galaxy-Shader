@@ -1,0 +1,11 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "a5671e21e214b4079dcc80d22d717c942a73bef005c3aa1d6b883cbd0ef5ee0f",
+  "resolution": [
+    960,
+    500
+  ],
+  "preview_gain": 6.0,
+  "preview": "Galaxy Shader/previews/meteor-train.png",
+  "status": "rendered for visual review"
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.23 — 2026-11-02
+
+- 新增流星余迹（meteor persistent train）：明亮流星消失后，沿轨迹留下数秒的淡绿色余迹，中段最亮、两端渐隐，并带缓慢漂移的双频结节。
+- 与流星共用 `COSMIC_SKY_QUALITY`、`CELESTIAL_EVENTS` 及夜晚/云量门控，无新增选项；流星事件之外不出现。
+- 纯角度解析的路径平面高斯与双频结节，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_meteor_train.py` 五项 GPU 回归与 `tools/render_meteor_train.py` 合成夜空视图；报告见 `validation/meteor-train-report.json`，预览见 `previews/meteor-train.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.22 — 2026-11-02
 
 - 新增月幻日与月切弧（moon dogs / lunar tangent arc）：低月照亮高空片状冰晶时，22° 月晕两侧出现冷色竖向拉长的幻日，晕顶覆一条淡淡的切弧。
