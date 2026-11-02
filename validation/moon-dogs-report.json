@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "6bea18eb421b381c1a53f155f0bc601c4d2b3a58269a917b310222ab4d1fb919",
+  "resolution": [
+    960,
+    520
+  ],
+  "moon_elevation_degrees": 10.0,
+  "preview_gain": 3.6,
+  "preview": "Galaxy Shader/previews/moon-dogs.png",
+  "status": "rendered for visual review"
+}

@@ -4,8 +4,9 @@
 // The 22-degree halo family produced by hexagonal ice crystals in cirrus.
 // Everything is analytic and angular: one dot product rejects every pixel
 // farther than ~35 degrees from the light source, and the parhelia/pillar
-// terms add a few trigonometry calls only for a low sun. `lunar` keeps the
-// moon to the ring and a dimmer pillar; dogs and the tangent arc need sunlight.
+// terms add a few trigonometry calls only for a low light source. `lunar`
+// keeps the moon dimmer and cool, but it still draws parhelia and a tangent
+// arc when the same plate crystals are lit by moonlight.
 vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) {
     if (visibility <= 1e-4) return vec3(0.0);
     float d = dot(ray, lightDir);
@@ -86,8 +87,7 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         result += tint * pillar * pillarGate * smoothstep(0.0, 0.02, ray.y) * 0.10;
     } else if (lunar > 0.5 && lightDir.y > -0.01) {
         // A bright moon also draws a narrow pillar from the same plate
-        // crystals. It is dimmer and cooler than the solar shaft, and it skips
-        // the dogs and tangent arc, which need direct sunlight.
+        // crystals. It is dimmer and cooler than the solar shaft.
         vec3 moonFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
         vec3 moonSide = normalize(cross(vec3(0.0, 1.0, 0.0), moonFlat));
         float moonAzimuth = atan(dot(ray, moonSide), dot(ray, moonFlat));
@@ -104,6 +104,44 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         }
         result += vec3(0.72, 0.80, 1.0) * pillar * pillarGate *
                   smoothstep(0.0, 0.02, ray.y) * 0.055;
+
+        // Moon dogs: the same 22-degree parhelia, much fainter and cool. They
+        // still need a low moon because the plate crystals must be near
+        // horizontal to split the moonlight sideways.
+        float lunarDogGate = smoothstep(0.015, 0.070, lightDir.y) *
+                             (1.0 - smoothstep(0.24, 0.40, lightDir.y));
+        if (lunarDogGate > 0.0) {
+            float horizontal = max(length(lightDir.xz), 1e-4);
+            vec2 heading = lightDir.xz / horizontal;
+            float cs = cos(22.0 * deg);
+            float sn = sin(22.0 * deg);
+            vec2 leftHeading = vec2(heading.x * cs - heading.y * sn,
+                                    heading.x * sn + heading.y * cs);
+            vec2 rightHeading = vec2(heading.x * cs + heading.y * sn,
+                                     -heading.x * sn + heading.y * cs);
+            float dog = 0.0;
+            for (int i = 0; i < 2; i++) {
+                vec2 dogHeading = i == 0 ? leftHeading : rightHeading;
+                vec3 dogDir = vec3(dogHeading.x * horizontal, lightDir.y,
+                                   dogHeading.y * horizontal);
+                vec3 dogFlat = normalize(vec3(dogDir.x, 0.0, dogDir.z));
+                vec3 dogSide = normalize(cross(vec3(0.0, 1.0, 0.0), dogFlat));
+                float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
+                float vertical = elevation - asin(clamp(dogDir.y, -1.0, 1.0));
+                dog += exp(-pow(azimuth / (1.15 * deg), 2.0)) *
+                       exp(-pow(vertical / (2.8 * deg), 2.0));
+            }
+            result += vec3(0.76, 0.84, 1.0) * dog * lunarDogGate * 0.070;
+
+            // Lunar upper tangent arc: a pale cap tangent to the top of the
+            // ring, narrower and weaker than its solar counterpart.
+            float tangent = exp(-pow(moonAzimuth / (10.0 * deg), 2.0)) *
+                            smoothstep(19.5 * deg, 21.8 * deg, aboveMoon) *
+                            (1.0 - smoothstep(27.0 * deg, 32.0 * deg, aboveMoon)) *
+                            smoothstep(18.0 * deg, 20.5 * deg, theta) *
+                            (1.0 - smoothstep(26.0 * deg, 29.0 * deg, theta));
+            result += vec3(0.72, 0.80, 1.0) * tangent * lunarDogGate * 0.028;
+        }
     }
 
     return result * visibility;

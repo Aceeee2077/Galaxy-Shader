@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.21 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.22 · Community Project**
+
+**1.15.22 月幻日与月切弧（2026-11-02）：** 低垂的明亮月亮照亮高空片状冰晶时，除了 22° 月晕与月柱，还会在晕的两侧各出现一个冷色、竖向拉长的月幻日，并在晕顶覆上一条淡淡的月切弧。月幻日与月切弧只在月亮低于约 23° 时出现，亮度约为同条件太阳幻日的一半，颜色明显偏冷；月亮升高后一起淡出。与冰晶晕共用 `ICE_HALOS` 开关，不新增选项。纯角度解析的方位/高度高斯与切弧包络，不增加贴图、查表或渲染目标。下图为合成 GPU 夜空全景，冰晶光晕亮度经预览放大，不是游戏截图。
+
+![月幻日与月切弧（合成 GPU 夜空全景，冰晶光晕预览放大）](previews/moon-dogs.png)
 
 **1.15.21 彗星反尾（2026-11-02）：** 彗星活跃期，彗头附近除了背离太阳的普通尘埃尾，还会出现一条指向太阳的极细尘埃针——这是较大尘埃颗粒沿轨道面铺开、从侧视角度看到的反尾。反尾比尘埃尾窄得多，靠近彗头处最亮，随后迅速变淡，且在彗头背光侧不出现。它与现有彗星共用 `CELESTIAL_EVENTS` 天文事件开关和夜晚/晴空门控，不新增选项；纯角度解析的切平面高斯针与单调衰减，不增加贴图、查表或渲染目标。下图为合成 GPU 彗星视图，反尾亮度经预览放大，不是游戏截图。
 
@@ -200,7 +204,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.21.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.22.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

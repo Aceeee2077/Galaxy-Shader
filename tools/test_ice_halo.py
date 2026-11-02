@@ -173,7 +173,7 @@ void main() {
         self.assertLess(self.peak(high, high_column), 1e-6,
                         'A high moon leaves the pillar dark')
 
-    def test_lunar_mode_keeps_the_ring_without_dogs(self):
+    def test_lunar_dogs_are_present_but_dimmer(self):
         lunar, rays = self.image(7.0, lunar=1.0)
         solar, _ = self.image(7.0, lunar=0.0)
         theta = self.angular(rays, 7.0)
@@ -182,8 +182,26 @@ void main() {
         elevation = np.degrees(np.arcsin(np.clip(rays[:, :, 1], -1.0, 1.0)))
         azimuth = np.abs(self.azimuths(rays))
         dogs = (np.abs(elevation - 7.0) < 3.0) & (np.abs(azimuth - 22.0) < 4.0)
-        self.assertLess(self.peak(lunar, dogs), self.peak(solar, dogs) * 0.6,
-                        'Lunar mode must not add sun dogs')
+        beside = (np.abs(elevation - 7.0) < 3.0) & (np.abs(azimuth - 33.0) < 4.0)
+        lunar_peak = self.peak(lunar, dogs)
+        self.assertGreater(lunar_peak, 0.02, 'A low moon must draw moon dogs')
+        self.assertGreater(lunar_peak, self.peak(lunar, beside) * 1.5,
+                           'Moon dogs stay beside the ring')
+        self.assertLess(lunar_peak, self.peak(solar, dogs) * 0.8,
+                        'Moon dogs must stay dimmer than sun dogs')
+
+    def test_lunar_upper_tangent_arc(self):
+        lunar, rays = self.image(7.0, lunar=1.0)
+        elevation = np.degrees(np.arcsin(np.clip(rays[:, :, 1], -1.0, 1.0)))
+        azimuth = np.abs(self.azimuths(rays))
+        arc = ((elevation > 32.0) & (elevation < 36.0) & (azimuth < 8.0))
+        side = ((elevation > 32.0) & (elevation < 36.0) &
+                (azimuth > 20.0) & (azimuth < 30.0))
+        arc_peak = self.peak(lunar, arc)
+        self.assertGreater(arc_peak, 0.002,
+                           'A low moon draws an upper tangent arc')
+        self.assertGreater(arc_peak, self.peak(lunar, side) * 3.0,
+                           'The tangent arc stays above the moon')
 
 
 if __name__ == '__main__':

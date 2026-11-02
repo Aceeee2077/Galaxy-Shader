@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.21 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.22 · Community Project**
+
+**1.15.22 — moon dogs and lunar tangent arc (2026-11-02):** When a low, bright moon lights high plate ice crystals, the 22° lunar halo now gains a cool, vertically stretched moon dog on each side and a pale cap tangent to its top. Both appear only while the moon is below about 23°, stay near half the brightness of the equivalent solar parhelia and are visibly cooler; they fade as the moon climbs. They share the `ICE_HALOS` toggle, with no new option. Analytic azimuth/elevation Gaussians and a tangent-arc envelope add no texture, lookup table or render target. The image below is a synthetic GPU night panorama with the ice-halo brightness raised for preview, not a gameplay capture.
+
+![Moon dogs and lunar tangent arc (synthetic GPU night panorama, ice-halo preview gain)](previews/moon-dogs.png)
 
 **1.15.21 — comet anti-tail (2026-11-02):** While the comet is active, a very thin dust needle now points sunward beside the ordinary anti-sunward dust tail—larger grains spread along the orbital plane and read as a spike from near that plane. It is far narrower than the dust tail, brightest near the head, fades quickly with distance and does not appear behind the head. It shares the existing `CELESTIAL_EVENTS` schedule and the night/clear-sky gates, with no new option; an analytic tangent-plane Gaussian spike with a monotonic falloff adds no texture, lookup table or render target. The image below is a synthetic GPU comet view with the anti-tail brightened for preview, not a gameplay capture.
 
@@ -200,7 +204,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.21.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.22.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
