@@ -1,0 +1,16 @@
+{
+  "type": "Synthetic GPU upper-sky panorama; not a Minecraft screenshot",
+  "shader_sha256": "9dd22c4b3e1089055ad502eb5a397bc4f39fd670c325e3fc7eb8fe2da0e89dc1",
+  "resolution": [
+    960,
+    520
+  ],
+  "sun_elevation_degrees": 15.0,
+  "view_elevation_degrees": [
+    30.0,
+    85.0
+  ],
+  "preview_gain": "arc 2x",
+  "preview": "Galaxy Shader/previews/circumzenithal-arc.png",
+  "status": "rendered for visual review"
+}

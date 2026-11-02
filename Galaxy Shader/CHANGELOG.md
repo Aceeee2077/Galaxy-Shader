@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.17 — 2026-11-02
+
+- 新增环天顶弧（circumzenithal arc）：太阳低于约 26° 时，高空片状冰晶在太阳上方约 46° 处形成明亮的彩色微笑弧，两端下沉；红边在下、紫边在上，约 30° 以上消失。
+- 与 46° 晕、环地平弧共用 `ICE_HALO_COMPANIONS` 开关，无新增选项；复用既有晴天/非降雨冰晶可见度门控。
+- 纯角度解析的高斯带与方位包络，不增加贴图、查表或渲染目标。
+- `tools/test_ice_halo_extras.py` 扩至十一项 GPU 回归并全部通过；`tools/render_circumzenithal.py` 生成合成高空全景，报告见 `validation/circumzenithal-report.json`，预览见 `previews/circumzenithal-arc.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.16 — 2026-11-02
 
 - 新增月华（lunar corona）：薄云中的明亮月亮周围出现约 2°–8° 的紧凑衍射环，靠近月面偏蓝白、外侧渐暖，环纹随月相受照比例与夜晚亮度缩放。

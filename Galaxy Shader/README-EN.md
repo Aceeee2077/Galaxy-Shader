@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.16 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.17 · Community Project**
+
+**1.15.17 — circumzenithal arc (2026-11-02):** When the sun sits below about 26°, plate crystals draw a bright coloured smile about 46° above it, its ends sagging toward the horizon and its centre near the zenith; red lines the lower edge and violet the upper, and the arc fades out above roughly 30° of solar elevation. It shares the `ICE_HALO_COMPANIONS` toggle with the 46° ring and circumhorizontal arc, adding no new option, and reuses the existing clear-ice visibility gate. It is an analytic Gaussian band with an azimuth envelope, adding no texture, lookup table or render target. The image below is a synthetic GPU upper-sky panorama with the arc brightened for preview, not a gameplay capture.
+
+![Circumzenithal arc (synthetic GPU upper-sky panorama, arc preview gain)](previews/circumzenithal-arc.png)
 
 **1.15.16 — lunar corona (2026-11-02):** A compact set of soft diffraction rings now surrounds a bright moon in thin cloud, about 2°–8° in radius, leaning blue-white near the disk and warmer outside. The rings scale with the illuminated moon fraction and night brightness, fade under overcast and are suppressed further in rain. A new `LUNAR_CORONA` toggle (on by default, Atmosphere page) controls them. Unlike ice halos, a corona comes from diffraction by cloud droplets rather than refraction by crystals, so it does not depend on `ICE_HALOS`. It is an analytic radial cosine with a soft envelope, adding no texture, lookup table or render target. The image below is a synthetic GPU night panorama with the ring brightness raised for preview, not a gameplay capture.
 
@@ -180,7 +184,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.16.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.17.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

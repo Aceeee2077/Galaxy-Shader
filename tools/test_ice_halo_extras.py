@@ -1,4 +1,4 @@
-"""GPU checks for the 46-degree halo and the circumhorizontal arc.
+"""GPU checks for the 46-degree halo, CHA and circumzenithal arc.
 
 The fixture samples the authored companion-halo function over an
 equirectangular sky grid facing the sun's azimuth. It is an engineering check,
@@ -125,6 +125,40 @@ void main() {
         self.assertGreater(float(image[centre].max()), 0.05)
         self.assertLess(float(image[above].max()), 1e-6, 'No arc above the band')
         self.assertLess(float(image[below].max()), 1e-6, 'No arc below the band')
+
+    def test_circumzenithal_arc_needs_low_sun(self):
+        low_sun = 0.262  # 15 degrees
+        high_sun = 0.524  # 30 degrees
+        target = np.arcsin(np.sin(low_sun)) + RING
+        band = ((np.abs(self.el - target) < np.deg2rad(2.0)) &
+                (np.abs(self.az) < np.deg2rad(25.0)))
+        low = float(self.image(low_sun)[band].max())
+        high = float(self.image(high_sun)[band].max())
+        self.assertGreater(low, 0.05, 'A low sun must draw the high arc')
+        self.assertGreater(low, high * 2.0, 'The arc must fade out by 30 degrees')
+
+    def test_circumzenithal_arc_is_a_sunward_smile(self):
+        sun = 0.262
+        target = np.arcsin(np.sin(sun)) + RING
+        image = self.image(sun)
+        centre = ((np.abs(self.el - target) < np.deg2rad(1.5)) &
+                  (np.abs(self.az) < np.deg2rad(20.0)))
+        above = ((np.abs(self.el - target - np.deg2rad(8.0)) < np.deg2rad(1.5)) &
+                 (np.abs(self.az) < np.deg2rad(20.0)))
+        below = ((np.abs(self.el - target + np.deg2rad(8.0)) < np.deg2rad(1.5)) &
+                 (np.abs(self.az) < np.deg2rad(20.0)))
+        ends = ((np.abs(self.el - target) < np.deg2rad(1.5)) &
+                (np.abs(self.az) > np.deg2rad(70.0)))
+        self.assertGreater(float(image[centre].max()), 0.05)
+        self.assertLess(float(image[above].max()), 1e-6, 'No arc above the band')
+        self.assertLess(float(image[below].max()), 1e-6, 'No arc below the band')
+        self.assertLess(float(image[ends].max()), 1e-6, 'The smile must end')
+        lower = image[centre & (self.el < target - np.deg2rad(0.3))]
+        upper = image[centre & (self.el > target + np.deg2rad(0.3))]
+        self.assertGreater(lower[:, 0].mean(), lower[:, 2].mean() * 1.15,
+                           'Lower edge must lean red')
+        self.assertGreater(upper[:, 2].mean(), upper[:, 0].mean() * 1.15,
+                           'Upper edge must lean violet')
 
     def test_parhelic_circle_tracks_the_sun(self):
         sun = 0.30

@@ -41,6 +41,31 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
         colour += arcTint * arc * around * highSun * visibility * 0.18;
     }
 
+    // Circumzenithal arc: the high, sunward smile of plate crystals, about 46
+    // degrees above the sun, gone before the sun reaches 30 degrees. Red sits
+    // on its lower edge and violet on the upper edge.
+    float sunElevation = asin(clamp(sun.y, -1.0, 1.0));
+    float lowSun = smoothstep(0.015, 0.060, sunElevation) *
+                   (1.0 - smoothstep(0.38, 0.46, sunElevation));
+    if (lowSun > 0.0) {
+        vec3 flatSun = vec3(sun.x, 0.0, sun.z);
+        flatSun = length(flatSun) > 1e-4 ? normalize(flatSun) : vec3(0.0, 0.0, 1.0);
+        vec3 flatRay = vec3(ray.x, 0.0, ray.z);
+        float azimuth = length(flatRay) > 1e-4 ?
+            dot(normalize(flatRay), flatSun) : 1.0;
+        float angle = acos(clamp(azimuth, -1.0, 1.0));
+        float around = 1.0 - smoothstep(0.55, 1.05, angle);
+        // The ends of the arc sag toward the horizon, giving the familiar smile.
+        float target = sunElevation + ring - 0.14 * angle * angle;
+        float elevation = asin(clamp(ray.y, -1.0, 1.0));
+        float vertical = elevation - target;
+        float arc = exp(-pow(vertical / 0.022, 2.0)) *
+                    (1.0 - smoothstep(0.050, 0.080, abs(vertical)));
+        vec3 arcTint = mix(vec3(1.0, 0.30, 0.12), vec3(0.28, 0.32, 1.0),
+                           smoothstep(-0.010, 0.010, vertical));
+        colour += arcTint * arc * around * lowSun * visibility * 0.22;
+    }
+
     // Parhelic circle: a white horizontal band crossing the sky at the sun's
     // altitude. Plate crystals spread it all the way around, with a bright
     // patch near the sun and a second one around the 120-degree parhelia.
