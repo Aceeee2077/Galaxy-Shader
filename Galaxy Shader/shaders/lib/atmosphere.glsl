@@ -18,6 +18,7 @@
 #include "/lib/moonbow.glsl"
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
+#include "/lib/cloud_iridescence.glsl"
 #include "/lib/green_flash.glsl"
 #include "/lib/eclipse_corona.glsl"
 #include "/lib/antisolar_rays.glsl"
@@ -326,6 +327,10 @@ vec3 atmosphere(vec3 ray, bool disks) {
     // dark. They sit above the cosmic layer, so stars and the galaxy are
     // correctly veiled instead of shining through the cloud sheet.
     sky += noctilucentClouds(ray, sun, overcast, seasonWeights().y);
+#endif
+#if CLOUD_IRIDESCENCE > 0
+    // Pastel diffraction fringes in a thin high-cloud veil near the sun.
+    sky += cloudIridescence(ray, sun, day, overcast) * CLOUD_IRIDESCENCE;
 #endif
     sky += lightningBoltPosition.w*vec3(0.24,0.30,0.43)*(0.45+0.55*weatherStormAmount());
     return max(sky,vec3(0.0));

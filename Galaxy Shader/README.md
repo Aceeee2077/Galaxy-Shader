@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.28 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.29 · Community Project**
+
+**1.15.29 云彩虹彩（2026-11-02）：** 太阳附近的高空薄云里出现柔和的粉彩色边：薄云中的细小水滴把阳光衍射成蓝、绿、粉、橙的弧形条纹，越靠近太阳越密，约 30° 外淡出。彩边只出现在破碎的薄云缝隙中，不会在晴空铺成完整同心圆；厚云、阴天和太阳贴近地平线时退出。新增「云层 → 云彩虹彩」开关（默认开启）。纯解析的破碎薄云遮罩与角度余弦，不增加贴图、查表或渲染目标。下图为合成 GPU 太阳附近天空，彩边亮度放大，不是游戏截图。
+
+![云彩虹彩（合成 GPU 天空，彩边亮度放大）](previews/cloud-iridescence.png)
 
 **1.15.28 极光帘幕褶皱（2026-11-02）：** 极光帘幕不再是一条平直的飘带：帘幕被折成数片大片下垂的褶皱，绿色下缘与紫色上缘一起上下起伏，细密光柱在褶皱收拢处变亮、展开处变暗，并随时间缓慢漂移。褶皱只作用于既有极光帘幕，不改变极光强度、出现条件或天顶光冕；白昼、阴天与南方天空照旧退出。新增「宇宙天空 → 极光帘幕褶皱」开关（默认开启）；关闭后恢复较平直的帘幕。纯解析的低频褶皱位移与相位调制，不增加贴图、查表或渲染目标。下图为同一片合成 GPU 北天极光的左右对照，右侧开启褶皱，亮度放大，不是游戏截图。
 
@@ -228,7 +232,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.28.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.29.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

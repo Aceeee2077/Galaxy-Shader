@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU sky patch; not a Minecraft screenshot",
+  "shader_sha256": "8d8e33d90ec1f32b6a18b6c1ea0595b4c74fc2f5d790b73cb135cc3b28b7a531",
+  "resolution": [
+    1000,
+    620
+  ],
+  "preview_gain": 6.0,
+  "angular_window_degrees": 33.2,
+  "preview": "Galaxy Shader/previews/cloud-iridescence.png",
+  "status": "rendered for visual review"
+}

@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.28 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.29 · Community Project**
+
+**1.15.29 — thin-cloud iridescence (2026-11-02):** Soft pastel fringes now appear in high thin cloud near the sun: tiny uniform droplets diffract sunlight into blue, green, pink and orange arcs that tighten toward the disk and fade by roughly 30°. The fringes show only inside broken thin-cloud patches, never as complete concentric rings on a clear sky, and they leave under thick cloud, overcast or a sun near the horizon. A new Clouds → Cloud iridescence toggle (on by default) controls it. An analytic broken-veil mask and angle cosine add no texture, lookup table or render target. The image below is a synthetic GPU sky patch near the sun with the fringes brightened for review; it is not a gameplay capture.
+
+![Thin-cloud iridescence (synthetic GPU sky, fringe preview gain)](previews/cloud-iridescence.png)
 
 **1.15.28 — aurora curtain folds (2026-11-02):** The auroral curtain no longer hangs as one flat ribbon: it bends into several large hanging pleats that carry its green lower band and violet upper band up and down together, while the fine rays bunch and brighten where a fold gathers and dim where it opens. The folds touch only the existing curtain, leaving its strength, visibility conditions and zenith corona unchanged; daylight, overcast and the southern sky still exit as before. A new Cosmic Sky → Aurora curtain folds toggle (on by default) restores the flatter ribbon when off. Analytic low-frequency displacement and phase modulation add no texture, lookup table or render target. The image below compares the same synthetic GPU northern aurora with the option off on the left and on the right, brightened for review; it is not a gameplay capture.
 
@@ -228,7 +232,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.28.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.29.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

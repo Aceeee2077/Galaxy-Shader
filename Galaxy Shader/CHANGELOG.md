@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.29 — 2026-11-02
+
+- 新增云彩虹彩（thin-cloud iridescence）：太阳附近高空薄云中出现柔和的粉彩衍射弧段，越靠近太阳越密，约 30° 外淡出，并被破碎云隙切成弧段而非完整同心圆。
+- 新增 `CLOUD_IRIDESCENCE` 开关（默认开启，云层设置页）；厚云、阴天与低日自动退出。
+- 纯解析的破碎薄云遮罩与角度余弦，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_cloud_iridescence.py` 五项 GPU 回归与 `tools/render_cloud_iridescence.py` 合成天空特写；报告见 `validation/cloud-iridescence-report.json`，预览见 `previews/cloud-iridescence.png`。
+- 完整矩阵（71 项选项、2,048 组入口配置、去重后 1,062 对程序）与全部 163 项回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.28 — 2026-11-02
 
 - 新增极光帘幕褶皱（aurora curtain folds）：极光帘幕折成数片大片下垂的褶皱，绿色下缘与紫色上缘同步起伏，细密光柱在收拢处聚亮、展开处变暗，并随时间缓慢漂移。
