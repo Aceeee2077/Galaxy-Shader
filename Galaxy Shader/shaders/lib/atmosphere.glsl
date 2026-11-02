@@ -10,6 +10,7 @@
 #include "/lib/moonbow.glsl"
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
+#include "/lib/green_flash.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -170,7 +171,16 @@ vec3 atmosphere(vec3 ray, bool disks) {
         // controls contact-hardening shadows, rather than an unrelated size.
         float diskWidth=max(fwidth(mu),diskEdge*0.06);
         float solarDisk=smoothstep(cos(radius)-diskWidth,cos(radius)+diskWidth,mu);
-        sky += sunTint*18.0*solarDisk*day*(1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
+        float sunVisibility=day*(1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
+#if GREEN_FLASH > 0
+        // A brief green rim on the top limb during the last degree of sunset.
+        // Dim the warm disk under the rim so the additive green is visible.
+        float flashMask=greenFlashMask(ray,sun,SUN_ANGULAR_RADIUS)*
+                        GREEN_FLASH*sunVisibility;
+        sunVisibility*=1.0-0.85*flashMask;
+        sky += greenFlash(ray,sun,sunVisibility,SUN_ANGULAR_RADIUS)*GREEN_FLASH;
+#endif
+        sky += sunTint*18.0*solarDisk*sunVisibility;
         sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
         sky += moonSky(ray,1.0-day,overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);

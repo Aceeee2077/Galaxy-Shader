@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.8'
+VERSION = '1.15.9'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -57,7 +57,7 @@ SCREENS = {
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS GREEN_FLASH',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES NOCTILUCENT_CLOUDS NACREOUS_CLOUDS',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
@@ -159,6 +159,7 @@ def generate():
         'TWILIGHT_OPTICS':('Twilight optics','晨昏光学现象'),
         'ICE_HALOS':('Ice crystal halos','冰晶晕'),
         'ZODIACAL_BAND':('Zodiacal band / gegenschein','黄道带 / 对日照'),
+        'GREEN_FLASH':('Green flash','绿闪'),
         'DOF_QUALITY':('Depth of field','景深'),
         'MOTION_BLUR':('Motion blur','动态模糊'), 'AA_QUALITY':('FXAA fallback','FXAA 后备抗锯齿'),
         'TONEMAP_MODE':('Tone mapping','色调映射'),
@@ -194,7 +195,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NACREOUS_CLOUDS','ICE_HALOS','ZODIACAL_BAND','WEATHER_EFFECTS','MOONBOW','SURFACE_SEASONS']:
+        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NACREOUS_CLOUDS','ICE_HALOS','ZODIACAL_BAND','GREEN_FLASH','WEATHER_EFFECTS','MOONBOW','SURFACE_SEASONS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
@@ -236,6 +237,7 @@ def generate():
             'TWILIGHT_OPTICS':('Scales the anti-solar Earth shadow and Belt of Venus, the zodiacal-light cone and night airglow. Clear weather only; clouds suppress all three.','缩放反日点地影与金星带、黄道光锥与夜间气辉；仅在晴朗天气出现，云层会压制这三项现象。'),
             'ICE_HALOS':('A 22-degree cirrus-crystal ring around the sun or moon, with sun dogs, an upper tangent arc and a low-sun pillar. Clear weather only.','日/月周围的 22 度卷云冰晶晕，并含幻日、上切弧与低角度日柱；仅晴天可见。'),
             'ZODIACAL_BAND':('The zodiacal cloud after twilight: a faint ecliptic band with the brighter anti-solar gegenschein. Clear weather only.','暮光结束后的黄道尘埃带：沿黄道的淡光带与反日点更亮的对日照；仅晴天可见。'),
+            'GREEN_FLASH':('A brief green rim on the top limb of the sun during the last degree before sunset or after sunrise. Clear weather only.','日落最后一度或日出最初一度，太阳上缘短暂出现的绿色边缘；仅晴天可见。'),
             'RAIN_INTENSITY':('Scales procedural rain visibility without changing Minecraft weather state.','缩放程序化雨线可见度，不改变 Minecraft 天气状态。'),
             'RIPPLE_STRENGTH':('Scales expanding rain rings on water and small impacts on exposed surfaces.','缩放水面扩散雨纹与暴露表面的细小落雨冲击。'),
             'GODRAY_STRENGTH':('Scales shadow-mapped dawn and dusk shafts; midday is reduced automatically.','缩放带阴影遮挡的晨昏光柱；正午会自动减弱。'),

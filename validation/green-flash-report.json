@@ -1,0 +1,11 @@
+{
+  "type": "Synthetic GPU close-up; not a Minecraft screenshot",
+  "shader_sha256": "72aaa1630bb802dba32b37fac59e8f3887e611884670de76808e7f47e7a34578",
+  "resolution": [
+    960,
+    300
+  ],
+  "sun_height": 0.005,
+  "preview": "Galaxy Shader/previews/green-flash.png",
+  "status": "rendered for visual review"
+}
