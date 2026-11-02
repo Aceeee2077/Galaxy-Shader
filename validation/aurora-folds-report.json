@@ -1,0 +1,15 @@
+{
+  "type": "Synthetic GPU panorama pair; not a Minecraft screenshot",
+  "shader_sha256": "9f3656d510b2c00dc3b9ab84ffc34444d02a36840920091978c01731bd97d312",
+  "resolution": [
+    1200,
+    380
+  ],
+  "preview_gain": 3.2,
+  "panels": [
+    "AURORA_FOLDS=0",
+    "AURORA_FOLDS=1"
+  ],
+  "preview": "Galaxy Shader/previews/aurora-folds.png",
+  "status": "rendered for visual review"
+}

@@ -1,6 +1,6 @@
 {
   "entrypoint_files": 256,
-  "options": 69,
+  "options": 70,
   "profiles": [
     "POTATO",
     "LOW",
@@ -19,8 +19,8 @@
   "driver_compile": "passed",
   "linked_unique_programs": 1062,
   "entrypoint_configuration_pairs": 2048,
-  "seconds": 123.48,
-  "shader_sha256": "2950c9aca3d73eb76fd1a97e58bfc54e49b28089bddf6c250909f8805bedf979",
+  "seconds": 126.7,
+  "shader_sha256": "06c3364c9d36a10c1758de8a1d83da67afa12ad18f5ebcacca518b6b0aff2f88",
   "full_matrix": true,
   "game_validation": "User logs reproduced clear-color parsing and undefined format-token failures. Both fixed; full gameplay acceptance remains pending."
 }

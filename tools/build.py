@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.27'
+VERSION = '1.15.28'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -66,7 +66,7 @@ SCREENS = {
     'MATERIALS': 'PBR_MODE WET_SURFACES SURFACE_SEASONS',
     'POST_PROCESS': 'BLOOM_QUALITY BLOOM_STRENGTH TONEMAP_MODE EXPOSURE AUTO_EXPOSURE SATURATION CONTRAST DOF_QUALITY MOTION_BLUR',
     'PERFORMANCE': 'shadowMapResolution shadowDistance TAA_QUALITY CLOUD_QUALITY WEATHER_QUALITY TERRAIN_FOG_QUALITY SSR_QUALITY AO_QUALITY INDIRECT_QUALITY VOLUMETRIC_QUALITY',
-    'COSMIC_SKY': 'COSMIC_SKY_QUALITY COSMIC_SKY_STRENGTH CELESTIAL_EVENTS',
+    'COSMIC_SKY': 'COSMIC_SKY_QUALITY COSMIC_SKY_STRENGTH AURORA_FOLDS CELESTIAL_EVENTS',
     'SEASONS': 'SEASON_MODE SEASON_STRENGTH',
 }
 
@@ -161,6 +161,7 @@ def generate():
         'TWILIGHT_OPTICS':('Twilight optics','晨昏光学现象'),
         'ICE_HALOS':('Ice crystal halos','冰晶晕'),
         'ZODIACAL_BAND':('Zodiacal band / gegenschein','黄道带 / 对日照'),
+        'AURORA_FOLDS':('Aurora curtain folds','极光帘幕褶皱'),
         'GREEN_FLASH':('Green flash','绿闪'),
         'ICE_HALO_COMPANIONS':('46° halo & arc','46° 晕与环地平弧'),
         'LUNAR_CORONA':('Lunar corona','月华'),
@@ -203,7 +204,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS']:
+        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS','AURORA_FOLDS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']

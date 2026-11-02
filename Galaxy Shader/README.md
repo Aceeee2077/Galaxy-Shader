@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.27 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.28 · Community Project**
+
+**1.15.28 极光帘幕褶皱（2026-11-02）：** 极光帘幕不再是一条平直的飘带：帘幕被折成数片大片下垂的褶皱，绿色下缘与紫色上缘一起上下起伏，细密光柱在褶皱收拢处变亮、展开处变暗，并随时间缓慢漂移。褶皱只作用于既有极光帘幕，不改变极光强度、出现条件或天顶光冕；白昼、阴天与南方天空照旧退出。新增「宇宙天空 → 极光帘幕褶皱」开关（默认开启）；关闭后恢复较平直的帘幕。纯解析的低频褶皱位移与相位调制，不增加贴图、查表或渲染目标。下图为同一片合成 GPU 北天极光的左右对照，右侧开启褶皱，亮度放大，不是游戏截图。
+
+![极光帘幕褶皱（合成 GPU 北天对照，同一片极光左关右开，亮度放大）](previews/aurora-folds.png)
 
 **1.15.27 夜光云波纹（2026-11-02）：** 夜光云不再只是一层平滑的蓝白云幕：云层内部出现两组斜向交叉的重力波列，波峰沿云絮弯曲，近地平处因透视被拉长，并随时间缓慢漂移。波纹只调制既有夜光云的亮度，不改变云量、颜色或出现窗口；白昼、深夜与阴天仍按原门控退出。新增「云层 → 夜光云波纹」开关（默认开启）；关闭后恢复较平滑的云幕。纯解析的双相位余弦与既有噪声扭曲，不增加贴图、查表或渲染目标。下图为同一片合成 GPU 夜光云的对照，右侧开启波纹，云层亮度放大，不是游戏截图。
 
@@ -224,7 +228,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.27.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.28.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

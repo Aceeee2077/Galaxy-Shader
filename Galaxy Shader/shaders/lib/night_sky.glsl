@@ -170,6 +170,21 @@ vec3 auroraSky(vec3 ray, float night) {
                    sin(azimuth * 12.0 + time) * 2.0 - time * 1.5), 4.0);
     float lower = exp(-pow((ray.y - 0.19 - warp) / 0.095, 2.0));
     float upper = exp(-pow((ray.y - 0.36 + warp * 0.65) / 0.13, 2.0));
+#if AURORA_FOLDS > 0
+    // Large pleats hang down from the curtain, displacing both emission bands
+    // and bunching the rays where the fold gathers. Fine rays stay attached to
+    // the folded surface, so the curtain reads as a draped sheet.
+    float foldTime = time * 0.55;
+    float drape = pow(0.5 + 0.5 * cos(azimuth * 9.0 +
+                     sin(azimuth * 2.7 - foldTime) * 1.8), 3.0);
+    float pleat = sin(azimuth * 23.0 +
+                      sin(azimuth * 5.0 + foldTime) * 3.2 + foldTime);
+    float foldOffset = drape * 0.050 + pleat * 0.012;
+    lower = exp(-pow((ray.y - 0.19 - warp - foldOffset) / 0.090, 2.0));
+    upper = exp(-pow((ray.y - 0.36 + warp * 0.65 - foldOffset * 1.35) /
+                     0.128, 2.0));
+    folds *= 0.72 + 0.50 * drape;
+#endif
     float veil = (1.0 - smoothstep(0.04, 0.68, ray.y)) *
                  smoothstep(0.0, 0.09, ray.y);
     float variation = 0.68 + 0.32 * skyNoise3(vec3(azimuth * 3.0, ray.y * 7.0, time * 0.2));

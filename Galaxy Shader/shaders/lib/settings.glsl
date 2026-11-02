@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.27. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.28. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -39,6 +39,8 @@ const vec3 WATER_ABSORPTION_UNDERWATER = vec3(0.055, 0.029, 0.018);
 #define COLORED_LIGHT_QUALITY 2 // [0 1 2 3]
 #define COSMIC_SKY_QUALITY 2 // [0 1 2 3]
 #define COSMIC_SKY_STRENGTH 0.25 // [0.0 0.25 0.5 0.75 1.0]
+// Large hanging pleats that fold and gather the auroral curtain.
+#define AURORA_FOLDS 1 // [0 1]
 // Anti-solar Earth shadow / Belt of Venus, zodiacal light and night airglow.
 #define TWILIGHT_OPTICS 1.0 // [0.0 0.5 1.0 1.5 2.0]
 // Faint night-time ecliptic band and anti-solar gegenschein.
