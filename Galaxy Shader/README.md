@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.19 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.20 · Community Project**
+
+**1.15.20 极光天顶冕（2026-11-02）：** 极光活跃时抬头望向天顶，原本横跨天空的极光帘幕会聚成一圈向天顶汇聚的放射状光冕：中心偏绿、外圈渐带紫红，并随极光强度和时间缓慢起伏。与现有极光共用 `COSMIC_SKY_QUALITY`、`COSMIC_SKY_STRENGTH` 以及寒冷群系/磁暴门控，不新增选项。纯角度解析的折叠方位余弦与天顶软帽，不增加贴图、查表或渲染目标。下图为合成 GPU 鱼眼天顶视图，光冕亮度经预览放大，不是游戏截图。
+
+![极光天顶冕（合成 GPU 鱼眼天顶视图，光冕预览放大）](previews/aurora-corona.png)
 
 **1.15.19 白虹（2026-11-02）：** 雨停后空气仍潮湿、阴云未散时，雾中的细小水滴把折射虹抹成一条宽而近乎白色的 42° 反日弧，只留下很淡的冷色内缘与暖色外缘；太阳须在身后且低于约 42°，与正在降雨时的彩色主虹分开出现。新增 `FOGBOW` 开关（默认开启，天气设置页）。纯角度解析的径向带与少量色偏，不增加贴图、查表或渲染目标。下图为合成 GPU 雾天全景，虹弧亮度经预览放大，不是游戏截图。
 
@@ -192,7 +196,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.19.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.20.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU upper-sky panorama; not a Minecraft screenshot",
+  "shader_sha256": "1c1aadb1d7c9133c72d19bb759c5178723d5dcb070403233c711c7545fc17ce7",
+  "resolution": [
+    640,
+    640
+  ],
+  "view_zenith_angle_degrees": 55.0,
+  "preview_gain": "corona 4x",
+  "preview": "Galaxy Shader/previews/aurora-corona.png",
+  "status": "rendered for visual review"
+}

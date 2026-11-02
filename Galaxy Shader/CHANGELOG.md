@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.20 — 2026-11-02
+
+- 新增极光天顶冕（auroral zenith corona）：极光活跃时，天顶方向的帘幕汇聚成放射状光冕，中心偏绿、外圈渐带紫红，并随时间缓慢起伏。
+- 与现有极光共用 `COSMIC_SKY_QUALITY`、`COSMIC_SKY_STRENGTH` 与寒冷群系/磁暴门控，无新增选项。
+- 纯角度解析的折叠方位余弦与天顶软帽，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_aurora_corona.py` 六项 GPU 回归与 `tools/render_aurora_corona.py` 合成鱼眼天顶视图；报告见 `validation/aurora-corona-report.json`，预览见 `previews/aurora-corona.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.19 — 2026-11-02
 
 - 新增白虹（fog bow）：雨停后空气仍潮湿、阴云未散时，雾滴衍射把折射虹抹成宽而近乎白色的 42° 反日弧，仅保留很淡的冷色内缘与暖色外缘。

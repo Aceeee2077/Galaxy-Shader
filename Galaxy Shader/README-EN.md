@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.19 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.20 · Community Project**
+
+**1.15.20 — auroral zenith corona (2026-11-02):** When the aurora is active, looking straight up now gathers the curtain into a corona of rays converging on the zenith: green toward the centre and shifting violet toward the fringe, rising and falling slowly with aurora strength and time. It shares `COSMIC_SKY_QUALITY`, `COSMIC_SKY_STRENGTH` and the existing cold-biome/storm gates, with no new option. It is a folded analytic azimuth pattern inside a soft zenith cap, adding no texture, lookup table or render target. The image below is a synthetic GPU fisheye view of the zenith with the corona brightened for preview, not a gameplay capture.
+
+![Auroral zenith corona (synthetic GPU fisheye zenith view, corona preview gain)](previews/aurora-corona.png)
 
 **1.15.19 — fog bow (2026-11-02):** Once rain has stopped but the air is still wet and cloudy, tiny fog droplets smear the refraction bow into a broad, almost white 42° anti-solar arc, leaving only a faint cool inner rim and warm outer rim. The sun must be behind the viewer and below about 42°, and the fog bow takes over from the coloured rain bow rather than sharing an active downpour. A new `FOGBOW` toggle (on by default, Weather page) controls it. It is an analytic radial band with a slight tint shift, adding no texture, lookup table or render target. The image below is a synthetic GPU fog panorama with the bow brightened for preview, not a gameplay capture.
 
@@ -192,7 +196,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.19.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.20.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
