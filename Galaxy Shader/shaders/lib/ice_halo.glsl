@@ -5,7 +5,7 @@
 // Everything is analytic and angular: one dot product rejects every pixel
 // farther than ~35 degrees from the light source, and the parhelia/pillar
 // terms add a few trigonometry calls only for a low sun. `lunar` keeps the
-// moon limited to the circular ring; dogs and pillars need a strong, low sun.
+// moon to the ring and a dimmer pillar; dogs and the tangent arc need sunlight.
 vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) {
     if (visibility <= 1e-4) return vec3(0.0);
     float d = dot(ray, lightDir);
@@ -84,6 +84,26 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
             pillar *= exp(aboveSun / (3.0 * deg)) * 0.30;
         }
         result += tint * pillar * pillarGate * smoothstep(0.0, 0.02, ray.y) * 0.10;
+    } else if (lunar > 0.5 && lightDir.y > -0.01) {
+        // A bright moon also draws a narrow pillar from the same plate
+        // crystals. It is dimmer and cooler than the solar shaft, and it skips
+        // the dogs and tangent arc, which need direct sunlight.
+        vec3 moonFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
+        vec3 moonSide = normalize(cross(vec3(0.0, 1.0, 0.0), moonFlat));
+        float moonAzimuth = atan(dot(ray, moonSide), dot(ray, moonFlat));
+        float elevation = asin(clamp(ray.y, -1.0, 1.0));
+        float aboveMoon = elevation - asin(clamp(lightDir.y, -1.0, 1.0));
+        float pillarGate = smoothstep(-0.005, 0.035, lightDir.y) *
+                           (1.0 - smoothstep(0.20, 0.34, lightDir.y));
+        float pillar = exp(-pow(moonAzimuth / (1.8 * deg), 2.0));
+        if (aboveMoon >= 0.0) {
+            pillar *= exp(-aboveMoon / (8.0 * deg)) *
+                      (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveMoon));
+        } else {
+            pillar *= exp(aboveMoon / (3.0 * deg)) * 0.25;
+        }
+        result += vec3(0.72, 0.80, 1.0) * pillar * pillarGate *
+                  smoothstep(0.0, 0.02, ray.y) * 0.055;
     }
 
     return result * visibility;

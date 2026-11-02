@@ -145,6 +145,34 @@ void main() {
                         column_peak * 0.15,
                         'Pillar fades once the sun is high')
 
+    def test_lunar_pillar_rises_above_a_low_moon(self):
+        lunar, rays = self.image(7.0, lunar=1.0)
+        elevation = np.degrees(np.arcsin(np.clip(rays[:, :, 1], -1.0, 1.0)))
+        azimuth = np.abs(self.azimuths(rays))
+        column = ((elevation > 8.0) & (elevation < 13.0) & (azimuth < 2.0))
+        beside = ((elevation > 8.0) & (elevation < 13.0) &
+                  (azimuth > 8.0) & (azimuth < 14.0))
+        column_peak = self.peak(lunar, column)
+        self.assertGreater(column_peak, 0.01, 'The moon must draw a pillar')
+        self.assertGreater(column_peak, self.peak(lunar, beside) * 3.0,
+                           'The lunar pillar stays a narrow shaft')
+
+    def test_lunar_pillar_is_dimmer_and_gated(self):
+        lunar, rays = self.image(7.0, lunar=1.0)
+        solar, _ = self.image(7.0, lunar=0.0)
+        elevation = np.degrees(np.arcsin(np.clip(rays[:, :, 1], -1.0, 1.0)))
+        azimuth = np.abs(self.azimuths(rays))
+        column = ((elevation > 8.0) & (elevation < 13.0) & (azimuth < 2.0))
+        self.assertLess(self.peak(lunar, column), self.peak(solar, column) * 0.8,
+                        'Moonlight must be weaker than sunlight')
+        high, high_rays = self.image(30.0, lunar=1.0)
+        high_elevation = np.degrees(np.arcsin(np.clip(high_rays[:, :, 1], -1.0, 1.0)))
+        high_azimuth = np.abs(self.azimuths(high_rays))
+        high_column = ((high_elevation > 31.0) & (high_elevation < 36.0) &
+                       (high_azimuth < 2.0))
+        self.assertLess(self.peak(high, high_column), 1e-6,
+                        'A high moon leaves the pillar dark')
+
     def test_lunar_mode_keeps_the_ring_without_dogs(self):
         lunar, rays = self.image(7.0, lunar=1.0)
         solar, _ = self.image(7.0, lunar=0.0)

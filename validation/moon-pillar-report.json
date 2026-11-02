@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "4d6a05a40f9730edeb53c6ceca60c1247c057ff381b87560e856fe02ac928d7c",
+  "resolution": [
+    960,
+    380
+  ],
+  "moon_elevation_degrees": 7.0,
+  "preview_gain": 3.2,
+  "preview": "Galaxy Shader/previews/moon-pillar.png",
+  "status": "rendered for visual review"
+}

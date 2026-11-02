@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.12 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.13 · Community Project**
+
+**1.15.13 — lunar pillar (2026-11-02):** A bright low moon also draws a narrow, faint cool shaft from the same plate crystals, rising from the disk with a short reflection below it; the shaft weakens as the moon climbs and disappears above about 20°. It shares the `ICE_HALOS` toggle, with no new option, stays at about half the solar pillar brightness and never adds sun dogs or a tangent arc. Everything is analytic angle work, with no texture, lookup table or render target. The image below is a synthetic GPU night panorama with preview gain, not a gameplay capture.
+
+![Lunar pillar (synthetic GPU night panorama, preview gain)](previews/moon-pillar.png)
 
 **1.15.12 — parhelic circle (2026-11-02):** A very faint white horizontal band crosses the sky at the sun's own altitude, passing through the sun dogs and continuing all the way around; it is a little brighter beside the sun and near the 120° parhelia. Plate ice crystals produce it, so it shares the clear ice-crystal weather of the 22° halo, 46° halo and circumhorizontal arc and disappears below the horizon. It joins the Atmosphere → 46° halo & arc toggle, with no new option; everything is analytic angle work, with no texture, lookup table or render target. The image below is a synthetic GPU panorama with preview gain, not a gameplay capture.
 
@@ -164,7 +168,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.12.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.13.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
