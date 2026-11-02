@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.15.15 — 2026-11-02
+
+- 新增干涉虹（supernumerary arcs）：主虹紫色内缘再往内约 2°–7° 的窄带里出现数条浅绿与浅粉交替的细条纹，由形成主虹的光线干涉产生。
+- 与主虹共用降雨/湿润、太阳高度与阴天门控，无新增菜单选项；纯角度解析的阻尼余弦，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_supernumerary.py` 六项 GPU 回归与 `tools/render_supernumerary.py` 合成全景；报告见 `validation/supernumerary-report.json`，预览见 `previews/supernumerary-arcs.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.14 — 2026-11-02
 
 - 新增副虹：主虹外侧约 9° 出现更淡的第二条虹，颜色顺序反转（红内紫外），亮度约为主虹的十分之一。

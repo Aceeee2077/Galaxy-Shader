@@ -4,6 +4,7 @@
 #include "/lib/end_sky.glsl"
 #include "/lib/weather.glsl"
 #include "/lib/secondary_rainbow.glsl"
+#include "/lib/supernumerary.glsl"
 #include "/lib/night_sky.glsl"
 #include "/lib/twilight_optics.glsl"
 #include "/lib/noctilucent.glsl"
@@ -231,6 +232,7 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky *= 1.0 - 0.08 * alexander * rainbowMoisture *
                (1.0 - overcast * 0.72) * day;
         sky += secondaryRainbow(ray, sun, rainbowMoisture, overcast, day);
+        sky += supernumeraryArcs(ray, sun, rainbowMoisture, overcast, day);
     }
 #endif
 #if MOONBOW > 0 && WEATHER_QUALITY > 0

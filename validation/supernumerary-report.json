@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "245274d36a5f3d5e22b8822609d184757394d10c9fe68b06c52a9a15c91bbeeb",
+  "resolution": [
+    960,
+    440
+  ],
+  "sun_elevation_degrees": 25.0,
+  "preview_gain": "fringes 8x",
+  "preview": "Galaxy Shader/previews/supernumerary-arcs.png",
+  "status": "rendered for visual review"
+}
