@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.16 — 2026-11-02
+
+- 新增月华（lunar corona）：薄云中的明亮月亮周围出现约 2°–8° 的紧凑衍射环，靠近月面偏蓝白、外侧渐暖，环纹随月相受照比例与夜晚亮度缩放。
+- 新增 `LUNAR_CORONA` 开关（默认开启，大气设置页）；月华由云滴衍射产生，与依赖冰晶的 `ICE_HALOS` 分开，阴天减淡、雨夜再受抑制。
+- 纯角度解析的径向余弦与软包络，超过外缘一次点积即退出，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_corona.py` 六项 GPU 回归与 `tools/render_corona.py` 合成夜空全景；报告见 `validation/lunar-corona-report.json`，预览见 `previews/lunar-corona.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.15 — 2026-11-02
 
 - 新增干涉虹（supernumerary arcs）：主虹紫色内缘再往内约 2°–7° 的窄带里出现数条浅绿与浅粉交替的细条纹，由形成主虹的光线干涉产生。

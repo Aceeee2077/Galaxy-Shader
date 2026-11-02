@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.15 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.16 · Community Project**
+
+**1.15.16 月华（2026-11-02）：** 薄云中的明亮月亮周围出现一组紧凑的柔和衍射环，半径约 2°–8°，靠近月面偏蓝白、外侧渐暖；环纹随月相受照比例和夜晚亮度变化，阴天减淡，雨夜进一步抑制。新增 `LUNAR_CORONA` 开关（默认开启，大气设置页）。月华由云滴衍射而非冰晶折射产生，因此不依赖 `ICE_HALOS`。纯角度解析的径向余弦与软包络，不增加贴图、查表或渲染目标。下图为合成 GPU 夜空全景，环纹亮度经预览放大，不是游戏截图。
+
+![月华（合成 GPU 夜空全景，环纹预览放大）](previews/lunar-corona.png)
 
 **1.15.15 干涉虹（2026-11-02）：** 主虹紫色内缘再往内约 2°–7°，出现数条极细的浅绿与浅粉交替条纹，这是形成主虹的光线之间的干涉，即「干涉虹」或「附属虹」。条纹只在主虹内侧原本已开始变暗的窄带里出现，离虹带即消失；同样受降雨/湿润、太阳高度和阴天门控。归入现有天气/彩虹系统，无新增选项；纯角度解析的阻尼余弦，不增加贴图、查表或渲染目标。下图为合成 GPU 双虹全景，干涉条纹亮度经预览放大，不是游戏截图。
 
@@ -176,7 +180,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.15.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.16.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

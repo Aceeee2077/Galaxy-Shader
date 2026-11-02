@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU night panorama; not a Minecraft screenshot",
+  "shader_sha256": "b476279d44aebbd6e3a6dfe2af0ad85775c4d83be99a723e55bbec9f7564601c",
+  "resolution": [
+    960,
+    520
+  ],
+  "moon_elevation_degrees": 25.0,
+  "preview_gain": "rings 3x",
+  "preview": "Galaxy Shader/previews/lunar-corona.png",
+  "status": "rendered for visual review"
+}

@@ -10,6 +10,7 @@
 #include "/lib/noctilucent.glsl"
 #include "/lib/ice_halo.glsl"
 #include "/lib/ice_halo_extras.glsl"
+#include "/lib/corona.glsl"
 #include "/lib/moonbow.glsl"
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
@@ -267,6 +268,14 @@ vec3 atmosphere(vec3 ray, bool disks) {
     float companionWeather = (1.0 - overcast) * (1.0 - 0.65 * weatherRainAmount());
     float companionSun = day * smoothstep(0.02, 0.10, sun.y) * companionWeather;
     sky += iceHaloCompanions(ray, sun, companionSun) * ICE_HALO_COMPANIONS;
+#endif
+#if LUNAR_CORONA > 0
+    // Diffraction rings in thin cloud around a bright moon. They are a compact
+    // night feature, so the moon direction is tested before the rings are built.
+    vec3 coronaMoon = safeNormalize(worldDirection(moonPosition));
+    float coronaWeather = 1.0 - 0.5 * weatherRainAmount();
+    sky += lunarCorona(ray, coronaMoon, moonPhaseFraction(), overcast, 1.0 - day) *
+           coronaWeather * LUNAR_CORONA;
 #endif
 #if ANTISOLAR_RAYS > 0
     // Cloud-shadow spokes converging on the anti-solar point at low sun.
