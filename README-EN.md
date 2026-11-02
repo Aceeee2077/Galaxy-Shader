@@ -1,10 +1,10 @@
 # Galaxy Shader
 
-Galaxy Shader—Minecraft Java shaders, version **1.15.9**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light with a night zodiacal band and gegenschein, night airglow, noctilucent clouds, winter nacreous clouds, 22° ice-crystal halos, a rainy-night moonbow and a sunset green flash: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
+Galaxy Shader—Minecraft Java shaders, version **1.15.10**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light with a night zodiacal band and gegenschein, night airglow, noctilucent clouds, winter nacreous clouds, 22° ice-crystal halos, a rainy-night moonbow, a sunset green flash and anti-solar ray spokes: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
 
 Target: Minecraft Java 26.2, Fabric, Iris, Sodium, OpenGL. FPS not yet tested.
 
-The latest installation package is `Galaxy Shader-1.15.9.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
+The latest installation package is `Galaxy Shader-1.15.10.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
 
 ## Effect Preview
 
@@ -36,6 +36,10 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ![Twilight optics](Galaxy%20Shader/previews/twilight-optics.png)
 
+1.15.10 anti-solar rays: cloud-shadow spokes converging on the anti-solar point at low sun (synthetic GPU anti-solar panorama, preview gain):
+
+![Anti-solar rays](Galaxy%20Shader/previews/antisolar-rays.png)
+
 1.15.9 green flash: a thin green-teal rim on the top solar limb at sunset (synthetic GPU solar close-up, preview gain):
 
 ![Green flash](Galaxy%20Shader/previews/green-flash.png)
@@ -62,9 +66,9 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ## Directory Structure
 
-- `Galaxy Shader/`: MIT shader code (1.15.9), menus, and bundled documentation.
+- `Galaxy Shader/`: MIT shader code (1.15.10), menus, and bundled documentation.
 - `tools/`: entrypoint generation, GPU compilation, offscreen rendering, and deterministic packaging tools.
 - `validation/`: version-controlled validation reports and test checklists; generated artifacts such as composited scene PNGs/GIFs are kept locally only and are not checked into the repository.
-- `Galaxy Shader-1.15.9.zip` / `.sha256`: latest installation package and SHA-256 checksum.
+- `Galaxy Shader-1.15.10.zip` / `.sha256`: latest installation package and SHA-256 checksum.
 
 For the development and validation workflow, see [Galaxy Shader/ARCHITECTURE.md](Galaxy Shader/ARCHITECTURE.md).

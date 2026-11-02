@@ -11,6 +11,7 @@
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
 #include "/lib/green_flash.glsl"
+#include "/lib/antisolar_rays.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -242,6 +243,10 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += iceHalo(ray, moonDir, lunarHalo, vec3(0.72, 0.80, 1.0), 1.0) *
                ICE_HALOS;
     }
+#endif
+#if ANTISOLAR_RAYS > 0
+    // Cloud-shadow spokes converging on the anti-solar point at low sun.
+    sky += anticrepuscularRays(ray, sun, overcast) * ANTISOLAR_RAYS;
 #endif
 #if ZODIACAL_BAND > 0
     // The night-time continuation of the zodiacal light: a faint ecliptic band
