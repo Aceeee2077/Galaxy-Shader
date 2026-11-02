@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.20. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.21. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;

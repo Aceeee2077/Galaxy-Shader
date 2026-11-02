@@ -2,6 +2,7 @@
 #define SE_CELESTIAL
 #include "/lib/noise.glsl"
 #include "/lib/seasons.glsl"
+#include "/lib/comet_antitail.glsl"
 
 float celestialNoise3(vec3 p) {
     return (valueNoise(p.xy) + valueNoise(p.yz + 17.3) + valueNoise(p.zx + 31.7)) / 3.0;
@@ -74,7 +75,8 @@ vec3 cometSky(vec3 ray, float night) {
     }
     float dust = 0.55 + 0.45 * celestialNoise3(ray * 22.0);
     return (vec3(0.55, 0.72, 1.0) * headGlow * 1.6 +
-            vec3(0.35, 0.55, 0.85) * tail * 0.35 * dust) * amount * night;
+            vec3(0.35, 0.55, 0.85) * tail * 0.35 * dust) * amount * night +
+           cometAntitail(ray, amount * night);
 }
 
 // A rare supernova flash: bright core plus a soft colour halo.

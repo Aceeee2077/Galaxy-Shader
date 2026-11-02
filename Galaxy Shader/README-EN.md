@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.20 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.21 · Community Project**
+
+**1.15.21 — comet anti-tail (2026-11-02):** While the comet is active, a very thin dust needle now points sunward beside the ordinary anti-sunward dust tail—larger grains spread along the orbital plane and read as a spike from near that plane. It is far narrower than the dust tail, brightest near the head, fades quickly with distance and does not appear behind the head. It shares the existing `CELESTIAL_EVENTS` schedule and the night/clear-sky gates, with no new option; an analytic tangent-plane Gaussian spike with a monotonic falloff adds no texture, lookup table or render target. The image below is a synthetic GPU comet view with the anti-tail brightened for preview, not a gameplay capture.
+
+![Comet anti-tail (synthetic GPU comet view, anti-tail preview gain)](previews/comet-antitail.png)
 
 **1.15.20 — auroral zenith corona (2026-11-02):** When the aurora is active, looking straight up now gathers the curtain into a corona of rays converging on the zenith: green toward the centre and shifting violet toward the fringe, rising and falling slowly with aurora strength and time. It shares `COSMIC_SKY_QUALITY`, `COSMIC_SKY_STRENGTH` and the existing cold-biome/storm gates, with no new option. It is a folded analytic azimuth pattern inside a soft zenith cap, adding no texture, lookup table or render target. The image below is a synthetic GPU fisheye view of the zenith with the corona brightened for preview, not a gameplay capture.
 
@@ -196,7 +200,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.20.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.21.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

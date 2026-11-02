@@ -1,0 +1,11 @@
+{
+  "type": "Synthetic GPU comet view; not a Minecraft screenshot",
+  "shader_sha256": "9edc96434cb04e58c85e33a3f7246be174ffa5df5cb6a31bf06813039d201bcd",
+  "resolution": [
+    900,
+    500
+  ],
+  "preview_gain": "anti-tail 8x",
+  "preview": "Galaxy Shader/previews/comet-antitail.png",
+  "status": "rendered for visual review"
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.21 — 2026-11-02
+
+- 新增彗星反尾（comet anti-tail）：彗星活跃时，普通尘埃尾之外出现一条指向太阳的极细尘埃针，靠近彗头处最亮并迅速变淡。
+- 与现有彗星共用 `CELESTIAL_EVENTS` 天文事件开关及夜晚/晴空门控，无新增选项；彗头背光侧不出现。
+- 纯角度解析的切平面高斯针与单调衰减，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_comet_antitail.py` 五项 GPU 回归与 `tools/render_comet_antitail.py` 合成彗星视图；报告见 `validation/comet-antitail-report.json`，预览见 `previews/comet-antitail.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.20 — 2026-11-02
 
 - 新增极光天顶冕（auroral zenith corona）：极光活跃时，天顶方向的帘幕汇聚成放射状光冕，中心偏绿、外圈渐带紫红，并随时间缓慢起伏。
