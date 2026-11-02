@@ -1,0 +1,16 @@
+{
+  "type": "Synthetic GPU fog panorama; not a Minecraft screenshot",
+  "shader_sha256": "55d01aad7cd2529a3717df5664b7dcf05ef11e058423bcd59ae6693a4a7529ed",
+  "resolution": [
+    960,
+    500
+  ],
+  "sun_elevation_degrees": 20.0,
+  "view_elevation_degrees": [
+    0.0,
+    55.0
+  ],
+  "preview_gain": "bow 2.2x",
+  "preview": "Galaxy Shader/previews/fogbow.png",
+  "status": "rendered for visual review"
+}

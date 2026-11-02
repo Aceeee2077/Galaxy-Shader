@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.18'
+VERSION = '1.15.19'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -59,7 +59,7 @@ SCREENS = {
     'AO': 'AO_QUALITY',
     'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS LUNAR_CORONA STAR_SCINTILLATION GREEN_FLASH ANTISOLAR_RAYS',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES NOCTILUCENT_CLOUDS NACREOUS_CLOUDS',
-    'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW',
+    'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW FOGBOW',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
     'WATER': 'WATER_QUALITY WATER_WAVES WATER_REFLECTIONS WATER_CLARITY RIPPLE_STRENGTH SSR_QUALITY',
     'REFLECTIONS': 'SSR_QUALITY WET_SURFACES',
@@ -144,6 +144,7 @@ def generate():
         'NACREOUS_CLOUDS':('Nacreous clouds','珠母云'),
         'WEATHER_EFFECTS':('Extended weather','扩展天气'),
         'MOONBOW':('Moonbow','月虹'),
+        'FOGBOW':('Fog bow','白虹'),
         'SURFACE_SEASONS':('Surface seasons','地表季节响应'),
         'VOLUMETRIC_QUALITY':('Volumetric light','体积光'),
         'WEATHER_QUALITY':('Weather quality','天气质量'),
@@ -199,7 +200,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','SURFACE_SEASONS']:
+        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
@@ -261,6 +262,7 @@ def generate():
             'NACREOUS_CLOUDS':('Pastel iridescent lenticular sheets in the winter twilight stratosphere, around 2-13 degrees of solar depression. Analytic and clear-weather only.','冬季暮光高层大气中的珠母云：柔和虹彩的透镜状云片，出现在太阳低于地平线约 2-13° 时；解析计算，仅晴天可见。'),
             'WEATHER_EFFECTS':('Adds desert sandstorms, cold-biome blizzards and low fog banks on top of the shared weather state.','在共享天气状态上增加沙漠沙尘暴、寒冷地区暴雪和低空雾团。'),
             'MOONBOW':('A faint silver anti-lunar arc during rain, scaled by the illuminated moon fraction. Requires WEATHER_QUALITY above zero.','雨夜月亮较亮时，反月点方向出现淡淡的银白色虹弧，强度随月相受照比例变化；需要天气质量高于 0。'),
+            'FOGBOW':('A broad, almost white 42-degree bow in fog after rain has stopped but the air is still wet and cloudy. Small fog droplets smear the spectrum, leaving only a faint cool inner rim and warm outer rim.','雨停后空气仍潮湿、阴云未散时，雾中出现的宽而近乎白色的 42° 虹弧；细小雾滴把光谱抹开，只留下很淡的冷色内缘与暖色外缘。'),
             'SURFACE_SEASONS':('Winter frost/snow on top faces, patchier autumn leaves, rain puddles and summer heat shimmer.','冬季顶面霜雪、更斑驳的秋叶、雨后水洼与夏季热浪扭曲。'),
         }
         lines += [f'option.{k}.comment={v[index]}' for k,v in tips.items()]

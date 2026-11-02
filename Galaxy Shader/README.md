@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.18 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.19 · Community Project**
+
+**1.15.19 白虹（2026-11-02）：** 雨停后空气仍潮湿、阴云未散时，雾中的细小水滴把折射虹抹成一条宽而近乎白色的 42° 反日弧，只留下很淡的冷色内缘与暖色外缘；太阳须在身后且低于约 42°，与正在降雨时的彩色主虹分开出现。新增 `FOGBOW` 开关（默认开启，天气设置页）。纯角度解析的径向带与少量色偏，不增加贴图、查表或渲染目标。下图为合成 GPU 雾天全景，虹弧亮度经预览放大，不是游戏截图。
+
+![白虹（合成 GPU 雾天全景，虹弧预览放大）](previews/fogbow.png)
 
 **1.15.18 星光闪烁（2026-11-02）：** 星星不再恒定发亮：低层大气湍流让每颗星以独立相位和速率快速闪烁，靠近地平线时视线穿过更厚的大气，闪烁幅度更大；深夜、晴天时最明显，云层和月光仍会压暗星点。新增 `STAR_SCINTILLATION` 滑块（默认 1.0，大气设置页），设为 0 可让所有星星保持稳定。每颗星的相位与速率来自稳定哈希，纯解析计算，不增加贴图、查表或渲染目标。下图为同一片星空在两个时刻的合成 GPU 对照，闪烁幅度经预览放大，不是游戏截图。
 
@@ -188,7 +192,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.18.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.19.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

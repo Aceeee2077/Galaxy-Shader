@@ -3,6 +3,7 @@
 #include "/lib/noise.glsl"
 #include "/lib/end_sky.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/fogbow.glsl"
 #include "/lib/secondary_rainbow.glsl"
 #include "/lib/supernumerary.glsl"
 #include "/lib/night_sky.glsl"
@@ -206,6 +207,17 @@ vec3 atmosphere(vec3 ray, bool disks) {
 #endif
 #endif
     }
+#if FOGBOW > 0
+    // Fog droplets smear refraction into a broad white bow. It takes over once
+    // active rain has stopped but the air is still wet, cloudy and thick.
+    float fogBowAmount = smoothstep(0.95, 1.30, biomeFogDensity()) *
+                         smoothstep(0.25, 0.70, weatherWetness()) *
+                         smoothstep(0.20, 0.70, overcast) *
+                         (1.0 - smoothstep(0.10, 0.40, weatherRainAmount()));
+    if (fogBowAmount > 0.0) {
+        sky += fogbow(ray, sun, fogBowAmount, day) * FOGBOW;
+    }
+#endif
 #if WEATHER_QUALITY > 0
     // A single ordered spectral arc around the anti-solar point. Iris wetness
     // lets it linger briefly after rain while direct daylight is returning.
