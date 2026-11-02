@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.25 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.26 · Community Project**
+
+**1.15.26 气辉重力波波纹（2026-11-02）：** 夜间气辉不再只是一层平滑的绿青色光晕：约 10° 高度附近出现一组淡淡的水平条纹，像高层大气的重力波一样沿高度排列，并沿方位缓慢弯曲、整体缓慢漂移。条纹只叠加在既有夜间气辉上，白天、暮光与阴天仍由原门控压制，也不改变金星带、黄道光或星空。新增「大气 → 气辉波纹」开关（默认开启）；关闭后恢复原来的平滑气辉。纯角度解析的折叠余弦与方位扰动，不增加贴图、查表或渲染目标。下图为合成 GPU 全景，气辉亮度放大以便观察，不是游戏截图。
+
+![气辉重力波波纹（合成 GPU 全景，气辉亮度放大）](previews/airglow-ripples.png)
 
 **1.15.25 恒星颜色（2026-11-02）：** 星点不再全部是同一个白色：每颗星根据自己的稳定哈希获得表面温度色，从暖橙、淡黄、近白到冷蓝白连续分布，并叠加独立的亮度差异，让暗星更多、亮星更醒目。颜色只作用于既有星点与闪烁，不改变银河、极光或流星。新增「大气 → 恒星颜色」开关（默认开启）；关闭后恢复原先统一的白色星点。每颗星两次哈希与一次色温插值，不增加贴图、查表或渲染目标。下图为合成 GPU 星空，星点经放大以便观察，不是游戏截图。
 
@@ -216,7 +220,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.25.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.26.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

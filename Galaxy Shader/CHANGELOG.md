@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.26 — 2026-11-02
+
+- 新增气辉重力波波纹（airglow gravity-wave ripples）：夜间气辉层出现一组淡淡的水平条纹，沿高度排列，并沿方位缓慢弯曲、整体缓慢漂移。
+- 新增「大气 → 气辉波纹」开关 `AIRGLOW_RIPPLES`（默认开启；关闭后恢复原来的平滑气辉），只作用于既有夜间气辉。
+- 纯角度解析的折叠余弦与方位扰动，不增加贴图、查表或渲染目标；白天、暮光与阴天沿用原有门控。
+- 新增 `tools/test_airglow_ripples.py` 五项 GPU 回归与 `tools/render_airglow_ripples.py` 合成全景；报告见 `validation/airglow-ripples-report.json`，预览见 `previews/airglow-ripples.png`。
+- 完整矩阵（68 项选项、2,048 组入口配置、去重后 1,062 对程序）与全部 148 项回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.25 — 2026-11-02
 
 - 新增恒星颜色（star colour）：每颗星获得稳定的表面温度色，从暖橙、淡黄到冷蓝白，并叠加独立亮度差异，让星空不再是一片均匀白色。

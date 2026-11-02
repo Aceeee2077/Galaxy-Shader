@@ -86,6 +86,15 @@ vec3 airglow(vec3 ray, vec3 sun) {
     float broadWave = valueNoise(vec2(azimuth * 2.3 + drift, h * 6.0 - drift * 0.5));
     float fineWave = valueNoise(vec2(azimuth * 6.1 - drift * 0.7, h * 14.0 + 11.0));
     float structure = 0.50 + 0.38 * broadWave + 0.22 * fineWave;
+#if AIRGLOW_RIPPLES > 0
+    // Gravity waves in the airglow layer read as faint parallel bands. Their
+    // phase bends with azimuth so they never look like a flat scan line.
+    float rippleWarp = sin(azimuth * 1.7 + drift * 0.35) * 0.45 +
+                       sin(azimuth * 4.1 - drift * 0.18) * 0.18;
+    float ripplePhase = h * 46.0 + rippleWarp * 5.0 - drift * 0.8;
+    float ripples = pow(0.5 + 0.5 * cos(ripplePhase), 3.0);
+    structure *= 0.70 + 0.60 * ripples;
+#endif
     vec3 tint = mix(vec3(0.09, 0.30, 0.17), vec3(0.06, 0.19, 0.16),
                     smoothstep(0.0, 0.45, h));
     return tint * 0.020 * layer * structure * night;

@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU airglow panorama; not a Minecraft screenshot",
+  "shader_sha256": "8b25dc10dd03f9e63541a332def666899859248cd88e7a67246f569e453fd063",
+  "resolution": [
+    1200,
+    520
+  ],
+  "gain": 8.0,
+  "preview_note": "night airglow brightened 8x for review",
+  "preview": "Galaxy Shader/previews/airglow-ripples.png",
+  "status": "rendered for visual review"
+}
