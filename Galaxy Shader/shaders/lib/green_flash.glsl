@@ -1,5 +1,6 @@
 #ifndef SE_GREEN_FLASH
 #define SE_GREEN_FLASH
+#include "/lib/atmospheric_refraction.glsl"
 
 // At the last moment of sunset the atmosphere refracts the solar limb into a
 // brief green arc. The real event lasts about a second, so this is deliberately
@@ -18,6 +19,11 @@ float greenFlashMask(vec3 ray, vec3 sun, float sunRadiusDegrees) {
     float sinR = sin(radians(sunRadiusDegrees));
     float x = dot(ray, right) / max(sinR, 1e-5);
     float y = dot(ray, up) / max(sinR, 1e-5);
+#if ATMOSPHERIC_REFRACTION > 0
+    // The rim rides the same refracted upper limb as the visible disk; without
+    // this it would float off the lifted, flattened disk at sunset.
+    y -= refractionLift(ray.y) / max(sinR, 1e-5);
+#endif
     float r2 = x * x + y * y;
 
     // A thin ring just outside the limb, and only on its upper half.
@@ -35,6 +41,9 @@ vec3 greenFlash(vec3 ray, vec3 sun, float visibility, float sunRadiusDegrees) {
     vec3 right = normalize(cross(sun, helper));
     vec3 up = cross(right, sun);
     float y = dot(ray, up) / max(sin(radians(sunRadiusDegrees)), 1e-5);
+#if ATMOSPHERIC_REFRACTION > 0
+    y -= refractionLift(ray.y) / max(sin(radians(sunRadiusDegrees)), 1e-5);
+#endif
     vec3 tint = mix(vec3(0.10, 0.88, 0.30), vec3(0.28, 0.92, 0.78),
                     smoothstep(0.75, 1.25, y));
     return tint * flash * visibility * 0.60;

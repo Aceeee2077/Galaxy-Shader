@@ -1,6 +1,7 @@
 #ifndef SE_MOON
 #define SE_MOON
 #include "/lib/noise.glsl"
+#include "/lib/atmospheric_refraction.glsl"
 
 // Just smaller than the 2 degree solar radius: the pair reads as a matched
 // sun/moon while the disk still fits comfortably inside the halo.
@@ -21,7 +22,6 @@ vec3 moonSky(vec3 ray, float night, float overcast) {
     if (mu < 0.90) return vec3(0.0);
 
     float radius = radians(MOON_ANGULAR_RADIUS);
-    float cosR = cos(radius);
     float sinR = sin(radius);
     float angular = acos(clamp(mu, -1.0, 1.0));
     float litFraction = moonPhaseFraction();
@@ -35,11 +35,20 @@ vec3 moonSky(vec3 ray, float night, float overcast) {
     float visibility = night * (1.0 - 0.94 * overcast);
 
     vec3 result = vec3(0.0);
-    if (mu >= cosR) {
-        float x = dot(ray, right) / max(sinR, 1e-4);
-        float y = dot(ray, up) / max(sinR, 1e-4);
-        float r2 = x * x + y * y;
-        float edge = max(fwidth(r2) * 1.5, 1e-4);
+    float x = dot(ray, right) / max(sinR, 1e-4);
+    float y = dot(ray, up) / max(sinR, 1e-4);
+#if ATMOSPHERIC_REFRACTION > 0
+    // Near the horizon the lower limb is refracted more than the upper one,
+    // so the moon lifts and shortens vertically like the setting sun. Above
+    // 17 degrees the differential is negligible and the plain projection is
+    // kept, which is also the path when the option is off.
+    if (dir.y < 0.30) {
+        y -= refractionLift(ray.y) / max(sinR, 1e-4);
+    }
+#endif
+    float r2 = x * x + y * y;
+    float edge = max(fwidth(r2) * 1.5, 1e-4);
+    if (r2 < 1.0 + edge) {
         float disk = 1.0 - smoothstep(1.0 - edge, 1.0 + edge * 0.5, r2);
         float limb = sqrt(max(1.0 - r2, 0.0));
 

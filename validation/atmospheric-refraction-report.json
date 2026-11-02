@@ -1,0 +1,25 @@
+{
+  "type": "Synthetic GPU disk comparison; not a Minecraft screenshot",
+  "shader_sha256": "70d180d054001d21f734d41abc5a08b8c5cdc9c24668e6402cdc73ca32eead77",
+  "resolution": [
+    1200,
+    662
+  ],
+  "panel_resolution": [
+    600,
+    300
+  ],
+  "elevation_degrees": 2.0,
+  "angular_window_degrees": [
+    10.0,
+    6.0
+  ],
+  "panels": [
+    "sun off",
+    "sun on",
+    "moon off",
+    "moon on"
+  ],
+  "preview": "Galaxy Shader/previews/atmospheric-refraction.png",
+  "status": "rendered for visual review"
+}

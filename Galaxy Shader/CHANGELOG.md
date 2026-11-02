@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.31 — 2026-11-02
+
+- 新增大气折射（atmospheric refraction）：太阳与满月贴近地平线时整体上抬、竖直方向收窄，下缘比上缘抬升更多，低日因此呈现为略扁的椭圆；太阳高于约 17° 后自动回到正圆。
+- 新增 `ATMOSPHERIC_REFRACTION` 开关（默认开启，大气设置页）；同时作用于日面、月面与绿闪上缘，关闭后恢复正圆。
+- 纯解析的折射抬升函数（地平线约 0.55°，随高度指数衰减），不增加贴图、查表或渲染目标；高空仍沿原有一次点积的日面判定。
+- 新增 `tools/test_atmospheric_refraction.py` 五项 GPU 回归与 `tools/render_atmospheric_refraction.py` 合成日/月面对照；报告见 `validation/atmospheric-refraction-report.json`，预览见 `previews/atmospheric-refraction.png`。
+- 完整矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）与全部 173 项回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.30 — 2026-11-02
 
 - 新增毕晓普环（Bishop's ring）：太阳周围约 24° 半径的极宽、极淡尘埃光环，内缘暖棕粉、外缘冷蓝白，边缘柔和，比 22° 冰晶晕宽得多且不带幻日或切弧。

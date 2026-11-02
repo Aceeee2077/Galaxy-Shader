@@ -20,6 +20,7 @@
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
 #include "/lib/cloud_iridescence.glsl"
+#include "/lib/atmospheric_refraction.glsl"
 #include "/lib/green_flash.glsl"
 #include "/lib/eclipse_corona.glsl"
 #include "/lib/antisolar_rays.glsl"
@@ -181,8 +182,30 @@ vec3 atmosphere(vec3 ray, bool disks) {
     if (disks && ray.y>-0.02) {
         // Keep the disk edge stable with resolution; the angular radius also
         // controls contact-hardening shadows, rather than an unrelated size.
-        float diskWidth=max(fwidth(mu),diskEdge*0.06);
-        float solarDisk=smoothstep(cos(radius)-diskWidth,cos(radius)+diskWidth,mu);
+        float solarDisk;
+#if ATMOSPHERIC_REFRACTION > 0
+        if (sun.y < 0.30) {
+            // The lower limb is refracted more than the upper one, so a low
+            // sun reads as a lifted, vertically flattened disk. A camera ray
+            // meets light from below by the refraction lift, so subtracting
+            // that lift tests the source direction against the true disk.
+            // Only the vertical offset changes; azimuth is preserved. Above
+            // 17 degrees the differential is under 0.01 degrees, so the
+            // common high-sun path keeps the cheaper dot-product test.
+            vec3 helper=abs(sun.y)>0.98?vec3(0.0,0.0,1.0):vec3(0.0,1.0,0.0);
+            vec3 right=normalize(cross(helper,sun));
+            vec3 up=cross(sun,right);
+            vec2 offset=vec2(dot(ray,right),
+                             dot(ray,up)-refractionLift(ray.y));
+            float apparentAngle=length(offset);
+            float diskWidth=max(fwidth(apparentAngle),radius*0.03);
+            solarDisk=1.0-smoothstep(radius-diskWidth,radius+diskWidth,apparentAngle);
+        } else
+#endif
+        {
+            float diskWidth=max(fwidth(mu),diskEdge*0.06);
+            solarDisk=smoothstep(cos(radius)-diskWidth,cos(radius)+diskWidth,mu);
+        }
         float sunVisibility=day*(1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
 #if GREEN_FLASH > 0
         // A brief green rim on the top limb during the last degree of sunset.

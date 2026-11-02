@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.30. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.31. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -51,6 +51,8 @@ const vec3 WATER_ABSORPTION_UNDERWATER = vec3(0.055, 0.029, 0.018);
 #define ZODIACAL_BAND 1 // [0 1]
 // Brief green rim on the top of the solar disk at sunset or sunrise.
 #define GREEN_FLASH 1 // [0 1]
+// Differential refraction lifts and flattens a low sun or moon.
+#define ATMOSPHERIC_REFRACTION 1 // [0 1]
 // Faint cloud-shadow spokes converging on the anti-solar point at low sun.
 #define ANTISOLAR_RAYS 1 // [0 1]
 // 22-degree ice-crystal halo, sun dogs, tangent arc and sun pillar.

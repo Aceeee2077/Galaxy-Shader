@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.30'
+VERSION = '1.15.31'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -57,7 +57,7 @@ SCREENS = {
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS BISHOPS_RING LUNAR_CORONA STAR_SCINTILLATION STAR_COLOR AIRGLOW_RIPPLES GREEN_FLASH ANTISOLAR_RAYS',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS BISHOPS_RING LUNAR_CORONA STAR_SCINTILLATION STAR_COLOR AIRGLOW_RIPPLES GREEN_FLASH ATMOSPHERIC_REFRACTION ANTISOLAR_RAYS',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES CLOUD_IRIDESCENCE NOCTILUCENT_CLOUDS NLC_WAVES NACREOUS_CLOUDS',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW FOGBOW',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
@@ -164,6 +164,7 @@ def generate():
         'ZODIACAL_BAND':('Zodiacal band / gegenschein','黄道带 / 对日照'),
         'AURORA_FOLDS':('Aurora curtain folds','极光帘幕褶皱'),
         'GREEN_FLASH':('Green flash','绿闪'),
+        'ATMOSPHERIC_REFRACTION':('Atmospheric refraction','大气折射'),
         'ICE_HALO_COMPANIONS':('46° halo & arc','46° 晕与环地平弧'),
         'BISHOPS_RING':("Bishop's ring",'毕晓普环'),
         'LUNAR_CORONA':('Lunar corona','月华'),
@@ -206,7 +207,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','CLOUD_IRIDESCENCE','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','BISHOPS_RING','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS','AURORA_FOLDS']:
+        for option in ['CLOUD_TYPES','CLOUD_IRIDESCENCE','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','BISHOPS_RING','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ATMOSPHERIC_REFRACTION','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS','AURORA_FOLDS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
@@ -249,6 +250,7 @@ def generate():
             'ICE_HALOS':('A 22-degree cirrus-crystal ring around the sun or moon, with sun dogs, an upper tangent arc and a low-sun pillar. Clear weather only.','日/月周围的 22 度卷云冰晶晕，并含幻日、上切弧与低角度日柱；仅晴天可见。'),
             'ZODIACAL_BAND':('The zodiacal cloud after twilight: a faint ecliptic band with the brighter anti-solar gegenschein. Clear weather only.','暮光结束后的黄道尘埃带：沿黄道的淡光带与反日点更亮的对日照；仅晴天可见。'),
             'GREEN_FLASH':('A brief green rim on the top limb of the sun during the last degree before sunset or after sunrise. Clear weather only.','日落最后一度或日出最初一度，太阳上缘短暂出现的绿色边缘；仅晴天可见。'),
+            'ATMOSPHERIC_REFRACTION':('Lifts and vertically flattens the sun and moon in the last few degrees above the horizon, because the lower limb is refracted more than the upper one. Turn off for the previous round disks.','太阳与月亮贴近地平线时整体上抬、竖直方向被压扁，因为下缘比上缘折射得更多；关闭后恢复原先的正圆日面与月面。'),
             'ICE_HALO_COMPANIONS':('A faint broad 46-degree ice-crystal ring around the sun, and the bright horizontal circumhorizontal arc about 46 degrees below it when the sun climbs above roughly 58 degrees. Clear weather only.','太阳周围一圈宽而淡的 46° 冰晶晕；太阳升高到约 58° 以上时，其下方约 46° 处出现明亮的水平环地平弧。仅晴天可见。'),
             'ANTISOLAR_RAYS':('Faint cloud-shadow spokes converging on the anti-solar point while the sun is low. They only appear in the half of the sky opposite the sun.','太阳低垂时，云影形成的光辐条汇聚于反日点；只出现在背向太阳的半边天空。'),
             'LUNAR_CORONA':('A compact set of pastel diffraction rings around a bright moon in thin cloud. The rings lean blue-white near the disk and warm outside; clear or lightly cloudy nights only.','薄云中的明月周围会出现一组紧凑的柔和衍射环：靠近月面偏蓝白，外圈偏暖。仅在晴朗或少云的夜晚可见。'),

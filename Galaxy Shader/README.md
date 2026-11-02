@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.30 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.31 · Community Project**
+
+**1.15.31 大气折射（2026-11-02）：** 太阳或满月贴近地平线时，不再是一枚标准正圆：整枚日面/月面被大气折射向上抬起，竖直方向同时收窄，而且下缘比上缘抬升得更多，因此低日呈现为略扁的椭圆。太阳低于约 17° 时才明显，升高后自动回到正圆；绿闪的绿色上缘也会跟着压扁后的上缘走。新增「大气 → 大气折射」开关（默认开启）；关闭后恢复正圆日面与月面。纯解析的折射抬升函数，不增加贴图、查表或渲染目标。下图为合成 GPU 日/月面对照，左关右开，不是游戏截图。
+
+![大气折射（合成 GPU 日/月面对照，左关右开）](previews/atmospheric-refraction.png)
 
 **1.15.30 毕晓普环（2026-11-02）：** 晴朗而略带尘埃的白昼天空里，太阳周围出现一圈极宽、极淡的尘埃光环：半径约 24°，内缘偏暖棕粉，向外渐变为冷蓝白，边缘柔和得几乎与天色融在一起；它比 22° 冰晶晕宽得多，也不会出现幻日或切弧。太阳贴近地平线、夜晚或阴天时不出现。新增「大气 → 毕晓普环」开关（默认开启）。纯角度解析的宽高斯环与暖冷插值，不增加贴图、查表或渲染目标。下图为合成 GPU 太阳特写，环亮度放大，不是游戏截图。
 
@@ -236,9 +240,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.30.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.31.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.31.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
