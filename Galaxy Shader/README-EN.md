@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.6 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.7 · Community Project**
+
+**1.15.7 — zodiacal band and gegenschein (2026-11-02):** After astronomical twilight the zodiacal dust reads as a faint silver band along the ecliptic, with a brighter oval gegenschein around the anti-solar point. The oval is longer along the ecliptic than across it, reads warmer than the band and fades near the horizon. The ecliptic is approximated by the plane through the sun direction and the celestial rotation axis; the outer band is cool and the spot warm. A new Atmosphere → Zodiacal band / gegenschein toggle defaults to on. The layer appears only once the sun is about 7° below the horizon, clouds suppress it and all of it is analytic angle work. The image below is a synthetic night-sky GPU panorama with preview gain, not a gameplay capture.
+
+![Zodiacal band and gegenschein (synthetic night-sky GPU panorama, preview gain)](previews/zodiacal-band.png)
 
 **1.15.6 — moonbow (2026-11-02):** On a rainy night with the moon above the horizon, a faint silver arc appears about 42° from the anti-lunar point. It shares the solar bow's refraction geometry and post-rain moisture, but its colour is almost fully desaturated and cooled, retaining only a trace of spectral order; brightness follows the illuminated moon fraction. A new moon or dry air removes it. A new Weather → Moonbow toggle defaults to on. Everything is analytic angle work; no texture, lookup table or render target is added. The image below is a synthetic rainy-night GPU panorama with preview gain, not a gameplay capture.
 
@@ -140,9 +144,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.6.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.7.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.6.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.7.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -153,7 +157,7 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | --- | --- |
 | Lighting | Dynamic sun/moon direction, warm sunrise/sunset tint, weather attenuation, hemispheric ambient light, minimum cave brightness, held-light approximation |
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
-| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night airglow, 22° ice halos with parhelia and a sun pillar |
+| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night zodiacal band and gegenschein, night airglow, 22° ice halos with parhelia and a sun pillar |
 | End sky | Rift core (faceted crystal core, four diffraction streaks, bipolar plasma jets, two belts of shattered shards), one ringed giant and a fixed starfield; `END_PLANETS` / `END_ORBIT_SPEED`, End only |
 | Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, noctilucent high cloud bands, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, rainy-night moonbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
 | Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |
