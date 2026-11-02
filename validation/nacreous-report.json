@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "9cc6032f04859ecaa72da5628eb2a672e5b3c89cd4e8a889b4de76ee2cbd6eb0",
+  "resolution": [
+    960,
+    300
+  ],
+  "sun_height": -0.1,
+  "season": "winter",
+  "preview": "Galaxy Shader/previews/nacreous.png",
+  "status": "rendered for visual review"
+}

@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.7 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.8 · Community Project**
+
+**1.15.8 — nacreous clouds (2026-11-02):** In the winter twilight, soft lenticular sheets appear high in the stratosphere, diffracting into a pastel pink, green and blue nacre. They are most visible near the horizon and fade upward. The layer appears only while the sun is about 2°–13° below the horizon, is much stronger in winter and needs clear weather; it differs from the noctilucent layer in altitude, season and colour. A new Clouds → Nacreous clouds toggle defaults to on. Everything is analytic noise plus three phase-offset cosines; no texture, lookup table or render target is added. The image below is a synthetic GPU panorama with preview gain, not a gameplay capture.
+
+![Nacreous clouds (synthetic GPU panorama, preview gain)](previews/nacreous.png)
 
 **1.15.7 — zodiacal band and gegenschein (2026-11-02):** After astronomical twilight the zodiacal dust reads as a faint silver band along the ecliptic, with a brighter oval gegenschein around the anti-solar point. The oval is longer along the ecliptic than across it, reads warmer than the band and fades near the horizon. The ecliptic is approximated by the plane through the sun direction and the celestial rotation axis; the outer band is cool and the spot warm. A new Atmosphere → Zodiacal band / gegenschein toggle defaults to on. The layer appears only once the sun is about 7° below the horizon, clouds suppress it and all of it is analytic angle work. The image below is a synthetic night-sky GPU panorama with preview gain, not a gameplay capture.
 
@@ -144,9 +148,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.7.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.8.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.7.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.8.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -159,7 +163,7 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
 | Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night zodiacal band and gegenschein, night airglow, 22° ice halos with parhelia and a sun pillar |
 | End sky | Rift core (faceted crystal core, four diffraction streaks, bipolar plasma jets, two belts of shattered shards), one ringed giant and a fixed starfield; `END_PLANETS` / `END_ORBIT_SPEED`, End only |
-| Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, noctilucent high cloud bands, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, rainy-night moonbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
+| Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, noctilucent high cloud bands, winter nacreous clouds, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, rainy-night moonbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
 | Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |
 | Water | Multi-frequency wave normals (up to three layers), multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, analytic sky reflection (`WATER_REFLECTIONS` can add traced hits), one displaced refraction lookup plus one extra tap, Beer-Lambert absorption, shoreline foam, underwater caustics and blue-green volumetrics, deep-water fog |
 | Reflections | SSR for wet or LabPBR smooth surfaces; adaptive stepping, thickness/refinement, hit confidence, inexpensive rough resolve, environment fallback |

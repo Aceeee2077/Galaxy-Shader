@@ -9,6 +9,7 @@
 #include "/lib/ice_halo.glsl"
 #include "/lib/moonbow.glsl"
 #include "/lib/zodiacal_band.glsl"
+#include "/lib/nacreous.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -236,6 +237,11 @@ vec3 atmosphere(vec3 ray, bool disks) {
     // The night-time continuation of the zodiacal light: a faint ecliptic band
     // and the brighter anti-solar gegenschein. Clouds remove both.
     sky += zodiacalBand(ray, sun, overcast) * ZODIACAL_BAND;
+#endif
+#if NACREOUS_CLOUDS > 0
+    // Polar stratospheric clouds: pastel lenticular sheets in the same twilight
+    // window, weighted toward winter and drawn before the noctilucent layer.
+    sky += nacreousClouds(ray, sun, overcast, seasonWeights().w);
 #endif
 #if NOCTILUCENT_CLOUDS > 0
     // High mesospheric ice clouds remain sunlit after the lower sky has gone
