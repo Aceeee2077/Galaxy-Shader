@@ -7,6 +7,7 @@
 #include "/lib/twilight_optics.glsl"
 #include "/lib/noctilucent.glsl"
 #include "/lib/ice_halo.glsl"
+#include "/lib/moonbow.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -202,6 +203,17 @@ vec3 atmosphere(vec3 ray, bool disks) {
             sky += bow * edge * smoothstep(0.0, 0.10, ray.y) *
                    rainbowMoisture * clearSky * day * 0.62;
         }
+    }
+#endif
+#if MOONBOW > 0 && WEATHER_QUALITY > 0
+    // The night counterpart of the anti-solar rainbow. It shares the moisture
+    // source so a moonbow lingers after rain in the same way; moonlight and the
+    // illuminated fraction decide how much of the silver arc is visible.
+    float moonbowMoisture = max(weatherRainAmount(), weatherWetness() * 0.72);
+    if (moonbowMoisture > 0.025) {
+        vec3 moonBowDir = safeNormalize(worldDirection(moonPosition));
+        sky += moonbow(ray, moonBowDir, moonPhaseFraction(), moonbowMoisture,
+                       1.0 - day, overcast) * MOONBOW;
     }
 #endif
 #if ICE_HALOS > 0

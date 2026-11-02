@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.5 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.6 · Community Project**
+
+**1.15.6 — moonbow (2026-11-02):** On a rainy night with the moon above the horizon, a faint silver arc appears about 42° from the anti-lunar point. It shares the solar bow's refraction geometry and post-rain moisture, but its colour is almost fully desaturated and cooled, retaining only a trace of spectral order; brightness follows the illuminated moon fraction. A new moon or dry air removes it. A new Weather → Moonbow toggle defaults to on. Everything is analytic angle work; no texture, lookup table or render target is added. The image below is a synthetic rainy-night GPU panorama with preview gain, not a gameplay capture.
+
+![Moonbow (synthetic rainy-night GPU panorama, preview gain)](previews/moonbow.png)
 
 **1.15.5 — ice crystal halos (2026-11-02):** Cirrus ice crystals draw a fine ring about 22° from the sun or moon, red on the inner rim and blue outside. With a low sun, vertically stretched parhelia appear on both sides, an upper tangent arc caps the ring and a pillar rises from the horizon. The moon keeps only the circular ring; it produces no parhelia or pillar. A new Atmosphere → Ice crystal halos toggle defaults to on. Everything is analytic angle work, and sky pixels farther than about 35° from the light exit before any trigonometry; no texture, lookup table or render target is added. The image below is a synthetic GPU panorama with preview gain, not a gameplay capture.
 
@@ -136,9 +140,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.5.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.6.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.5.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.6.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -151,7 +155,7 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
 | Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night airglow, 22° ice halos with parhelia and a sun pillar |
 | End sky | Rift core (faceted crystal core, four diffraction streaks, bipolar plasma jets, two belts of shattered shards), one ringed giant and a fixed starfield; `END_PLANETS` / `END_ORBIT_SPEED`, End only |
-| Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, noctilucent high cloud bands, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
+| Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, noctilucent high cloud bands, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, rainy-night moonbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
 | Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |
 | Water | Multi-frequency wave normals (up to three layers), multi-scale expanding/fading rain rings, wind/storm disturbance, storm highlights, Fresnel, analytic sky reflection (`WATER_REFLECTIONS` can add traced hits), one displaced refraction lookup plus one extra tap, Beer-Lambert absorption, shoreline foam, underwater caustics and blue-green volumetrics, deep-water fog |
 | Reflections | SSR for wet or LabPBR smooth surfaces; adaptive stepping, thickness/refinement, hit confidence, inexpensive rough resolve, environment fallback |

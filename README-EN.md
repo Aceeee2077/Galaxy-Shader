@@ -1,10 +1,10 @@
 # Galaxy Shader
 
-Galaxy Shader—Minecraft Java shaders, version **1.15.5**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light, night airglow, noctilucent clouds and 22° ice-crystal halos: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
+Galaxy Shader—Minecraft Java shaders, version **1.15.6**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light, night airglow, noctilucent clouds, 22° ice-crystal halos and a rainy-night moonbow: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
 
 Target: Minecraft Java 26.2, Fabric, Iris, Sodium, OpenGL. FPS not yet tested.
 
-The latest installation package is `Galaxy Shader-1.15.5.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
+The latest installation package is `Galaxy Shader-1.15.6.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
 
 ## Effect Preview
 
@@ -36,6 +36,10 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ![Twilight optics](Galaxy%20Shader/previews/twilight-optics.png)
 
+1.15.6 moonbow: a faint silver arc about 42° from the anti-lunar point on a rainy full-moon night (synthetic GPU panorama, preview gain):
+
+![Moonbow](Galaxy%20Shader/previews/moonbow.png)
+
 1.15.5 ice crystal halos: a 22° ring around the sun or moon plus low-sun parhelia, an upper tangent arc and a pillar (synthetic GPU panorama, preview gain):
 
 ![Ice crystal halos](Galaxy%20Shader/previews/ice-halos.png)
@@ -46,9 +50,9 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ## Directory Structure
 
-- `Galaxy Shader/`: MIT shader code (1.15.5), menus, and bundled documentation.
+- `Galaxy Shader/`: MIT shader code (1.15.6), menus, and bundled documentation.
 - `tools/`: entrypoint generation, GPU compilation, offscreen rendering, and deterministic packaging tools.
 - `validation/`: version-controlled validation reports and test checklists; generated artifacts such as composited scene PNGs/GIFs are kept locally only and are not checked into the repository.
-- `Galaxy Shader-1.15.5.zip` / `.sha256`: latest installation package and SHA-256 checksum.
+- `Galaxy Shader-1.15.6.zip` / `.sha256`: latest installation package and SHA-256 checksum.
 
 For the development and validation workflow, see [Galaxy Shader/ARCHITECTURE.md](Galaxy Shader/ARCHITECTURE.md).

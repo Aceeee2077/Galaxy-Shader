@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "09eaf32da7521c992c9779948cbdd46e625476a7af1b07c2163163de637f631a",
+  "resolution": [
+    960,
+    300
+  ],
+  "moon_elevation_degrees": 25.0,
+  "moon_phase": 0,
+  "preview": "Galaxy Shader/previews/moonbow.png",
+  "status": "rendered for visual review"
+}
