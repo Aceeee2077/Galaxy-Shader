@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.4. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.5. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -37,6 +37,8 @@ const vec3 WATER_ABSORPTION_UNDERWATER = vec3(0.055, 0.029, 0.018);
 #define COSMIC_SKY_STRENGTH 0.25 // [0.0 0.25 0.5 0.75 1.0]
 // Anti-solar Earth shadow / Belt of Venus, zodiacal light and night airglow.
 #define TWILIGHT_OPTICS 1.0 // [0.0 0.5 1.0 1.5 2.0]
+// 22-degree ice-crystal halo, sun dogs, tangent arc and sun pillar.
+#define ICE_HALOS 1 // [0 1]
 #define CELESTIAL_EVENTS 1 // [0 1 2]
 #define VOLUMETRIC_QUALITY 2 // [0 1 2 3 4]
 #define WEATHER_QUALITY 3 // [0 1 2 3 4]

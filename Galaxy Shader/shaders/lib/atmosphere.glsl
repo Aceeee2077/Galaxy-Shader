@@ -6,6 +6,7 @@
 #include "/lib/night_sky.glsl"
 #include "/lib/twilight_optics.glsl"
 #include "/lib/noctilucent.glsl"
+#include "/lib/ice_halo.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -201,6 +202,21 @@ vec3 atmosphere(vec3 ray, bool disks) {
             sky += bow * edge * smoothstep(0.0, 0.10, ray.y) *
                    rainbowMoisture * clearSky * day * 0.62;
         }
+    }
+#endif
+#if ICE_HALOS > 0
+    // Cirrus ice crystals draw a 22-degree ring around the sun, with parhelia
+    // and a pillar when the sun is low. The moon earns only the ring: its
+    // light is too weak to produce the other crystals in this approximation.
+    float iceWeather = (1.0 - overcast) * (1.0 - 0.55 * weatherRainAmount());
+    float solarHalo = day * smoothstep(-0.015, 0.05, sun.y) * iceWeather;
+    sky += iceHalo(ray, sun, solarHalo, sunTint, 0.0) * ICE_HALOS;
+    if (disks) {
+        vec3 moonDir = safeNormalize(worldDirection(moonPosition));
+        float lunarHalo = (1.0 - day) * (0.10 + 0.90 * moonPhaseFraction()) *
+                          smoothstep(0.0, 0.10, moonDir.y) * iceWeather;
+        sky += iceHalo(ray, moonDir, lunarHalo, vec3(0.72, 0.80, 1.0), 1.0) *
+               ICE_HALOS;
     }
 #endif
 #if NOCTILUCENT_CLOUDS > 0

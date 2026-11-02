@@ -1,0 +1,11 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "9acb83164e79f091cb95a7963d64175c37472c9436d7bf340b269dbc9b6ac73d",
+  "resolution": [
+    960,
+    300
+  ],
+  "sun_elevation_degrees": 3.5,
+  "preview": "Galaxy Shader/previews/ice-halos.png",
+  "status": "rendered for visual review"
+}
