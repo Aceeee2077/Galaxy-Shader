@@ -1,10 +1,10 @@
 # Galaxy Shader
 
-Galaxy Shader—Minecraft Java shaders, version **1.15.29**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light with a night zodiacal band and gegenschein, night airglow, noctilucent clouds with crossed gravity-wave trains, thin-cloud iridescence, winter nacreous clouds, 22° ice-crystal halos with moon dogs and a lunar tangent arc, a 46° ring, circumhorizontal arc and circumzenithal arc, a thin-cloud lunar corona, stellar scintillation, star colour and gravity-wave airglow banding, an auroral zenith corona and curtain folds, a comet anti-tail, meteor persistent trains, a total-eclipse corona with red prominences, a rainy-night moonbow, a broad fog bow after rain, a sunset green flash and anti-solar ray spokes: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
+Galaxy Shader—Minecraft Java shaders, version **1.15.30**. On top of the bright warm palette it adds a rotating Milky Way sheet, procedural moon phases, three-band atmospheric sunlight, anti-solar Earth shadow / Belt of Venus, zodiacal light with a night zodiacal band and gegenschein, night airglow, noctilucent clouds with crossed gravity-wave trains, thin-cloud iridescence, winter nacreous clouds, 22° ice-crystal halos with moon dogs and a lunar tangent arc, a 46° ring, circumhorizontal arc and circumzenithal arc, a thin-cloud lunar corona, Bishop's ring, stellar scintillation, star colour and gravity-wave airglow banding, an auroral zenith corona and curtain folds, a comet anti-tail, meteor persistent trains, a total-eclipse corona with red prominences, a rainy-night moonbow, a broad fog bow after rain, a sunset green flash and anti-solar ray spokes: warm daylight, more readable outdoor shade, fixed exposure at 1.25 and saturation at 1.1 give foliage, wood and sky a more vivid look. See the [player guide](Galaxy%20Shader/README-EN.md) and [earlier parameter mapping](Galaxy%20Shader/REFERENCE-PHOTON.md).
 
 Target: Minecraft Java 26.2, Fabric, Iris, Sodium, OpenGL. FPS not yet tested.
 
-The latest installation package is `Galaxy Shader-1.15.29.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
+The latest installation package is `Galaxy Shader-1.15.30.zip` and its checksum. Reset shader settings before selecting HIGH; changing a quality profile alone does not reset saved exposure or saturation.
 
 ## Effect Preview
 
@@ -35,6 +35,10 @@ End rift core and giant planet close-up (composited GPU preview):
 1.15.3 twilight optics: anti-solar Earth shadow / Belt of Venus, sunward zodiacal light and night airglow (synthetic GPU panorama, preview gain):
 
 ![Twilight optics](Galaxy%20Shader/previews/twilight-optics.png)
+
+1.15.30 Bishop's ring: a very broad, faint dust aureole around the sun, warm brown-pink on its inner edge and fading to a cool pale blue outside, with a soft edge (synthetic GPU solar view, ring brightened for preview):
+
+![Bishop's ring](Galaxy%20Shader/previews/bishops-ring.png)
 
 1.15.29 thin-cloud iridescence: soft pastel diffraction fringes appear in high thin cloud near the sun, tightening toward the disk and forming coloured arcs inside broken cloud patches (synthetic GPU sky, fringes brightened for preview):
 
@@ -142,9 +146,9 @@ End rift core and giant planet close-up (composited GPU preview):
 
 ## Directory Structure
 
-- `Galaxy Shader/`: MIT shader code (1.15.29), menus, and bundled documentation.
+- `Galaxy Shader/`: MIT shader code (1.15.30), menus, and bundled documentation.
 - `tools/`: entrypoint generation, GPU compilation, offscreen rendering, and deterministic packaging tools.
 - `validation/`: version-controlled validation reports and test checklists; generated artifacts such as composited scene PNGs/GIFs are kept locally only and are not checked into the repository.
-- `Galaxy Shader-1.15.29.zip` / `.sha256`: latest installation package and SHA-256 checksum.
+- `Galaxy Shader-1.15.30.zip` / `.sha256`: latest installation package and SHA-256 checksum.
 
 For the development and validation workflow, see [Galaxy Shader/ARCHITECTURE.md](Galaxy Shader/ARCHITECTURE.md).

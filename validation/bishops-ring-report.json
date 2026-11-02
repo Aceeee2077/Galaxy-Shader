@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU sky patch; not a Minecraft screenshot",
+  "shader_sha256": "f6b1ad64bf586bfbb2a72c1ef93d1366b19392d49d6eff32f26ed00f65bd651e",
+  "resolution": [
+    1000,
+    620
+  ],
+  "preview_gain": 8.0,
+  "angular_window_degrees": 50.4,
+  "preview": "Galaxy Shader/previews/bishops-ring.png",
+  "status": "rendered for visual review"
+}

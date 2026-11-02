@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.29'
+VERSION = '1.15.30'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -57,7 +57,7 @@ SCREENS = {
     'TEMPORAL': 'TAA_QUALITY AA_QUALITY',
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
-    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS LUNAR_CORONA STAR_SCINTILLATION STAR_COLOR AIRGLOW_RIPPLES GREEN_FLASH ANTISOLAR_RAYS',
+    'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS BISHOPS_RING LUNAR_CORONA STAR_SCINTILLATION STAR_COLOR AIRGLOW_RIPPLES GREEN_FLASH ANTISOLAR_RAYS',
     'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES CLOUD_IRIDESCENCE NOCTILUCENT_CLOUDS NLC_WAVES NACREOUS_CLOUDS',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW FOGBOW',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
@@ -165,6 +165,7 @@ def generate():
         'AURORA_FOLDS':('Aurora curtain folds','极光帘幕褶皱'),
         'GREEN_FLASH':('Green flash','绿闪'),
         'ICE_HALO_COMPANIONS':('46° halo & arc','46° 晕与环地平弧'),
+        'BISHOPS_RING':("Bishop's ring",'毕晓普环'),
         'LUNAR_CORONA':('Lunar corona','月华'),
         'STAR_SCINTILLATION':('Star twinkle','星光闪烁'),
         'STAR_COLOR':('Star colour','恒星颜色'),
@@ -205,7 +206,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','CLOUD_IRIDESCENCE','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS','AURORA_FOLDS']:
+        for option in ['CLOUD_TYPES','CLOUD_IRIDESCENCE','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','BISHOPS_RING','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS','AURORA_FOLDS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
@@ -251,6 +252,7 @@ def generate():
             'ICE_HALO_COMPANIONS':('A faint broad 46-degree ice-crystal ring around the sun, and the bright horizontal circumhorizontal arc about 46 degrees below it when the sun climbs above roughly 58 degrees. Clear weather only.','太阳周围一圈宽而淡的 46° 冰晶晕；太阳升高到约 58° 以上时，其下方约 46° 处出现明亮的水平环地平弧。仅晴天可见。'),
             'ANTISOLAR_RAYS':('Faint cloud-shadow spokes converging on the anti-solar point while the sun is low. They only appear in the half of the sky opposite the sun.','太阳低垂时，云影形成的光辐条汇聚于反日点；只出现在背向太阳的半边天空。'),
             'LUNAR_CORONA':('A compact set of pastel diffraction rings around a bright moon in thin cloud. The rings lean blue-white near the disk and warm outside; clear or lightly cloudy nights only.','薄云中的明月周围会出现一组紧凑的柔和衍射环：靠近月面偏蓝白，外圈偏暖。仅在晴朗或少云的夜晚可见。'),
+            'BISHOPS_RING':('A broad, faint dust aureole around the sun with a warm brown-pink inner edge and a pale blue outer skirt. Daylight, clear or lightly hazy skies only.','太阳周围宽阔而极淡的尘埃光环，内缘偏暖棕粉，外缘渐冷蓝白。仅在白昼、晴朗或轻霾天空可见。'),
             'STAR_SCINTILLATION':('Fast, irregular twinkling of stars caused by atmospheric turbulence. It is strongest near the horizon, where the line of sight crosses the most air; set to 0 to hold every star steady.','大气湍流造成的星光快速不规则闪烁；视线穿过更多低层大气的近地平方向最明显。设为 0 可让所有星星保持稳定。'),
             'STAR_COLOR':('Gives each star a stable surface-temperature tint from warm orange to cool blue-white, with an independent brightness spread. Turn off for the previous uniform white field.','为每颗星分配稳定的表面温度色，从暖橙到冷蓝白，并叠加独立的亮度差异；关闭后恢复原先统一的白色星点。'),
             'AIRGLOW_RIPPLES':('Adds faint horizontal gravity-wave bands to the night airglow layer, slowly bending across the sky. Turn off for the previous smooth glow.','在夜间气辉层中加入淡淡的水平重力波条纹，并让条纹沿天空缓慢弯曲；关闭后恢复原有的平滑光晕。'),

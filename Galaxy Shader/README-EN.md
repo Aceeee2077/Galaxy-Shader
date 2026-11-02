@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.29 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.30 · Community Project**
+
+**1.15.30 — Bishop's ring (2026-11-02):** Under a clear, lightly dusty daytime sky a very broad, very faint dust aureole surrounds the sun: about 24° in radius, warm brown-pink on its inner edge and fading outward to a cool pale blue, with an edge so soft it almost merges into the sky. It is far wider than the 22° ice-crystal halo and never brings parhelia or tangent arcs. It leaves when the sun sits near the horizon, at night or under overcast. A new Atmosphere → Bishop's ring toggle (on by default) controls it. An analytic wide Gaussian with a warm-to-cool tint adds no texture, lookup table or render target. The image below is a synthetic GPU solar view with the ring brightened for review; it is not a gameplay capture.
+
+![Bishop's ring (synthetic GPU solar view, ring preview gain)](previews/bishops-ring.png)
 
 **1.15.29 — thin-cloud iridescence (2026-11-02):** Soft pastel fringes now appear in high thin cloud near the sun: tiny uniform droplets diffract sunlight into blue, green, pink and orange arcs that tighten toward the disk and fade by roughly 30°. The fringes show only inside broken thin-cloud patches, never as complete concentric rings on a clear sky, and they leave under thick cloud, overcast or a sun near the horizon. A new Clouds → Cloud iridescence toggle (on by default) controls it. An analytic broken-veil mask and angle cosine add no texture, lookup table or render target. The image below is a synthetic GPU sky patch near the sun with the fringes brightened for review; it is not a gameplay capture.
 
@@ -232,7 +236,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.29.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.30.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

@@ -12,6 +12,7 @@
 #include "/lib/noctilucent.glsl"
 #include "/lib/ice_halo.glsl"
 #include "/lib/ice_halo_extras.glsl"
+#include "/lib/bishops_ring.glsl"
 #include "/lib/corona.glsl"
 #include "/lib/scintillation.glsl"
 #include "/lib/star_color.glsl"
@@ -299,6 +300,10 @@ vec3 atmosphere(vec3 ray, bool disks) {
     float companionWeather = (1.0 - overcast) * (1.0 - 0.65 * weatherRainAmount());
     float companionSun = day * smoothstep(0.02, 0.10, sun.y) * companionWeather;
     sky += iceHaloCompanions(ray, sun, companionSun) * ICE_HALO_COMPANIONS;
+#endif
+#if BISHOPS_RING > 0
+    // Broad volcanic-dust aureole around the sun, separate from ice halos.
+    sky += bishopsRing(ray, sun, day, overcast) * BISHOPS_RING;
 #endif
 #if LUNAR_CORONA > 0
     // Diffraction rings in thin cloud around a bright moon. They are a compact
