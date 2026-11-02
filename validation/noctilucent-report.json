@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "1907caef0a09e96522f8990db9297e07d4eb38a84c8e8b22d85d1654f1f13720",
+  "resolution": [
+    960,
+    240
+  ],
+  "sun_height": -0.18,
+  "summer": 1.0,
+  "preview": "Galaxy Shader/previews/noctilucent.png",
+  "status": "rendered for visual review"
+}

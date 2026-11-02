@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.3'
+VERSION = '1.15.4'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -58,7 +58,7 @@ SCREENS = {
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
     'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS',
-    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES',
+    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES NOCTILUCENT_CLOUDS',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
     'WATER': 'WATER_QUALITY WATER_WAVES WATER_REFLECTIONS WATER_CLARITY RIPPLE_STRENGTH SSR_QUALITY',
@@ -140,6 +140,7 @@ def generate():
         'BIOME_BLEND':('Biome atmosphere','群系氛围'),
         'PARTICLE_LAYER':('Particle layer','世界粒子'),
         'CLOUD_TYPES':('Cloud types','云型系统'),
+        'NOCTILUCENT_CLOUDS':('Noctilucent clouds','夜光云'),
         'WEATHER_EFFECTS':('Extended weather','扩展天气'),
         'SURFACE_SEASONS':('Surface seasons','地表季节响应'),
         'VOLUMETRIC_QUALITY':('Volumetric light','体积光'),
@@ -189,7 +190,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','WEATHER_EFFECTS','SURFACE_SEASONS']:
+        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','WEATHER_EFFECTS','SURFACE_SEASONS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
@@ -240,6 +241,7 @@ def generate():
             'BIOME_BLEND':('Lets temperature and rainfall shift fog, haze and ambient colour: dry desert haze, humid jungle/swamp fog, cold blue tundra light.','让温度与降雨改变雾、霾与环境色：沙漠热霾、丛林/沼泽湿雾、寒冷苔原偏蓝。'),
             'PARTICLE_LAYER':('Procedural airborne particles: pollen and dust by day, fireflies at night, storm snow and hail, Nether embers and End motes.','程序化空气粒子：白天花粉/尘埃、夜晚萤火、暴风雪与冰雹、下界余烬、末地尘埃。'),
             'CLOUD_TYPES':('Chooses cumulus, stratus, cirrus and storm anvil shapes from weather and season instead of one cloud field.','按天气与季节在积云、层云、卷云和雷暴砧状云之间切换，而不是单一云场。'),
+            'NOCTILUCENT_CLOUDS':('Thin blue-white high cloud bands after sunset, strongest in summer. Analytic and drawn in the sky pass; clear weather only.','日落后出现的蓝白色高空云带，夏季最强；解析计算并绘制在天空阶段，仅晴天可见。'),
             'WEATHER_EFFECTS':('Adds desert sandstorms, cold-biome blizzards and low fog banks on top of the shared weather state.','在共享天气状态上增加沙漠沙尘暴、寒冷地区暴雪和低空雾团。'),
             'SURFACE_SEASONS':('Winter frost/snow on top faces, patchier autumn leaves, rain puddles and summer heat shimmer.','冬季顶面霜雪、更斑驳的秋叶、雨后水洼与夏季热浪扭曲。'),
         }

@@ -5,6 +5,7 @@
 #include "/lib/weather.glsl"
 #include "/lib/night_sky.glsl"
 #include "/lib/twilight_optics.glsl"
+#include "/lib/noctilucent.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
 #include "/lib/biome.glsl"
@@ -201,6 +202,12 @@ vec3 atmosphere(vec3 ray, bool disks) {
                    rainbowMoisture * clearSky * day * 0.62;
         }
     }
+#endif
+#if NOCTILUCENT_CLOUDS > 0
+    // High mesospheric ice clouds remain sunlit after the lower sky has gone
+    // dark. They sit above the cosmic layer, so stars and the galaxy are
+    // correctly veiled instead of shining through the cloud sheet.
+    sky += noctilucentClouds(ray, sun, overcast, seasonWeights().y);
 #endif
     sky += lightningBoltPosition.w*vec3(0.24,0.30,0.43)*(0.45+0.55*weatherStormAmount());
     return max(sky,vec3(0.0));
