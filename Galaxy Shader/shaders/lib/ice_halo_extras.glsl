@@ -40,6 +40,24 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
                            smoothstep(-0.010, 0.010, vertical));
         colour += arcTint * arc * around * highSun * visibility * 0.18;
     }
+
+    // Parhelic circle: a white horizontal band crossing the sky at the sun's
+    // altitude. Plate crystals spread it all the way around, with a bright
+    // patch near the sun and a second one around the 120-degree parhelia.
+    if (sun.y > 0.02) {
+        float height = exp(-pow((ray.y - sun.y) / 0.009, 2.0));
+        if (height > 0.01) {
+            vec3 flatSun = vec3(sun.x, 0.0, sun.z);
+            flatSun = length(flatSun) > 1e-4 ? normalize(flatSun) : vec3(0.0, 0.0, 1.0);
+            vec3 flatRay = vec3(ray.x, 0.0, ray.z);
+            float azimuth = length(flatRay) > 1e-4 ?
+                dot(normalize(flatRay), flatSun) : 1.0;
+            float nearSun = pow(max(azimuth, 0.0), 3.0);
+            float parhelia = exp(-pow((acos(clamp(azimuth, -1.0, 1.0)) - 2.094) / 0.30, 2.0));
+            float strength = 0.35 + 0.65 * nearSun + 0.45 * parhelia;
+            colour += vec3(0.86, 0.89, 0.96) * height * strength * visibility * 0.030;
+        }
+    }
     return colour;
 }
 #endif

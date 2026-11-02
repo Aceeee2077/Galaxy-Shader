@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.11 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.12 · Community Project**
+
+**1.15.12 幻日环（2026-11-02）：** 与太阳同高度的一条极淡白色水平光带横贯天空，穿过幻日并绕行整圈；靠近太阳处与 120° 幻日位置稍亮，其余部分非常柔和。它由水平片状冰晶产生，与 22° 晕、46° 晕和环地平弧共用晴朗冰晶天气，太阳低于地平线时退出。归入「大气 → 46° 晕与环地平弧」开关，无新增选项；纯角度解析计算，不增加贴图、查表或渲染目标。下图为合成 GPU 全景，亮度经预览增益放大，不是游戏截图。
+
+![幻日环（合成 GPU 全景，预览增益放大）](previews/parhelic-circle.png)
 
 **1.15.11 46° 冰晶晕与环地平弧（2026-11-02）：** 22° 晕之外新增一圈更宽、更淡的 46° 冰晶晕，内缘偏红、外缘偏蓝。太阳升高到约 58° 以上时，水平排列的片状冰晶改为点亮「环地平弧」：太阳下方约 46° 处出现一条横贯天空的彩色光带，上缘偏红、下缘偏蓝紫，在太阳方位两侧最亮。两项都只在晴朗冰晶天气出现，太阳过低或阴雨时提前退出。新增「大气 → 46° 晕与环地平弧」开关（默认开启）；纯角度解析计算，不增加贴图、查表或渲染目标。下图为合成 GPU 高空全景，亮度经预览增益放大，不是游戏截图。
 
@@ -160,7 +164,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.11.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.12.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

@@ -72,6 +72,9 @@ void main() {
         ], axis=2)
         return np.arccos(np.clip(ray @ sun, -1.0, 1.0)), ray
 
+    def away_from_parhelic_band(self, sun):
+        return np.abs(self.el - sun) > np.deg2rad(2.5)
+
     def test_deterministic(self):
         a = self.image(0.524)
         b = self.image(0.524)
@@ -80,9 +83,10 @@ void main() {
     def test_ring_sits_at_46_degrees(self):
         angle, _ = self.angle_from_sun(0.524)
         image = self.image(0.524)
-        ring = float(image[(np.abs(angle - RING) < np.deg2rad(1.5))].max())
-        inner = float(image[(np.abs(angle - np.deg2rad(22.0)) < np.deg2rad(1.5))].max())
-        outer = float(image[(np.abs(angle - np.deg2rad(65.0)) < np.deg2rad(1.5))].max())
+        clean = self.away_from_parhelic_band(0.524)
+        ring = float(image[(np.abs(angle - RING) < np.deg2rad(1.5)) & clean].max())
+        inner = float(image[(np.abs(angle - np.deg2rad(22.0)) < np.deg2rad(1.5)) & clean].max())
+        outer = float(image[(np.abs(angle - np.deg2rad(65.0)) < np.deg2rad(1.5)) & clean].max())
         self.assertGreater(ring, 0.01, 'The 46-degree ring must be drawn')
         self.assertLess(inner, 1e-6, 'The 22-degree halo lives elsewhere')
         self.assertLess(outer, 1e-6, 'No ring outside 46 degrees')
@@ -90,8 +94,9 @@ void main() {
     def test_ring_colour_runs_red_to_blue(self):
         angle, _ = self.angle_from_sun(0.524)
         image = self.image(0.524)
-        inner = image[(angle > np.deg2rad(44.9)) & (angle < np.deg2rad(45.7))]
-        outer = image[(angle > np.deg2rad(46.4)) & (angle < np.deg2rad(47.2))]
+        clean = self.away_from_parhelic_band(0.524)
+        inner = image[(angle > np.deg2rad(44.9)) & (angle < np.deg2rad(45.7)) & clean]
+        outer = image[(angle > np.deg2rad(46.4)) & (angle < np.deg2rad(47.2)) & clean]
         red_in, blue_in = inner[:, 0].mean(), inner[:, 2].mean()
         red_out, blue_out = outer[:, 0].mean(), outer[:, 2].mean()
         self.assertGreater(red_in, blue_in * 1.25, 'Inner edge must be red')
@@ -103,7 +108,7 @@ void main() {
         band = ((np.abs(self.el - target) < np.deg2rad(2.0)) &
                 (np.abs(self.az) < np.deg2rad(30.0)))
         high = float(self.image(sun)[band].max())
-        low = float(self.image(0.524)[band].max())
+        low = float(self.image(0.524)[band & self.away_from_parhelic_band(0.524)].max())
         self.assertGreater(high, 0.05, 'A high sun must light the arc')
         self.assertLess(low, 0.01, 'A 30-degree sun leaves the arc dark')
 
@@ -120,6 +125,26 @@ void main() {
         self.assertGreater(float(image[centre].max()), 0.05)
         self.assertLess(float(image[above].max()), 1e-6, 'No arc above the band')
         self.assertLess(float(image[below].max()), 1e-6, 'No arc below the band')
+
+    def test_parhelic_circle_tracks_the_sun(self):
+        sun = 0.30
+        image = self.image(sun)
+        band = ((np.abs(self.el - sun) < np.deg2rad(0.7)) &
+                (np.abs(self.az) < np.deg2rad(30.0)))
+        above = ((np.abs(self.el - sun - np.deg2rad(5.0)) < np.deg2rad(1.0)) &
+                 (np.abs(self.az) < np.deg2rad(30.0)))
+        below = ((np.abs(self.el - sun + np.deg2rad(5.0)) < np.deg2rad(1.0)) &
+                 (np.abs(self.az) < np.deg2rad(30.0)))
+        self.assertGreater(float(image[band].max()), 0.005)
+        self.assertLess(float(image[above].max()), 1e-6)
+        self.assertLess(float(image[below].max()), 1e-6)
+
+    def test_parhelic_circle_brightens_toward_the_sun(self):
+        image = self.image(0.30)
+        row = np.abs(self.el - 0.30) < np.deg2rad(0.7)
+        centre = image[row & (np.abs(self.az) < np.deg2rad(10.0))]
+        flank = image[row & (np.abs(self.az) > np.deg2rad(75.0))]
+        self.assertGreater(centre.max(), float(flank.max()) * 1.8)
 
     def test_visibility_gate(self):
         self.assertEqual(float(self.image(1.309, visibility=0.0).max()), 0.0)

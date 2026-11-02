@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "78eb5b19c903336a645d283f34753a76204516746ef23a0de4dc2d997b462bf1",
+  "resolution": [
+    960,
+    360
+  ],
+  "sun_elevation_degrees": 17.2,
+  "preview_gain": 2.4,
+  "preview": "Galaxy Shader/previews/parhelic-circle.png",
+  "status": "rendered for visual review"
+}
