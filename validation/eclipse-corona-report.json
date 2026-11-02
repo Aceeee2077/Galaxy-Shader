@@ -1,0 +1,11 @@
+{
+  "type": "Synthetic GPU eclipse view; not a Minecraft screenshot",
+  "shader_sha256": "4aa89511e06c6106e8cb42759d0f8ec83ae5030a53a0f8406cb0cb83351dbe6c",
+  "resolution": [
+    960,
+    620
+  ],
+  "preview_gain": 3.0,
+  "preview": "Galaxy Shader/previews/eclipse-corona.png",
+  "status": "rendered for visual review"
+}

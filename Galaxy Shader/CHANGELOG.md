@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.24 — 2026-11-02
+
+- 新增日全食日冕与红色日珥：食甚时黑色月盘周围展开淡白冕流、极区羽状结构、赤道冕流带，月缘出现数处红色日珥。
+- 与日食共用 `CELESTIAL_EVENTS` 开关及现有食甚窗口，无新增选项；阴天压制，日食结束后立即退出。
+- 纯角度解析的极坐标流苏、径向衰减与月缘红色高斯，不增加贴图、查表或渲染目标。
+- 新增 `tools/test_eclipse_corona.py` 六项 GPU 回归与 `tools/render_eclipse_corona.py` 合成日食特写；报告见 `validation/eclipse-corona-report.json`，预览见 `previews/eclipse-corona.png`。
+- 完整矩阵与既有回归继续通过；实机观感与 FPS 仍待实测。
+
 ## 1.15.23 — 2026-11-02
 
 - 新增流星余迹（meteor persistent train）：明亮流星消失后，沿轨迹留下数秒的淡绿色余迹，中段最亮、两端渐隐，并带缓慢漂移的双频结节。

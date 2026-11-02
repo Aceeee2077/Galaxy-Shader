@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.23 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.24 · Community Project**
+
+**1.15.24 — total-eclipse corona and prominences (2026-11-02):** Once the Moon fully hides the solar photosphere, a pale corona opens around the black disk: curved streamers radiate outward, the belt is broader near the solar equator and narrows into fine plumes over the poles, while a few red prominences sit on the limb and shift slowly. It appears only around totality inside the existing eclipse window, is suppressed under overcast and leaves as soon as the eclipse ends. It shares the `CELESTIAL_EVENTS` schedule, with no new option. Analytic polar streamers, radial falloff and a limb-red Gaussian add no texture, lookup table or render target. The image below is a synthetic GPU eclipse close-up with the corona brightened for preview, not a gameplay capture.
+
+![Total-eclipse corona and prominences (synthetic GPU eclipse close-up, corona preview gain)](previews/eclipse-corona.png)
 
 **1.15.23 — meteor persistent train (2026-11-02):** After a bright meteor passes, its path does not snap back to darkness. A faint green afterglow lingers for a few seconds, wider and dimmer than the meteor itself, broken into slowly drifting knots, brightest around the middle and fading at both ends. It appears only during meteor events on a clear night, peaks after the meteor head has gone and then fades naturally. It shares `COSMIC_SKY_QUALITY`, `CELESTIAL_EVENTS` and the night/cloud gates, with no new option. An analytic path-plane Gaussian with two knot frequencies adds no texture, lookup table or render target. The image below is a synthetic GPU night view with the train brightened for preview, not a gameplay capture.
 
@@ -208,7 +212,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.23.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.24.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

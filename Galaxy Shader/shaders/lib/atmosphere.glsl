@@ -18,6 +18,7 @@
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
 #include "/lib/green_flash.glsl"
+#include "/lib/eclipse_corona.glsl"
 #include "/lib/antisolar_rays.glsl"
 #include "/lib/moon.glsl"
 #include "/lib/seasons.glsl"
@@ -190,6 +191,8 @@ vec3 atmosphere(vec3 ray, bool disks) {
 #endif
         sky += sunTint*18.0*solarDisk*sunVisibility;
         sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
+        sky += eclipseCorona(ray, sun, eclipse * (1.0 - overcast),
+                             frameTimeCounter);
         sky += moonSky(ray,1.0-day,overcast);
         vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
         float starCell = hash12(floor(starUV));

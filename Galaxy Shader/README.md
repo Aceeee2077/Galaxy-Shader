@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.23 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.24 · Community Project**
+
+**1.15.24 日全食日冕与日珥（2026-11-02）：** 月面完全遮住太阳光球后，黑色月盘周围展开淡白色的日冕：弯曲的流苏向四周放射，赤道方向的冕流更宽，极区则收成细羽；月缘还点缀数处红色日珥，并随时间轻微起伏。日冕只在现有日食窗口的食甚前后出现，阴天被压制，日食结束后立即退出。与日食共用 `CELESTIAL_EVENTS` 开关，不新增选项。纯角度解析的极坐标流苏、径向衰减与月缘红色高斯，不增加贴图、查表或渲染目标。下图为合成 GPU 日食特写，日冕亮度经预览放大，不是游戏截图。
+
+![日全食日冕与日珥（合成 GPU 日食特写，日冕预览放大）](previews/eclipse-corona.png)
 
 **1.15.23 流星余迹（2026-11-02）：** 明亮流星划过后，轨迹上不会立刻恢复黑暗，而是留下数秒的淡绿色余迹。余迹比流星本身更宽、更暗，沿轨迹分成缓慢漂移的结节，中段最亮、两端渐隐；它只在流星事件和夜晚晴空下出现，流星消失后才达到最亮，随后自然淡出。与流星共用 `COSMIC_SKY_QUALITY`、`CELESTIAL_EVENTS` 与夜晚/云量门控，不新增选项。纯角度解析的路径平面高斯与双频结节，不增加贴图、查表或渲染目标。下图为合成 GPU 夜空视图，余迹亮度经预览放大，不是游戏截图。
 
@@ -208,7 +212,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.23.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.24.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
