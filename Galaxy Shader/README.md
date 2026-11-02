@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.13 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.14 · Community Project**
+
+**1.15.14 副虹与亚历山大暗带（2026-11-02）：** 主虹外侧约 9° 处新增一条更淡的副虹，颜色顺序相反——红在内、紫在外；两条虹之间的天空比两侧略暗，形成亚历山大暗带。副虹只在下雨或雨后湿润、太阳高于地平线且天空未完全阴死时出现，亮度约为主虹的十分之一。归入现有天气/彩虹系统，无新增选项；纯角度解析计算，不增加贴图、查表或渲染目标。下图为合成 GPU 双虹全景，副虹亮度经预览放大，不是游戏截图。
+
+![副虹与亚历山大暗带（合成 GPU 双虹全景，副虹预览放大）](previews/secondary-rainbow.png)
 
 **1.15.13 月柱（2026-11-02）：** 低垂的明亮月亮也会被水平片状冰晶拉出一条窄而淡的冷色光柱，从月面向上延伸并在下方留下很短的倒影；月面越高，光柱越弱，月亮高于约 20° 后完全消失。与太阳柱共用 `ICE_HALOS` 开关，不新增选项；月柱只有日柱约一半亮度，且不产生幻日或上切弧。全部为角度解析计算，不增加贴图、查表或渲染目标。下图为合成 GPU 夜空全景，亮度经预览增益放大，不是游戏截图。
 
@@ -168,7 +172,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.13.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.14.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

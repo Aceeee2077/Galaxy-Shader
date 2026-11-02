@@ -3,6 +3,7 @@
 #include "/lib/noise.glsl"
 #include "/lib/end_sky.glsl"
 #include "/lib/weather.glsl"
+#include "/lib/secondary_rainbow.glsl"
 #include "/lib/night_sky.glsl"
 #include "/lib/twilight_optics.glsl"
 #include "/lib/noctilucent.glsl"
@@ -217,6 +218,19 @@ vec3 atmosphere(vec3 ray, bool disks) {
             sky += bow * edge * smoothstep(0.0, 0.10, ray.y) *
                    rainbowMoisture * clearSky * day * 0.62;
         }
+    }
+#endif
+#if WEATHER_QUALITY > 0
+    // Outside the primary bow the second internal reflection draws a fainter,
+    // colour-reversed arc near 51 degrees. The gap between the two bows is
+    // Alexander's dark band, slightly darker than the sky on either side.
+    if (rainbowMoisture > 0.025 && ray.y > 0.0) {
+        float bowAngle = acos(clamp(dot(ray, -sun), -1.0, 1.0));
+        float alexander = smoothstep(0.72, 0.76, bowAngle) *
+                          (1.0 - smoothstep(0.83, 0.87, bowAngle));
+        sky *= 1.0 - 0.08 * alexander * rainbowMoisture *
+               (1.0 - overcast * 0.72) * day;
+        sky += secondaryRainbow(ray, sun, rainbowMoisture, overcast, day);
     }
 #endif
 #if MOONBOW > 0 && WEATHER_QUALITY > 0

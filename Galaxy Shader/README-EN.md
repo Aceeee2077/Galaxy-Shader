@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.13 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.14 · Community Project**
+
+**1.15.14 — secondary rainbow and Alexander's dark band (2026-11-02):** About 9° outside the primary bow, a fainter secondary arc now appears with its colours reversed—red inside and violet outside. The sky between the two bows is slightly darker than on either side, forming Alexander's dark band. The secondary bow appears only during rain or lingering wetness, with the sun above the horizon and the sky not fully overcast; it stays near a tenth of the primary brightness. It joins the existing weather/rainbow system with no new option and is analytic angle work, adding no texture, lookup table or render target. The image below is a synthetic GPU double-rainbow panorama with the secondary bow brightened for preview, not a gameplay capture.
+
+![Secondary rainbow and Alexander's dark band (synthetic GPU double-rainbow panorama, secondary preview gain)](previews/secondary-rainbow.png)
 
 **1.15.13 — lunar pillar (2026-11-02):** A bright low moon also draws a narrow, faint cool shaft from the same plate crystals, rising from the disk with a short reflection below it; the shaft weakens as the moon climbs and disappears above about 20°. It shares the `ICE_HALOS` toggle, with no new option, stays at about half the solar pillar brightness and never adds sun dogs or a tangent arc. Everything is analytic angle work, with no texture, lookup table or render target. The image below is a synthetic GPU night panorama with preview gain, not a gameplay capture.
 
@@ -168,7 +172,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.13.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.14.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

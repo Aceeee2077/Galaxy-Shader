@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "158f47684d1fd8df35460febed189c345161a57184a9a85b3c2a1a4e655b80d2",
+  "resolution": [
+    960,
+    480
+  ],
+  "sun_elevation_degrees": 25.0,
+  "preview_gain": "secondary 1.6x",
+  "preview": "Galaxy Shader/previews/secondary-rainbow.png",
+  "status": "rendered for visual review"
+}

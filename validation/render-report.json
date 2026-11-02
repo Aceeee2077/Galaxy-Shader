@@ -34,8 +34,8 @@
       }
     },
     "cloudy": {
-      "mean": 0.5633707642555237,
-      "std": 0.22432772815227509,
+      "mean": 0.5633748769760132,
+      "std": 0.22433099150657654,
       "stages": {
         "composite": {
           "min": 0.0213623046875,
@@ -112,8 +112,8 @@
       }
     },
     "rain": {
-      "mean": 0.5135402679443359,
-      "std": 0.1710466891527176,
+      "mean": 0.5135641098022461,
+      "std": 0.1710723340511322,
       "stages": {
         "composite": {
           "min": 0.0384521484375,
@@ -138,8 +138,8 @@
       }
     },
     "thunder": {
-      "mean": 0.330930233001709,
-      "std": 0.1411181092262268,
+      "mean": 0.3309725522994995,
+      "std": 0.1411529928445816,
       "stages": {
         "composite": {
           "min": 0.01824951171875,
@@ -450,11 +450,11 @@
       }
     }
   },
-  "shader_sha256": "067ec57b33bca0537d0c88bbd8bf04ea09f13739137ba0713e86a474a450eadd",
+  "shader_sha256": "6663248d51d48ff68642629731f426f47cb747a330eea8bd9b2478e4ecac2f61",
   "weather_state_mean_separation": {
-    "day_vs_cloudy": 0.14735722541809082,
-    "cloudy_vs_rain": 0.049830496311187744,
-    "rain_vs_thunder": 0.18261003494262695
+    "day_vs_cloudy": 0.14735311269760132,
+    "cloudy_vs_rain": 0.04981076717376709,
+    "rain_vs_thunder": 0.18259155750274658
   },
   "identical_state_replay": "bit-identical 8-bit output",
   "static_camera_motion_blur_max_8bit_difference": 0,
