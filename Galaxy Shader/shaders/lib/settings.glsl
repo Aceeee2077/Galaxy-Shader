@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.10. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.11. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -47,6 +47,8 @@ const vec3 WATER_ABSORPTION_UNDERWATER = vec3(0.055, 0.029, 0.018);
 #define ANTISOLAR_RAYS 1 // [0 1]
 // 22-degree ice-crystal halo, sun dogs, tangent arc and sun pillar.
 #define ICE_HALOS 1 // [0 1]
+// Faint 46-degree ice ring, with the bright circumhorizontal arc at high sun.
+#define ICE_HALO_COMPANIONS 1 // [0 1]
 #define CELESTIAL_EVENTS 1 // [0 1 2]
 #define VOLUMETRIC_QUALITY 2 // [0 1 2 3 4]
 #define WEATHER_QUALITY 3 // [0 1 2 3 4]

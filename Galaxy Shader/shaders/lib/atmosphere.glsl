@@ -7,6 +7,7 @@
 #include "/lib/twilight_optics.glsl"
 #include "/lib/noctilucent.glsl"
 #include "/lib/ice_halo.glsl"
+#include "/lib/ice_halo_extras.glsl"
 #include "/lib/moonbow.glsl"
 #include "/lib/zodiacal_band.glsl"
 #include "/lib/nacreous.glsl"
@@ -243,6 +244,13 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += iceHalo(ray, moonDir, lunarHalo, vec3(0.72, 0.80, 1.0), 1.0) *
                ICE_HALOS;
     }
+#endif
+#if ICE_HALO_COMPANIONS > 0
+    // The broad 46-degree ring, and the horizontal circumhorizontal arc when
+    // the sun is high enough for plate crystals to refract it.
+    float companionWeather = (1.0 - overcast) * (1.0 - 0.65 * weatherRainAmount());
+    float companionSun = day * smoothstep(0.02, 0.10, sun.y) * companionWeather;
+    sky += iceHaloCompanions(ray, sun, companionSun) * ICE_HALO_COMPANIONS;
 #endif
 #if ANTISOLAR_RAYS > 0
     // Cloud-shadow spokes converging on the anti-solar point at low sun.

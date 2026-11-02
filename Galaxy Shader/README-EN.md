@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.10 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.11 · Community Project**
+
+**1.15.11 — 46° halo and circumhorizontal arc (2026-11-02):** Beyond the 22° halo, a wider and fainter 46° ice-crystal ring now shows a red inner edge and a blue outer edge. Once the sun climbs above roughly 58°, horizontally aligned plate crystals instead light the circumhorizontal arc: a spectral band about 46° below the sun, spanning the sky, red on its upper edge and blue-violet below, brightest on either side of the solar azimuth. Both appear only in clear ice-crystal weather and exit early for a low or rainy sun. A new Atmosphere → 46° halo & arc toggle defaults to on. Everything is analytic angle work; no texture, lookup table or render target is added. The image below is a synthetic GPU high-sky panorama with preview gain, not a gameplay capture.
+
+![46° halo and circumhorizontal arc (synthetic GPU high-sky panorama, preview gain)](previews/ice-halo-companions.png)
 
 **1.15.10 — anti-solar rays (2026-11-02):** When the sun sits near the horizon, a very faint fan of light and dark spokes converges on the anti-solar point in the opposite half of the sky—cloud shadows seen in perspective. The fan appears only between about −6° and +14° solar height, exits immediately across the sunward half, leaves a dark core at its own focus and fades under overcast. A new Atmosphere → Anti-solar rays toggle defaults to on. Everything is analytic angle work with a little procedural noise; no texture, lookup table or render target is added. The image below is a synthetic GPU anti-solar panorama with preview gain, not a gameplay capture.
 
@@ -156,9 +160,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.10.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.11.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.10.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
@@ -169,7 +173,7 @@ The source folder is also installable: copy the whole `Galaxy Shader` directory 
 | --- | --- |
 | Lighting | Dynamic sun/moon direction, warm sunrise/sunset tint, weather attenuation, hemispheric ambient light, minimum cave brightness, held-light approximation |
 | Shadows | Stable-grid orthographic map, PCSS blocker search, contact-hardening variable penumbra, static sample rotation, far-distance sample reduction and fade |
-| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night zodiacal band and gegenschein, night airglow, 22° ice halos with parhelia and a sun pillar, sunset green flash, anti-solar rays |
+| Sky | Rayleigh/Mie phase and optical-thickness approximation, sun/moon disks, stars, day-night gradient, Overworld galaxy band and nebulas, aurora, shooting stars, calendar-driven celestial events, anti-solar Earth shadow and Belt of Venus, zodiacal light, night zodiacal band and gegenschein, night airglow, 22° ice halos with parhelia and a sun pillar, a 46° ring and circumhorizontal arc, sunset green flash, anti-solar rays |
 | End sky | Rift core (faceted crystal core, four diffraction streaks, bipolar plasma jets, two belts of shattered shards), one ringed giant and a fixed starfield; `END_PLANETS` / `END_ORBIT_SPEED`, End only |
 | Clouds & weather | Ray-marched volumetric clouds (far samples drop fine noise detail, single-plane fallback on low), cumulus/stratus/cirrus/storm-anvil cloud types, noctilucent high cloud bands, winter nacreous clouds, sandstorms/blizzards/fog banks, rain streaks, post-rain rainbow, rainy-night moonbow, daily sky variation, smooth wetness accumulation, block splashes, real lightning illumination |
 | Air particles | Daytime pollen and dust, night fireflies, forest spores, snow-biome snow, storm hail, Nether embers and End cosmic motes; selected by biome, season, weather and dimension |

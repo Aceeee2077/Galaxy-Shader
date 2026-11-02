@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "e7b0a89447102cb40b5b2d98dfe263a2de495566f6de813798b6e5345f6be212",
+  "resolution": [
+    960,
+    420
+  ],
+  "sun_elevation_degrees": 75.0,
+  "preview_gain": 2.5,
+  "preview": "Galaxy Shader/previews/ice-halo-companions.png",
+  "status": "rendered for visual review"
+}
