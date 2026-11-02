@@ -1,0 +1,17 @@
+{
+  "type": "Synthetic GPU panorama pair; not a Minecraft screenshot",
+  "shader_sha256": "17bf33cf926e865ccea36302ca723658208ea041788e6342a8f71df1becdcbe2",
+  "resolution": [
+    1200,
+    360
+  ],
+  "sun_height": -0.18,
+  "summer": 1.0,
+  "preview_gain": 5.0,
+  "panels": [
+    "NLC_WAVES=0",
+    "NLC_WAVES=1"
+  ],
+  "preview": "Galaxy Shader/previews/nlc-waves.png",
+  "status": "rendered for visual review"
+}

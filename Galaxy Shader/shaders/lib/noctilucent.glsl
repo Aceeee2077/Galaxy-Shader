@@ -35,6 +35,18 @@ vec3 noctilucentClouds(vec3 ray, vec3 sun, float overcast, float summer) {
     // high part of the layer does not turn into a hard striped band.
     float wave = 0.55 + 0.45 * sin(plane.y * 1.7 + broad * 4.2 +
                                    frameTimeCounter * 0.010);
+#if NLC_WAVES > 0
+    // Real displays often carry two crossing gravity-wave trains. Their phases
+    // ride the same broad warp, so the crests bend together instead of forming
+    // a regular grid.
+    float phaseA = plane.x * 1.15 + plane.y * 0.75 + broad * 2.1 +
+                   frameTimeCounter * 0.006;
+    float phaseB = plane.x * 0.52 - plane.y * 1.28 + fine * 2.6 -
+                   frameTimeCounter * 0.004;
+    float trainA = pow(0.5 + 0.5 * cos(phaseA), 2.0);
+    float trainB = pow(0.5 + 0.5 * cos(phaseB), 2.0);
+    wave *= 0.50 + 0.85 * (0.58 * trainA + 0.42 * trainB);
+#endif
     float elevationFade = smoothstep(0.012, 0.07, h) *
                           (1.0 - smoothstep(0.30, 0.58, h));
     vec3 tint = mix(vec3(0.30, 0.55, 0.95), vec3(0.78, 0.89, 1.0),

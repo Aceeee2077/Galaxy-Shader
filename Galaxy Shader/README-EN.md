@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.26 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.27 · Community Project**
+
+**1.15.27 — noctilucent wave trains (2026-11-02):** The noctilucent sheet is no longer one smooth blue-white veil: two crossed gravity-wave trains cut through it, their crests bending along the cloud wisps, stretching in perspective near the horizon and drifting slowly over time. The ripples modulate only the brightness of the existing layer, leaving its coverage, colour and visibility window unchanged; daylight, deep night and overcast still exit through the old gates. A new Clouds → NLC wave trains toggle (on by default) restores the smoother veil when off. Two analytic phase cosines riding the existing noise warp add no texture, lookup table or render target. The image below compares the same synthetic GPU noctilucent cloud with the option off on the left and on the right, with the layer brightened for review; it is not a gameplay capture.
+
+![Noctilucent wave trains (synthetic GPU panorama, same cloud off left, on right, preview gain)](previews/nlc-waves.png)
 
 **1.15.26 — airglow gravity-wave ripples (2026-11-02):** The night airglow is no longer one smooth green-teal veil: a set of faint horizontal bands now sits around 10° elevation, stacked like upper-atmosphere gravity waves, bending slowly across azimuth and drifting as a whole. The ripples modulate only the existing night airglow, so daylight, twilight and overcast keep their old gates, and the Belt of Venus, zodiacal light and star field are untouched. A new Atmosphere → Airglow ripples toggle (on by default) restores the previous smooth glow when off. A folded cosine with an azimuth warp is analytic and adds no texture, lookup table or render target. The image below is a synthetic GPU panorama with the airglow brightened for review, not a gameplay capture.
 
@@ -220,7 +224,7 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.26.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.27.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
 4. Select `Galaxy Shader-1.15.11.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.

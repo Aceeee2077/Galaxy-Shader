@@ -1,6 +1,6 @@
 #ifndef SE_SETTINGS
 #define SE_SETTINGS
-// Galaxy Shader 1.15.26. Defaults correspond to HIGH.
+// Galaxy Shader 1.15.27. Defaults correspond to HIGH.
 const int shadowMapResolution = 2048; // [1024 2048 4096 8192]
 const float shadowDistance = 128.0; // [64.0 96.0 128.0 192.0 256.0]
 const float shadowIntervalSize = 2.0;
@@ -21,6 +21,8 @@ const float drynessHalflife = 70.0;
 #define CLOUD_SPEED 1.0 // [0.5 1.0 1.5 2.0]
 #define CLOUD_TYPES 1 // [0 1]
 #define NOCTILUCENT_CLOUDS 1 // [0 1]
+// Two crossing gravity-wave trains inside the noctilucent sheet.
+#define NLC_WAVES 1 // [0 1]
 // Iridescent winter polar-stratospheric lenticular sheets.
 #define NACREOUS_CLOUDS 1 // [0 1]
 #define WATER_QUALITY 2 // [0 1 2 3]

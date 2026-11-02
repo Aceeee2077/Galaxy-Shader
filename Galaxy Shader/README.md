@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.26 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.27 · Community Project**
+
+**1.15.27 夜光云波纹（2026-11-02）：** 夜光云不再只是一层平滑的蓝白云幕：云层内部出现两组斜向交叉的重力波列，波峰沿云絮弯曲，近地平处因透视被拉长，并随时间缓慢漂移。波纹只调制既有夜光云的亮度，不改变云量、颜色或出现窗口；白昼、深夜与阴天仍按原门控退出。新增「云层 → 夜光云波纹」开关（默认开启）；关闭后恢复较平滑的云幕。纯解析的双相位余弦与既有噪声扭曲，不增加贴图、查表或渲染目标。下图为同一片合成 GPU 夜光云的对照，右侧开启波纹，云层亮度放大，不是游戏截图。
+
+![夜光云波纹（合成 GPU 全景，同一片云左关右开，亮度放大）](previews/nlc-waves.png)
 
 **1.15.26 气辉重力波波纹（2026-11-02）：** 夜间气辉不再只是一层平滑的绿青色光晕：约 10° 高度附近出现一组淡淡的水平条纹，像高层大气的重力波一样沿高度排列，并沿方位缓慢弯曲、整体缓慢漂移。条纹只叠加在既有夜间气辉上，白天、暮光与阴天仍由原门控压制，也不改变金星带、黄道光或星空。新增「大气 → 气辉波纹」开关（默认开启）；关闭后恢复原来的平滑气辉。纯角度解析的折叠余弦与方位扰动，不增加贴图、查表或渲染目标。下图为合成 GPU 全景，气辉亮度放大以便观察，不是游戏截图。
 
@@ -220,7 +224,7 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.26.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.27.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
 4. 选择 `Galaxy Shader-1.15.11.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。

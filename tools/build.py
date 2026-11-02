@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.15.26'
+VERSION = '1.15.27'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),
@@ -58,7 +58,7 @@ SCREENS = {
     'SHADOWS': 'shadowMapResolution shadowDistance SHADOW_QUALITY SHADOW_SOFTNESS',
     'AO': 'AO_QUALITY',
     'ATMOSPHERE': 'TERRAIN_FOG_QUALITY FOG_DENSITY DAWN_HAZE WIND_STRENGTH NIGHT_BRIGHTNESS BIOME_BLEND PARTICLE_LAYER TWILIGHT_OPTICS ZODIACAL_BAND ICE_HALOS ICE_HALO_COMPANIONS LUNAR_CORONA STAR_SCINTILLATION STAR_COLOR AIRGLOW_RIPPLES GREEN_FLASH ANTISOLAR_RAYS',
-    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES NOCTILUCENT_CLOUDS NACREOUS_CLOUDS',
+    'CLOUDS': 'CLOUD_QUALITY CLOUD_COVERAGE CLOUD_SHADOW_STRENGTH CLOUD_SPEED CLOUD_TYPES NOCTILUCENT_CLOUDS NLC_WAVES NACREOUS_CLOUDS',
     'WEATHER': 'WEATHER_QUALITY RAIN_INTENSITY RIPPLE_STRENGTH GODRAY_STRENGTH WEATHER_EFFECTS MOONBOW FOGBOW',
     'END_SKY': 'END_PLANETS END_ORBIT_SPEED',
     'WATER': 'WATER_QUALITY WATER_WAVES WATER_REFLECTIONS WATER_CLARITY RIPPLE_STRENGTH SSR_QUALITY',
@@ -141,6 +141,7 @@ def generate():
         'PARTICLE_LAYER':('Particle layer','世界粒子'),
         'CLOUD_TYPES':('Cloud types','云型系统'),
         'NOCTILUCENT_CLOUDS':('Noctilucent clouds','夜光云'),
+        'NLC_WAVES':('NLC wave trains','夜光云波纹'),
         'NACREOUS_CLOUDS':('Nacreous clouds','珠母云'),
         'WEATHER_EFFECTS':('Extended weather','扩展天气'),
         'MOONBOW':('Moonbow','月虹'),
@@ -202,7 +203,7 @@ def generate():
         for v,label in enumerate(['Off','Normal','Frequent'] if index==0 else ['关闭','正常','频繁']):
             lines.append(f'value.CELESTIAL_EVENTS.{v}={label}')
         lines += [f'value.BIOME_BLEND.0={quality[0]}',f'value.BIOME_BLEND.1={"On" if index==0 else "开启"}']
-        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS']:
+        for option in ['CLOUD_TYPES','NOCTILUCENT_CLOUDS','NLC_WAVES','NACREOUS_CLOUDS','ICE_HALOS','ICE_HALO_COMPANIONS','LUNAR_CORONA','STAR_COLOR','AIRGLOW_RIPPLES','ZODIACAL_BAND','GREEN_FLASH','ANTISOLAR_RAYS','WEATHER_EFFECTS','MOONBOW','FOGBOW','SURFACE_SEASONS']:
             lines += [f'value.{option}.0={quality[0]}',f'value.{option}.1={"On" if index==0 else "开启"}']
         lines += ['value.PARTICLE_LAYER.0='+quality[0], 'value.PARTICLE_LAYER.1='+quality[1], 'value.PARTICLE_LAYER.2='+quality[3]]
         lines += ['value.AA_QUALITY.0='+quality[0], 'value.AA_QUALITY.1=FXAA']
@@ -263,6 +264,7 @@ def generate():
             'PARTICLE_LAYER':('Procedural airborne particles: pollen and dust by day, fireflies at night, storm snow and hail, Nether embers and End motes.','程序化空气粒子：白天花粉/尘埃、夜晚萤火、暴风雪与冰雹、下界余烬、末地尘埃。'),
             'CLOUD_TYPES':('Chooses cumulus, stratus, cirrus and storm anvil shapes from weather and season instead of one cloud field.','按天气与季节在积云、层云、卷云和雷暴砧状云之间切换，而不是单一云场。'),
             'NOCTILUCENT_CLOUDS':('Thin blue-white high cloud bands after sunset, strongest in summer. Analytic and drawn in the sky pass; clear weather only.','日落后出现的蓝白色高空云带，夏季最强；解析计算并绘制在天空阶段，仅晴天可见。'),
+            'NLC_WAVES':('Adds two crossing gravity-wave trains to the noctilucent sheet, with bent crests that drift slowly. Turn off for a smoother cloud veil.','在夜光云层中加入两组交叉的重力波列，波峰弯曲并缓慢漂移；关闭后恢复较平滑的云幕。'),
             'NACREOUS_CLOUDS':('Pastel iridescent lenticular sheets in the winter twilight stratosphere, around 2-13 degrees of solar depression. Analytic and clear-weather only.','冬季暮光高层大气中的珠母云：柔和虹彩的透镜状云片，出现在太阳低于地平线约 2-13° 时；解析计算，仅晴天可见。'),
             'WEATHER_EFFECTS':('Adds desert sandstorms, cold-biome blizzards and low fog banks on top of the shared weather state.','在共享天气状态上增加沙漠沙尘暴、寒冷地区暴雪和低空雾团。'),
             'MOONBOW':('A faint silver anti-lunar arc during rain, scaled by the illuminated moon fraction. Requires WEATHER_QUALITY above zero.','雨夜月亮较亮时，反月点方向出现淡淡的银白色虹弧，强度随月相受照比例变化；需要天气质量高于 0。'),
