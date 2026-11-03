@@ -1,0 +1,13 @@
+{
+  "version": "1.15.37",
+  "description": "Skip the cirrus warp and fbm when overcast fully hides the layer; clear weather keeps the layer.",
+  "renderer": "32x16, fixed sky and ray",
+  "per_pixel_noise_skipped_when_overcast": [
+    "one valueNoise warp",
+    "one 2-4 octave fbm",
+    "one sine streak"
+  ],
+  "overcast_output_vs_input_max_abs": 0.00019532442092895508,
+  "clear_output_vs_input_max_abs": 0.007238768041133881,
+  "shader_digest": "5f3e3842fe3733626e5793471ffe9cdcd17f583a0ce98d1313d169f22e70b45a"
+}

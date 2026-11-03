@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.36 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.37 · Community Project**
+
+**1.15.37 低配优化：全阴天时跳过卷云层噪声（2026-11-03）：** 高空卷云的透明度按「1 − 阴天度」缩放，全阴天时精确为零，但着色器此前仍会计算一次 warp 噪声、一次 2–4 层 fbm 与一条正弦条纹。现在阴天度达到 99.9% 时卷云层直接返回原天空，雨暴与厚阴天不再为完全看不见的卷云付出噪声开销；晴朗与薄云天气的卷云外观逐像素不变。该优化没有新增选项，也没有减少任何可见效果。
 
 **1.15.36 低配优化：低档 TAA 历史钳制改为五采样十字（2026-11-03）：** TAA 质量设为 1 时，历史颜色钳制不再读取 3×3 的九个像素，而是只读中心与上下左右四个邻点，每像素少四次纹理采样。对角线是移动边缘最不容易命中的方向，低档因此只牺牲极少量对角运动的钳制余量；质量 2/3 仍使用原来的 3×3 盒式钳制，逐像素不变。该优化没有新增选项，也不改变任何可见效果范围。
 
@@ -250,9 +252,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.36.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.37.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.36.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.37.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

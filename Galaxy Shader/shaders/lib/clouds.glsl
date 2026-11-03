@@ -223,14 +223,18 @@ vec3 highCloudLayer(vec3 sky, vec3 ray, vec3 origin) {
     if(ray.y<=0.01) return sky;
     float t=(920.0-origin.y)/ray.y;
     if(t<=0.0) return sky;
+    // The cirrus veil is fully hidden by an overcast deck. Returning before the
+    // warp and fbm keeps the rain and storm sky from paying for noise whose
+    // alpha is exactly zero; clear weather keeps the full layer.
+    float clearSky=1.0-weatherOvercastAmount();
+    if(clearSky<=0.001) return sky;
     vec2 p=(origin.xz+ray.xz*t)*vec2(0.00065,0.0018);
     p+=vec2(frameTimeCounter*0.002*CLOUD_SPEED,21.3);
     float warp=valueNoise(p*0.65)*1.8;
     float wisps=fbm(p+vec2(warp,-warp*0.25),min(CLOUD_QUALITY+1,4));
     float streak=0.5+0.5*sin(p.y*5.0+warp*5.0);
     float density=smoothstep(0.47,0.72,wisps)*(0.30+0.70*streak);
-    float alpha=density*0.24*(1.0-weatherOvercastAmount())*
-                smoothstep(0.01,0.18,ray.y);
+    float alpha=density*0.24*clearSky*smoothstep(0.01,0.18,ray.y);
     vec3 radiance=directionalRadiance()*0.45+skyIrradiance(vec3(0.0,1.0,0.0));
     return mix(sky,radiance,alpha);
 #else

@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.37 skips the high cirrus layer when overcast hides it. Its alpha is already multiplied by `1 - overcast`, which is exactly zero under a full deck, so `highCloudLayer` now returns the incoming sky before evaluating the warp noise, fbm and sine streak when that factor is at most 0.001. Clear and thin-cloud weather take the unchanged path. `tools/test_high_cloud_overcast.py` checks the overcast output against the input sky and confirms clear weather still draws cirrus; `tools/render_high_cloud_overcast.py` records the differences in `validation/high-cloud-overcast-report.json`. No option or preview is added.
+
 Version 1.15.36 reduces the TAA history clamp to a five-tap cross at `TAA_QUALITY == 1`. The YCoCg bounds come from the centre and the four edge neighbours instead of the full 3×3 box, saving four texture fetches per resolved pixel; the diagonals are the taps least likely to catch a moving edge, so the low profile loses only a little clamp margin on diagonal motion. Quality 2 and 3 keep the original box unchanged. `tools/test_taa_clamp.py` uses a texture with a distinct value only on the diagonals to prove the low profile ignores them and quality 2 still includes them; `tools/render_taa_clamp.py` records the outputs in `validation/taa-clamp-report.json`. No option or preview is added.
 
 Version 1.15.35 skips the bloom chain when `BLOOM_STRENGTH` is zero. `composite1` no longer runs its sixteen-tap bright pass, `composite2` and `composite3` no longer run their five-tap blurs, and `composite4` no longer fetches the bloom texture; all four sites are guarded by the compile-time constant, so a zero slider removes 27 texture fetches per pixel while leaving the strength-1.0 image untouched. `tools/test_bloom_strength.py` drives each pass with a constant HDR input and checks zero output at strength 0 against non-zero output at strength 1; `tools/render_bloom_strength.py` records the values in `validation/bloom-strength-report.json`. No option or preview is added.
@@ -229,6 +231,8 @@ python tools/test_bloom_strength.py
 python tools/render_bloom_strength.py
 python tools/test_taa_clamp.py
 python tools/render_taa_clamp.py
+python tools/test_high_cloud_overcast.py
+python tools/render_high_cloud_overcast.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py
