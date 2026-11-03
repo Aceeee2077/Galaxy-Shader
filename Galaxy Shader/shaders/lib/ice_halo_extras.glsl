@@ -66,6 +66,39 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
         colour += arcTint * arc * around * lowSun * visibility * 0.22;
     }
 
+    // Upper Parry arc: a thin chevron riding above the top of the 22-degree
+    // halo when the sun sits between roughly 13 and 32 degrees. It needs
+    // vertically aligned plate crystals, so it is rarer and fainter than the
+    // tangent arc; the ends of the bow sag toward the ring, giving the
+    // sun-cave shape instead of a second tangent cap.
+    float parrySun = smoothstep(0.22, 0.28, sunElevation) *
+                     (1.0 - smoothstep(0.50, 0.57, sunElevation));
+    if (parrySun > 0.0) {
+        vec3 flatSun = vec3(sun.x, 0.0, sun.z);
+        flatSun = length(flatSun) > 1e-4 ? normalize(flatSun) : vec3(0.0, 0.0, 1.0);
+        vec3 flatRay = vec3(ray.x, 0.0, ray.z);
+        float azimuth = length(flatRay) > 1e-4 ?
+            dot(normalize(flatRay), flatSun) : 1.0;
+        float side = acos(clamp(azimuth, -1.0, 1.0));
+        float spread = 1.0 - smoothstep(0.40, 0.52, side);
+        if (spread > 0.0) {
+            // The bow peaks 25 degrees above the sun and bends down to the
+            // ring at 21.5 degrees by the time it runs 25 degrees sideways.
+            float u = min(side / 0.44, 1.0);
+            float target = 0.44 - 0.065 * u * u;
+            float vertical = asin(clamp(ray.y, -1.0, 1.0)) - sunElevation - target;
+            float band = exp(-pow(vertical / 0.014, 2.0)) *
+                         (1.0 - smoothstep(0.030, 0.045, abs(vertical)));
+            // Red inner edge, near-white body, violet outer edge: a thin
+            // spectral rim on either side of a mostly uncoloured band.
+            vec3 arcTint = mix(vec3(1.0, 0.42, 0.20), vec3(1.0, 0.95, 0.86),
+                               smoothstep(-0.009, -0.001, vertical));
+            arcTint = mix(arcTint, vec3(0.52, 0.60, 1.0),
+                          smoothstep(0.001, 0.009, vertical));
+            colour += arcTint * band * spread * parrySun * visibility * 0.060;
+        }
+    }
+
     // Parhelic circle: a white horizontal band crossing the sky at the sun's
     // altitude. Plate crystals spread it all the way around, with a bright
     // patch near the sun and a second one around the 120-degree parhelia.

@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "a9430ac09f18c520e668b1fc69bd8a3acc4a0a0275b190bfdfcec77070b5db4d",
+  "resolution": [
+    960,
+    520
+  ],
+  "sun_elevation_degrees": 24.0,
+  "preview_gain": 6.0,
+  "preview": "Galaxy Shader/previews/parry-arc.png",
+  "status": "rendered for visual review"
+}

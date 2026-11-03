@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.37 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.38 · Community Project**
+
+**1.15.38 帕里弧（2026-11-03）：** 太阳高度约 13°–32° 时，22° 晕正上方出现一条很淡的弧形光带：中央高出日心约 25°，向两侧伸展约 25° 后两端下垂、重新贴近晕顶，形成类似浅 V 字或「太阳洞穴」的形状；弧体近似白色，下缘略带红橙、上缘偏淡紫。它需要竖直排列的片状冰晶，因此比切弧更罕见、更淡。归入已有的「大气 → 46° 晕与环地平弧」开关，不新增选项；沿用既有冰晶可见度（晴朗、非降雨、太阳在地平线以上）门控，太阳过高或过低时自动退出。纯角度解析的方位包络、抛物线高度与竖直高斯带，不增加贴图、查表或渲染目标。下图为合成 GPU 高空全景，弧亮度经预览放大，不是游戏截图。
+
+![帕里弧（合成 GPU 高空全景，弧预览放大）](previews/parry-arc.png)
 
 **1.15.37 低配优化：全阴天时跳过卷云层噪声（2026-11-03）：** 高空卷云的透明度按「1 − 阴天度」缩放，全阴天时精确为零，但着色器此前仍会计算一次 warp 噪声、一次 2–4 层 fbm 与一条正弦条纹。现在阴天度达到 99.9% 时卷云层直接返回原天空，雨暴与厚阴天不再为完全看不见的卷云付出噪声开销；晴朗与薄云天气的卷云外观逐像素不变。该优化没有新增选项，也没有减少任何可见效果。
 
@@ -252,9 +256,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.37.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.38.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.37.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.38.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

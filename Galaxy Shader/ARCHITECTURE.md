@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.38 adds the upper Parry arc to `iceHaloCompanions`. When the sun is between about 13 and 32 degrees high, a thin band peaks 25 degrees above the sun and sags toward the ring at the ends, with a red inner rim and a violet outer rim. It is an analytic azimuth envelope plus a parabolic target height and a vertical Gaussian, gated by the existing `ICE_HALO_COMPANIONS` switch and clear-ice visibility, so it adds no texture, lookup or render target. `tools/test_parry_arc.py` checks the arc appears at 24 degrees, vanishes at 0 and 45 degrees, stays narrow and is black at zero visibility; `tools/render_parry_arc.py` writes `previews/parry-arc.png` and `validation/parry-arc-report.json`.
+
 Version 1.15.37 skips the high cirrus layer when overcast hides it. Its alpha is already multiplied by `1 - overcast`, which is exactly zero under a full deck, so `highCloudLayer` now returns the incoming sky before evaluating the warp noise, fbm and sine streak when that factor is at most 0.001. Clear and thin-cloud weather take the unchanged path. `tools/test_high_cloud_overcast.py` checks the overcast output against the input sky and confirms clear weather still draws cirrus; `tools/render_high_cloud_overcast.py` records the differences in `validation/high-cloud-overcast-report.json`. No option or preview is added.
 
 Version 1.15.36 reduces the TAA history clamp to a five-tap cross at `TAA_QUALITY == 1`. The YCoCg bounds come from the centre and the four edge neighbours instead of the full 3×3 box, saving four texture fetches per resolved pixel; the diagonals are the taps least likely to catch a moving edge, so the low profile loses only a little clamp margin on diagonal motion. Quality 2 and 3 keep the original box unchanged. `tools/test_taa_clamp.py` uses a texture with a distinct value only on the diagonals to prove the low profile ignores them and quality 2 still includes them; `tools/render_taa_clamp.py` records the outputs in `validation/taa-clamp-report.json`. No option or preview is added.
@@ -233,6 +235,8 @@ python tools/test_taa_clamp.py
 python tools/render_taa_clamp.py
 python tools/test_high_cloud_overcast.py
 python tools/render_high_cloud_overcast.py
+python tools/test_parry_arc.py
+python tools/render_parry_arc.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py

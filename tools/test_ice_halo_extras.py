@@ -85,7 +85,12 @@ void main() {
         image = self.image(0.524)
         clean = self.away_from_parhelic_band(0.524)
         ring = float(image[(np.abs(angle - RING) < np.deg2rad(1.5)) & clean].max())
-        inner = float(image[(np.abs(angle - np.deg2rad(22.0)) < np.deg2rad(1.5)) & clean].max())
+        # The Parry arc's ends now touch the top of the 22-degree circle, so the
+        # inner check reads the lower half of that circle instead; the upper
+        # half is covered by test_parry_arc.py.
+        inner_mask = ((np.abs(angle - np.deg2rad(22.0)) < np.deg2rad(1.5)) &
+                      clean & (self.el < 0.524 - np.deg2rad(3.0)))
+        inner = float(image[inner_mask].max())
         outer = float(image[(np.abs(angle - np.deg2rad(65.0)) < np.deg2rad(1.5)) & clean].max())
         self.assertGreater(ring, 0.01, 'The 46-degree ring must be drawn')
         self.assertLess(inner, 1e-6, 'The 22-degree halo lives elsewhere')
