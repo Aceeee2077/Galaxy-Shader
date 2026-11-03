@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.42 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.43 · Community Project**
+
+**1.15.43 — low-sun parhelia stretch into a short pillar (2026-11-03):** Once the sun sits below about 10°, a sun dog is no longer just a small upright patch: it lengthens into a short pillar as the sun nears the horizon, while its horizontal width and its red inner / pale-blue outer tint stay the same. This is the same plate-crystal family as the sun pillar: a longer vertical scattering path at grazing solar angles. The change only alters one vertical Gaussian radius and adds no sample, texture or render target; above about 11.5° the original 2.5° radius returns. It shares the `ICE_HALOS` toggle with the ring, pillar and tangent arcs, adding no option. The image below is a synthetic GPU close-up of the right-hand dog at a 3° sun, brightened for preview, not a gameplay capture.
+
+![Low-sun parhelion pillar (synthetic GPU close-up, brightened)](previews/dog-pillar.png)
 
 **1.15.42 — low-end optimisation: one fewer noise and atmosphere sample in the cloud march (2026-11-03):** The volumetric march evaluates an edge-erosion noise at every sample, but a sample whose density already clamped to zero stays zero no matter how much is eroded. Empty samples now skip that call: the synthetic GPU fixture measures about 67, 57 and 21 percent fewer erosion-noise calls in clear, overcast and rain, with the cloud image unchanged pixel for pixel. The aerial-perspective sample in the same pass is now deferred until the first sample that actually scatters and cached for the rest of the march, so sky rays that cross the layer without a hit no longer run the full atmosphere; at the lowest cloud coverage about 2 percent of sky pixels save that call. Neither change adds an option, texture, lookup or render target, and both help integrated GPUs and low-end laptops.
 
@@ -268,9 +272,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.42.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.43.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.42.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.43.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

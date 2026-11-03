@@ -49,6 +49,11 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         // Sun dogs are bright vertical smears on the ring. Their horizontal
         // angle is wide by about a degree and their vertical extent is several
         // degrees, so each is evaluated in its own azimuth/elevation frame.
+        // As the sun drops toward the horizon the smear stretches into a short
+        // pillar, because the same plate crystals scatter light over a longer
+        // vertical path; the horizontal width stays the same.
+        float dogVertical = mix(6.2 * deg, 2.5 * deg,
+                                smoothstep(0.02, 0.20, lightDir.y));
         float dog = 0.0;
         for (int i = 0; i < 2; i++) {
             vec3 dogDir = i == 0 ? leftDog : rightDog;
@@ -57,7 +62,7 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
             float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
             float vertical = elevation - asin(clamp(dogDir.y, -1.0, 1.0));
             dog += exp(-pow(azimuth / (1.05 * deg), 2.0)) *
-                   exp(-pow(vertical / (2.5 * deg), 2.0));
+                   exp(-pow(vertical / dogVertical, 2.0));
         }
         float lowSun = smoothstep(0.015, 0.075, lightDir.y) *
                        (1.0 - smoothstep(0.26, 0.42, lightDir.y));

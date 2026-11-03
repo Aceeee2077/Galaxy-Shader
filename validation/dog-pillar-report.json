@@ -1,0 +1,22 @@
+{
+  "type": "Synthetic GPU close-up; not a Minecraft screenshot",
+  "shader_sha256": "e77ef67444dcdbb26227f33d455b6c905e409d715800709ddf4921dff0f1624f",
+  "resolution": [
+    960,
+    520
+  ],
+  "sun_elevation_degrees": 3.0,
+  "field_degrees": {
+    "azimuth": [
+      13.0,
+      30.0
+    ],
+    "elevation": [
+      0.0,
+      12.0
+    ]
+  },
+  "preview_gain": 3.5,
+  "preview": "Galaxy Shader/previews/dog-pillar.png",
+  "status": "rendered for visual review"
+}
