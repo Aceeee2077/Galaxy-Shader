@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.40 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.41 · Community Project**
+
+**1.15.41 幻日光谱色（2026-11-03）：** 低太阳两侧的幻日不再是一整块固定暖色，而是像真实冰晶折射那样分成一道很小的光谱：朝向太阳的一侧偏红橙，背向太阳的一侧过渡到淡蓝白，整块亮斑依旧是竖直的短抹痕。分色只用到已有的「射线相对太阳方位的角距离」，不增加三角函数、贴图或渲染目标；月幻日保持原有的冷白色。它与 22° 晕、日柱、上切弧和下切弧共用 `ICE_HALOS` 开关，不新增选项。下图为太阳 7° 时右侧幻日的合成 GPU 特写，亮度经预览放大，不是游戏截图。
+
+![幻日光谱色（合成 GPU 特写，亮度预览放大）](previews/sun-dog-colour.png)
 
 **1.15.40 高日下切弧（2026-11-03）：** 太阳升到约 32° 以上时，22° 晕的下缘出现一条与晕相切的弧形光带：正对太阳正下方最亮，向两侧逐渐变淡，形状与上切弧互为镜像。太阳低于该高度时自动退出，阴雨天气沿用既有冰晶可见度门控。它与 22° 晕、幻日、日柱和上切弧共用 `ICE_HALOS` 开关，不新增选项；纯角度解析的方位包络与高度平滑窗口，不增加贴图、查表或渲染目标。下图为合成 GPU 高空全景，弧亮度经预览放大，不是游戏截图。
 
@@ -262,9 +266,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.40.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.41.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.40.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.41.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

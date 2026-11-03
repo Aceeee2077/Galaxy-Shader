@@ -42,6 +42,10 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
                              rightHeading.y * horizontal);
         float elevation = asin(clamp(ray.y, -1.0, 1.0));
 
+        vec3 sunFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
+        vec3 sunSide = normalize(cross(vec3(0.0, 1.0, 0.0), sunFlat));
+        float azimuthFromSun = atan(dot(ray, sunSide), dot(ray, sunFlat));
+
         // Sun dogs are bright vertical smears on the ring. Their horizontal
         // angle is wide by about a degree and their vertical extent is several
         // degrees, so each is evaluated in its own azimuth/elevation frame.
@@ -57,14 +61,17 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         }
         float lowSun = smoothstep(0.015, 0.075, lightDir.y) *
                        (1.0 - smoothstep(0.26, 0.42, lightDir.y));
-        result += mix(vec3(0.98, 0.72, 0.55), vec3(0.90, 0.92, 1.0), 0.35) *
-                  dog * lowSun * 0.11;
+        // Parhelia are small spectra: the flank facing the sun is red-orange
+        // and the far flank runs to pale blue. The split uses the ray's
+        // distance from the sun's azimuth, so it costs no extra trigonometry.
+        float dogSpectral = smoothstep(-0.012, 0.012,
+                                       abs(azimuthFromSun) - 22.0 * deg);
+        vec3 dogTint = mix(vec3(1.00, 0.56, 0.34), vec3(0.86, 0.90, 1.0),
+                           dogSpectral);
+        result += dogTint * dog * lowSun * 0.11;
 
         // Upper tangent arc: a shallow bright band tangent to the top of the
         // ring, strongest straight above the sun.
-        vec3 sunFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
-        vec3 sunSide = normalize(cross(vec3(0.0, 1.0, 0.0), sunFlat));
-        float azimuthFromSun = atan(dot(ray, sunSide), dot(ray, sunFlat));
         float aboveSun = elevation - asin(clamp(lightDir.y, -1.0, 1.0));
         float tangent = exp(-pow(azimuthFromSun / (9.0 * deg), 2.0)) *
                         smoothstep(19.0 * deg, 21.5 * deg, aboveSun) *

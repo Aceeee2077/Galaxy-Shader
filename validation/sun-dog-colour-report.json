@@ -1,0 +1,22 @@
+{
+  "type": "Synthetic GPU close-up; not a Minecraft screenshot",
+  "shader_sha256": "1e67a548c026fe38ae11574d52d0fb717b7415ce2dae7eb9c1a927869fee804b",
+  "resolution": [
+    960,
+    520
+  ],
+  "sun_elevation_degrees": 7.0,
+  "field_degrees": {
+    "azimuth": [
+      16.0,
+      28.0
+    ],
+    "elevation": [
+      4.0,
+      10.5
+    ]
+  },
+  "preview_gain": 4.0,
+  "preview": "Galaxy Shader/previews/sun-dog-colour.png",
+  "status": "rendered for visual review"
+}

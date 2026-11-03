@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.41 gives solar parhelia a small spectrum. The dog is still a vertical Gaussian smear, but its tint now interpolates from red-orange on the sunward flank to pale blue-white on the far flank using the ray's angular distance from the sun's azimuth, which is already computed for the pillar and both tangent arcs, so the split costs one `abs` and one `smoothstep`. Moon dogs keep the original cool white. It shares `ICE_HALOS` and adds no option, texture, lookup or render target. `tools/test_sun_dog_colour.py` measures both flanks, proves the previous tint is unchanged away from the dog and that lunar dogs are untouched; `tools/render_sun_dog_colour.py` writes `previews/sun-dog-colour.png` and `validation/sun-dog-colour-report.json`.
+
 Version 1.15.40 adds the lower tangent arc to the 22-degree halo family. Above roughly 32 degrees of solar elevation a band hugs the bottom of the ring, strongest straight below the sun and fading with azimuth; it is the mirror of the existing upper tangent cap and shares `ICE_HALOS` and the clear-ice gate. It is an analytic azimuth Gaussian and a height window, so no texture, lookup or render target is added. `tools/test_lower_tangent.py` compares the below-sun band against the bare ring at 40 and 25 degrees, checks the radial falloff and zero visibility; `tools/render_lower_tangent.py` writes `previews/lower-tangent-arc.png` and `validation/lower-tangent-arc-report.json`.
 
 Version 1.15.39 skips the sky sample in enclosed-space fog. `applyFog` colours haze with `atmosphere(ray,false)`, but that sample is multiplied by the outdoor weight, which is exactly zero when the sky light is zero (a cave or an interior) and is discarded entirely when the sky flag already zeroes the fog. The call is now gated on `!sky && outdoor > 0`, so those pixels no longer evaluate the atmosphere, halos and night sky; outdoor pixels keep the sample. `tools/test_fog_cave.py` compares against the ungated code at cave, indoor, dusk and day light levels and checks that a cave no longer depends on the sky ray; `tools/render_fog_cave.py` records the zero differences in `validation/fog-cave-report.json`.
@@ -245,6 +247,8 @@ python tools/test_fog_cave.py
 python tools/render_fog_cave.py
 python tools/test_lower_tangent.py
 python tools/render_lower_tangent.py
+python tools/test_sun_dog_colour.py
+python tools/render_sun_dog_colour.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py
