@@ -73,6 +73,20 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
                         (1.0 - smoothstep(26.0 * deg, 29.0 * deg, theta));
         result += vec3(0.85, 0.90, 1.0) * tangent * 0.045;
 
+        // Lower tangent arc: the mirror of the upper cap, seen once the sun
+        // climbs above roughly 32 degrees. It hugs the bottom of the ring and
+        // is brightest straight below the sun, fading out to the sides.
+        float higherSun = smoothstep(0.52, 0.62, lightDir.y);
+        if (higherSun > 0.0) {
+            float belowSun = asin(clamp(lightDir.y, -1.0, 1.0)) - elevation;
+            float lowerTangent = exp(-pow(azimuthFromSun / (12.0 * deg), 2.0)) *
+                                 smoothstep(19.5 * deg, 22.0 * deg, belowSun) *
+                                 (1.0 - smoothstep(27.0 * deg, 32.0 * deg, belowSun)) *
+                                 smoothstep(18.0 * deg, 20.5 * deg, theta) *
+                                 (1.0 - smoothstep(26.0 * deg, 29.0 * deg, theta));
+            result += vec3(0.86, 0.90, 1.0) * lowerTangent * higherSun * 0.040;
+        }
+
         // Sun pillar: a vertical shaft of light above (and faintly below) a
         // low sun. It is narrow in azimuth and fades over roughly 15 degrees.
         float pillarGate = smoothstep(-0.005, 0.035, lightDir.y) *

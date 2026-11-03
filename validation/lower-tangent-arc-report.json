@@ -1,0 +1,12 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "8e12507821e1afca30c9d6835108df4366b2f92be12e335c46e48c803d68af20",
+  "resolution": [
+    960,
+    520
+  ],
+  "sun_elevation_degrees": 40.0,
+  "preview_gain": 7.0,
+  "preview": "Galaxy Shader/previews/lower-tangent-arc.png",
+  "status": "rendered for visual review"
+}
