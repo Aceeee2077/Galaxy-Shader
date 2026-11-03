@@ -1,0 +1,12 @@
+{
+  "version": "1.15.36",
+  "description": "Use the centre plus four edge neighbours for the TAA history clamp at TAA_QUALITY 1 instead of the 3x3 box.",
+  "renderer": "8x8, synthetic texture with 0.2 on the four diagonals and 0.5 everywhere else",
+  "texture_fetches_saved_per_low_profile_pixel": 4,
+  "low_profile_history_0.1": 0.5,
+  "low_profile_history_0.7": 0.5,
+  "quality2_history_0.1": 0.199951171875,
+  "edge_value": 0.5,
+  "diagonal_value": 0.2,
+  "shader_digest": "169f475390766f002e432b840aad0ab75008cffc7ccf47d302e0f1a3d021f9e0"
+}

@@ -42,9 +42,24 @@ float temporalDepth(vec2 uv, float depth) {
 
 // A 3x3 YCoCg box is deliberately conservative. It removes chromatic and
 // emissive trails while retaining more luminance detail than an RGB clamp.
+// The low profile uses the centre plus the four edge neighbours instead: the
+// diagonals are the taps least likely to catch a moving edge, so dropping them
+// saves four texture fetches per resolved pixel at the cost of a marginally
+// tighter clamp on diagonal motion.
 vec3 clampTemporalHistory(sampler2D current, vec2 uv, vec3 history) {
     vec3 lo = vec3(1e20), hi = vec3(-1e20);
     vec2 px = pixelSize();
+#if TAA_QUALITY == 1
+    const vec2 crossTaps[5] = vec2[5](vec2(0.0, 0.0), vec2(-1.0, 0.0),
+                                      vec2(1.0, 0.0), vec2(0.0, -1.0),
+                                      vec2(0.0, 1.0));
+    for (int i = 0; i < 5; ++i) {
+        vec2 suv = clamp(uv + crossTaps[i] * px, px * 0.5, 1.0 - px * 0.5);
+        vec3 sampleColor = rgbToYCoCg(texture2D(current, suv).rgb);
+        lo = min(lo, sampleColor);
+        hi = max(hi, sampleColor);
+    }
+#else
     for (int y = -1; y <= 1; ++y) {
         for (int x = -1; x <= 1; ++x) {
             vec2 suv = clamp(uv + vec2(x, y) * px, px * 0.5, 1.0 - px * 0.5);
@@ -53,6 +68,7 @@ vec3 clampTemporalHistory(sampler2D current, vec2 uv, vec3 history) {
             hi = max(hi, sampleColor);
         }
     }
+#endif
     return max(yCoCgToRgb(clamp(rgbToYCoCg(history), lo, hi)), vec3(0.0));
 }
 

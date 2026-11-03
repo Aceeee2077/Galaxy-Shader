@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.36 reduces the TAA history clamp to a five-tap cross at `TAA_QUALITY == 1`. The YCoCg bounds come from the centre and the four edge neighbours instead of the full 3×3 box, saving four texture fetches per resolved pixel; the diagonals are the taps least likely to catch a moving edge, so the low profile loses only a little clamp margin on diagonal motion. Quality 2 and 3 keep the original box unchanged. `tools/test_taa_clamp.py` uses a texture with a distinct value only on the diagonals to prove the low profile ignores them and quality 2 still includes them; `tools/render_taa_clamp.py` records the outputs in `validation/taa-clamp-report.json`. No option or preview is added.
+
 Version 1.15.35 skips the bloom chain when `BLOOM_STRENGTH` is zero. `composite1` no longer runs its sixteen-tap bright pass, `composite2` and `composite3` no longer run their five-tap blurs, and `composite4` no longer fetches the bloom texture; all four sites are guarded by the compile-time constant, so a zero slider removes 27 texture fetches per pixel while leaving the strength-1.0 image untouched. `tools/test_bloom_strength.py` drives each pass with a constant HDR input and checks zero output at strength 0 against non-zero output at strength 1; `tools/render_bloom_strength.py` records the values in `validation/bloom-strength-report.json`. No option or preview is added.
 
 Version 1.15.34 skips the volumetric shaft integral in `lib/volumetrics.glsl` when `GODRAY_STRENGTH` is zero. The shaft result was already multiplied by the slider, but the loop still paid 8–40 shadow taps per pixel and a cloud-shadow lookup. The gate leaves the optical depth and the independent lightning flash in place, so a storm still flashes with god rays off; the underwater branch, which has no flash term, returns immediately. At strength 1.0 the output is pixel-identical. `tools/test_volumetric_godray.py` compares both slider values against the previous code, checks the clear-sky zero, the lightning-only colour ratio and the underwater path; `tools/render_volumetric_godray.py` records the numbers in `validation/volumetric-godray-report.json`. No option or preview is added.
@@ -225,6 +227,8 @@ python tools/test_volumetric_godray.py
 python tools/render_volumetric_godray.py
 python tools/test_bloom_strength.py
 python tools/render_bloom_strength.py
+python tools/test_taa_clamp.py
+python tools/render_taa_clamp.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py
