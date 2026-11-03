@@ -55,7 +55,12 @@ vec3 applyFog(vec3 color, vec3 player, bool sky) {
         float valleyDensity=pockets*(0.0007+morning*0.0016+rain*0.0038+storm*0.0024);
         density=mix(0.0010,distanceHaze+heightDensity+valleyDensity,outdoor);
         density*=mix(0.90,1.10,dayVariation())*biomeFogDensity();
-        vec3 clearScatter=atmosphere(ray,false);
+        vec3 clearScatter=vec3(0.0);
+        // A fully enclosed space has no sky colour to scatter: the outdoor
+        // weight below is exactly zero in a cave or an interior, so anything
+        // sampled from the sky would be multiplied by zero. Skip the full
+        // atmosphere evaluation for those pixels; outdoor terrain keeps it.
+        if (!sky && outdoor > 0.0) clearScatter=atmosphere(ray,false);
         vec3 wetScatter=mix(vec3(0.20,0.25,0.30),vec3(0.10,0.125,0.17),storm);
         float sunward=pow(max(dot(ray,sunDirection()),0.0),3.0);
         float golden=goldenHourAmount()*(1.0-overcast)*DAWN_HAZE;

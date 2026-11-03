@@ -1,0 +1,34 @@
+{
+  "version": "1.15.39",
+  "description": "Skip the full atmosphere sample in terrain fog when the pixel has no outdoor sky light (cave or interior) or when the sky flag already zeroes the fog.",
+  "renderer": "64x64, constant 0.5 input colour",
+  "sky_evaluations_skipped": "one full atmosphere() call per covered pixel in caves and interiors, and per sky pixel",
+  "cases": {
+    "cave_sky_light_0": {
+      "gated_mean": 0.3951009213924408,
+      "previous_mean": 0.3951009213924408,
+      "max_abs_difference": 0.0
+    },
+    "indoor_sky_light_0": {
+      "gated_mean": 0.3951009213924408,
+      "previous_mean": 0.3951009213924408,
+      "max_abs_difference": 0.0
+    },
+    "dusk_sky_light_60": {
+      "gated_mean": 0.4164225161075592,
+      "previous_mean": 0.4164225161075592,
+      "max_abs_difference": 0.0
+    },
+    "day_sky_light_240": {
+      "gated_mean": 0.4551595151424408,
+      "previous_mean": 0.4551595151424408,
+      "max_abs_difference": 0.0
+    },
+    "sky_flag_day": {
+      "gated_mean": 0.5,
+      "previous_mean": 0.5,
+      "max_abs_difference": 0.0
+    }
+  },
+  "shader_digest": "eca612cafb8caffe41143bc2cb4bb4f588579fd0014f1e94a8591fa60033daed"
+}

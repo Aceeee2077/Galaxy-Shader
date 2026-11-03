@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.39 skips the sky sample in enclosed-space fog. `applyFog` colours haze with `atmosphere(ray,false)`, but that sample is multiplied by the outdoor weight, which is exactly zero when the sky light is zero (a cave or an interior) and is discarded entirely when the sky flag already zeroes the fog. The call is now gated on `!sky && outdoor > 0`, so those pixels no longer evaluate the atmosphere, halos and night sky; outdoor pixels keep the sample. `tools/test_fog_cave.py` compares against the ungated code at cave, indoor, dusk and day light levels and checks that a cave no longer depends on the sky ray; `tools/render_fog_cave.py` records the zero differences in `validation/fog-cave-report.json`.
+
 Version 1.15.38 adds the upper Parry arc to `iceHaloCompanions`. When the sun is between about 13 and 32 degrees high, a thin band peaks 25 degrees above the sun and sags toward the ring at the ends, with a red inner rim and a violet outer rim. It is an analytic azimuth envelope plus a parabolic target height and a vertical Gaussian, gated by the existing `ICE_HALO_COMPANIONS` switch and clear-ice visibility, so it adds no texture, lookup or render target. `tools/test_parry_arc.py` checks the arc appears at 24 degrees, vanishes at 0 and 45 degrees, stays narrow and is black at zero visibility; `tools/render_parry_arc.py` writes `previews/parry-arc.png` and `validation/parry-arc-report.json`.
 
 Version 1.15.37 skips the high cirrus layer when overcast hides it. Its alpha is already multiplied by `1 - overcast`, which is exactly zero under a full deck, so `highCloudLayer` now returns the incoming sky before evaluating the warp noise, fbm and sine streak when that factor is at most 0.001. Clear and thin-cloud weather take the unchanged path. `tools/test_high_cloud_overcast.py` checks the overcast output against the input sky and confirms clear weather still draws cirrus; `tools/render_high_cloud_overcast.py` records the differences in `validation/high-cloud-overcast-report.json`. No option or preview is added.
@@ -237,6 +239,8 @@ python tools/test_high_cloud_overcast.py
 python tools/render_high_cloud_overcast.py
 python tools/test_parry_arc.py
 python tools/render_parry_arc.py
+python tools/test_fog_cave.py
+python tools/render_fog_cave.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py

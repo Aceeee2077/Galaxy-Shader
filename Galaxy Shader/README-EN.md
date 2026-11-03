@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.38 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.39 · Community Project**
+
+**1.15.39 — low-end optimisation: skip the sky sample in cave and indoor fog (2026-11-03):** Terrain fog samples the sky once to colour distant haze. In a cave, an interior or anywhere the sky light is zero the outdoor weight is exactly zero, so that sample is multiplied away, yet the shader still evaluated the full atmosphere, sun/moon halos and night-sky layers. Those pixels now skip the sky sample and keep their original cave fog colour; outdoor pixels at day, dusk and night and the sky-flag path are pixel-for-pixel unchanged. No option is added and no visible effect is removed; players who spend their time underground or indoors on low-end hardware gain the most.
 
 **1.15.38 — upper Parry arc (2026-11-03):** When the sun stands roughly 13°–32° high, a faint arc rides just above the top of the 22° halo: it peaks about 25° above the sun's centre, runs about 25° sideways and then sags back down toward the ring, giving the shallow V or "sun cave" shape of a Parry arc. The band is mostly white with a faint red-orange underside and a pale violet upper edge. It needs vertically aligned plate crystals, so it is rarer and fainter than the tangent arc. It joins the existing `ICE_HALO_COMPANIONS` toggle without adding an option and reuses the clear-ice visibility gate, retiring automatically when the sun is too low or too high. It is an analytic azimuth envelope, a parabolic height and a vertical Gaussian band, adding no texture, lookup table or render target. The image below is a synthetic GPU upper-sky panorama with the arc brightened for preview, not a gameplay capture.
 
@@ -256,9 +258,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.38.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.39.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.38.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.39.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
