@@ -1,0 +1,16 @@
+{
+  "version": "1.15.33",
+  "description": "Skip the star cell hash, scintillation and colour hashes when the remaining night sky is at most 0.002.",
+  "renderer": "256x256 synthetic sky, float target",
+  "per_pixel_work_skipped_in_daylight": [
+    "star cell hash",
+    "two colour hashes",
+    "scintillation (3 sines)",
+    "UV atan/asin and star mask"
+  ],
+  "noon_gated_vs_previous_max_abs": 0.0,
+  "noon_gated_vs_starless_max_abs": 0.0,
+  "night_gated_vs_previous_max_abs": 0.0,
+  "night_star_energy_max_abs": 0.1763916015625,
+  "shader_digest": "b17bac7b55e9c50c53a4dc85493e7c868b2590291dab83a6c7940f11c5ad339c"
+}

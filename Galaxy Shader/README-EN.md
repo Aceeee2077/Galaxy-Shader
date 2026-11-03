@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.32 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.33 · Community Project**
+
+**1.15.33 — low-end optimisation: daytime star-field early-out (2026-11-03):** The star layer is scaled by remaining night times clear sky, which is exactly zero at noon and under full overcast, but every pixel still computed the star cell hash, the scintillation sines and two colour hashes. The whole star block is now skipped below 0.2%, removing that work from the daytime sky path. Stars, twinkle and colour remain pixel-identical at night and twilight. The optimisation adds no option and removes no visible effect: the noon image matches both the pre-change code and a star-free variant exactly, while night stars stay visible.
 
 **1.15.32 — low-end optimisation: daytime cosmic sky early-out (2026-11-03):** Once the sun is up, the night-sky layers (galaxy, aurora, meteors, comet and supernova) are multiplied to zero by the daylight term, but the shader still evaluated all of their noise first. The whole block is now skipped whenever that term falls below 0.2% (sunrise, or thick enough cloud), so noon and overcast skies no longer pay for stars nobody can see. Twilight, night and sunset remain pixel-identical. The optimisation adds no option and removes no visible effect: in synthetic GPU comparisons the noon image matches both a cosmic-free sky and the pre-change code exactly.
 
@@ -242,9 +244,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.32.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.33.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.32.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.33.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

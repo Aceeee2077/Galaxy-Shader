@@ -220,19 +220,25 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += eclipseCorona(ray, sun, eclipse * (1.0 - overcast),
                              frameTimeCounter);
         sky += moonSky(ray,1.0-day,overcast);
-        vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
-        float starCell = hash12(floor(starUV));
-        float star = step(0.996,starCell)*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
-        float twinkle = starScintillation(hash12(floor(starUV)+13.7),ray.y,
-                                          frameTimeCounter,STAR_SCINTILLATION);
-        float starBrightness = star*twinkle*0.7*(1.0-day)*(1.0-overcast)*
-                               smoothstep(0.0,0.2,ray.y);
+        // Stars are scaled by the remaining night sky, which is exactly zero in
+        // daylight and under full overcast. Skip the cell hash, scintillation
+        // and colour hashes instead of evaluating them for an invisible layer;
+        // this is the largest per-pixel saving on the daytime sky path.
+        if ((1.0-day)*(1.0-overcast) > 0.002) {
+            vec2 starUV = vec2(atan(ray.z,ray.x),asin(clamp(ray.y,-1.0,1.0)))*vec2(700.0,900.0);
+            float starCell = hash12(floor(starUV));
+            float star = step(0.996,starCell)*pow(max(1.0-length(fract(starUV)-0.5)*2.0,0.0),4.0);
+            float twinkle = starScintillation(hash12(floor(starUV)+13.7),ray.y,
+                                              frameTimeCounter,STAR_SCINTILLATION);
+            float starBrightness = star*twinkle*0.7*(1.0-day)*(1.0-overcast)*
+                                   smoothstep(0.0,0.2,ray.y);
 #if STAR_COLOR > 0
-        sky += starColour(hash12(floor(starUV)+57.1),
-                          hash12(floor(starUV)+31.7)) * starBrightness;
+            sky += starColour(hash12(floor(starUV)+57.1),
+                              hash12(floor(starUV)+31.7)) * starBrightness;
 #else
-        sky += vec3(starBrightness);
+            sky += vec3(starBrightness);
 #endif
+        }
 #if COSMIC_SKY_QUALITY > 0
         // The night-sky layers are worthless by day: every contribution is
         // scaled by cosmicNight, which is exactly zero once the sun is up.
