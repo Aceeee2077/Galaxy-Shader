@@ -9,7 +9,9 @@ void main() {
     vec4 temporal=resolveTemporal(texcoord);
     vec3 hdr=cameraEffects(texcoord,temporal.rgb);
 #if BLOOM_QUALITY > 0
-    hdr+=texture2D(colortex5,texcoord).rgb*(0.022*float(BLOOM_QUALITY))*BLOOM_STRENGTH;
+    // Skip the fetch as well when the slider's contribution is zero.
+    if (BLOOM_STRENGTH > 0.0)
+        hdr+=texture2D(colortex5,texcoord).rgb*(0.022*float(BLOOM_QUALITY))*BLOOM_STRENGTH;
 #endif
     gl_FragData[0]=vec4(gradeColor(hdr),1.0);
     gl_FragData[1]=temporal;

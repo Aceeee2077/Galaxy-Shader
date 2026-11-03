@@ -1,0 +1,30 @@
+{
+  "version": "1.15.35",
+  "description": "Skip the bloom bright pass and both blur passes when BLOOM_STRENGTH is zero, plus the composite4 fetch.",
+  "renderer": "64x64, constant HDR 4.0 input",
+  "texture_fetches_skipped_at_zero": {
+    "composite1_bright_pass": 16,
+    "composite2_horizontal_blur": 5,
+    "composite3_vertical_blur": 5,
+    "composite4_fetch": 1,
+    "total": 27
+  },
+  "passes": {
+    "composite1": {
+      "strength_0_max": 0.0,
+      "strength_1_mean": 2.75,
+      "strength_1_max": 2.75
+    },
+    "composite2": {
+      "strength_0_max": 0.0,
+      "strength_1_mean": 3.998046875,
+      "strength_1_max": 3.998046875
+    },
+    "composite3": {
+      "strength_0_max": 0.0,
+      "strength_1_mean": 3.998046875,
+      "strength_1_max": 3.998046875
+    }
+  },
+  "shader_digest": "8b216d1c023745923fc2b5a98d090921b5fbb94ae75bf2f51ff3f1d078485ed7"
+}
