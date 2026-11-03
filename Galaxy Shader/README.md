@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.33 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.34 · Community Project**
+
+**1.15.34 低配优化：丁达尔光强度归零时跳过体积积分（2026-11-03）：** 把「丁达尔光强度」拉到 0 后，原有着色器仍会为每个像素执行 8–40 次带阴影采样的体积积分，再把结果乘以零。现在强度为 0 时整段光柱积分直接跳过，只保留独立的雷暴闪光；水面下的光柱同样提前返回。默认强度 1.0 的画面逐像素不变，雷暴闪光在强度 0 时仍然出现。该优化没有新增选项；对低配玩家来说，关掉丁达尔光现在真正省下体积步进。
 
 **1.15.33 低配优化：白昼星空提前退出（2026-11-03）：** 星点本来按「剩余夜色 × 晴空度」缩放，正午和全阴天时该系数精确为零，但着色器仍会为每颗像素计算星格哈希、闪烁正弦与恒星颜色哈希。现在系数低于 0.2% 时整段星空直接跳过，白昼天空路径每像素少做一组哈希、三次正弦与一组三角函数；夜晚与暮光的星点、闪烁和颜色逐像素保持不变。该优化没有新增选项，也没有减少任何可见效果。合成 GPU 对比中，正午画面与优化前、以及无星画面逐像素一致，深夜星点仍正常可见。
 
@@ -244,9 +246,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.33.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.34.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.33.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.34.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

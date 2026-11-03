@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.34 skips the volumetric shaft integral in `lib/volumetrics.glsl` when `GODRAY_STRENGTH` is zero. The shaft result was already multiplied by the slider, but the loop still paid 8–40 shadow taps per pixel and a cloud-shadow lookup. The gate leaves the optical depth and the independent lightning flash in place, so a storm still flashes with god rays off; the underwater branch, which has no flash term, returns immediately. At strength 1.0 the output is pixel-identical. `tools/test_volumetric_godray.py` compares both slider values against the previous code, checks the clear-sky zero, the lightning-only colour ratio and the underwater path; `tools/render_volumetric_godray.py` records the numbers in `validation/volumetric-godray-report.json`. No option or preview is added.
+
 Version 1.15.33 extends the daylight early-out to the star field in `lib/atmosphere.glsl`. Stars are already scaled by `(1-day)*(1-overcast)`, which is exactly zero at noon and under full overcast, so the cell hash, scintillation and colour hashes are now evaluated only when that factor exceeds 0.002. The night and twilight star field is unchanged. `tools/test_star_daytime.py` compares the gated shader against the previous code at noon and night and against a star-free variant at noon; `tools/render_star_daytime.py` records the differences in `validation/star-daytime-report.json`. No option or preview is added because the change is invisible.
 
 Version 1.15.32 starts the low-end optimisation pass by skipping the cosmic night-sky block in `lib/atmosphere.glsl` whenever `cosmicNight` is at most 0.002. Every layer in that block (galaxy, auroral curtain and corona, five meteors, comet and a supernova) is already scaled by that coefficient, which is exactly zero in daylight, so the branch removes only work whose result was multiplied by zero. Dusk, night and sunrise keep the previous per-pixel output. `tools/test_cosmic_daytime.py` compares the gated shader against both the pre-change code and a cosmic-free sky at noon, and against the pre-change code at night and twilight; `tools/render_cosmic_daytime.py` records the differences in `validation/cosmic-daytime-report.json`. There is no new option and no preview image because the change is invisible.
@@ -217,6 +219,8 @@ python tools/test_cosmic_daytime.py
 python tools/render_cosmic_daytime.py
 python tools/test_star_daytime.py
 python tools/render_star_daytime.py
+python tools/test_volumetric_godray.py
+python tools/render_volumetric_godray.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py

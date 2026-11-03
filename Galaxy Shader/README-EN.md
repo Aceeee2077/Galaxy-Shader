@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.33 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.34 · Community Project**
+
+**1.15.34 — low-end optimisation: skip volumetrics at zero god-ray strength (2026-11-03):** With the god-ray slider at 0, the shader still ran the 8–40-step shadowed volumetric integral for every pixel and multiplied the result by zero. The shaft integral is now skipped entirely at strength 0, keeping only the independent lightning flash; the underwater shaft path returns early too. The default strength of 1.0 stays pixel-identical, and storm flashes still appear at 0. No new option is added; low-end players who turn god rays off now actually save the volume steps.
 
 **1.15.33 — low-end optimisation: daytime star-field early-out (2026-11-03):** The star layer is scaled by remaining night times clear sky, which is exactly zero at noon and under full overcast, but every pixel still computed the star cell hash, the scintillation sines and two colour hashes. The whole star block is now skipped below 0.2%, removing that work from the daytime sky path. Stars, twinkle and colour remain pixel-identical at night and twilight. The optimisation adds no option and removes no visible effect: the noon image matches both the pre-change code and a star-free variant exactly, while night stars stay visible.
 
@@ -244,9 +246,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.33.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.34.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.33.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.34.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

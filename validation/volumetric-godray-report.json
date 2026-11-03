@@ -1,0 +1,16 @@
+{
+  "version": "1.15.34",
+  "description": "Skip the shadowed volumetric shaft integral when GODRAY_STRENGTH is zero, keeping only the lightning flash.",
+  "renderer": "96x96, one sample per pixel",
+  "shadow_taps_skipped_at_quality_2": {
+    "zenith": 8,
+    "horizon": 16
+  },
+  "enabled_vs_previous_max_abs": 0.0,
+  "disabled_vs_previous_max_abs": 0.0,
+  "disabled_clear_max_abs": 0.0,
+  "disabled_storm_max": 0.015350341796875,
+  "disabled_storm_blue_green_ratio": 1.6006364822387695,
+  "disabled_underwater_max_abs": 0.0,
+  "shader_digest": "69aac5032f2644ea0ba6ba1106ad4bf18a047ad58a90f2139492c064702a67f8"
+}
