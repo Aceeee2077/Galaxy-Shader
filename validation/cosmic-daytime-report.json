@@ -1,0 +1,20 @@
+{
+  "version": "1.15.32",
+  "description": "Skip the cosmic night-sky block when cosmicNight is effectively zero, instead of evaluating galaxy, aurora, meteor, comet and supernova noise before multiplying by zero.",
+  "renderer": "256x256 synthetic sky, float target",
+  "noise_layers_skipped_per_day_pixel": 6,
+  "skipped_layers": [
+    "galaxyNebula",
+    "auroraSky",
+    "auroraCorona",
+    "shootingStars (5 meteors)",
+    "cometSky (6 tail taps)",
+    "supernovaSky"
+  ],
+  "noon_gated_vs_previous_max_abs": 0.0,
+  "noon_gated_vs_cosmic_off_max_abs": 0.0,
+  "night_gated_vs_previous_max_abs": 0.0,
+  "night_cosmic_energy_max_abs": 0.1209716796875,
+  "twilight_gated_vs_previous_max_abs": 0.0,
+  "shader_digest": "20c81ca127a99c6ccd3e6d00797873e98926b9a59f2f62a46aaadec202664785"
+}

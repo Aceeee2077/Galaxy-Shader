@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.31 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.32 · Community Project**
+
+**1.15.32 — low-end optimisation: daytime cosmic sky early-out (2026-11-03):** Once the sun is up, the night-sky layers (galaxy, aurora, meteors, comet and supernova) are multiplied to zero by the daylight term, but the shader still evaluated all of their noise first. The whole block is now skipped whenever that term falls below 0.2% (sunrise, or thick enough cloud), so noon and overcast skies no longer pay for stars nobody can see. Twilight, night and sunset remain pixel-identical. The optimisation adds no option and removes no visible effect: in synthetic GPU comparisons the noon image matches both a cosmic-free sky and the pre-change code exactly.
 
 **1.15.31 — atmospheric refraction (2026-11-02):** A sun or full moon near the horizon is no longer a perfect circle: the whole disk is lifted by atmospheric refraction while its vertical diameter narrows, and the lower limb rises more than the upper one, so a low sun reads as a slightly flattened oval. The difference is noticeable only below roughly 17° and disappears as the body climbs higher; the green rim of the sunset flash now follows the flattened upper limb as well. A new Atmosphere → Atmospheric refraction toggle (on by default) restores the round disks when off. An analytic refraction-lift function adds no texture, lookup table or render target. The image below compares synthetic GPU sun and moon disks with the option off on the left and on the right; it is not a gameplay capture.
 
@@ -240,9 +242,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.15.31.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.15.32.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.15.31.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.15.32.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

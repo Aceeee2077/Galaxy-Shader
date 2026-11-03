@@ -234,16 +234,23 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += vec3(starBrightness);
 #endif
 #if COSMIC_SKY_QUALITY > 0
+        // The night-sky layers are worthless by day: every contribution is
+        // scaled by cosmicNight, which is exactly zero once the sun is up.
+        // Skipping the branch avoids the galaxy, aurora, meteor and comet noise
+        // entirely on the common daytime sky, which is most of a player's view
+        // and the most expensive sky path on integrated graphics.
         float cosmicNight = (1.0-day)*(1.0-overcast*0.82);
-        sky += galaxyNebula(ray)*cosmicNight*(0.55+0.45*float(COSMIC_SKY_QUALITY>=2))*COSMIC_SKY_STRENGTH;
+        if (cosmicNight > 0.002) {
+            sky += galaxyNebula(ray)*cosmicNight*(0.55+0.45*float(COSMIC_SKY_QUALITY>=2))*COSMIC_SKY_STRENGTH;
 #if COSMIC_SKY_QUALITY >= 2
-        float auroraStrength = cosmicNight*biomeAuroraBoost()*(1.0+auroraStormAmount()*0.9);
-        sky += auroraSky(ray,auroraStrength)*COSMIC_SKY_STRENGTH;
-        sky += auroraCorona(ray,auroraStrength,frameTimeCounter)*COSMIC_SKY_STRENGTH;
-        sky += shootingStars(ray)*cosmicNight*(1.0+meteorShowerAmount()*2.2);
-        sky += cometSky(ray,cosmicNight);
-        sky += supernovaSky(ray,cosmicNight);
+            float auroraStrength = cosmicNight*biomeAuroraBoost()*(1.0+auroraStormAmount()*0.9);
+            sky += auroraSky(ray,auroraStrength)*COSMIC_SKY_STRENGTH;
+            sky += auroraCorona(ray,auroraStrength,frameTimeCounter)*COSMIC_SKY_STRENGTH;
+            sky += shootingStars(ray)*cosmicNight*(1.0+meteorShowerAmount()*2.2);
+            sky += cometSky(ray,cosmicNight);
+            sky += supernovaSky(ray,cosmicNight);
 #endif
+        }
 #endif
     }
 #if FOGBOW > 0
