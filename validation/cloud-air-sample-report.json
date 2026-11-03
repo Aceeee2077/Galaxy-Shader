@@ -1,0 +1,44 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "8b23bb1c82e13a112c34a6f1b9bcbe53d5d203326a8509cfb580158b847a1b21",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_elevation_degrees": [
+    3.0,
+    43.0
+  ],
+  "origin_y": 70.0,
+  "cloud_coverage": 0.45,
+  "cases": {
+    "clear": {
+      "pixels": 28800,
+      "atmosphere_call_skips": 1,
+      "atmosphere_skip_share": 0.0,
+      "erosion_noise_calls_before": 545929.0,
+      "erosion_noise_calls_after": 178048.0,
+      "erosion_skip_share": 0.6739,
+      "max_abs_difference": 0.0
+    },
+    "overcast": {
+      "pixels": 28800,
+      "atmosphere_call_skips": 0,
+      "atmosphere_skip_share": 0.0,
+      "erosion_noise_calls_before": 435725.0,
+      "erosion_noise_calls_after": 187941.0,
+      "erosion_skip_share": 0.5687,
+      "max_abs_difference": 0.0
+    },
+    "rain": {
+      "pixels": 28800,
+      "atmosphere_call_skips": 0,
+      "atmosphere_skip_share": 0.0,
+      "erosion_noise_calls_before": 239753.0,
+      "erosion_noise_calls_after": 190225.0,
+      "erosion_skip_share": 0.2066,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "both probes agree with the previous output; empty samples skip the erosion noise and cloud-free rays skip the deferred atmosphere sample"
+}

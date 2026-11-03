@@ -92,10 +92,12 @@ float cloudDensity3D(vec3 p, bool lightSample, float detail) {
     float threshold=mix(0.74,0.34,coverage);
     float tower=pow(h,1.8)*(0.18-0.06*wAnvil);
     float shape=sat((bank*0.46+billow*0.54-threshold-tower)*5.8);
-    float erosion;
-    if(detail>0.5 && !lightSample) erosion=volumeNoise(q*8.1)*0.10;
-    else erosion=0.05;
-    erosion*=1.0-shape;
+    // Edge erosion can only remove density, so a sample that clamped to zero
+    // has nothing to erode. Skipping the noise call there is exactly equal and
+    // removes one 3D noise evaluation from every empty sample in the march.
+    float erosion=0.05*(1.0-shape);
+    if(detail>0.5 && !lightSample && shape>0.0)
+        erosion=volumeNoise(q*8.1)*0.10*(1.0-shape);
     shape=sat(shape-erosion);
     float sheet=smoothstep(0.40-coverage*0.24,0.72,base)*vertical;
     return mix(shape*edgeBottom*edgeTop,sheet,wStrat*0.60+wCirrus*0.60);
@@ -171,7 +173,12 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
     float overcast = weatherOvercastAmount();
     vec3 litColor = directionalRadiance()*1.25;
     vec3 cloudAmbient=skyIrradiance(vec3(0.0,1.0,0.0))*1.15;
-    vec3 airColor=atmosphere(ray,false);
+    // Aerial perspective only tints samples that actually scatter. Most clear
+    // sky rays cross the layer without reaching a cloud, and evaluating the
+    // full atmosphere for them is wasted work, so the sample is deferred until
+    // the first hit and then cached for the rest of the march.
+    vec3 airColor=vec3(0.0);
+    bool airReady=false;
     float jitter=hash12(gl_FragCoord.xy);
 #if TAA_QUALITY > 0
     jitter=fract(jitter+float(frameCounter%8)*0.61803398875);
@@ -188,6 +195,7 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
         float detail = (float(i) < 0.55 * float(steps) || t < 1400.0) ? 1.0 : 0.0;
         float density = cloudDensity3D(p,false,detail);
         if (density <= 0.002) continue;
+        if (!airReady) { airColor=atmosphere(ray,false); airReady=true; }
         float shadow = cloudLightShadow(p,detail);
         float height=sat((p.y-bottom)/(top-bottom));
         float powder = 1.0 - exp(-density * 3.5);

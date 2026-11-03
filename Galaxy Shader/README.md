@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.41 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.42 · Community Project**
+
+**1.15.42 低配优化：云体积步进少一次噪声与一次大气采样（2026-11-03）：** 体积云在步进时会对每个采样点计算一次边缘腐蚀噪声，但密度已被阈值夹到零的采样点无论怎么腐蚀都还是零。现在这类空采样点直接跳过该噪声；在合成 GPU 测试中，清晰、阴天与降雨场景分别少算约 67%、57%、21% 的腐蚀噪声调用，云的外观逐像素不变。同一段代码里的空气透视采样也改为「首次命中云层时才计算并缓存」，穿过云层却没有命中任何密度点的天空像素不再调用完整大气散射；最低云量下约 2% 的天空像素因此省下一次大气采样。两项优化都不新增选项、贴图、查表或渲染目标，对集成显卡与低端笔记本更友好。
 
 **1.15.41 幻日光谱色（2026-11-03）：** 低太阳两侧的幻日不再是一整块固定暖色，而是像真实冰晶折射那样分成一道很小的光谱：朝向太阳的一侧偏红橙，背向太阳的一侧过渡到淡蓝白，整块亮斑依旧是竖直的短抹痕。分色只用到已有的「射线相对太阳方位的角距离」，不增加三角函数、贴图或渲染目标；月幻日保持原有的冷白色。它与 22° 晕、日柱、上切弧和下切弧共用 `ICE_HALOS` 开关，不新增选项。下图为太阳 7° 时右侧幻日的合成 GPU 特写，亮度经预览放大，不是游戏截图。
 
@@ -266,9 +268,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.41.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.42.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.41.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.42.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
