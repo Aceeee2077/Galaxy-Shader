@@ -1,0 +1,19 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "5f811a7aaa2d6ee01ad95ace1402397f74d7d08f787d73e12f6210a7fb76a639",
+  "resolution": [
+    720,
+    300
+  ],
+  "sun_elevation_degrees": -9.0,
+  "ray_elevation_degrees": [
+    15.0,
+    37.0
+  ],
+  "azimuth_window_degrees": 44.0,
+  "preview_gain": 1.25,
+  "preview": "Galaxy Shader/previews/evening-star.png",
+  "peak_with_point": 2.367188,
+  "peak_previous": 0.663574,
+  "status": "rendered for visual review"
+}

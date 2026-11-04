@@ -236,6 +236,30 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += greenFlash(ray,sun,sunVisibility,SUN_ANGULAR_RADIUS)*GREEN_FLASH;
 #endif
         sky += sunTint*18.0*solarDisk*sunVisibility;
+        // Venus is the brightest planet after the Sun and never strays more
+        // than about 47 degrees from it, so it only shows as a point in the
+        // twilight sky just after sunset or before sunrise. Its elongation
+        // breathes over the synodic cycle, which here is a slow drift on the
+        // day counter; the gate clamps to zero once the Sun is well up or well
+        // down, so the daytime and deep-night skies never pay for it.
+        float venusWindow = smoothstep(-0.34,-0.14,sun.y)*
+                            (1.0-smoothstep(0.03,0.13,sun.y));
+        if (venusWindow > 0.0) {
+            float elongation = 0.34 + 0.26 * sin(float(worldDay) * 0.0215);
+            vec3 venus = normalize(sun * cos(elongation) + vec3(0.0,1.0,0.0) *
+                                   sin(elongation));
+            float cosVenus = dot(ray, venus);
+            if (cosVenus > 0.9995) {
+                // 2*(1-cos) is the squared angular distance, so both lobes are
+                // plain exponentials without an inverse cosine per pixel.
+                float venusAngle = 2.0 * (1.0 - cosVenus);
+                float core = exp(-venusAngle * 260000.0);
+                float skirt = exp(-venusAngle * 2600.0);
+                sky += vec3(1.00,0.96,0.88) * (core * 2.6 + skirt * 0.02) *
+                       venusWindow * (1.0 - overcast) *
+                       (1.0 - 0.9 * weatherStormAmount());
+            }
+        }
         // The eclipse aureole and corona are exactly zero except for a brief
         // window on one calendar day. Both used to run on every sky pixel every
         // frame; gating them keeps the ordinary sky from paying the exp.
