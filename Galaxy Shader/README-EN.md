@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.46 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.47 · Community Project**
+
+**1.15.47 — low-end optimisation: high sun skips the halo dogs and pillar (2026-11-04):** Sun dogs only exist below about 25 degrees of solar elevation, and the sun pillar's gate clamps to exactly zero above about 20 degrees, yet every sky pixel inside the halo cap still evaluated two azimuth `atan` pairs, two `exp` calls and the full vertical profile for light patches that were multiplied away. Both blocks now return early when their gate is zero, and the light's elevation `asin` is hoisted to the top of the branch so the dogs and both tangent arcs share it. The synthetic GPU fixture counts `atan` calls inside the 37-degree cap: dogs still run at 5, 10 and 20 degrees, while 30, 50 and 70 degrees drop from three azimuth trig calls per pixel to one (about 67 percent skipped), with the image unchanged pixel for pixel. No option, texture or render target is added.
 
 **1.15.46 — low-end optimisation: twilight optics exit on their gates (2026-11-04):** The Belt of Venus, the zodiacal light cone and the airglow layer only exist in narrow solar-height windows: above or below them their smooth gate clamps to exactly zero, yet the shader still finished the normalise, `acos`, `exp` and two noise lookups before multiplying the result away. Each body now returns immediately when its gate is zero, and a fully overcast sky skips the whole group. The synthetic GPU fixture skips all three bodies at noon, about 82 percent at a 2° sun, the belt and the cone at deep night (airglow still runs) and 100 percent under full overcast, with the image unchanged pixel for pixel. No option, texture or render target is added.
 

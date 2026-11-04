@@ -12,10 +12,10 @@ from render_smoke import Renderer, U
 W, H = 240, 120
 VERTEX = '#version 330 compatibility\nvoid main(){gl_Position=gl_Vertex;}'
 NEW = '''float dogSpectral = smoothstep(-0.012, 0.012,
-                                       abs(azimuthFromSun) - 22.0 * deg);
-        vec3 dogTint = mix(vec3(1.00, 0.56, 0.34), vec3(0.86, 0.90, 1.0),
-                           dogSpectral);
-        result += dogTint * dog * lowSun * 0.11;'''
+                                           abs(azimuthFromSun) - 22.0 * deg);
+            vec3 dogTint = mix(vec3(1.00, 0.56, 0.34), vec3(0.86, 0.90, 1.0),
+                               dogSpectral);
+            result += dogTint * dog * lowSun * 0.11;'''
 OLD = '''result += mix(vec3(0.98, 0.72, 0.55), vec3(0.90, 0.92, 1.0), 0.35) *
                   dog * lowSun * 0.11;'''
 

@@ -41,6 +41,9 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         vec3 rightDog = vec3(rightHeading.x * horizontal, lightDir.y,
                              rightHeading.y * horizontal);
         float elevation = asin(clamp(ray.y, -1.0, 1.0));
+        // The light's elevation is constant for the whole pixel; evaluate it
+        // once and let every sub-arc reuse it instead of repeating the asin.
+        float sunElevation = asin(clamp(lightDir.y, -1.0, 1.0));
 
         vec3 sunFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
         vec3 sunSide = normalize(cross(vec3(0.0, 1.0, 0.0), sunFlat));
@@ -52,32 +55,38 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         // As the sun drops toward the horizon the smear stretches into a short
         // pillar, because the same plate crystals scatter light over a longer
         // vertical path; the horizontal width stays the same.
-        float dogVertical = mix(6.2 * deg, 2.5 * deg,
-                                smoothstep(0.02, 0.20, lightDir.y));
-        float dog = 0.0;
-        for (int i = 0; i < 2; i++) {
-            vec3 dogDir = i == 0 ? leftDog : rightDog;
-            vec3 dogFlat = normalize(vec3(dogDir.x, 0.0, dogDir.z));
-            vec3 dogSide = normalize(cross(vec3(0.0, 1.0, 0.0), dogFlat));
-            float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
-            float vertical = elevation - asin(clamp(dogDir.y, -1.0, 1.0));
-            dog += exp(-pow(azimuth / (1.05 * deg), 2.0)) *
-                   exp(-pow(vertical / dogVertical, 2.0));
-        }
         float lowSun = smoothstep(0.015, 0.075, lightDir.y) *
                        (1.0 - smoothstep(0.26, 0.42, lightDir.y));
-        // Parhelia are small spectra: the flank facing the sun is red-orange
-        // and the far flank runs to pale blue. The split uses the ray's
-        // distance from the sun's azimuth, so it costs no extra trigonometry.
-        float dogSpectral = smoothstep(-0.012, 0.012,
-                                       abs(azimuthFromSun) - 22.0 * deg);
-        vec3 dogTint = mix(vec3(1.00, 0.56, 0.34), vec3(0.86, 0.90, 1.0),
-                           dogSpectral);
-        result += dogTint * dog * lowSun * 0.11;
+        // Above roughly 25 degrees the plate crystals no longer split the
+        // light sideways and lowSun is exactly zero; skip both dog frames,
+        // their two atan/exp pairs and the spectral tint entirely.
+        if (lowSun > 0.0) {
+            float dogVertical = mix(6.2 * deg, 2.5 * deg,
+                                    smoothstep(0.02, 0.20, lightDir.y));
+            float dog = 0.0;
+            for (int i = 0; i < 2; i++) {
+                vec3 dogDir = i == 0 ? leftDog : rightDog;
+                vec3 dogFlat = normalize(vec3(dogDir.x, 0.0, dogDir.z));
+                vec3 dogSide = normalize(cross(vec3(0.0, 1.0, 0.0), dogFlat));
+                float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
+                float vertical = elevation - sunElevation;
+                dog += exp(-pow(azimuth / (1.05 * deg), 2.0)) *
+                       exp(-pow(vertical / dogVertical, 2.0));
+            }
+            // Parhelia are small spectra: the flank facing the sun is
+            // red-orange and the far flank runs to pale blue. The split uses
+            // the ray's distance from the sun's azimuth, so it costs no extra
+            // trigonometry.
+            float dogSpectral = smoothstep(-0.012, 0.012,
+                                           abs(azimuthFromSun) - 22.0 * deg);
+            vec3 dogTint = mix(vec3(1.00, 0.56, 0.34), vec3(0.86, 0.90, 1.0),
+                               dogSpectral);
+            result += dogTint * dog * lowSun * 0.11;
+        }
 
         // Upper tangent arc: a shallow bright band tangent to the top of the
         // ring, strongest straight above the sun.
-        float aboveSun = elevation - asin(clamp(lightDir.y, -1.0, 1.0));
+        float aboveSun = elevation - sunElevation;
         float tangent = exp(-pow(azimuthFromSun / (9.0 * deg), 2.0)) *
                         smoothstep(19.0 * deg, 21.5 * deg, aboveSun) *
                         (1.0 - smoothstep(28.0 * deg, 33.0 * deg, aboveSun)) *
@@ -90,7 +99,7 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         // is brightest straight below the sun, fading out to the sides.
         float higherSun = smoothstep(0.52, 0.62, lightDir.y);
         if (higherSun > 0.0) {
-            float belowSun = asin(clamp(lightDir.y, -1.0, 1.0)) - elevation;
+            float belowSun = sunElevation - elevation;
             float lowerTangent = exp(-pow(azimuthFromSun / (12.0 * deg), 2.0)) *
                                  smoothstep(19.5 * deg, 22.0 * deg, belowSun) *
                                  (1.0 - smoothstep(27.0 * deg, 32.0 * deg, belowSun)) *
@@ -103,14 +112,19 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         // low sun. It is narrow in azimuth and fades over roughly 15 degrees.
         float pillarGate = smoothstep(-0.005, 0.035, lightDir.y) *
                            (1.0 - smoothstep(0.20, 0.34, lightDir.y));
-        float pillar = exp(-pow(azimuthFromSun / (1.5 * deg), 2.0));
-        if (aboveSun >= 0.0) {
-            pillar *= exp(-aboveSun / (8.0 * deg)) *
-                      (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveSun));
-        } else {
-            pillar *= exp(aboveSun / (3.0 * deg)) * 0.30;
+        // Outside the low-sun window the shaft is multiplied by zero; skip
+        // its exponential and vertical profile.
+        if (pillarGate > 0.0) {
+            float pillar = exp(-pow(azimuthFromSun / (1.5 * deg), 2.0));
+            if (aboveSun >= 0.0) {
+                pillar *= exp(-aboveSun / (8.0 * deg)) *
+                          (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveSun));
+            } else {
+                pillar *= exp(aboveSun / (3.0 * deg)) * 0.30;
+            }
+            result += tint * pillar * pillarGate *
+                      smoothstep(0.0, 0.02, ray.y) * 0.10;
         }
-        result += tint * pillar * pillarGate * smoothstep(0.0, 0.02, ray.y) * 0.10;
     } else if (lunar > 0.5 && lightDir.y > -0.01) {
         // A bright moon also draws a narrow pillar from the same plate
         // crystals. It is dimmer and cooler than the solar shaft.
@@ -118,18 +132,21 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
         vec3 moonSide = normalize(cross(vec3(0.0, 1.0, 0.0), moonFlat));
         float moonAzimuth = atan(dot(ray, moonSide), dot(ray, moonFlat));
         float elevation = asin(clamp(ray.y, -1.0, 1.0));
-        float aboveMoon = elevation - asin(clamp(lightDir.y, -1.0, 1.0));
+        float moonElevation = asin(clamp(lightDir.y, -1.0, 1.0));
+        float aboveMoon = elevation - moonElevation;
         float pillarGate = smoothstep(-0.005, 0.035, lightDir.y) *
                            (1.0 - smoothstep(0.20, 0.34, lightDir.y));
-        float pillar = exp(-pow(moonAzimuth / (1.8 * deg), 2.0));
-        if (aboveMoon >= 0.0) {
-            pillar *= exp(-aboveMoon / (8.0 * deg)) *
-                      (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveMoon));
-        } else {
-            pillar *= exp(aboveMoon / (3.0 * deg)) * 0.25;
+        if (pillarGate > 0.0) {
+            float pillar = exp(-pow(moonAzimuth / (1.8 * deg), 2.0));
+            if (aboveMoon >= 0.0) {
+                pillar *= exp(-aboveMoon / (8.0 * deg)) *
+                          (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveMoon));
+            } else {
+                pillar *= exp(aboveMoon / (3.0 * deg)) * 0.25;
+            }
+            result += vec3(0.72, 0.80, 1.0) * pillar * pillarGate *
+                      smoothstep(0.0, 0.02, ray.y) * 0.055;
         }
-        result += vec3(0.72, 0.80, 1.0) * pillar * pillarGate *
-                  smoothstep(0.0, 0.02, ray.y) * 0.055;
 
         // Moon dogs: the same 22-degree parhelia, much fainter and cool. They
         // still need a low moon because the plate crystals must be near
@@ -153,7 +170,7 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
                 vec3 dogFlat = normalize(vec3(dogDir.x, 0.0, dogDir.z));
                 vec3 dogSide = normalize(cross(vec3(0.0, 1.0, 0.0), dogFlat));
                 float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
-                float vertical = elevation - asin(clamp(dogDir.y, -1.0, 1.0));
+                float vertical = elevation - moonElevation;
                 dog += exp(-pow(azimuth / (1.15 * deg), 2.0)) *
                        exp(-pow(vertical / (2.8 * deg), 2.0));
             }

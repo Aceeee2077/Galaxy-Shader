@@ -11,9 +11,9 @@ from render_smoke import Renderer, U
 
 W, H = 240, 160
 VERTEX = '#version 330 compatibility\nvoid main(){gl_Position=gl_Vertex;}'
-NEW = '''        float dogVertical = mix(6.2 * deg, 2.5 * deg,
-                                smoothstep(0.02, 0.20, lightDir.y));'''
-OLD = '        float dogVertical = 2.5 * deg;'
+NEW = '''            float dogVertical = mix(6.2 * deg, 2.5 * deg,
+                                    smoothstep(0.02, 0.20, lightDir.y));'''
+OLD = '            float dogVertical = 2.5 * deg;'
 
 
 def halo_source():
