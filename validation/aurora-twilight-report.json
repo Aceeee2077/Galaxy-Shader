@@ -1,0 +1,19 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "6c9cf26b4dfa3a07c5a4b2a66e7fc6ea58a2466f8756413dec3ab1e72312a0b1",
+  "resolution": [
+    720,
+    300
+  ],
+  "sun_elevation_degrees": -6.0,
+  "ray_elevation_degrees": [
+    2.0,
+    32.0
+  ],
+  "azimuth_window_degrees": 70.0,
+  "preview_gain": 1.1,
+  "preview": "Galaxy Shader/previews/aurora-twilight.png",
+  "green_previous": 0.065517,
+  "green_with_fade": 0.048184,
+  "status": "rendered for visual review"
+}

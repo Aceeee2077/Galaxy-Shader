@@ -304,9 +304,19 @@ vec3 atmosphere(vec3 ray, bool disks) {
         if (cosmicNight > 0.002) {
             sky += galaxyNebula(ray)*cosmicNight*(0.55+0.45*float(COSMIC_SKY_QUALITY>=2))*COSMIC_SKY_STRENGTH;
 #if COSMIC_SKY_QUALITY >= 2
-            float auroraStrength = cosmicNight*biomeAuroraBoost()*(1.0+auroraStormAmount()*0.9);
-            sky += auroraSky(ray,auroraStrength)*COSMIC_SKY_STRENGTH;
-            sky += auroraCorona(ray,auroraStrength,frameTimeCounter)*COSMIC_SKY_STRENGTH;
+            // The aurora belongs to the dark sky. In civil twilight the dome
+            // is still many times brighter than the curtains, so they now fade
+            // in as the sun drops from about 3 to 11 degrees below the horizon
+            // instead of switching on the moment the day factor reaches zero.
+            // While the factor is zero the ribbons and the corona are skipped
+            // outright, which is also the most expensive twilight saving.
+            float auroraNight = 1.0-smoothstep(-0.20,-0.05,sun.y);
+            float auroraStrength = cosmicNight*auroraNight*biomeAuroraBoost()*
+                                   (1.0+auroraStormAmount()*0.9);
+            if (auroraStrength > 0.0) {
+                sky += auroraSky(ray,auroraStrength)*COSMIC_SKY_STRENGTH;
+                sky += auroraCorona(ray,auroraStrength,frameTimeCounter)*COSMIC_SKY_STRENGTH;
+            }
             sky += shootingStars(ray)*cosmicNight*(1.0+meteorShowerAmount()*2.2);
             sky += cometSky(ray,cosmicNight);
             sky += supernovaSky(ray,cosmicNight);

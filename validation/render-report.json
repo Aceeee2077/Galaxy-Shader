@@ -60,8 +60,8 @@
       }
     },
     "sunset": {
-      "mean": 0.5191043019294739,
-      "std": 0.2573365867137909,
+      "mean": 0.5190647840499878,
+      "std": 0.25732189416885376,
       "stages": {
         "composite": {
           "min": 0.0284271240234375,
@@ -450,7 +450,7 @@
       }
     }
   },
-  "shader_sha256": "643f16b7bf9ab7183d2ab49686894ee13cc6f19d7e5fd14ec6079c11ace49431",
+  "shader_sha256": "5b2a61e40e05572fdb9e738f5b5828c4e48982f6c80d228e5a4d10f394cb0545",
   "weather_state_mean_separation": {
     "day_vs_cloudy": 0.1473526954650879,
     "cloudy_vs_rain": 0.04981106519699097,
