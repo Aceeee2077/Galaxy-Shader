@@ -1,0 +1,61 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "037dcc93c6c83bd8716aff4b8da16c60f08a8a15ee765da5cb625d6527474243",
+  "resolution": [
+    240,
+    120
+  ],
+  "status": "dry, cave-lit and downward-facing surfaces skip the puddle noise and are pixel-identical",
+  "cases": {
+    "dry_clear": {
+      "wetness": 0.0,
+      "upward": 1.0,
+      "sky_light": 1.0,
+      "surface_pixels": 28800,
+      "puddle_noise_before": 28800,
+      "puddle_noise_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "wet_clear_day": {
+      "wetness": 1.0,
+      "upward": 1.0,
+      "sky_light": 1.0,
+      "surface_pixels": 28800,
+      "puddle_noise_before": 28800,
+      "puddle_noise_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "wet_rain_day": {
+      "wetness": 1.0,
+      "upward": 1.0,
+      "sky_light": 0.9,
+      "surface_pixels": 28800,
+      "puddle_noise_before": 28800,
+      "puddle_noise_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "cave_dark": {
+      "wetness": 1.0,
+      "upward": 1.0,
+      "sky_light": 0.2,
+      "surface_pixels": 28800,
+      "puddle_noise_before": 28800,
+      "puddle_noise_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "downward_face": {
+      "wetness": 1.0,
+      "upward": 0.0,
+      "sky_light": 1.0,
+      "surface_pixels": 28800,
+      "puddle_noise_before": 28800,
+      "puddle_noise_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    }
+  }
+}

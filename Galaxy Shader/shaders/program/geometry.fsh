@@ -70,10 +70,14 @@ void main() {
     float wet=weatherWetness()*exposure;
     m.albedo*=1.0-0.25*wet;
     m.roughness=mix(m.roughness,min(m.roughness,0.10),wet*0.86);
-    float puddleNoise=valueNoise((vPlayer.xz+cameraPosition.xz)*0.35);
-    float puddle=step(0.58,puddleNoise)*smoothstep(0.80,0.98,vLight.y)*upward*wet;
-    m.roughness=mix(m.roughness,0.02,puddle);
-    m.albedo*=1.0-0.12*puddle;
+    // Dry surfaces, caves and downward faces all reach wet == 0 exactly; the
+    // puddle noise and both mixes are then no-ops, so skip them entirely.
+    if(wet>0.0) {
+        float puddleNoise=valueNoise((vPlayer.xz+cameraPosition.xz)*0.35);
+        float puddle=step(0.58,puddleNoise)*smoothstep(0.80,0.98,vLight.y)*upward*wet;
+        m.roughness=mix(m.roughness,0.02,puddle);
+        m.albedo*=1.0-0.12*puddle;
+    }
 #if WEATHER_QUALITY > 0
     float activeRain=weatherRainAmount()*exposure;
     if(activeRain>0.001) {

@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.50 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.51 · Community Project**
+
+**1.15.51 — low-end optimisation: dry and cave surfaces skip the puddle noise (2026-11-04):** Terrain puddles and their roughness shift only exist on wet ground; the wetness factor is exactly zero in dry weather, in caves and interiors, and on downward-facing faces, yet the shader still evaluated a 2D noise and two mixes for every surface pixel and then multiplied the result away. The block is now skipped when wetness is zero; wet daytime ground, rain and upward faces keep their puddles, and the image is unchanged pixel for pixel. The synthetic GPU fixture skips all puddle-noise calls in the dry-clear, cave-lit and downward-face cases. No option, texture or render target is added, and the saving lands on players who spend their time underground or indoors.
 
 **1.15.50 — the anthelion (2026-11-04):** The parhelic circle is a white horizontal band at the sun's own height; it now carries a faint white spot on the exact opposite side of the sky at the same height, about 20 degrees across. This is the anthelion of the real sky, and it shares the band with the sun-side patch and the 120-degree parhelia. It reuses the existing azimuth cosine, so it adds no trigonometry, texture or render target, and the sunward sky is unchanged pixel for pixel. The image below is a synthetic GPU panorama at a 22-degree sun centred on the anti-solar point, brightened 6x for preview, not a gameplay capture.
 
