@@ -13,13 +13,19 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
     const float ring = 0.80285; // 46 degrees
     vec3 colour = vec3(0.0);
 
-    // Faint 46-degree ring, red on the inner edge and blue outside.
-    float angle = acos(clamp(dot(ray, sun), -1.0, 1.0));
-    float offset = angle - ring;
-    float band = exp(-pow(offset / 0.020, 2.0));
-    vec3 ringTint = mix(vec3(1.0, 0.58, 0.46), vec3(0.56, 0.70, 1.0),
-                        smoothstep(-0.02, 0.02, offset));
-    colour += ringTint * band * 0.038 * visibility;
+    // Faint 46-degree ring, red on the inner edge and blue outside. The band
+    // is a 0.02-radian Gaussian: nine degrees off the ring it underflows to
+    // float zero, so a pair of dot-product bounds skips the acos and exp for
+    // almost every sky pixel while keeping the ring itself unchanged.
+    float ringDot = dot(ray, sun);
+    if (ringDot > 0.574 && ringDot < 0.799) {
+        float angle = acos(clamp(ringDot, -1.0, 1.0));
+        float offset = angle - ring;
+        float band = exp(-pow(offset / 0.020, 2.0));
+        vec3 ringTint = mix(vec3(1.0, 0.58, 0.46), vec3(0.56, 0.70, 1.0),
+                            smoothstep(-0.02, 0.02, offset));
+        colour += ringTint * band * 0.038 * visibility;
+    }
 
     // Circumhorizontal arc: only with a high sun, a horizontal band 46 degrees
     // below it. Red sits on the upper edge, blue-violet below.

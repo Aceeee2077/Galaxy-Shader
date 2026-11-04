@@ -1,0 +1,46 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "a7b18a21af3c9e0d629267b44d8d0f1fd56cb21526932a49c651754fdc9cac60",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_field": {
+    "azimuth": "full circle",
+    "elevation_degrees": [
+      2.0,
+      88.0
+    ]
+  },
+  "cases": {
+    "sun_5": {
+      "pixels": 28800,
+      "ring_trig_calls_before": 28800.0,
+      "ring_trig_calls_after": 2782.0,
+      "share_skipping": 0.9034,
+      "max_abs_difference": 0.0
+    },
+    "sun_20": {
+      "pixels": 28800,
+      "ring_trig_calls_before": 28800.0,
+      "ring_trig_calls_after": 3880.0,
+      "share_skipping": 0.8653,
+      "max_abs_difference": 0.0
+    },
+    "sun_40": {
+      "pixels": 28800,
+      "ring_trig_calls_before": 28800.0,
+      "ring_trig_calls_after": 7602.0,
+      "share_skipping": 0.736,
+      "max_abs_difference": 0.0
+    },
+    "sun_70": {
+      "pixels": 28800,
+      "ring_trig_calls_before": 28800.0,
+      "ring_trig_calls_after": 6434.0,
+      "share_skipping": 0.7766,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the dot gate is pixel-identical to the previous 46-degree ring and skips its acos/exp for most sky pixels"
+}

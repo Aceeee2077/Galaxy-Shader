@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.43 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.44 · Community Project**
+
+**1.15.44 低配优化：46° 晕先做点积剔除（2026-11-03）：** 46° 晕的光带是一个约 0.02 弧度的窄高斯，偏离晕环九度以外就对画面没有任何贡献，但着色器此前对每个天空像素都要先算一次 `acos` 再算 `exp`。现在先用一次点积判断视线是否落在晕环附近，只有环带内的像素才进入三角与指数计算。合成 GPU 测试中，太阳高度 5°、20°、40°、70° 时分别跳过约 90%、87%、74%、78% 的晕环三角函数调用，画面逐像素不变。该优化不新增选项、贴图或渲染目标，对白天的天空路径最直接。
 
 **1.15.43 低日幻日拉长为短光柱（2026-11-03）：** 太阳压低到 10° 以下时，幻日不再只是一小块竖直亮斑，而是随着太阳接近地平线逐渐拉长成一根短短的光柱；水平方向的宽度保持不变，红色的内缘与淡蓝的外缘也照旧。这是片状冰晶在低日时把光线分散到更长竖直路径上的效果，与既有的日柱一样属于同一族冰晶光学现象。拉长只改一个竖直高斯半径，不增加采样、贴图或渲染目标；太阳回到 11.5° 以上时自动恢复原来的 2.5° 半径。与 22° 晕、日柱和切弧共用 `ICE_HALOS` 开关，不新增选项。下图为太阳 3° 时右侧幻日的合成 GPU 特写，亮度经预览放大，不是游戏截图。
 
@@ -272,9 +274,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.43.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.44.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.43.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.44.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
