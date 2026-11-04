@@ -1,0 +1,59 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "f9f1bf130c4f7418ef72d313ea146dc438102308c8ee699d92e158b7acf94a5b",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_elevation_degrees": [
+    3.0,
+    63.0
+  ],
+  "sky_ring_azimuth_degrees": [
+    0.0,
+    360.0
+  ],
+  "cases": {
+    "sun_-30_deg": {
+      "sun_elevation_degrees": -30.0,
+      "pixels": 28800,
+      "daytime_blocks_before": 28800,
+      "daytime_blocks_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_-10_deg": {
+      "sun_elevation_degrees": -10.0,
+      "pixels": 28800,
+      "daytime_blocks_before": 28800,
+      "daytime_blocks_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_-5_deg": {
+      "sun_elevation_degrees": -5.0,
+      "pixels": 28800,
+      "daytime_blocks_before": 28800,
+      "daytime_blocks_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+0_deg": {
+      "sun_elevation_degrees": 0.0,
+      "pixels": 28800,
+      "daytime_blocks_before": 28800,
+      "daytime_blocks_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+35_deg": {
+      "sun_elevation_degrees": 35.0,
+      "pixels": 28800,
+      "daytime_blocks_before": 28800,
+      "daytime_blocks_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the daytime scattering block runs only while the day factor is nonzero; below about six degrees under the horizon it is skipped and the sky stays pixel-identical"
+}

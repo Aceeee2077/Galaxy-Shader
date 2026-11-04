@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.57 wraps the whole daytime Rayleigh/Mie block in `atmosphere` in `if (day > 0.0)`. `dayAmount()` reaches exactly zero about six degrees below the horizon, and the block's result was already mixed out there, so the gate removes two vector exponentials, four `pow` calls and the fixed horizon tint from every sky pixel of the night without changing a single output value.
+
 1.15.56 makes the earthshine fill in `moonSky` phase-dependent. Seen from the Moon the Earth is full when the Moon is new, so the faint cool term on the unlit side is scaled by `0.45 + 1.10 * (1 - litFraction)`, which is exactly one at the quarter and peaks at new phase; the base colour is also lifted so the ashen light reads as about 2.7% of the sunlit surface. The factor reuses the `litFraction` already computed for the terminator, and the fill still only runs inside the disk branch, so the halo and the rest of the sky pay nothing.
 
 1.15.55 guards the eclipse aureole and corona in `atmosphere` with the eclipse factor, which is zero outside a short annual window. The ordinary sky no longer evaluates that exponential or enters the corona function.

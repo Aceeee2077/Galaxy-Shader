@@ -115,31 +115,39 @@ vec3 atmosphere(vec3 ray, bool disks) {
     vec3 sunTint = sunlightColor();
     float day = dayAmount(), mu = dot(ray,sun);
     float h = max(ray.y,0.0);
-    float optical = 1.0/(0.18+pow(h,0.6));
-    vec3 betaR = vec3(0.19,0.40,0.83);
-    vec3 transmit = exp(-betaR*optical*0.28);
-    float rayleigh = 0.75*(1.0+mu*mu);
-    float g = 0.76;
-    float mie = (1.0-g*g)/pow(max(1.0+g*g-2.0*g*mu,0.08),1.5);
-    vec3 scatter = (1.0-transmit)*vec3(0.48,0.64,0.90)*rayleigh;
-    // A pale horizon graduates into a blue zenith instead of a uniformly
-    // saturated dome. Keep this broad component neutral even at low sun.
-    scatter+=vec3(0.095,0.115,0.135)*pow(1.0-h,5.0)*smoothstep(-0.08,0.18,sun.y);
-    scatter += sunTint*mie*0.012*smoothstep(-0.12,0.1,sun.y);
     float sunset = (1.0-smoothstep(0.03,0.35,abs(sun.y)))*smoothstep(-0.15,0.0,sun.y);
-    // Stretch the sun-side lobe so the warm band is a broad glow rather than a
-    // narrow stripe, and tint it through the same transmittance. Ozone keeps
-    // the band amber instead of dull red while the zenith stays blue. A mild
-    // chroma restore counteracts the desaturation of adding it over pale haze.
-    float warmMu=pow(max(mu,0.0),3.2);
-    vec3 warmBand=horizonSunTint()*0.46*sunset*pow(1.0-h,5.0)*(0.04+0.96*warmMu);
-    warmBand=mix(vec3(luminance(warmBand)),warmBand,1.15);
-    scatter+=warmBand;
-    float golden=goldenHourAmount()*(1.0-weatherOvercastAmount());
-    float goldenAir=golden*pow(1.0-h,2.5)*(0.08+0.92*pow(max(mu,0.0),4.0));
-    scatter*=mix(vec3(1.0),vec3(0.98,0.91,0.68),goldenAir);
-    scatter+=vec3(0.48,0.22,0.065)*golden*pow(1.0-h,2.5)*
-             (0.06+0.94*pow(max(mu,0.0),4.0));
+    // Below about six degrees under the horizon `day` is exactly zero and the
+    // daytime model is mixed out whole. Skipping it there saves two vector
+    // exponentials, four powers and the fixed horizon tint on every sky pixel
+    // of the night, which is half of every play session.
+    vec3 scatter = vec3(0.0);
+    if (day > 0.0) {
+        float optical = 1.0/(0.18+pow(h,0.6));
+        vec3 betaR = vec3(0.19,0.40,0.83);
+        vec3 transmit = exp(-betaR*optical*0.28);
+        float rayleigh = 0.75*(1.0+mu*mu);
+        float g = 0.76;
+        float mie = (1.0-g*g)/pow(max(1.0+g*g-2.0*g*mu,0.08),1.5);
+        scatter = (1.0-transmit)*vec3(0.48,0.64,0.90)*rayleigh;
+        // A pale horizon graduates into a blue zenith instead of a uniformly
+        // saturated dome. Keep this broad component neutral even at low sun.
+        scatter+=vec3(0.095,0.115,0.135)*pow(1.0-h,5.0)*smoothstep(-0.08,0.18,sun.y);
+        scatter += sunTint*mie*0.012*smoothstep(-0.12,0.1,sun.y);
+        // Stretch the sun-side lobe so the warm band is a broad glow rather
+        // than a narrow stripe, and tint it through the same transmittance.
+        // Ozone keeps the band amber instead of dull red while the zenith
+        // stays blue. A mild chroma restore counteracts the desaturation of
+        // adding it over pale haze.
+        float warmMu=pow(max(mu,0.0),3.2);
+        vec3 warmBand=horizonSunTint()*0.46*sunset*pow(1.0-h,5.0)*(0.04+0.96*warmMu);
+        warmBand=mix(vec3(luminance(warmBand)),warmBand,1.15);
+        scatter+=warmBand;
+        float golden=goldenHourAmount()*(1.0-weatherOvercastAmount());
+        float goldenAir=golden*pow(1.0-h,2.5)*(0.08+0.92*pow(max(mu,0.0),4.0));
+        scatter*=mix(vec3(1.0),vec3(0.98,0.91,0.68),goldenAir);
+        scatter+=vec3(0.48,0.22,0.065)*golden*pow(1.0-h,2.5)*
+                 (0.06+0.94*pow(max(mu,0.0),4.0));
+    }
     vec3 night = mix(vec3(0.006,0.009,0.018),vec3(0.018,0.023,0.037),pow(1.0-h,3.0))*NIGHT_BRIGHTNESS;
     vec3 sky = mix(night,scatter,day);
     // A blue twilight dome survives after direct sunlight fades. Local pink
