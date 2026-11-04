@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.51 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.52 · Community Project**
+
+**1.15.52 — alpenglow on the cloud deck (2026-11-04):** After the sun drops below the horizon the ground is already dark, but the cloud base can still be lit from below, so a high deck keeps a rose glow through twilight. The cloud march previously shaded only from the direct beam and ambient scatter, and the whole deck turned grey soon after sunset. A warm term now runs while the sun sits between about 1 and 17 degrees below the horizon: it leans orange-red and grows toward the sun, and it strengthens with cloud height. Above or deeper below that window the term is exactly zero and the image matches the previous build pixel for pixel. Overcast suppresses it. In the synthetic GPU fixture noon and deep night are identical to the previous build, twilight clouds are brighter overall with a red increment larger than the blue, and the sunward side gains more than the anti-solar side. No option, texture or render target is added.
+
+![Alpenglow on the cloud deck (synthetic GPU sky, with alpenglow above, previous behaviour below)](previews/alpenglow.png)
 
 **1.15.51 — low-end optimisation: dry and cave surfaces skip the puddle noise (2026-11-04):** Terrain puddles and their roughness shift only exist on wet ground; the wetness factor is exactly zero in dry weather, in caves and interiors, and on downward-facing faces, yet the shader still evaluated a 2D noise and two mixes for every surface pixel and then multiplied the result away. The block is now skipped when wetness is zero; wet daytime ground, rain and upward faces keep their puddles, and the image is unchanged pixel for pixel. The synthetic GPU fixture skips all puddle-noise calls in the dry-clear, cave-lit and downward-face cases. No option, texture or render target is added, and the saving lands on players who spend their time underground or indoors.
 

@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.52 adds an alpenglow term to the deferred cloud march. After the sun drops below the horizon the deck can still be lit from below, so `volumetricClouds` carries a warm colour whose gate is nonzero only while the light direction sits between about 1 and 17 degrees below the horizon. The tint leans toward the sun through the existing ray/light dot product, scales with cloud height at each sample, and is suppressed by overcast; outside the window the gate is exactly zero and the added term is a zero vector.
+
 The authored shaders use GLSL 330 compatibility input conventions. Iris translates these to its actual terrain/entity pipeline. All entrypoint wrappers include shared implementations; the root and `world0` select `DIMENSION 0`, `world-1` selects `-1`, and `world1` selects `1`. A missing custom dimension falls back to the root Overworld implementation.
 
 ## Coordinates

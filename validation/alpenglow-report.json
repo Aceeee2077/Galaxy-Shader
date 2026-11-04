@@ -1,0 +1,23 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "6ae1ea498e6cc480576f7e253ba0fd298ac7f8fc7bdcdcb1004138444cc063a1",
+  "resolution": [
+    960,
+    240
+  ],
+  "sun_height": -0.18,
+  "sun_elevation_degrees": -10.37,
+  "ray_elevation_degrees": [
+    3.0,
+    43.0
+  ],
+  "origin_y": 70.0,
+  "preview_gain": 0.9,
+  "preview": "Galaxy Shader/previews/alpenglow.png",
+  "mean_luminance_previous": 0.08508,
+  "mean_luminance_with_alpenglow": 0.096881,
+  "mean_added_red": 0.020644,
+  "mean_added_green": 0.008852,
+  "mean_added_blue": 0.005908,
+  "status": "rendered for visual review"
+}

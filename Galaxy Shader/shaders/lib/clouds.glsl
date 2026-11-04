@@ -173,6 +173,19 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
     float overcast = weatherOvercastAmount();
     vec3 litColor = directionalRadiance()*1.25;
     vec3 cloudAmbient=skyIrradiance(vec3(0.0,1.0,0.0))*1.15;
+    // Alpenglow: after sunset the deck can still be lit from below while the
+    // ground has gone dark, so high clouds keep a rose glow after the direct
+    // beam has left the surface. Outside the twilight window the gate clamps to
+    // zero and the term adds nothing.
+    float alpenglowGate = smoothstep(-0.30, -0.13, sun.y) *
+                          (1.0 - smoothstep(-0.02, 0.07, sun.y));
+    vec3 alpenglowColor = vec3(0.0);
+    if (alpenglowGate > 0.0) {
+        float towardSun = 0.5 + 0.5 * dot(ray, sun);
+        alpenglowColor = mix(vec3(0.60, 0.18, 0.16), vec3(1.00, 0.52, 0.30),
+                             towardSun) *
+                         (alpenglowGate * (1.0 - overcast * 0.85) * 0.14);
+    }
     // Aerial perspective only tints samples that actually scatter. Most clear
     // sky rays cross the layer without reaching a cloud, and evaluating the
     // full atmosphere for them is wasted work, so the sample is deferred until
@@ -204,6 +217,7 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
         float multiple=0.18*pow(shadow,0.35)+0.06*pow(shadow,0.12);
         vec3 radiance=litColor*(shadow*phase*(0.65+powder*0.35)+multiple);
         radiance+=cloudAmbient*mix(0.48,1.0,height);
+        radiance+=alpenglowColor*(0.15+0.85*height);
         radiance += lightningBoltPosition.w * vec3(0.50, 0.60, 0.78) *
                     density * (0.30 + 0.70 * storm);
         float sigma = 0.035 * (1.0 + overcast * 0.25);
