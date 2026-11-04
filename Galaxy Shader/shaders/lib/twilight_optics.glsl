@@ -28,6 +28,7 @@ float earthShadowMask(vec3 ray, vec3 sun) {
     if (h < 0.0) return 0.0;
     float gate = smoothstep(-0.32, -0.10, sun.y) *
                  (1.0 - smoothstep(-0.01, 0.055, sun.y));
+    if (gate <= 0.0) return 0.0;
     float top = clamp(0.018 + max(-sun.y, 0.0) * 0.52, 0.02, 0.16);
     float wedge = smoothstep(0.0, 0.018, h) *
                   (1.0 - smoothstep(top - 0.028, top + 0.018, h));
@@ -42,6 +43,9 @@ vec3 beltOfVenus(vec3 ray, vec3 sun) {
     if (h < 0.0 || h > 0.42) return vec3(0.0);
     float gate = smoothstep(-0.24, -0.075, sun.y) *
                  (1.0 - smoothstep(-0.005, 0.05, sun.y));
+    // Both smoothsteps clamp outside the twilight window, so the gate is a
+    // hard zero for most of the day. Nothing below survives the multiply.
+    if (gate <= 0.0) return vec3(0.0);
     float top = clamp(0.018 + max(-sun.y, 0.0) * 0.52, 0.02, 0.16);
     float centre = top + 0.045;
     float band = exp(-pow((h - centre) / 0.050, 2.0)) *
@@ -60,6 +64,9 @@ vec3 zodiacalLight(vec3 ray, vec3 sun) {
     if (h < 0.0 || h > 0.75) return vec3(0.0);
     float gate = smoothstep(-0.45, -0.22, sun.y) *
                  (1.0 - smoothstep(-0.04, 0.03, sun.y));
+    // Outside the twilight window the cone is multiplied by zero, so skip the
+    // normalise/acos/exp chain that only exists to shape an invisible cone.
+    if (gate <= 0.0) return vec3(0.0);
     vec2 sunHorizontal = sun.xz;
     float sunLength = length(sunHorizontal);
     if (sunLength < 1e-4) return vec3(0.0);
@@ -80,6 +87,9 @@ vec3 airglow(vec3 ray, vec3 sun) {
     float h = ray.y;
     if (h < 0.0 || h > 0.9) return vec3(0.0);
     float night = smoothstep(0.03, 0.20, -sun.y);
+    // Daytime airglow is entirely gone; skip the two noise lookups and the
+    // cosine ripples that would be multiplied away.
+    if (night <= 0.0) return vec3(0.0);
     float layer = exp(-pow((h - 0.12) / 0.18, 2.0));
     float azimuth = atan(ray.z, ray.x);
     float drift = frameTimeCounter * 0.006;
@@ -104,6 +114,8 @@ vec3 airglow(vec3 ray, vec3 sun) {
 // instead, so it stays a darkening effect and can never become a coloured glow.
 vec3 twilightOptics(vec3 ray, vec3 sun, float overcast) {
     float clear = 1.0 - clamp(overcast, 0.0, 1.0);
+    // A fully overcast sky scales every term by zero; skip the three calls.
+    if (clear <= 0.0) return vec3(0.0);
     return (beltOfVenus(ray, sun) + zodiacalLight(ray, sun) + airglow(ray, sun)) *
            clear;
 }

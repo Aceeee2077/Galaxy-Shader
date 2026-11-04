@@ -1,0 +1,138 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "a67ce64f7582cc97a9d67eb95bb7761396428671dadaef2a437e055c6297699c",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_field": {
+    "azimuth": "full circle",
+    "elevation_degrees": [
+      0.5,
+      80.5
+    ]
+  },
+  "cases": {
+    "noon": {
+      "sun_elevation_degrees": 60.0,
+      "overcast": 0.0,
+      "bodies_entered_before": 48960,
+      "bodies_entered_after": 0,
+      "belt_of_venus_entered": [
+        8880,
+        0
+      ],
+      "zodiacal_light_entered": [
+        17280,
+        0
+      ],
+      "airglow_entered": [
+        22800,
+        0
+      ],
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "low_day": {
+      "sun_elevation_degrees": 2.0,
+      "overcast": 0.0,
+      "bodies_entered_before": 48960,
+      "bodies_entered_after": 8880,
+      "belt_of_venus_entered": [
+        8880,
+        8880
+      ],
+      "zodiacal_light_entered": [
+        17280,
+        0
+      ],
+      "airglow_entered": [
+        22800,
+        0
+      ],
+      "share_skipping": 0.8186,
+      "max_abs_difference": 0.0
+    },
+    "twilight": {
+      "sun_elevation_degrees": -10.0,
+      "overcast": 0.0,
+      "bodies_entered_before": 48960,
+      "bodies_entered_after": 48960,
+      "belt_of_venus_entered": [
+        8880,
+        8880
+      ],
+      "zodiacal_light_entered": [
+        17280,
+        17280
+      ],
+      "airglow_entered": [
+        22800,
+        22800
+      ],
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "deep_twilight": {
+      "sun_elevation_degrees": -35.0,
+      "overcast": 0.0,
+      "bodies_entered_before": 48960,
+      "bodies_entered_after": 22800,
+      "belt_of_venus_entered": [
+        8880,
+        0
+      ],
+      "zodiacal_light_entered": [
+        17280,
+        0
+      ],
+      "airglow_entered": [
+        22800,
+        22800
+      ],
+      "share_skipping": 0.5343,
+      "max_abs_difference": 0.0
+    },
+    "night": {
+      "sun_elevation_degrees": -60.0,
+      "overcast": 0.0,
+      "bodies_entered_before": 48960,
+      "bodies_entered_after": 22800,
+      "belt_of_venus_entered": [
+        8880,
+        0
+      ],
+      "zodiacal_light_entered": [
+        17280,
+        0
+      ],
+      "airglow_entered": [
+        22800,
+        22800
+      ],
+      "share_skipping": 0.5343,
+      "max_abs_difference": 0.0
+    },
+    "twilight_overcast": {
+      "sun_elevation_degrees": -10.0,
+      "overcast": 1.0,
+      "bodies_entered_before": 48960,
+      "bodies_entered_after": 0,
+      "belt_of_venus_entered": [
+        8880,
+        0
+      ],
+      "zodiacal_light_entered": [
+        17280,
+        0
+      ],
+      "airglow_entered": [
+        22800,
+        0
+      ],
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the twilight bodies are pixel-identical and skipped whenever their gate clamps to zero"
+}

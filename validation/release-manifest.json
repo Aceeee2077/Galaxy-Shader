@@ -1,6 +1,6 @@
 {
-  "archive_sha256": "cfa628b7fa0401cdd30afb379c5616acd3f19f7f561e596e5b25fa00fba7f512",
-  "shader_sha256": "6798bc758a8f933dd3654a1a8dabe9514f5d0a379bd5058b4fae9c431ddbe292",
+  "archive_sha256": "d60ac73d6e2a52d89283b04ce6001874ad8052a4682150a9ea79256cda4c8863",
+  "shader_sha256": "f8c7de403c167bf46a36bad8fb2dbdc4523de077e7eace71315bf3bb20e2dd3c",
   "files": 380,
   "zip_root": "shaders/",
   "archive_verified": true,

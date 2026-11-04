@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.45 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.46 · Community Project**
+
+**1.15.46 — low-end optimisation: twilight optics exit on their gates (2026-11-04):** The Belt of Venus, the zodiacal light cone and the airglow layer only exist in narrow solar-height windows: above or below them their smooth gate clamps to exactly zero, yet the shader still finished the normalise, `acos`, `exp` and two noise lookups before multiplying the result away. Each body now returns immediately when its gate is zero, and a fully overcast sky skips the whole group. The synthetic GPU fixture skips all three bodies at noon, about 82 percent at a 2° sun, the belt and the cone at deep night (airglow still runs) and 100 percent under full overcast, with the image unchanged pixel for pixel. No option, texture or render target is added.
 
 **1.15.45 — low-end optimisation: azimuth reject before the circumzenithal and Parry arcs (2026-11-03):** Both arcs only exist within a cone around the sun's azimuth: the circumzenithal arc has faded out beyond 60°, and the Parry arc is exactly zero beyond 30°. Previously every sky pixel ran an `acos` just to discover that. A single azimuth dot product now rejects the cone, so pixels outside it skip the arccosine and all the exponential and tint work that followed. The synthetic GPU fixture skips about 63, 72 and 78 percent of those calls at 5°, 20° and 30° solar elevation, with the image unchanged pixel for pixel; at 70° neither arc is active, so the count is unchanged. No option, texture or render target is added.
 
