@@ -120,7 +120,10 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
     // Parhelic circle: a white horizontal band crossing the sky at the sun's
     // altitude. Plate crystals spread it all the way around, with a bright
     // patch near the sun and a second one around the 120-degree parhelia.
-    if (sun.y > 0.02) {
+    // The band is a 0.009-radian (half-degree) Gaussian; about 0.15 radians
+    // away the exponent falls below -277 and `exp` underflows to float zero,
+    // so a vertical bound skips the call for most of the sky.
+    if (sun.y > 0.02 && abs(ray.y - sun.y) < 0.15) {
         float height = exp(-pow((ray.y - sun.y) / 0.009, 2.0));
         if (height > 0.01) {
             vec3 flatSun = vec3(sun.x, 0.0, sun.z);

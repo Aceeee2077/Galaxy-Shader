@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.48 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.49 · Community Project**
+
+**1.15.49 — low-end optimisation: the parhelic band exits on a height bound (2026-11-04):** The parhelic circle is a white horizontal band at the sun's own height, only about half a degree tall; more than about 8.6 degrees away its exponential underflows to float zero, yet the shader evaluated that exponential for every sky pixel. A height test now skips the call outside the band window, leaving the band, the bright patch near the sun and the 120-degree parhelia unchanged pixel for pixel. The synthetic GPU fixture skips about 85, 78, 73, 53 and 68 percent of the calls at 5, 20, 40, 60 and 89 degrees of solar elevation. No option, texture or render target is added.
 
 **1.15.48 — low-end optimisation: high moon skips the lunar companions (2026-11-04):** Moon dogs and the lunar pillar only exist below about 24 degrees of lunar elevation, and both gates clamp to exactly zero above that, yet every sky pixel inside the halo cap still built the moon basis and evaluated an `atan` and two vertical profiles for light that was multiplied away. Both gates are now computed first and the whole block is skipped when they are zero; moon dogs, the lunar pillar and the lunar tangent arc keep their low-moon behaviour, and the solar branch is untouched. The synthetic GPU fixture counts `atan` calls inside the 37-degree cap: at 3, 10 and 20 degrees the count is unchanged, while 24, 30, 50 and 70 degrees drop from one azimuth trig call per cap pixel to none, with the image unchanged pixel for pixel. No option, texture or render target is added.
 

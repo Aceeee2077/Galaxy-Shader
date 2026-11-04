@@ -1,0 +1,58 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "b119d1960da96a70f94c2325b68e2eb85fb3294588eab36aab9e90dfdeba96a7",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_field": {
+    "azimuth": "full circle",
+    "elevation_degrees": [
+      1.0,
+      85.0
+    ]
+  },
+  "cases": {
+    "sun_5": {
+      "sun_elevation_degrees": 5.0,
+      "sky_pixels": 28800,
+      "band_exp_before": 28800,
+      "band_exp_after": 4320,
+      "share_skipping": 0.85,
+      "max_abs_difference": 0.0
+    },
+    "sun_20": {
+      "sun_elevation_degrees": 20.0,
+      "sky_pixels": 28800,
+      "band_exp_before": 28800,
+      "band_exp_after": 6480,
+      "share_skipping": 0.775,
+      "max_abs_difference": 0.0
+    },
+    "sun_40": {
+      "sun_elevation_degrees": 40.0,
+      "sky_pixels": 28800,
+      "band_exp_before": 28800,
+      "band_exp_after": 7680,
+      "share_skipping": 0.7333,
+      "max_abs_difference": 0.0
+    },
+    "sun_60": {
+      "sun_elevation_degrees": 60.0,
+      "sky_pixels": 28800,
+      "band_exp_before": 28800,
+      "band_exp_after": 13440,
+      "share_skipping": 0.5333,
+      "max_abs_difference": 0.0
+    },
+    "sun_89": {
+      "sun_elevation_degrees": 89.0,
+      "sky_pixels": 28800,
+      "band_exp_before": 28800,
+      "band_exp_after": 9120,
+      "share_skipping": 0.6833,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the parhelic circle is pixel-identical and skips its band exponential outside a 0.15-radian window around sun height"
+}
