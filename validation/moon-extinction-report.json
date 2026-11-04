@@ -1,0 +1,17 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "94cc534398593f630502dc1821f51b89541b5fc9dba2513d85067fd8ab9c90c7",
+  "resolution": [
+    720,
+    300
+  ],
+  "moon_elevation_degrees": 3.0,
+  "field_of_view_degrees": 26.0,
+  "preview_gain": 1.0,
+  "preview": "Galaxy Shader/previews/moon-extinction.png",
+  "mean_red_previous": 0.025701,
+  "mean_red_with_extinction": 0.025701,
+  "mean_blue_previous": 0.038366,
+  "mean_blue_with_extinction": 0.024841,
+  "status": "rendered for visual review"
+}

@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.54 tints `moonSky` with an elevation-driven extinction factor: the disk, earthshine and halo are multiplied by a warm orange at the horizon that returns to neutral above about 20 degrees. The factor is computed once from the moon direction, so the extra cost is one `smoothstep` and one `mix` inside the existing 25-degree moon cone.
+
 1.15.53 gates the solar aureole on angular distance: both Gaussian lobes in `atmosphere` are skipped when the view direction is farther than about 37 degrees from the disk, where their contribution is below renderable precision. The gate uses the existing ray/sun dot product, so no new trigonometry is introduced.
 
 1.15.52 adds an alpenglow term to the deferred cloud march. After the sun drops below the horizon the deck can still be lit from below, so `volumetricClouds` carries a warm colour whose gate is nonzero only while the light direction sits between about 1 and 17 degrees below the horizon. The tint leans toward the sun through the existing ray/light dot product, scales with cloud height at each sample, and is suppressed by overcast; outside the window the gate is exactly zero and the added term is a zero vector.

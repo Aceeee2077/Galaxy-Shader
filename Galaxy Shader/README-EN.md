@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.53 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.54 · Community Project**
+
+**1.15.54 — reddening of a low moon (2026-11-04):** Near the horizon moonlight crosses a far thicker column of air than at the zenith, so scattering strips out the blue and both the disk and its halo turn orange like a setting sun. The moon used to stay cold white, with only refraction flattening it. The disk, earthshine and halo now share one extinction tint driven by the moon's elevation: warm orange near the horizon, fading back to white by about 20 degrees. The change only touches the sky within about 25 degrees of the moon, and no option, texture or render target is added. The image below is a synthetic GPU comparison at a 3-degree moon, with the new behaviour above and the previous build below; it is not a gameplay capture.
+
+![Reddening of a low moon (synthetic GPU comparison, new behaviour above, previous build below)](previews/moon-extinction.png)
 
 **1.15.53 — low-end optimisation: the sky away from the sun skips the aureole exponentials (2026-11-04):** The compact glow around the sun is built from two Gaussian exponentials; the widest one has decayed past renderable precision by about 37 degrees from the disk and contributes zero. The shader nevertheless evaluated both vector exponentials for every sky pixel. It now tests the angular distance it already has and skips the window entirely. The aureole near the sun, the sky colour, the sun and moon disks and the star field are unchanged pixel for pixel. In the synthetic GPU fixture, a 5, 20, 45, 70 and 89-degree sun skips about 87, 80, 78, 85 and 89 percent of sky pixels respectively, and all five images match the previous build exactly. No option, texture or render target is added, and every player who looks up benefits at any resolution.
 

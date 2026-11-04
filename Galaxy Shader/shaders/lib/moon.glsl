@@ -34,6 +34,11 @@ vec3 moonSky(vec3 ray, float night, float overcast) {
 
     float visibility = night * (1.0 - 0.94 * overcast);
 
+    // Low over the horizon moonlight crosses a long air column, so the disk and
+    // its halo redden like the setting sun. Above about 20 degrees the air mass
+    // is short enough that the moon stays white.
+    vec3 extinction = mix(vec3(1.00, 0.60, 0.36), vec3(1.0), smoothstep(0.02, 0.34, dir.y));
+
     vec3 result = vec3(0.0);
     float x = dot(ray, right) / max(sinR, 1e-4);
     float y = dot(ray, up) / max(sinR, 1e-4);
@@ -89,6 +94,6 @@ vec3 moonSky(vec3 ray, float night, float overcast) {
     result += vec3(0.72, 0.80, 1.0) * halo;
     result += vec3(0.38, 0.46, 0.62) * exp(-angular * 7.0) * 0.0035;
 
-    return result * visibility;
+    return result * visibility * extinction;
 }
 #endif
