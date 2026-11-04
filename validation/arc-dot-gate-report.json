@@ -1,0 +1,46 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "37fc8b0181d14fd16d0bb7b2a544e7a78ce7ceeebb3b6e705d5542cc2ad78a90",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_field": {
+    "azimuth": "full circle",
+    "elevation_degrees": [
+      2.0,
+      88.0
+    ]
+  },
+  "cases": {
+    "sun_5": {
+      "pixels": 28800,
+      "azimuth_trig_calls_before": 30240.0,
+      "azimuth_trig_calls_after": 11280.0,
+      "share_skipping": 0.627,
+      "max_abs_difference": 0.0
+    },
+    "sun_20": {
+      "pixels": 28800,
+      "azimuth_trig_calls_before": 59520.0,
+      "azimuth_trig_calls_after": 16560.0,
+      "share_skipping": 0.7218,
+      "max_abs_difference": 0.0
+    },
+    "sun_30": {
+      "pixels": 28800,
+      "azimuth_trig_calls_before": 30720.0,
+      "azimuth_trig_calls_after": 6720.0,
+      "share_skipping": 0.7812,
+      "max_abs_difference": 0.0
+    },
+    "sun_70": {
+      "pixels": 28800,
+      "azimuth_trig_calls_before": 4320.0,
+      "azimuth_trig_calls_after": 4320.0,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "both azimuth dot gates are pixel-identical to the previous arcs and skip their acos for most sky pixels"
+}

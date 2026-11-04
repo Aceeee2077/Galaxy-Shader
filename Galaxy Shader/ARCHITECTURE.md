@@ -48,6 +48,8 @@ Version 1.15.1 (2026-10-26) replaces the fixed, patchy night band with one proce
 
 The same release replaces the flat night-moon disk with an analytic moon. `moonPhase` drives the illuminated fraction and the projected sphere terminator; procedural maria, crater grain and a faint earthshine fill the disk, while a compact halo and a broad cool glow hug the limb. Directional moonlight uses the same illuminated fraction, so a new moon no longer casts most of a full moon's light. Rays more than about 25 degrees from the moon leave after one dot product; only the disk pays for surface noise. Weather dims the disk, and no texture, lookup table or render target is added.
 
+Version 1.15.45 extends the dot-product reject to the two azimuth arcs. The circumzenithal arc fades out beyond 60 degrees from the sun's azimuth and the Parry arc is exactly zero beyond 30 degrees, so their `acos` calls are gated on the azimuth dot product; pixels inside the cone take the unchanged path. `tools/test_arc_dot_gate.py` compares both builds at four solar elevations, checks the arc is still visible and uses an `acos` probe; `tools/render_arc_dot_gate.py` records 63/72/78 percent skipped shares in `validation/arc-dot-gate-report.json`. No option or preview is added.
+
 Version 1.15.44 puts a dot-product reject in front of the 46-degree ring. The ring's Gaussian is 0.02 radians wide and underflows to float zero beyond about nine degrees, so a pair of bounds on `dot(ray, sun)` skips the `acos`, `exp` and tint work for most sky pixels; pixels inside the annulus take the unchanged path. `tools/test_ring_gate.py` compares both builds at four solar elevations, checks the ring is still visible and uses an `acos` probe to prove the call count drops; `tools/render_ring_gate.py` records the skipped shares in `validation/ring-gate-report.json`. No option or preview is added.
 
 Version 1.15.43 stretches a solar parhelion into a short pillar as the sun nears the horizon. The dog's vertical Gaussian radius interpolates from 2.5 degrees to 6.2 degrees between about 1 and 11.5 degrees of solar elevation, following the longer vertical scattering path through plate crystals; the horizontal width, spectral tint and existing gates are untouched, and above 11.5 degrees the previous shape is reproduced exactly. It shares `ICE_HALOS` and adds no option, texture, lookup or render target. `tools/test_dog_pillar.py` measures the low-sun vertical extent, proves the 12-degree output matches the previous code, checks the horizontal ratio and zero visibility; `tools/render_dog_pillar.py` writes `previews/dog-pillar.png` and `validation/dog-pillar-report.json`.
@@ -261,6 +263,8 @@ python tools/test_dog_pillar.py
 python tools/render_dog_pillar.py
 python tools/test_ring_gate.py
 python tools/render_ring_gate.py
+python tools/test_arc_dot_gate.py
+python tools/render_arc_dot_gate.py
 python tools/render_warm_sun.py --baseline "Galaxy Shader-1.14.1.zip"
 python tools/render_warm_palette.py --baseline "Galaxy Shader-1.14.0.zip"
 python tools/render_sunlight.py

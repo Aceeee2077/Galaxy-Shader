@@ -59,17 +59,22 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
         vec3 flatRay = vec3(ray.x, 0.0, ray.z);
         float azimuth = length(flatRay) > 1e-4 ?
             dot(normalize(flatRay), flatSun) : 1.0;
-        float angle = acos(clamp(azimuth, -1.0, 1.0));
-        float around = 1.0 - smoothstep(0.55, 1.05, angle);
-        // The ends of the arc sag toward the horizon, giving the familiar smile.
-        float target = sunElevation + ring - 0.14 * angle * angle;
-        float elevation = asin(clamp(ray.y, -1.0, 1.0));
-        float vertical = elevation - target;
-        float arc = exp(-pow(vertical / 0.022, 2.0)) *
-                    (1.0 - smoothstep(0.050, 0.080, abs(vertical)));
-        vec3 arcTint = mix(vec3(1.0, 0.30, 0.12), vec3(0.28, 0.32, 1.0),
-                           smoothstep(-0.010, 0.010, vertical));
-        colour += arcTint * arc * around * lowSun * visibility * 0.22;
+        // The arc fades to zero more than 60 degrees off the sun's azimuth, so
+        // rays outside that cone skip the acos and everything that follows.
+        if (azimuth > 0.48) {
+            float angle = acos(clamp(azimuth, -1.0, 1.0));
+            float around = 1.0 - smoothstep(0.55, 1.05, angle);
+            // The ends of the arc sag toward the horizon, giving the familiar
+            // smile.
+            float target = sunElevation + ring - 0.14 * angle * angle;
+            float elevation = asin(clamp(ray.y, -1.0, 1.0));
+            float vertical = elevation - target;
+            float arc = exp(-pow(vertical / 0.022, 2.0)) *
+                        (1.0 - smoothstep(0.050, 0.080, abs(vertical)));
+            vec3 arcTint = mix(vec3(1.0, 0.30, 0.12), vec3(0.28, 0.32, 1.0),
+                               smoothstep(-0.010, 0.010, vertical));
+            colour += arcTint * arc * around * lowSun * visibility * 0.22;
+        }
     }
 
     // Upper Parry arc: a thin chevron riding above the top of the 22-degree
@@ -85,23 +90,30 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
         vec3 flatRay = vec3(ray.x, 0.0, ray.z);
         float azimuth = length(flatRay) > 1e-4 ?
             dot(normalize(flatRay), flatSun) : 1.0;
-        float side = acos(clamp(azimuth, -1.0, 1.0));
-        float spread = 1.0 - smoothstep(0.40, 0.52, side);
-        if (spread > 0.0) {
-            // The bow peaks 25 degrees above the sun and bends down to the
-            // ring at 21.5 degrees by the time it runs 25 degrees sideways.
-            float u = min(side / 0.44, 1.0);
-            float target = 0.44 - 0.065 * u * u;
-            float vertical = asin(clamp(ray.y, -1.0, 1.0)) - sunElevation - target;
-            float band = exp(-pow(vertical / 0.014, 2.0)) *
-                         (1.0 - smoothstep(0.030, 0.045, abs(vertical)));
-            // Red inner edge, near-white body, violet outer edge: a thin
-            // spectral rim on either side of a mostly uncoloured band.
-            vec3 arcTint = mix(vec3(1.0, 0.42, 0.20), vec3(1.0, 0.95, 0.86),
-                               smoothstep(-0.009, -0.001, vertical));
-            arcTint = mix(arcTint, vec3(0.52, 0.60, 1.0),
-                          smoothstep(0.001, 0.009, vertical));
-            colour += arcTint * band * spread * parrySun * visibility * 0.060;
+        // The bow is gone beyond 30 degrees of azimuth; reject it with the dot
+        // before paying for the acos, which is most of the sky.
+        if (azimuth > 0.865) {
+            float side = acos(clamp(azimuth, -1.0, 1.0));
+            float spread = 1.0 - smoothstep(0.40, 0.52, side);
+            if (spread > 0.0) {
+                // The bow peaks 25 degrees above the sun and bends down to
+                // the ring at 21.5 degrees by the time it runs 25 degrees
+                // sideways.
+                float u = min(side / 0.44, 1.0);
+                float target = 0.44 - 0.065 * u * u;
+                float vertical = asin(clamp(ray.y, -1.0, 1.0)) -
+                                 sunElevation - target;
+                float band = exp(-pow(vertical / 0.014, 2.0)) *
+                             (1.0 - smoothstep(0.030, 0.045, abs(vertical)));
+                // Red inner edge, near-white body, violet outer edge: a thin
+                // spectral rim on either side of a mostly uncoloured band.
+                vec3 arcTint = mix(vec3(1.0, 0.42, 0.20),
+                                   vec3(1.0, 0.95, 0.86),
+                                   smoothstep(-0.009, -0.001, vertical));
+                arcTint = mix(arcTint, vec3(0.52, 0.60, 1.0),
+                              smoothstep(0.001, 0.009, vertical));
+                colour += arcTint * band * spread * parrySun * visibility * 0.060;
+            }
         }
     }
 

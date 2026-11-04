@@ -450,7 +450,7 @@
       }
     }
   },
-  "shader_sha256": "9076b718b9e0f5602f8f3235d51d7ef486b9723945fb06152331aebbc08b0141",
+  "shader_sha256": "6798bc758a8f933dd3654a1a8dabe9514f5d0a379bd5058b4fae9c431ddbe292",
   "weather_state_mean_separation": {
     "day_vs_cloudy": 0.1473526954650879,
     "cloudy_vs_rain": 0.04981106519699097,

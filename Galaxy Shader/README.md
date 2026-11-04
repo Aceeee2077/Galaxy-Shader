@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.44 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.45 · Community Project**
+
+**1.15.45 低配优化：环天顶弧与帕里弧先做方位剔除（2026-11-03）：** 这两条弧都只在太阳方位附近的一段角度内出现：环天顶弧在偏离太阳方位 60° 以外完全淡出，帕里弧在 30° 以外精确为零。此前每个天空像素都要先算一次 `acos` 才能知道自己在不在弧带内。现在先用一次方位点积判断，锥体之外的像素直接跳过反余弦与后续的指数、色彩计算。合成 GPU 测试中，太阳高度 5°、20°、30° 时分别跳过约 63%、72%、78% 的方位三角函数调用，画面逐像素不变；太阳 70° 时两弧都不活跃，调用数不变。不新增选项、贴图或渲染目标。
 
 **1.15.44 低配优化：46° 晕先做点积剔除（2026-11-03）：** 46° 晕的光带是一个约 0.02 弧度的窄高斯，偏离晕环九度以外就对画面没有任何贡献，但着色器此前对每个天空像素都要先算一次 `acos` 再算 `exp`。现在先用一次点积判断视线是否落在晕环附近，只有环带内的像素才进入三角与指数计算。合成 GPU 测试中，太阳高度 5°、20°、40°、70° 时分别跳过约 90%、87%、74%、78% 的晕环三角函数调用，画面逐像素不变。该优化不新增选项、贴图或渲染目标，对白天的天空路径最直接。
 
@@ -274,9 +276,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.15.44.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.15.45.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.15.44.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.15.45.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
