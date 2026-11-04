@@ -223,9 +223,14 @@ vec3 atmosphere(vec3 ray, bool disks) {
         sky += greenFlash(ray,sun,sunVisibility,SUN_ANGULAR_RADIUS)*GREEN_FLASH;
 #endif
         sky += sunTint*18.0*solarDisk*sunVisibility;
-        sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
-        sky += eclipseCorona(ray, sun, eclipse * (1.0 - overcast),
-                             frameTimeCounter);
+        // The eclipse aureole and corona are exactly zero except for a brief
+        // window on one calendar day. Both used to run on every sky pixel every
+        // frame; gating them keeps the ordinary sky from paying the exp.
+        if (eclipse > 0.0) {
+            sky += vec3(1.00,0.82,0.55)*exp(-pow((1.0-mu)*58.0,2.0))*eclipse*2.2;
+            sky += eclipseCorona(ray, sun, eclipse * (1.0 - overcast),
+                                 frameTimeCounter);
+        }
         sky += moonSky(ray,1.0-day,overcast);
         // Stars are scaled by the remaining night sky, which is exactly zero in
         // daylight and under full overcast. Skip the cell hash, scintillation

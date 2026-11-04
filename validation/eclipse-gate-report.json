@@ -1,0 +1,35 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "e00b7b51f43d51cd63d422b401d61e28e65b63e5439f6541487a1e0eb1e600dd",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_elevation_degrees": [
+    3.0,
+    63.0
+  ],
+  "sky_ring_azimuth_degrees": [
+    0.0,
+    360.0
+  ],
+  "cases": {
+    "ordinary_day": {
+      "world_time": 6000,
+      "pixels": 28800,
+      "aureole_exponentials_before": 28800,
+      "aureole_exponentials_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "eclipse_day": {
+      "world_time": 6000,
+      "pixels": 28800,
+      "aureole_exponentials_before": 28800,
+      "aureole_exponentials_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the eclipse aureole runs only while an eclipse is active; the ordinary sky skips it and is pixel-identical"
+}

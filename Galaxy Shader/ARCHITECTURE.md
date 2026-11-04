@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.55 guards the eclipse aureole and corona in `atmosphere` with the eclipse factor, which is zero outside a short annual window. The ordinary sky no longer evaluates that exponential or enters the corona function.
+
 1.15.54 tints `moonSky` with an elevation-driven extinction factor: the disk, earthshine and halo are multiplied by a warm orange at the horizon that returns to neutral above about 20 degrees. The factor is computed once from the moon direction, so the extra cost is one `smoothstep` and one `mix` inside the existing 25-degree moon cone.
 
 1.15.53 gates the solar aureole on angular distance: both Gaussian lobes in `atmosphere` are skipped when the view direction is farther than about 37 degrees from the disk, where their contribution is below renderable precision. The gate uses the existing ray/sun dot product, so no new trigonometry is introduced.

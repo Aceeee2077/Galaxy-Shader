@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.54 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.55 · Community Project**
+
+**1.15.55 — low-end optimisation: the eclipse glow only runs during an eclipse (2026-11-04):** The warm eclipse aurora and its corona exist for a short window on one calendar day; for the rest of the year the factor is exactly zero, yet the shader evaluated an exponential and entered the corona function for every sky pixel. The pass now tests the eclipse factor it already computes and skips the block entirely when it is zero. The eclipse-day glow and corona are unchanged pixel for pixel. In the synthetic GPU fixture every ordinary-day sky pixel skips the exponential, every eclipse-day pixel still evaluates it, and both images match the previous build exactly. No option, texture or render target is added, and the saving lands on every sky pixel regardless of clouds or weather.
 
 **1.15.54 — reddening of a low moon (2026-11-04):** Near the horizon moonlight crosses a far thicker column of air than at the zenith, so scattering strips out the blue and both the disk and its halo turn orange like a setting sun. The moon used to stay cold white, with only refraction flattening it. The disk, earthshine and halo now share one extinction tint driven by the moon's elevation: warm orange near the horizon, fading back to white by about 20 degrees. The change only touches the sky within about 25 degrees of the moon, and no option, texture or render target is added. The image below is a synthetic GPU comparison at a 3-degree moon, with the new behaviour above and the previous build below; it is not a gameplay capture.
 
