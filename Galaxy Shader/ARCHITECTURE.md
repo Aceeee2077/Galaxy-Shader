@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.59 makes `sunTint` in `atmosphere` conditional: `day > 0.0 ? sunlightColor() : vec3(0.0)`. Every consumer (the horizon tint inside the day block, the aureole, the solar disk through `sunVisibility`, and `iceHalo` through its own visibility early-out) is weighted by a factor that is exactly zero once the day factor is, so the night sky drops two vector exponentials without changing any output.
+
 1.15.58 gives the star layer in `atmosphere` a horizon extinction tint: `mix(vec3(0.78,0.52,0.34), vec3(1.0), smoothstep(0.10,0.44,ray.y))`. It multiplies the existing star brightness inside the same night gate, so it costs three multiplications and leaves every other sky layer untouched; above about 26 degrees the factor is exactly one.
 
 1.15.57 wraps the whole daytime Rayleigh/Mie block in `atmosphere` in `if (day > 0.0)`. `dayAmount()` reaches exactly zero about six degrees below the horizon, and the block's result was already mixed out there, so the gate removes two vector exponentials, four `pow` calls and the fixed horizon tint from every sky pixel of the night without changing a single output value.

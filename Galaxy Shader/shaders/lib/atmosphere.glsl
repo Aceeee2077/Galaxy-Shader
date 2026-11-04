@@ -112,8 +112,13 @@ vec3 atmosphere(vec3 ray, bool disks) {
     return endCosmos(ray,disks);
 #else
     vec3 sun = sunDirection();
-    vec3 sunTint = sunlightColor();
     float day = dayAmount(), mu = dot(ray,sun);
+    // Every use of sunTint below is multiplied by a factor that is exactly
+    // zero once `day` is zero: the horizon tint sits inside the day block, the
+    // aureole and the disk carry the solar visibility, and the ice halo exits
+    // on its own visibility before it looks at the tint. The two vector
+    // exponentials in sunlightColor are therefore skipped for the whole night.
+    vec3 sunTint = day > 0.0 ? sunlightColor() : vec3(0.0);
     float h = max(ray.y,0.0);
     float sunset = (1.0-smoothstep(0.03,0.35,abs(sun.y)))*smoothstep(-0.15,0.0,sun.y);
     // Below about six degrees under the horizon `day` is exactly zero and the

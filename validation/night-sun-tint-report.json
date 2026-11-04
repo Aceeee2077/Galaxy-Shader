@@ -1,0 +1,51 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "5ec86c0f7ecb2a4273ab68c170a9dd03904cbad90cf7eb29c50cc89d4d99cca9",
+  "resolution": [
+    240,
+    120
+  ],
+  "ray_elevation_degrees": [
+    3.0,
+    63.0
+  ],
+  "sky_ring_azimuth_degrees": [
+    0.0,
+    360.0
+  ],
+  "cases": {
+    "sun_-30_deg": {
+      "sun_elevation_degrees": -30.0,
+      "pixels": 28800,
+      "sun_tints_before": 28800,
+      "sun_tints_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_-12_deg": {
+      "sun_elevation_degrees": -12.0,
+      "pixels": 28800,
+      "sun_tints_before": 28800,
+      "sun_tints_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+0_deg": {
+      "sun_elevation_degrees": 0.0,
+      "pixels": 28800,
+      "sun_tints_before": 28800,
+      "sun_tints_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+35_deg": {
+      "sun_elevation_degrees": 35.0,
+      "pixels": 28800,
+      "sun_tints_before": 28800,
+      "sun_tints_after": 28800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the three-band sunlight tint is evaluated only while the day factor is nonzero; the night sky skips it and stays pixel-identical"
+}
