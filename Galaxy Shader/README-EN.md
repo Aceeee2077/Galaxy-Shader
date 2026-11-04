@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.52 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.53 · Community Project**
+
+**1.15.53 — low-end optimisation: the sky away from the sun skips the aureole exponentials (2026-11-04):** The compact glow around the sun is built from two Gaussian exponentials; the widest one has decayed past renderable precision by about 37 degrees from the disk and contributes zero. The shader nevertheless evaluated both vector exponentials for every sky pixel. It now tests the angular distance it already has and skips the window entirely. The aureole near the sun, the sky colour, the sun and moon disks and the star field are unchanged pixel for pixel. In the synthetic GPU fixture, a 5, 20, 45, 70 and 89-degree sun skips about 87, 80, 78, 85 and 89 percent of sky pixels respectively, and all five images match the previous build exactly. No option, texture or render target is added, and every player who looks up benefits at any resolution.
 
 **1.15.52 — alpenglow on the cloud deck (2026-11-04):** After the sun drops below the horizon the ground is already dark, but the cloud base can still be lit from below, so a high deck keeps a rose glow through twilight. The cloud march previously shaded only from the direct beam and ambient scatter, and the whole deck turned grey soon after sunset. A warm term now runs while the sun sits between about 1 and 17 degrees below the horizon: it leans orange-red and grows toward the sun, and it strengthens with cloud height. Above or deeper below that window the term is exactly zero and the image matches the previous build pixel for pixel. Overcast suppresses it. In the synthetic GPU fixture noon and deep night are identical to the previous build, twilight clouds are brighter overall with a red increment larger than the blue, and the sunward side gains more than the anti-solar side. No option, texture or render target is added.
 

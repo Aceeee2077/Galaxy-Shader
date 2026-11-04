@@ -1,0 +1,64 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "546f645de5c73164d9d71fa521d2c6809600db891619148aa1e82933176dc92a",
+  "resolution": [
+    360,
+    90
+  ],
+  "ray_elevation_degrees": [
+    3.0,
+    58.0
+  ],
+  "sky_ring_azimuth_degrees": [
+    0.0,
+    360.0
+  ],
+  "cases": {
+    "sun_5": {
+      "sun_elevation_degrees": 5.0,
+      "pixels": 32400,
+      "pixels_skipping": 28326,
+      "share_skipping": 0.8743,
+      "aureole_exponentials_before": 64800,
+      "aureole_exponentials_after": 8148,
+      "max_abs_difference": 0.0
+    },
+    "sun_20": {
+      "sun_elevation_degrees": 20.0,
+      "pixels": 32400,
+      "pixels_skipping": 26000,
+      "share_skipping": 0.8025,
+      "aureole_exponentials_before": 64800,
+      "aureole_exponentials_after": 12800,
+      "max_abs_difference": 0.0
+    },
+    "sun_45": {
+      "sun_elevation_degrees": 45.0,
+      "pixels": 32400,
+      "pixels_skipping": 25214,
+      "share_skipping": 0.7782,
+      "aureole_exponentials_before": 64800,
+      "aureole_exponentials_after": 14372,
+      "max_abs_difference": 0.0
+    },
+    "sun_70": {
+      "sun_elevation_degrees": 70.0,
+      "pixels": 32400,
+      "pixels_skipping": 27572,
+      "share_skipping": 0.851,
+      "aureole_exponentials_before": 64800,
+      "aureole_exponentials_after": 9656,
+      "max_abs_difference": 0.0
+    },
+    "sun_89": {
+      "sun_elevation_degrees": 89.0,
+      "pixels": 32400,
+      "pixels_skipping": 28958,
+      "share_skipping": 0.8938,
+      "aureole_exponentials_before": 64800,
+      "aureole_exponentials_after": 6884,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "pixels farther than about 37 degrees from the disk skip both aureole exponentials and are pixel-identical"
+}

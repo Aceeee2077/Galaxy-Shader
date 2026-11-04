@@ -173,10 +173,17 @@ vec3 atmosphere(vec3 ray, bool disks) {
     float radius=SUN_ANGULAR_RADIUS*(PI/180.0);
     float diskEdge=1.0-cos(radius);
     float haloDistance=max(solarAngle-diskEdge,0.0);
-    vec3 tightHalo=exp(-haloDistance*vec3(1400.0,1800.0,2400.0));
-    vec3 wideHalo=exp(-haloDistance*vec3(560.0,500.0,440.0));
-    vec3 haloColor=sunTint*tightHalo*1.70+
-                   mix(sunTint,vec3(0.72,0.82,1.0),0.55)*wideHalo*0.10;
+    // Both lobes are Gaussians in angular distance. Past roughly 37 degrees
+    // from the disk the widest one has decayed below float range, so the two
+    // vector exponentials are skipped there instead of being evaluated only to
+    // add zero.
+    vec3 haloColor=vec3(0.0);
+    if (solarAngle < diskEdge + 0.21) {
+        vec3 tightHalo=exp(-haloDistance*vec3(1400.0,1800.0,2400.0));
+        vec3 wideHalo=exp(-haloDistance*vec3(560.0,500.0,440.0));
+        haloColor=sunTint*tightHalo*1.70+
+                  mix(sunTint,vec3(0.72,0.82,1.0),0.55)*wideHalo*0.10;
+    }
     sky+=haloColor*day*smoothstep(-0.04,0.045,sun.y)*
          (1.0-overcast)*(1.0-0.95*eclipse)*SUN_INTENSITY;
     if (disks && ray.y>-0.02) {
