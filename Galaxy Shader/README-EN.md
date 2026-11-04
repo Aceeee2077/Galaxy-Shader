@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.47 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.48 · Community Project**
+
+**1.15.48 — low-end optimisation: high moon skips the lunar companions (2026-11-04):** Moon dogs and the lunar pillar only exist below about 24 degrees of lunar elevation, and both gates clamp to exactly zero above that, yet every sky pixel inside the halo cap still built the moon basis and evaluated an `atan` and two vertical profiles for light that was multiplied away. Both gates are now computed first and the whole block is skipped when they are zero; moon dogs, the lunar pillar and the lunar tangent arc keep their low-moon behaviour, and the solar branch is untouched. The synthetic GPU fixture counts `atan` calls inside the 37-degree cap: at 3, 10 and 20 degrees the count is unchanged, while 24, 30, 50 and 70 degrees drop from one azimuth trig call per cap pixel to none, with the image unchanged pixel for pixel. No option, texture or render target is added.
 
 **1.15.47 — low-end optimisation: high sun skips the halo dogs and pillar (2026-11-04):** Sun dogs only exist below about 25 degrees of solar elevation, and the sun pillar's gate clamps to exactly zero above about 20 degrees, yet every sky pixel inside the halo cap still evaluated two azimuth `atan` pairs, two `exp` calls and the full vertical profile for light patches that were multiplied away. Both blocks now return early when their gate is zero, and the light's elevation `asin` is hoisted to the top of the branch so the dogs and both tangent arcs share it. The synthetic GPU fixture counts `atan` calls inside the 37-degree cap: dogs still run at 5, 10 and 20 degrees, while 30, 50 and 70 degrees drop from three azimuth trig calls per pixel to one (about 67 percent skipped), with the image unchanged pixel for pixel. No option, texture or render target is added.
 

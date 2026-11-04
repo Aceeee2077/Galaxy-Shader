@@ -126,64 +126,67 @@ vec3 iceHalo(vec3 ray, vec3 lightDir, float visibility, vec3 tint, float lunar) 
                       smoothstep(0.0, 0.02, ray.y) * 0.10;
         }
     } else if (lunar > 0.5 && lightDir.y > -0.01) {
-        // A bright moon also draws a narrow pillar from the same plate
-        // crystals. It is dimmer and cooler than the solar shaft.
-        vec3 moonFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
-        vec3 moonSide = normalize(cross(vec3(0.0, 1.0, 0.0), moonFlat));
-        float moonAzimuth = atan(dot(ray, moonSide), dot(ray, moonFlat));
-        float elevation = asin(clamp(ray.y, -1.0, 1.0));
-        float moonElevation = asin(clamp(lightDir.y, -1.0, 1.0));
-        float aboveMoon = elevation - moonElevation;
         float pillarGate = smoothstep(-0.005, 0.035, lightDir.y) *
                            (1.0 - smoothstep(0.20, 0.34, lightDir.y));
-        if (pillarGate > 0.0) {
-            float pillar = exp(-pow(moonAzimuth / (1.8 * deg), 2.0));
-            if (aboveMoon >= 0.0) {
-                pillar *= exp(-aboveMoon / (8.0 * deg)) *
-                          (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveMoon));
-            } else {
-                pillar *= exp(aboveMoon / (3.0 * deg)) * 0.25;
-            }
-            result += vec3(0.72, 0.80, 1.0) * pillar * pillarGate *
-                      smoothstep(0.0, 0.02, ray.y) * 0.055;
-        }
-
         // Moon dogs: the same 22-degree parhelia, much fainter and cool. They
         // still need a low moon because the plate crystals must be near
         // horizontal to split the moonlight sideways.
         float lunarDogGate = smoothstep(0.015, 0.070, lightDir.y) *
                              (1.0 - smoothstep(0.24, 0.40, lightDir.y));
-        if (lunarDogGate > 0.0) {
-            float horizontal = max(length(lightDir.xz), 1e-4);
-            vec2 heading = lightDir.xz / horizontal;
-            float cs = cos(22.0 * deg);
-            float sn = sin(22.0 * deg);
-            vec2 leftHeading = vec2(heading.x * cs - heading.y * sn,
-                                    heading.x * sn + heading.y * cs);
-            vec2 rightHeading = vec2(heading.x * cs + heading.y * sn,
-                                     -heading.x * sn + heading.y * cs);
-            float dog = 0.0;
-            for (int i = 0; i < 2; i++) {
-                vec2 dogHeading = i == 0 ? leftHeading : rightHeading;
-                vec3 dogDir = vec3(dogHeading.x * horizontal, lightDir.y,
-                                   dogHeading.y * horizontal);
-                vec3 dogFlat = normalize(vec3(dogDir.x, 0.0, dogDir.z));
-                vec3 dogSide = normalize(cross(vec3(0.0, 1.0, 0.0), dogFlat));
-                float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
-                float vertical = elevation - moonElevation;
-                dog += exp(-pow(azimuth / (1.15 * deg), 2.0)) *
-                       exp(-pow(vertical / (2.8 * deg), 2.0));
+        // Above roughly 24 degrees both lunar companions clamp to zero.
+        // Skip the moon basis, its atan and both profiles entirely.
+        if (pillarGate > 0.0 || lunarDogGate > 0.0) {
+            // A bright moon also draws a narrow pillar from the same plate
+            // crystals. It is dimmer and cooler than the solar shaft.
+            vec3 moonFlat = normalize(vec3(lightDir.x, 0.0, lightDir.z));
+            vec3 moonSide = normalize(cross(vec3(0.0, 1.0, 0.0), moonFlat));
+            float moonAzimuth = atan(dot(ray, moonSide), dot(ray, moonFlat));
+            float elevation = asin(clamp(ray.y, -1.0, 1.0));
+            float moonElevation = asin(clamp(lightDir.y, -1.0, 1.0));
+            float aboveMoon = elevation - moonElevation;
+            if (pillarGate > 0.0) {
+                float pillar = exp(-pow(moonAzimuth / (1.8 * deg), 2.0));
+                if (aboveMoon >= 0.0) {
+                    pillar *= exp(-aboveMoon / (8.0 * deg)) *
+                              (1.0 - smoothstep(13.0 * deg, 20.0 * deg, aboveMoon));
+                } else {
+                    pillar *= exp(aboveMoon / (3.0 * deg)) * 0.25;
+                }
+                result += vec3(0.72, 0.80, 1.0) * pillar * pillarGate *
+                          smoothstep(0.0, 0.02, ray.y) * 0.055;
             }
-            result += vec3(0.76, 0.84, 1.0) * dog * lunarDogGate * 0.070;
+            if (lunarDogGate > 0.0) {
+                float horizontal = max(length(lightDir.xz), 1e-4);
+                vec2 heading = lightDir.xz / horizontal;
+                float cs = cos(22.0 * deg);
+                float sn = sin(22.0 * deg);
+                vec2 leftHeading = vec2(heading.x * cs - heading.y * sn,
+                                        heading.x * sn + heading.y * cs);
+                vec2 rightHeading = vec2(heading.x * cs + heading.y * sn,
+                                         -heading.x * sn + heading.y * cs);
+                float dog = 0.0;
+                for (int i = 0; i < 2; i++) {
+                    vec2 dogHeading = i == 0 ? leftHeading : rightHeading;
+                    vec3 dogDir = vec3(dogHeading.x * horizontal, lightDir.y,
+                                       dogHeading.y * horizontal);
+                    vec3 dogFlat = normalize(vec3(dogDir.x, 0.0, dogDir.z));
+                    vec3 dogSide = normalize(cross(vec3(0.0, 1.0, 0.0), dogFlat));
+                    float azimuth = atan(dot(ray, dogSide), dot(ray, dogFlat));
+                    float vertical = elevation - moonElevation;
+                    dog += exp(-pow(azimuth / (1.15 * deg), 2.0)) *
+                           exp(-pow(vertical / (2.8 * deg), 2.0));
+                }
+                result += vec3(0.76, 0.84, 1.0) * dog * lunarDogGate * 0.070;
 
-            // Lunar upper tangent arc: a pale cap tangent to the top of the
-            // ring, narrower and weaker than its solar counterpart.
-            float tangent = exp(-pow(moonAzimuth / (10.0 * deg), 2.0)) *
-                            smoothstep(19.5 * deg, 21.8 * deg, aboveMoon) *
-                            (1.0 - smoothstep(27.0 * deg, 32.0 * deg, aboveMoon)) *
-                            smoothstep(18.0 * deg, 20.5 * deg, theta) *
-                            (1.0 - smoothstep(26.0 * deg, 29.0 * deg, theta));
-            result += vec3(0.72, 0.80, 1.0) * tangent * lunarDogGate * 0.028;
+                // Lunar upper tangent arc: a pale cap tangent to the top of the
+                // ring, narrower and weaker than its solar counterpart.
+                float tangent = exp(-pow(moonAzimuth / (10.0 * deg), 2.0)) *
+                                smoothstep(19.5 * deg, 21.8 * deg, aboveMoon) *
+                                (1.0 - smoothstep(27.0 * deg, 32.0 * deg, aboveMoon)) *
+                                smoothstep(18.0 * deg, 20.5 * deg, theta) *
+                                (1.0 - smoothstep(26.0 * deg, 29.0 * deg, theta));
+                result += vec3(0.72, 0.80, 1.0) * tangent * lunarDogGate * 0.028;
+            }
         }
     }
 
