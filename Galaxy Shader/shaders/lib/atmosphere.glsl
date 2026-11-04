@@ -252,11 +252,17 @@ vec3 atmosphere(vec3 ray, bool disks) {
                                               frameTimeCounter,STAR_SCINTILLATION);
             float starBrightness = star*twinkle*0.7*(1.0-day)*(1.0-overcast)*
                                    smoothstep(0.0,0.2,ray.y);
+            // A star near the horizon shines through far more air, so it dims
+            // and reddens the same way the low moon does. Above about 25
+            // degrees the factor is exactly one and the star is untouched.
+            vec3 starExtinction = mix(vec3(0.78,0.52,0.34), vec3(1.0),
+                                      smoothstep(0.10,0.44,ray.y));
 #if STAR_COLOR > 0
             sky += starColour(hash12(floor(starUV)+57.1),
-                              hash12(floor(starUV)+31.7)) * starBrightness;
+                              hash12(floor(starUV)+31.7)) * starBrightness *
+                   starExtinction;
 #else
-            sky += vec3(starBrightness);
+            sky += vec3(starBrightness) * starExtinction;
 #endif
         }
 #if COSMIC_SKY_QUALITY > 0

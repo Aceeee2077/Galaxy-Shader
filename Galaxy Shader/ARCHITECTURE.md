@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.58 gives the star layer in `atmosphere` a horizon extinction tint: `mix(vec3(0.78,0.52,0.34), vec3(1.0), smoothstep(0.10,0.44,ray.y))`. It multiplies the existing star brightness inside the same night gate, so it costs three multiplications and leaves every other sky layer untouched; above about 26 degrees the factor is exactly one.
+
 1.15.57 wraps the whole daytime Rayleigh/Mie block in `atmosphere` in `if (day > 0.0)`. `dayAmount()` reaches exactly zero about six degrees below the horizon, and the block's result was already mixed out there, so the gate removes two vector exponentials, four `pow` calls and the fixed horizon tint from every sky pixel of the night without changing a single output value.
 
 1.15.56 makes the earthshine fill in `moonSky` phase-dependent. Seen from the Moon the Earth is full when the Moon is new, so the faint cool term on the unlit side is scaled by `0.45 + 1.10 * (1 - litFraction)`, which is exactly one at the quarter and peaks at new phase; the base colour is also lifted so the ashen light reads as about 2.7% of the sunlit surface. The factor reuses the `litFraction` already computed for the terminator, and the fill still only runs inside the disk branch, so the halo and the rest of the sky pay nothing.

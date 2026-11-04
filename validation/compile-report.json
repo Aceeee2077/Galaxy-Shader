@@ -19,8 +19,8 @@
   "driver_compile": "passed",
   "linked_unique_programs": 1062,
   "entrypoint_configuration_pairs": 2048,
-  "seconds": 150.93,
-  "shader_sha256": "d18f8d04b0a3ac348f9b3dba11dd8d6956ea24bec8acd97b6b5641e26abe6347",
+  "seconds": 148.72,
+  "shader_sha256": "76af69e05ca10779026458930e96d49d1b9cdf5ec5458a07975b5c0a085ecda2",
   "full_matrix": true,
   "game_validation": "User logs reproduced clear-color parsing and undefined format-token failures. Both fixed; full gameplay acceptance remains pending."
 }

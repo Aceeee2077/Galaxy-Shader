@@ -1,0 +1,29 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "e3de9951648e40260a3e143bc662bb2f7e62ed1aef75e079c98f87c1bb42f1c4",
+  "resolution": [
+    700,
+    420
+  ],
+  "ray_elevation_degrees": [
+    4.0,
+    28.0
+  ],
+  "sky_ring_azimuth_radians": [
+    1.2,
+    1.933
+  ],
+  "measured_band_degrees": [
+    4.0,
+    12.0
+  ],
+  "preview_gain": 1.5,
+  "loss_amplification": 2000.0,
+  "preview_pedestal": 0.0,
+  "preview": "Galaxy Shader/previews/star-extinction.png",
+  "red_loss": 1.30526,
+  "green_loss": 2.462051,
+  "blue_loss": 3.317535,
+  "stars_affected": 750,
+  "status": "rendered for visual review"
+}
