@@ -1,0 +1,18 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "81fc098f80cdc2488f8877bbd340609d189742f7d3f2af700980f950f0bacb45",
+  "resolution": [
+    720,
+    300
+  ],
+  "moon_phase": 3,
+  "field_of_view_degrees": 9.0,
+  "preview_gain": 1.8,
+  "preview_note": "gain clips the sunlit limb in both panels",
+  "preview": "Galaxy Shader/previews/moon-earthshine.png",
+  "mean_luminance_previous": 0.010525,
+  "lit_fraction": 0.1464,
+  "mean_luminance_with_earthshine": 0.012838,
+  "mean_luminance_delta": 0.002312,
+  "status": "rendered for visual review"
+}

@@ -81,7 +81,13 @@ vec3 moonSky(vec3 ray, float night, float overcast) {
 
         vec3 diskColor = vec3(0.96, 0.97, 1.0) * albedo * 1.55 * lit;
         // Earthshine: a faint cool fill on the unlit side, never a second moon.
-        diskColor += vec3(0.010, 0.014, 0.022) * (1.0 - lit) * (0.4 + 0.6 * limb);
+        // Seen from the Moon the Earth is full when the Moon is new and a thin
+        // crescent when the Moon is full, so the fill is strongest on a thin
+        // crescent and fades toward full phase. The quarter moon keeps the
+        // previous brightness, which is why the constant is exactly one there.
+        float earthshine = 0.45 + 1.10 * (1.0 - litFraction);
+        diskColor += vec3(0.028, 0.037, 0.058) * (1.0 - lit) * earthshine *
+                     (0.4 + 0.6 * limb);
         result += diskColor * disk;
     }
 

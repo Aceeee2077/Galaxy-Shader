@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.56 makes the earthshine fill in `moonSky` phase-dependent. Seen from the Moon the Earth is full when the Moon is new, so the faint cool term on the unlit side is scaled by `0.45 + 1.10 * (1 - litFraction)`, which is exactly one at the quarter and peaks at new phase; the base colour is also lifted so the ashen light reads as about 2.7% of the sunlit surface. The factor reuses the `litFraction` already computed for the terminator, and the fill still only runs inside the disk branch, so the halo and the rest of the sky pay nothing.
+
 1.15.55 guards the eclipse aureole and corona in `atmosphere` with the eclipse factor, which is zero outside a short annual window. The ordinary sky no longer evaluates that exponential or enters the corona function.
 
 1.15.54 tints `moonSky` with an elevation-driven extinction factor: the disk, earthshine and halo are multiplied by a warm orange at the horizon that returns to neutral above about 20 degrees. The factor is computed once from the moon direction, so the extra cost is one `smoothstep` and one `mix` inside the existing 25-degree moon cone.

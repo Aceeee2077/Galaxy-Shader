@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.55 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.56 · Community Project**
+
+**1.15.56 — earthshine follows the moon phase (2026-11-04):** Around new moon the Earth hangs nearly full in the lunar sky and bounces sunlight onto the Moon's far side, so the unlit part of a thin crescent shows a faint grey-blue glow: earthshine, the "old moon in the new moon's arms". The fill used to be a fixed, rather dim constant. It now follows the phase: the smaller the sunlit fraction and the fuller the Earth in the lunar sky, the stronger the fill. Quarter moons keep the previous strength, and at full phase almost no night side is visible so the change hides behind the disk. The fill is also brighter overall, about 2.7% of the sunlit surface, and still stays inside the disk; the halo, the stars and every other direction are unchanged pixel for pixel. In the synthetic GPU fixture the quarter-moon phase factor is exactly one and matches the fixed-coefficient build pixel for pixel, a thin crescent's night side is clearly brighter, and a full moon barely moves. No option, texture or render target is added. The image below is a synthetic GPU comparison of a thin crescent, new behaviour above and the previous build below, brightened for review with the sunlit limb clipping in both panels; it is not a gameplay capture.
+
+![Earthshine follows the moon phase (synthetic GPU comparison, new behaviour above, previous build below)](previews/moon-earthshine.png)
 
 **1.15.55 — low-end optimisation: the eclipse glow only runs during an eclipse (2026-11-04):** The warm eclipse aurora and its corona exist for a short window on one calendar day; for the rest of the year the factor is exactly zero, yet the shader evaluated an exponential and entered the corona function for every sky pixel. The pass now tests the eclipse factor it already computes and skips the block entirely when it is zero. The eclipse-day glow and corona are unchanged pixel for pixel. In the synthetic GPU fixture every ordinary-day sky pixel skips the exponential, every eclipse-day pixel still evaluates it, and both images match the previous build exactly. No option, texture or render target is added, and the saving lands on every sky pixel regardless of clouds or weather.
 
