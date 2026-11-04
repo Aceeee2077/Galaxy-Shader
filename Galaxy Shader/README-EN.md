@@ -1,6 +1,10 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.15.49 · Community Project**
+**Photorealistic Minecraft Shader · 1.15.50 · Community Project**
+
+**1.15.50 — the anthelion (2026-11-04):** The parhelic circle is a white horizontal band at the sun's own height; it now carries a faint white spot on the exact opposite side of the sky at the same height, about 20 degrees across. This is the anthelion of the real sky, and it shares the band with the sun-side patch and the 120-degree parhelia. It reuses the existing azimuth cosine, so it adds no trigonometry, texture or render target, and the sunward sky is unchanged pixel for pixel. The image below is a synthetic GPU panorama at a 22-degree sun centred on the anti-solar point, brightened 6x for preview, not a gameplay capture.
+
+![Anthelion (synthetic GPU panorama, brightened)](previews/anthelion.png)
 
 **1.15.49 — low-end optimisation: the parhelic band exits on a height bound (2026-11-04):** The parhelic circle is a white horizontal band at the sun's own height, only about half a degree tall; more than about 8.6 degrees away its exponential underflows to float zero, yet the shader evaluated that exponential for every sky pixel. A height test now skips the call outside the band window, leaving the band, the bright patch near the sun and the 120-degree parhelia unchanged pixel for pixel. The synthetic GPU fixture skips about 85, 78, 73, 53 and 68 percent of the calls at 5, 20, 40, 60 and 89 degrees of solar elevation. No option, texture or render target is added.
 

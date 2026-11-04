@@ -1,0 +1,16 @@
+{
+  "type": "Synthetic GPU panorama; not a Minecraft screenshot",
+  "shader_sha256": "cafb420fe79d303077739cc357f049aef601b2256752284f0c9a48e022bbcb7c",
+  "resolution": [
+    960,
+    360
+  ],
+  "sun_elevation_degrees": 22.0,
+  "azimuth_window_degrees": [
+    115.0,
+    245.0
+  ],
+  "preview_gain": 6.0,
+  "preview": "Galaxy Shader/previews/anthelion.png",
+  "status": "rendered for visual review"
+}

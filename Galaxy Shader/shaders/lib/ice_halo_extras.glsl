@@ -133,7 +133,13 @@ vec3 iceHaloCompanions(vec3 ray, vec3 sun, float visibility) {
                 dot(normalize(flatRay), flatSun) : 1.0;
             float nearSun = pow(max(azimuth, 0.0), 3.0);
             float parhelia = exp(-pow((acos(clamp(azimuth, -1.0, 1.0)) - 2.094) / 0.30, 2.0));
-            float strength = 0.35 + 0.65 * nearSun + 0.45 * parhelia;
+            // Anthelion: the band's faint 180-degree counterpart to the bright
+            // patch near the sun. `azimuth` is already the cosine to the sun,
+            // so the spot needs no new trigonometry: a high power of the
+            // anti-solar cosine gives a soft spot roughly 20 degrees across.
+            float anthelion = pow(max(-azimuth, 0.0), 48.0);
+            float strength = 0.35 + 0.65 * nearSun + 0.45 * parhelia +
+                             0.34 * anthelion;
             colour += vec3(0.86, 0.89, 0.96) * height * strength * visibility * 0.030;
         }
     }
