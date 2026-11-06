@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.0 begins the 1.16 series and gates the sunward fill in `skyIrradiance` on `lowSun * day`: `dawnDuskAmount()` is exactly zero above about 33 degrees and `dayAmount()` is exactly zero at night, so the `sunlightColor` evaluation is skipped for high sun and for the whole night while every output stays identical. The gate covers terrain, water and cloud ambient light, which all share the probe.
+
 1.15.63 adds a heiligenschein lobe to the foliage branch of `shadeSurface`: `pow(sat(dot(v, light)), 48)` computed as six squarings, gated by a morning dew window on `worldTime`, scaled by the surface cosine and shadow visibility, and tinted by the leaf albedo. The lobe is about ten degrees wide and sits on top of the shared `sunRadiance`, so it adds one dot product and six multiplications to vegetation and nothing to other blocks.
 
 1.15.62 hoists `directionalRadiance()` into a local in `shadeSurface` (`vec3 sunRadiance`), so the diffuse, thin-leaf transmission and bounce lobes share one evaluation instead of three. The function is pure over uniforms, so the outputs are bit-identical while the per-fragment transmittance exponentials are evaluated once. `translucent.fsh` does the same for water: the body fill, the solar glint and the shore foam reuse one `sunRadiance`, taking the water path from two evaluations to one and the shallow foam from a third.

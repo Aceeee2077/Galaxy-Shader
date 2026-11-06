@@ -1,0 +1,67 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "385b2e20591cc06358b80201bdda57755d1416b63b41e9c01fe6710f95d692bf",
+  "resolution": [
+    160,
+    80
+  ],
+  "normal_elevation_degrees": [
+    0.0,
+    90.0
+  ],
+  "normal_azimuth_degrees": [
+    0.0,
+    360.0
+  ],
+  "cases": {
+    "sun_-30_deg": {
+      "sun_elevation_degrees": -30.0,
+      "normals": 12800,
+      "sun_tints_before": 12800,
+      "sun_tints_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+0_deg": {
+      "sun_elevation_degrees": 0.0,
+      "normals": 12800,
+      "sun_tints_before": 12800,
+      "sun_tints_after": 12800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+10_deg": {
+      "sun_elevation_degrees": 10.0,
+      "normals": 12800,
+      "sun_tints_before": 12800,
+      "sun_tints_after": 12800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+25_deg": {
+      "sun_elevation_degrees": 25.0,
+      "normals": 12800,
+      "sun_tints_before": 12800,
+      "sun_tints_after": 12800,
+      "share_skipping": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+45_deg": {
+      "sun_elevation_degrees": 45.0,
+      "normals": 12800,
+      "sun_tints_before": 12800,
+      "sun_tints_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "sun_+80_deg": {
+      "sun_elevation_degrees": 80.0,
+      "normals": 12800,
+      "sun_tints_before": 12800,
+      "sun_tints_after": 0,
+      "share_skipping": 1.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "the sunward sky fill evaluates the sunlight tint only while the twilight gate is nonzero; high sun and deep night skip it and stay pixel-identical"
+}

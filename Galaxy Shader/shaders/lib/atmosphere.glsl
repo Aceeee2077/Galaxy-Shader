@@ -77,7 +77,12 @@ vec3 skyIrradiance(vec3 n) {
     horizon=mix(horizon,cloudy,overcast*0.85);
     float sunward=0.5+0.5*dot(n.xz,sunDirection().xz);
     vec3 upper=zenith*skyHemisphere+horizon*(1.0-abs(n.y))*0.24;
-    upper+=sunlightColor()*lowSun*day*sunward*(1.0-overcast)*0.025;
+    // The sunward fill only exists around dawn and dusk. `lowSun` is exactly
+    // zero above about 33 degrees and once the day factor is zero, so the
+    // expensive sunlight tint is skipped for the whole high-sun day and night.
+    float twilightSun=lowSun*day;
+    if (twilightSun>0.0)
+        upper+=sunlightColor()*twilightSun*sunward*(1.0-overcast)*0.025;
     // Warm ground bounce opens outdoor shade without lifting closed caves.
     vec3 ground=mix(vec3(0.003,0.004,0.006)*NIGHT_BRIGHTNESS,
                     vec3(0.080,0.067,0.047),day)*(1.0-skyHemisphere);
