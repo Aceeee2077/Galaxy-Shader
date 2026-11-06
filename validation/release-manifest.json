@@ -1,7 +1,7 @@
 {
-  "archive_sha256": "9dba1ccb16200d7dbdbec41a406870363bc0de3065fa00352b66b5c591e49e3c",
-  "shader_sha256": "0aca424a354eea3cd3f8f83cf56a5d0fe1e44a73ecc157618e5586e0ac19126d",
-  "files": 387,
+  "archive_sha256": "5391a5fe013436d3bebab98b6a6974b8f4c4b53710cec54455893fa4da9f5095",
+  "shader_sha256": "7567775289ce64dd47ecf2095d99e323b93bca6c52e4e2dc78206402d745c33d",
+  "files": 388,
   "zip_root": "shaders/",
   "archive_verified": true,
   "game_acceptance": "pending"

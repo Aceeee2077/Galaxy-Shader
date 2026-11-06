@@ -43,6 +43,25 @@ vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
     // Lightmap and AO gates reject closed caves and deep crevices.
     direct+=m.albedo*(1.0-m.metal)*sunRadiance*0.035*
             (1.0-shadow)*pow(sat(lm.y),4.0)*m.ao;
+    // Heiligenschein: on a dewy morning, droplets on grass and leaves focus
+    // light straight back along the incoming ray, so the ground glows around
+    // the antisolar point, where the observer's own shadow falls. The dew
+    // window is the first hours after sunrise; rain replaces dew and dims it.
+    if (foliage > 0.5) {
+        float clock = float(worldTime % 24000);
+        float dew = 1.0 - smoothstep(2000.0, 4600.0, clock);
+        // A narrow backscatter lobe, about ten degrees wide at half height.
+        // Six squarings keep it to multiplies on the low-end paths.
+        float s = sat(dot(v, light));
+        float s2 = s * s;
+        float s4 = s2 * s2;
+        float s8 = s4 * s4;
+        float s16 = s8 * s8;
+        float retro = s16 * s16 * s16; // s^48
+        direct += m.albedo * sunRadiance * retro * dew * shadow *
+                  (0.35 + 0.65 * nl) * 0.45 *
+                  (1.0 - 0.70 * weatherRainAmount());
+    }
 #elif DIMENSION == 1
     shadow=shadowVisibility(player,m.normal,true);
     direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*vec3(0.90,0.80,0.58)*shadow;

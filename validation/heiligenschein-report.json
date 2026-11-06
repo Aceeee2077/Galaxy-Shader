@@ -1,0 +1,16 @@
+{
+  "type": "Synthetic GPU preview; not a Minecraft screenshot",
+  "shader_sha256": "014202706c745c11002c1477c411e3b53ce04c05c5b37a903c8087c359790e2a",
+  "resolution": [
+    640,
+    360
+  ],
+  "world_time": 1000,
+  "sun_elevation_degrees": 10.0,
+  "preview_gain": 1.0,
+  "preview": "Galaxy Shader/previews/heiligenschein.png",
+  "mean_green_previous": 0.210257,
+  "mean_green_with_glow": 0.217947,
+  "peak_added_green": 0.218018,
+  "status": "rendered for visual review"
+}

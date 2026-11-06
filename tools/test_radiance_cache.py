@@ -21,6 +21,8 @@ LEAF_NEW = '(0.06+0.36*forward)*(1.0-nl)*sunRadiance*shadow;'
 LEAF_OLD = '(0.06+0.36*forward)*(1.0-nl)*directionalRadiance()*shadow;'
 BOUNCE_NEW = 'direct+=m.albedo*(1.0-m.metal)*sunRadiance*0.035*'
 BOUNCE_OLD = 'direct+=m.albedo*(1.0-m.metal)*directionalRadiance()*0.035*'
+HEIL_NEW = 'direct += m.albedo * sunRadiance * retro * dew * shadow *'
+HEIL_OLD = 'direct += m.albedo * directionalRadiance() * retro * dew * shadow *'
 DEFINITION = 'vec3 directionalRadiance() {'
 RENAMED = 'vec3 radianceCore() {'
 WRAPPER = '''
@@ -40,7 +42,7 @@ void main() {
 
 def shader_source(old=False):
     core = expand(SHADERS / 'lib/common.glsl') + expand(SHADERS / 'lib/lighting.glsl')
-    for snippet in (DECL_NEW, DIRECT_NEW, LEAF_NEW, BOUNCE_NEW):
+    for snippet in (DECL_NEW, DIRECT_NEW, LEAF_NEW, BOUNCE_NEW, HEIL_NEW):
         assert core.count(snippet) == 1, snippet
     assert core.count(DEFINITION) == 1
     if old:
@@ -48,6 +50,7 @@ def shader_source(old=False):
         core = core.replace(DIRECT_NEW, DIRECT_OLD)
         core = core.replace(LEAF_NEW, LEAF_OLD)
         core = core.replace(BOUNCE_NEW, BOUNCE_OLD)
+        core = core.replace(HEIL_NEW, HEIL_OLD)
     core = core.replace(DEFINITION, RENAMED)
     head = ('#version 330 compatibility\n#define DIMENSION 0\n#define vCloudShadow 1.0\n'
             'float radianceCalls=0.0;\nvec3 directionalRadiance();\n')
