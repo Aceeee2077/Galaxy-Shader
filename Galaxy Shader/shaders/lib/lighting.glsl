@@ -28,15 +28,20 @@ vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
     float foliage=step(10000.5,id)*step(id,10005.5);
     if ((nl>0.0 || foliage>0.5) && lm.y>0.02) shadow=shadowVisibility(player,m.normal,true);
     shadow*=vCloudShadow*smoothstep(0.02,0.40,lm.y);
-    direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*directionalRadiance()*shadow;
+    // The direct, leaf-transmission and bounce lobes all share the same sun and
+    // moon radiance. Evaluate it once: every call repeats the atmospheric
+    // transmittance exponentials, and opaque terrain is the budget that decides
+    // whether a low-end GPU keeps its frame rate.
+    vec3 sunRadiance=directionalRadiance();
+    direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*sunRadiance*shadow;
     // Thin leaves/grass transmit a bounded warm lobe when viewed against the
     // sun. The same shadow visibility prevents transmission through terrain.
     float forward=pow(max(dot(-v,light),0.0),5.0);
     direct+=sqrt(max(m.albedo,vec3(0.0)))*foliage*(1.0-m.metal)*
-            (0.06+0.36*forward)*(1.0-nl)*directionalRadiance()*shadow;
+            (0.06+0.36*forward)*(1.0-nl)*sunRadiance*shadow;
     // Warm bounce complements the sky probe in outdoor shade.
     // Lightmap and AO gates reject closed caves and deep crevices.
-    direct+=m.albedo*(1.0-m.metal)*directionalRadiance()*0.035*
+    direct+=m.albedo*(1.0-m.metal)*sunRadiance*0.035*
             (1.0-shadow)*pow(sat(lm.y),4.0)*m.ao;
 #elif DIMENSION == 1
     shadow=shadowVisibility(player,m.normal,true);

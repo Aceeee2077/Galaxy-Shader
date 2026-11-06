@@ -58,7 +58,11 @@ void main() {
         float turbidity=rain*(0.35+storm*0.35);
         vec3 absorb=exp(-WATER_ABSORPTION*(thickness*(1.0+turbidity))*FOG_DENSITY/WATER_CLARITY);
         vec3 biome=mix(vec3(0.010,0.065,0.075),toLinear(vColor.rgb)*0.16,0.25);
-        vec3 waterLight=ambientRadiance(vec3(0,1,0),vLight.y)+directionalRadiance()*0.12;
+        // Water reuses one radiance for the body fill, the solar glint and the
+        // shore foam, so a water fragment evaluates the atmospheric
+        // transmittance once instead of up to three times.
+        vec3 sunRadiance=directionalRadiance();
+        vec3 waterLight=ambientRadiance(vec3(0,1,0),vLight.y)+sunRadiance*0.12;
         vec3 transmission=behind*absorb+biome*waterLight*(1.0-absorb);
         transmission=mix(transmission,biome*0.85,turbidity*0.16);
         float f0=pow((WATER_REFRACT_IOR-1.0)/(WATER_REFRACT_IOR+1.0),2.0);
@@ -83,7 +87,7 @@ void main() {
         vec3 spec=vec3(0.0);
 #if DIMENSION == 0
         // A single shadow tap keeps the sun glint without a PCSS blocker search.
-        spec=specularBRDF(m,safeNormalize(-vPlayer),lightDirection())*directionalRadiance()*
+        spec=specularBRDF(m,safeNormalize(-vPlayer),lightDirection())*sunRadiance*
              shadowVisibility(vPlayer,n,false)*vCloudShadow*smoothstep(0.05,0.4,vLight.y);
 #endif
         vec3 stormHighlight=lightningBoltPosition.w*vec3(0.42,0.56,0.82)*
@@ -98,7 +102,7 @@ void main() {
                            (0.55+0.45*sin(thickness*9.0-frameTimeCounter*2.2));
             vec3 foamLight=ambientRadiance(vec3(0.0,1.0,0.0),vLight.y);
 #if DIMENSION == 0
-            foamLight+=directionalRadiance()*max(lightDirection().y,0.0)*
+            foamLight+=sunRadiance*max(lightDirection().y,0.0)*
                        shadowVisibility(vPlayer,geometric,false)*vCloudShadow;
 #endif
             color=mix(color,vec3(0.72,0.80,0.82)*foamLight,sat(foamBand*0.45));

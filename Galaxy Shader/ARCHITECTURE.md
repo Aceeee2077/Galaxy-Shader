@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.15.62 hoists `directionalRadiance()` into a local in `shadeSurface` (`vec3 sunRadiance`), so the diffuse, thin-leaf transmission and bounce lobes share one evaluation instead of three. The function is pure over uniforms, so the outputs are bit-identical while the per-fragment transmittance exponentials are evaluated once. `translucent.fsh` does the same for water: the body fill, the solar glint and the shore foam reuse one `sunRadiance`, taking the water path from two evaluations to one and the shallow foam from a third.
+
 1.15.61 scales the aurora by `1 - smoothstep(-0.20, -0.05, sun.y)` so the curtains ramp in between about 3 and 11.5 degrees of solar depression instead of snapping on when `day` reaches zero. When the factor is zero the `auroraSky` and `auroraCorona` calls are skipped inside the existing cosmic block, which removes the most expensive twilight work while the galaxy and meteors continue to run.
 
 1.15.60 adds an analytic evening star to the disk block of `atmosphere`. The planet direction is `normalize(sun * cos(e) + up * sin(e))` with `e = 0.34 + 0.26 * sin(worldDay * 0.0215)`, so it stays above the Sun and drifts over the synodic cycle. Two `exp` lobes in squared angular distance draw the core and its glow without an `acos`, and the whole block sits behind a twilight gate that is exactly zero for a high or a deep-set Sun.

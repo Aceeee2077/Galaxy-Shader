@@ -1,0 +1,48 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "daca0ef6493eac9856fcd17a0462d24e5d7d03e1f015b68cc167247a9e6b048b",
+  "resolution": [
+    16,
+    16
+  ],
+  "pixels": 256,
+  "cases": {
+    "noon": {
+      "radiance_calls_before": 768.0,
+      "radiance_calls_after": 256.0,
+      "calls_saved_per_pixel": 2.0,
+      "max_abs_difference": 0.0
+    },
+    "golden_hour": {
+      "radiance_calls_before": 768.0,
+      "radiance_calls_after": 256.0,
+      "calls_saved_per_pixel": 2.0,
+      "max_abs_difference": 0.0
+    },
+    "night": {
+      "radiance_calls_before": 768.0,
+      "radiance_calls_after": 256.0,
+      "calls_saved_per_pixel": 2.0,
+      "max_abs_difference": 0.0
+    },
+    "cave": {
+      "radiance_calls_before": 768.0,
+      "radiance_calls_after": 256.0,
+      "calls_saved_per_pixel": 2.0,
+      "max_abs_difference": 0.0
+    },
+    "rain": {
+      "radiance_calls_before": 768.0,
+      "radiance_calls_after": 256.0,
+      "calls_saved_per_pixel": 2.0,
+      "max_abs_difference": 0.0
+    },
+    "storm": {
+      "radiance_calls_before": 768.0,
+      "radiance_calls_after": 256.0,
+      "calls_saved_per_pixel": 2.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "shared radiance matches the previous shading while each terrain fragment evaluates the transmittance chain once instead of three times"
+}
