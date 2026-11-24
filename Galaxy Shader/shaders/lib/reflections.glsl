@@ -26,8 +26,10 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
 #if SSR_QUALITY > 0
     if(roughness>0.62 || direction.z>0.05) return result;
 #if SSR_QUALITY == 1
-    const int count=8;
-    const float maxDistance=36.0;
+    // Six adaptive steps cover the near contacts that matter at the low
+    // profile; the previous eight spent two extra fetches on the far tail.
+    const int count=6;
+    const float maxDistance=34.0;
 #elif SSR_QUALITY == 2
     const int count=14;
     const float maxDistance=52.0;

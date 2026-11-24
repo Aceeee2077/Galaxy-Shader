@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.15 reduces only the `SSR_QUALITY == 1` march in `reflections.glsl` from eight steps and 36 blocks to six steps and 34 blocks. The near-camera step curve, depth thickness test, refinement and confidence terms are unchanged; higher SSR profiles keep their budgets. `tools/test_ssr_low.py` compiles the real low branch and checks the source budget.
+
 1.16.14 reduces only the `AO_QUALITY == 1` loop in `gtao.glsl` from three directions to two. The projected world radius, normal weight, range weight and silhouette rejection are unchanged, so the low profile keeps its broad horizon occlusion with four depth fetches instead of six. Higher AO profiles keep their budgets. `tools/test_ao_low.py` checks the compiled low branch, source budget and bounded output.
 
 1.16.13 extracts `blurRoughReflection` in `reflections.glsl`. `SSR_QUALITY >= 4` uses the centre at 0.40 and four axis taps at 0.15 each; lower profiles keep the previous centre plus diagonal cross. The sampled UV, hit confidence and distance fade are untouched, so only the rough reflection kernel changes. `tools/test_ssr_rough.py` checks the normalized constant field and the top branch.
