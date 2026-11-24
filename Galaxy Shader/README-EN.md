@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.20 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.21 · Community Project**
+
+**1.16.21 — End giant: ring shadow on the planet (2026-11-24):** Direct light on the giant now checks whether the surface-to-star line crosses the ring annulus. A crossing keeps 35% of the direct light, producing a soft ring shadow; points outside the annulus stay fully lit. The ring's own planet shadow, band noise, surface texture and orbit are unchanged. The fixture checks an annulus hit, an overhead star and the integration line. No option, texture, lookup or render target is added.
 
 **1.16.20 — top-profile weather: slow rain gust shear (2026-11-24):** `WEATHER_QUALITY 4` adds a slow world-space sine gust on top of the fixed wind, bending the whole streak field slightly. Profiles 0–3 return exactly zero and keep their old silhouette, density, brightness and far fade. The fixture checks the top/gust and low/zero branches. No option, texture, lookup or render target is added.
 
@@ -370,9 +372,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.16.20.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.16.21.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.16.20.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.16.21.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

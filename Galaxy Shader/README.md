@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.20 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.21 · Community Project**
+
+**1.16.21 末地巨行星：行星环阴影（2026-11-24）：** 巨星表面的直射光现在会检查表面点到恒星的光线是否穿过环带；穿过时保留 35% 直射光，环外完全受光，形成柔和的行星环阴影。环自身的行星遮挡、噪声、表面纹理与轨道不变。合成 GPU 测试确认环带命中、正上方恒星与调用位置。不新增选项、贴图、查表或渲染目标。
 
 **1.16.20 顶配天气：雨线慢阵风切变（2026-11-24）：** `WEATHER_QUALITY 4` 在固定风向之外叠加缓慢变化的正弦阵风，让整片雨幕轻微弯曲；0–3 档切变精确为 0，雨线密度/亮度/远场淡化不变。合成 GPU 测试确认顶层非零、低配为零。不新增选项、贴图、查表或渲染目标。
 
@@ -370,9 +372,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.16.20.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.16.21.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.16.20.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.16.21.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

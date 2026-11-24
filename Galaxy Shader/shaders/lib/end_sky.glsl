@@ -26,6 +26,23 @@ vec3 endStars(vec3 ray, float footprint) {
 }
 // Only the reference-inspired ringed giant remains.
 const float END_GIANT_RADIUS=13.0;
+// The ring casts a soft shadow on the giant when the line from a surface
+// point to the star crosses the ring annulus. Outside the annulus the point is
+// fully lit; inside it keeps 35% of the direct light.
+float endRingShadow(vec3 p, vec3 center, vec3 star, vec3 ringNormal) {
+    vec3 toStar=safeNormalize(star-p);
+    float denom=dot(toStar,ringNormal);
+    if(abs(denom)<0.001) return 1.0;
+    float t=dot(center-p,ringNormal)/denom;
+    if(t<=0.0) return 1.0;
+    float r=length(p+toStar*t-center);
+    float inner=END_GIANT_RADIUS*1.22;
+    float outer=END_GIANT_RADIUS*3.3;
+    float inside=smoothstep(inner*0.96,inner*1.04,r)*
+                 (1.0-smoothstep(outer*0.96,outer*1.04,r));
+    return 1.0-0.65*inside;
+}
+
 vec3 endGiantCenter(float phase) {
     return vec3(-26.0*cos(phase),15.0+2.0*sin(phase),-38.0-8.0*sin(phase));
 }
@@ -147,12 +164,14 @@ vec3 endCosmos(vec3 ray, bool disks) {
     float nearest=1e5;
     sky+=endRift(ray,starCenter,footprint,phase);
     vec3 center=endGiantCenter(phase);
+    vec3 ringNormal=normalize(vec3(0.20,1.0,0.32));
     float radius=END_GIANT_RADIUS;
     float planetHit=endSphere(ray,center,radius);
     if(planetHit<nearest) {
         vec3 n=normalize(ray*planetHit-center);
         vec3 light=normalize(starCenter-(ray*planetHit));
         float lit=max(dot(n,light),0.0);
+        lit*=endRingShadow(ray*planetHit,center,starCenter,ringNormal);
         float spin=2.0*PI*fract(frameTimeCounter*END_ORBIT_SPEED*8.0/3600.0);
         vec3 surface=endGiantSurface(n,spin);
         float rim=pow(1.0-max(dot(n,-ray),0.0),3.0);
@@ -166,7 +185,6 @@ vec3 endCosmos(vec3 ray, bool disks) {
     if(dot(ray,center)-radius<=nearest)
         sky+=endGiantGlow(ray,center,radius,starCenter);
     // Depth-test the giant's ring against its body and the black hole.
-    vec3 ringNormal=normalize(vec3(0.20,1.0,0.32));
     float denom=dot(ray,ringNormal);
     if(abs(denom)>0.001) {
         float hit=dot(center,ringNormal)/denom;

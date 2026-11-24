@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.21 adds `endRingShadow`: it intersects the surface-to-star ray with the ring plane and darkens the planet only when the hit radius lies in the ring annulus. The annulus edges use a small smoothstep, so the shadow has a soft rim. The ring's own planet shadow, band noise, surface texture and orbit are unchanged. `tools/test_end_ring_shadow.py` exercises an annulus hit, an overhead star and the integration line.
+
 1.16.20 adds `rainWindShear`, which is exactly zero below `WEATHER_QUALITY 4` and a slow world-space sine gust at the top profile. `weather.fsh` adds 0.018 of it to the existing wind shear before sampling the streak atlas, so the average direction, density, far fade and lightning terms are unchanged; lower profiles keep their exact old silhouette. `tools/test_rain_shear.py` checks the top/gust and low/zero branches.
 
 1.16.19 raises the top motion-blur loop to fifteen taps and weights sample i by `1 - |i/count - 0.5|`, a triangular shutter profile. The centre of the shutter therefore contributes more than the ends, avoiding a flat average during fast pans. Lower profiles keep uniform weights and their existing counts; velocity scaling, depth rejection and hand exclusion are shared. `tools/test_motion_high.py` checks the top branch.
