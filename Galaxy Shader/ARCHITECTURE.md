@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.16 gates the second, finer particle-noise octave on `PARTICLE_LAYER > 1`. The low profile evaluates one broad `particleNoise3` field instead of blending two, cutting three valueNoise calls while keeping the sparse world-space distribution. The density threshold, drift, weather mix and distance fade are unchanged. `tools/test_particle_low.py` checks the low/high source branches and a finite render.
+
 1.16.15 reduces only the `SSR_QUALITY == 1` march in `reflections.glsl` from eight steps and 36 blocks to six steps and 34 blocks. The near-camera step curve, depth thickness test, refinement and confidence terms are unchanged; higher SSR profiles keep their budgets. `tools/test_ssr_low.py` compiles the real low branch and checks the source budget.
 
 1.16.14 reduces only the `AO_QUALITY == 1` loop in `gtao.glsl` from three directions to two. The projected world radius, normal weight, range weight and silhouette rejection are unchanged, so the low profile keeps its broad horizon occlusion with four depth fetches instead of six. Higher AO profiles keep their budgets. `tools/test_ao_low.py` checks the compiled low branch, source budget and bounded output.

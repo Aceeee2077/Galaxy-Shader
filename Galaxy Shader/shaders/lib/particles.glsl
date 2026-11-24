@@ -65,7 +65,13 @@ vec3 particleLayer(vec3 world, float viewDistance) {
     vec3 drift = vec3(wind.x, 0.0, wind.y) * windStrength * driftTime * 0.35;
     drift.y += ember > 0.0 ? driftTime * 0.60 : -driftTime * 0.20;
     vec3 p = world * scale + drift;
+#if PARTICLE_LAYER == 1
+    // The sparse low profile keeps the broad field and drops the second
+    // fine-scale noise octave: three valueNoise calls instead of six.
+    float n = particleNoise3(p);
+#else
     float n = particleNoise3(p) * 0.70 + particleNoise3(p * 2.7 + vec3(4.1)) * 0.30;
+#endif
     float threshold = PARTICLE_LAYER == 1 ? 0.70 : 0.62;
     float speck = pow(smoothstep(threshold, 0.98, n), 2.5);
     float distanceFade = exp(-viewDistance * 0.045);
