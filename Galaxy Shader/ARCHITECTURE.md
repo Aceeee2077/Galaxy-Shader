@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.6 adds a variance envelope to the top TAA profile. The 3×3 YCoCg neighborhood still supplies min/max bounds for TAA 1/2; TAA 3 also accumulates mean and squared mean and, when the reprojected motion exceeds half a pixel, clamps history to mean ±1.5σ; a still frame keeps min/max so repeated rendering cannot oscillate. A lone bright ghost inside an otherwise flat neighborhood is no longer admitted just because one pixel matches it. `tools/test_taa_variance.py` compares the old min/max clamp against the new envelope.
+
 1.16.5 adds a compile-time gate to `cloudShadow`: when `CLOUD_SHADOW_STRENGTH` is zero, the density term cannot change the returned 1.0, so the fbm lookup is skipped per vertex. The default 0.8 and every non-zero strength keep the original path. `tools/test_cloud_shadow_gate.py` proves zero density calls and pixel-identical output.
 
 1.16.4 changes only the `CLOUD_QUALITY == 2` budget in `cloudLightShadow`: one 72-block light sample replaces two samples at roughly 35 and 63 blocks. The integrated optical path is close to the old span, so the broad self-shadow gradient survives with half the density evaluations. `tools/test_cloud_low_shadow.py` counts the calls and bounds the change against the old two-sample build at four cloud heights.

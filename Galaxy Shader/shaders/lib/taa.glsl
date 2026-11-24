@@ -46,7 +46,7 @@ float temporalDepth(vec2 uv, float depth) {
 // diagonals are the taps least likely to catch a moving edge, so dropping them
 // saves four texture fetches per resolved pixel at the cost of a marginally
 // tighter clamp on diagonal motion.
-vec3 clampTemporalHistory(sampler2D current, vec2 uv, vec3 history) {
+vec3 clampTemporalHistory(sampler2D current, vec2 uv, vec3 history, float motionPixels) {
     vec3 lo = vec3(1e20), hi = vec3(-1e20);
     vec2 px = pixelSize();
 #if TAA_QUALITY == 1
@@ -60,14 +60,36 @@ vec3 clampTemporalHistory(sampler2D current, vec2 uv, vec3 history) {
         hi = max(hi, sampleColor);
     }
 #else
+#if TAA_QUALITY >= 3
+    vec3 sum = vec3(0.0), sumSq = vec3(0.0);
+#endif
     for (int y = -1; y <= 1; ++y) {
         for (int x = -1; x <= 1; ++x) {
             vec2 suv = clamp(uv + vec2(x, y) * px, px * 0.5, 1.0 - px * 0.5);
             vec3 sampleColor = rgbToYCoCg(texture2D(current, suv).rgb);
             lo = min(lo, sampleColor);
             hi = max(hi, sampleColor);
+#if TAA_QUALITY >= 3
+            sum += sampleColor;
+            sumSq += sampleColor * sampleColor;
+#endif
         }
     }
+#if TAA_QUALITY >= 3
+    // Min/max clipping still admits a single bright historical outlier when
+    // the 3x3 neighborhood contains one matching pixel. On a moving camera,
+    // replace the bounds with a mean +/- 1.5 sigma YCoCg envelope: static
+    // detail stays inside it, while a lone ghost is pulled toward the local
+    // mean before it can persist for another frame. A still frame keeps the
+    // min/max bounds so repeated rendering cannot oscillate.
+    if (motionPixels > 0.5) {
+        vec3 mean = sum / 9.0;
+        vec3 variance = max(sumSq / 9.0 - mean * mean, vec3(0.0));
+        vec3 sigma = sqrt(variance);
+        lo = mean - sigma * 1.5;
+        hi = mean + sigma * 1.5;
+    }
+#endif
 #endif
     return max(yCoCgToRgb(clamp(rgbToYCoCg(history), lo, hi)), vec3(0.0));
 }
@@ -97,7 +119,8 @@ vec4 resolveTemporal(vec2 uv) {
         return vec4(current, storedDepth);
     }
 
-    vec3 history = clampTemporalHistory(colortex0, uv, historySample.rgb);
+    float motionPixels = length((previousUV - uv) * vec2(viewWidth, viewHeight));
+    vec3 history = clampTemporalHistory(colortex0, uv, historySample.rgb, motionPixels);
 #if TAA_QUALITY == 1
     float baseWeight = 0.82;
 #elif TAA_QUALITY == 2
@@ -105,7 +128,6 @@ vec4 resolveTemporal(vec2 uv) {
 #else
     float baseWeight = 0.92;
 #endif
-    float motionPixels = length((previousUV - uv) * vec2(viewWidth, viewHeight));
     float motionWeight = 1.0 - smoothstep(0.5, 18.0, motionPixels);
     float colorDelta = abs(luminance(history) - luminance(current)) /
                        max(max(luminance(history), luminance(current)), 0.08);
