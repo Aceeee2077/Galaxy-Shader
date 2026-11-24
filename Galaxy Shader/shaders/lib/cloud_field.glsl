@@ -17,6 +17,9 @@ float cloudDensity(vec2 position) {
 
 float cloudShadow(vec3 world) {
 #if DIMENSION == 0 && CLOUD_QUALITY > 0
+    // A zero strength makes the density term exactly zero. Skip the noise
+    // lookup entirely instead of evaluating it and multiplying by zero.
+    if (CLOUD_SHADOW_STRENGTH <= 0.0) return 1.0;
     vec3 l = lightDirection();
     vec2 p = world.xz+l.xz*clamp((280.0-world.y)/max(l.y,0.08),0.0,4000.0);
     // Photon 1.3 defaults to 80% cloud-shadow strength. Keep cloud coverage

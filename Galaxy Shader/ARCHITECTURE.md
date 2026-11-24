@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.5 adds a compile-time gate to `cloudShadow`: when `CLOUD_SHADOW_STRENGTH` is zero, the density term cannot change the returned 1.0, so the fbm lookup is skipped per vertex. The default 0.8 and every non-zero strength keep the original path. `tools/test_cloud_shadow_gate.py` proves zero density calls and pixel-identical output.
+
 1.16.4 changes only the `CLOUD_QUALITY == 2` budget in `cloudLightShadow`: one 72-block light sample replaces two samples at roughly 35 and 63 blocks. The integrated optical path is close to the old span, so the broad self-shadow gradient survives with half the density evaluations. `tools/test_cloud_low_shadow.py` counts the calls and bounds the change against the old two-sample build at four cloud heights.
 
 1.16.3 reduces the low bloom profile from a 4×4 bright-pass footprint and five-tap Gaussian to a 2×2 footprint and normalized three-tap blur. Both kernels preserve a constant field exactly (up to texture filtering), so the bloom energy is unchanged while `composite1` saves twelve fetches and each blur pass saves two. `tools/test_bloom_low.py` compares the constant-field means and checks the low branches used by `composite1/2/3`.
