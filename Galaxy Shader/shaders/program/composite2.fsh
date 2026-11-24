@@ -11,6 +11,11 @@ void main() {
     if (BLOOM_STRENGTH > 0.0) {
 #if BLOOM_QUALITY == 1
         bloom=gaussianBlurLow(colortex5,texcoord,vec2(pixelSize().x*4.0,0.0));
+#elif BLOOM_QUALITY >= 3
+        // Two radii: keep the compact highlight and add a wider, softer halo.
+        vec3 narrow=gaussianBlur(colortex5,texcoord,vec2(pixelSize().x*4.0,0.0));
+        vec3 wide=gaussianBlur(colortex5,texcoord,vec2(pixelSize().x*8.0,0.0));
+        bloom=mix(narrow,wide,0.35);
 #else
         bloom=gaussianBlur(colortex5,texcoord,vec2(pixelSize().x*4.0,0.0));
 #endif

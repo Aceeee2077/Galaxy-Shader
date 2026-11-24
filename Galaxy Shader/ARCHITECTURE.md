@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.11 gives only `BLOOM_QUALITY >= 3` a second blur radius in `composite2/3`: the existing four-pixel Gaussian and an eight-pixel Gaussian are blended 65/35 horizontally and vertically. The compact highlight survives while a wider halo is added without another render target. Lower bloom profiles keep the three-tap or five-tap path. `tools/test_bloom_high.py` checks the constant-field mean and the real composite branches.
+
 1.16.10 adds `crestFoamAmount` to `water.glsl` and uses it only in the `WATER_QUALITY >= 3` branch of `translucent.fsh`. The amount is the product of a steep-slope gate, a broken-crest noise gate and a storm scale; calm water and a flat crest are exactly zero. The crest noise drifts with the same wind direction as the wave field, and the foam reuses the ambient plus shadowed sun light rather than a new probe.
 
 1.16.9 multiplies the GGX Fresnel term by `1 + roughness * 0.175` after the existing distribution and visibility terms. This bounded multiple-scattering approximation restores some energy lost to microfacet shadowing on rough surfaces; at roughness zero the factor is exactly one, so mirrors and the existing smooth-metal look are unchanged. `tools/test_pbr_energy.py` verifies the mirror invariance and the bounded rough-metal gain.
