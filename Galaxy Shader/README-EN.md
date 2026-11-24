@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.17 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.18 · Community Project**
+
+**1.16.18 — top-profile DOF: bokeh rim weight (2026-11-24):** `DOF_QUALITY 3` weights the disc centre at 0.55 and the rim at 1.0, giving out-of-focus highlights a more defined circular edge instead of a flat disc. Profiles 1/2 keep the uniform disc; the circle-of-confusion radius, depth weight and hand rejection are unchanged. The fixture checks both profiles. No option, texture, lookup or render target is added.
 
 **1.16.17 — top-profile colored light: wide secondary gather (2026-11-24):** `COLORED_LIGHT_QUALITY 3` adds six samples at 1.65× the base screen radius and 0.35 weight beyond the primary gather, approximating the first screen-space bounce so torch/lava spill reaches farther. Lower profiles keep their budgets. The fixture checks the guarded branch, compilation and finite output. No option, texture, lookup or render target is added.
 
@@ -364,9 +366,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.16.17.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.16.18.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.16.17.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.16.18.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

@@ -1,6 +1,17 @@
 #ifndef SE_CAMERA_EFFECTS
 #define SE_CAMERA_EFFECTS
 #include "/lib/noise.glsl"
+// Bokeh aperture weight. DOF_QUALITY 3 gives the outer ring more weight so
+// out-of-focus highlights keep a defined edge instead of a flat disc; lower
+// profiles use a uniform disc.
+float dofApertureWeight(vec2 disk) {
+#if DOF_QUALITY >= 3
+    return 0.55 + 0.45 * smoothstep(0.15, 0.95, length(disk));
+#else
+    return 1.0;
+#endif
+}
+
 vec3 cameraEffects(vec2 uv, vec3 inputColor) {
     vec3 color=inputColor;
     if(texture2D(colortex3,uv).b>0.5) return color;
@@ -13,10 +24,12 @@ vec3 cameraEffects(vec2 uv, vec3 inputColor) {
     int count=DOF_QUALITY*6;
     for(int i=0;i<18;++i) {
         if(i>=count) break;
-        vec2 suv=clamp(uv+diskSample(i,count)*pixelSize()*coc,0.0,1.0);
+        vec2 disk=diskSample(i,count);
+        vec2 suv=clamp(uv+disk*pixelSize()*coc,0.0,1.0);
         if(texture2D(colortex3,suv).b>0.5) continue;
         float sz=length(viewPosition(suv,texture2D(depthtex0,suv).r));
-        float w=1.0-smoothstep(0.03,0.18,abs(sz-z)/max(z,0.1));
+        float w=(1.0-smoothstep(0.03,0.18,abs(sz-z)/max(z,0.1)))*
+                dofApertureWeight(disk);
         sum+=texture2D(colortex0,suv).rgb*w; total+=w;
     }
     color=sum/total;
