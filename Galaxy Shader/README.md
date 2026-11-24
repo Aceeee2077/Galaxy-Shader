@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.7 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.8 · Community Project**
+
+**1.16.8 顶配云层：双叶相函数（2026-11-24）：** `CLOUD_QUALITY 4` 在尖锐前向叶之外混入 35% 的宽叶，近似多次散射，抬升背光侧云体亮度，同时保留迎光银边；低/中/高档保持单叶。合成 GPU 测试确认五个角度为正、顶配与单叶有可见差异。不新增选项、贴图、查表或渲染目标。
 
 **1.16.7 高配水体：折射色散（2026-11-24）：** `WATER_QUALITY 3` 的红、蓝通道分别采样折射 UV 两侧约 18% 的偏移，绿通道保持物理位置，形成轻微的边缘色散；偏移随波面斜率、水深与距离衰减，平静浅水几乎不可见。低/中档仍为单次清晰折射。合成 GPU 测试确认红蓝分离、绿通道稳定、零偏移一致。不新增选项、贴图、查表或渲染目标。
 
@@ -344,9 +346,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.16.7.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.16.8.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.16.7.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.16.8.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

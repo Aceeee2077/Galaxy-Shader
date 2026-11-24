@@ -132,6 +132,25 @@ float cloudLightShadow(vec3 p, float detail) {
     return exp(-accumulated * 0.035);
 }
 
+float cloudPhase(float cosTheta) {
+    float g = 0.68;
+    float phase = (1.0 - g * g) /
+                  pow(max(1.0 + g * g - 2.0 * g * cosTheta, 0.09), 1.5);
+    phase = 0.65 + phase * 0.22;
+#if CLOUD_QUALITY >= 4
+    // A second, much broader lobe stands in for multiple scattering. It lifts
+    // the tail away from the sun while the sharp forward lobe keeps silver
+    // linings; the blend is deliberately small so the cloud does not turn into
+    // a uniform glow.
+    float g2 = 0.22;
+    float wide = (1.0 - g2 * g2) /
+                 pow(max(1.0 + g2 * g2 - 2.0 * g2 * cosTheta, 0.09), 1.5);
+    wide = 0.65 + wide * 0.22;
+    phase = mix(phase, wide, 0.35);
+#endif
+    return phase;
+}
+
 vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
     float bottom = cloudBottomHeight();
     float top = bottom + max(cloudThickness(), 1.0);
@@ -168,9 +187,7 @@ vec3 volumetricClouds(vec3 sky, vec3 ray, vec3 origin, bool reflection) {
 
     vec3 sun = lightDirection();
     float cosTheta = dot(ray, sun);
-    float g = 0.68;
-    float phase = (1.0 - g * g) / pow(max(1.0 + g * g - 2.0 * g * cosTheta, 0.09), 1.5);
-    phase=0.65+phase*0.22;
+    float phase = cloudPhase(cosTheta);
 
     float storm = weatherStormAmount();
     float overcast = weatherOvercastAmount();

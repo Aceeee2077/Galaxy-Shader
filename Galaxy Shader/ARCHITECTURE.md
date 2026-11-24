@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.8 extracts `cloudPhase` and gives only `CLOUD_QUALITY 4` a second, broad Henyey-Greenstein-like lobe. The top profile blends 35% of the wide lobe into the sharp forward lobe, approximating multiple scattering in the cloud body while retaining the silver lining. Lower profiles keep the previous single lobe. `tools/test_cloud_phase.py` compares the helper at five scattering angles.
+
 1.16.7 adds `chromaticRefraction` to `water.glsl`: red samples one side of the refracted UV, green stays on the physical UV and blue samples the other side. `translucent.fsh` uses it only when `WATER_QUALITY >= 3`, scaling the offset by wave slope, thickness and distance so calm or shallow water stays neutral. The top profile pays two extra taps; lower profiles keep the single clear lookup. `tools/test_water_chroma.py` checks the channel separation and the zero-offset case.
 
 1.16.6 adds a variance envelope to the top TAA profile. The 3×3 YCoCg neighborhood still supplies min/max bounds for TAA 1/2; TAA 3 also accumulates mean and squared mean and, when the reprojected motion exceeds half a pixel, clamps history to mean ±1.5σ; a still frame keeps min/max so repeated rendering cannot oscillate. A lone bright ghost inside an otherwise flat neighborhood is no longer admitted just because one pixel matches it. `tools/test_taa_variance.py` compares the old min/max clamp against the new envelope.

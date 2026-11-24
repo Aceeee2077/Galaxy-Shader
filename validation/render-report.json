@@ -372,8 +372,8 @@
       }
     },
     "profile_ULTRA": {
-      "mean": 0.7111117243766785,
-      "std": 0.19395503401756287,
+      "mean": 0.7114654183387756,
+      "std": 0.19425824284553528,
       "stages": {
         "composite": {
           "min": 0.02630615234375,
@@ -398,8 +398,8 @@
       }
     },
     "profile_CINEMATIC": {
-      "mean": 0.7137843370437622,
-      "std": 0.1934938281774521,
+      "mean": 0.7141817808151245,
+      "std": 0.1938280463218689,
       "stages": {
         "composite": {
           "min": 0.0263214111328125,
@@ -450,7 +450,7 @@
       }
     }
   },
-  "shader_sha256": "5fe2d20179b5efcc36b49af2e2332b88c1614fc33fcee3c2ba0e8081af035925",
+  "shader_sha256": "dc8b3dac44821e8e7e8714c5df34c53939f7eb77697eb2f7f4a756209d7e7bd0",
   "weather_state_mean_separation": {
     "day_vs_cloudy": 0.1473526954650879,
     "cloudy_vs_rain": 0.04981106519699097,
