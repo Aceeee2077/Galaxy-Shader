@@ -46,7 +46,13 @@ vec3 specularBRDF(Material m, vec3 v, vec3 l) {
     float d=a2/(PI*den*den+1e-5);
     float k=(m.roughness+1.0)*(m.roughness+1.0)*0.125;
     float vis=1.0/max((nv*(1.0-k)+k)*(nl*(1.0-k)+k)*4.0,0.001);
-    return min(d*vis*fresnelSchlick(m.f0,dot(v,h))*nl,vec3(16.0));
+    vec3 fresnel=fresnelSchlick(m.f0,dot(v,h));
+    // Single-scatter GGX loses energy as roughness grows because the
+    // microfacets shadow each other. Add a bounded approximation of the
+    // missing multiple-scattering lobe; at roughness 0 the factor is exactly
+    // 1, so a mirror stays unchanged.
+    fresnel *= 1.0 + m.roughness * 0.175;
+    return min(d*vis*fresnel*nl,vec3(16.0));
 }
 vec3 emissionTint(float id) {
     if(id==10110.0) return vec3(1.0,0.025,0.018);

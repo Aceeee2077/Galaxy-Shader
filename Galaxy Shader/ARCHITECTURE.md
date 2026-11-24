@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.9 multiplies the GGX Fresnel term by `1 + roughness * 0.175` after the existing distribution and visibility terms. This bounded multiple-scattering approximation restores some energy lost to microfacet shadowing on rough surfaces; at roughness zero the factor is exactly one, so mirrors and the existing smooth-metal look are unchanged. `tools/test_pbr_energy.py` verifies the mirror invariance and the bounded rough-metal gain.
+
 1.16.8 extracts `cloudPhase` and gives only `CLOUD_QUALITY 4` a second, broad Henyey-Greenstein-like lobe. The top profile blends 35% of the wide lobe into the sharp forward lobe, approximating multiple scattering in the cloud body while retaining the silver lining. Lower profiles keep the previous single lobe. `tools/test_cloud_phase.py` compares the helper at five scattering angles.
 
 1.16.7 adds `chromaticRefraction` to `water.glsl`: red samples one side of the refracted UV, green stays on the physical UV and blue samples the other side. `translucent.fsh` uses it only when `WATER_QUALITY >= 3`, scaling the offset by wave slope, thickness and distance so calm or shallow water stays neutral. The top profile pays two extra taps; lower profiles keep the single clear lookup. `tools/test_water_chroma.py` checks the channel separation and the zero-offset case.
