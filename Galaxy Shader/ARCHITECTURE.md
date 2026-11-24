@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.10 adds `crestFoamAmount` to `water.glsl` and uses it only in the `WATER_QUALITY >= 3` branch of `translucent.fsh`. The amount is the product of a steep-slope gate, a broken-crest noise gate and a storm scale; calm water and a flat crest are exactly zero. The crest noise drifts with the same wind direction as the wave field, and the foam reuses the ambient plus shadowed sun light rather than a new probe.
+
 1.16.9 multiplies the GGX Fresnel term by `1 + roughness * 0.175` after the existing distribution and visibility terms. This bounded multiple-scattering approximation restores some energy lost to microfacet shadowing on rough surfaces; at roughness zero the factor is exactly one, so mirrors and the existing smooth-metal look are unchanged. `tools/test_pbr_energy.py` verifies the mirror invariance and the bounded rough-metal gain.
 
 1.16.8 extracts `cloudPhase` and gives only `CLOUD_QUALITY 4` a second, broad Henyey-Greenstein-like lobe. The top profile blends 35% of the wide lobe into the sharp forward lobe, approximating multiple scattering in the cloud body while retaining the silver lining. Lower profiles keep the previous single lobe. `tools/test_cloud_phase.py` compares the helper at five scattering angles.

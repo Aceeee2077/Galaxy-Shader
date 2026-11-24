@@ -115,6 +115,21 @@ void main() {
 #endif
             color=mix(color,vec3(0.72,0.80,0.82)*foamLight,sat(foamBand*0.45));
         }
+#if WATER_QUALITY >= 3
+        // Whitecaps on steep wind waves, independent of the shore band. The
+        // crest noise drifts with the same wind direction as the surface.
+        float crestNoise=valueNoise((vPlayer.xz+cameraPosition.xz)*0.9+
+                                    weatherWindDirection()*frameTimeCounter*0.8);
+        float crest=crestFoamAmount(slope,crestNoise,storm);
+        if(crest>0.0) {
+            vec3 crestLight=ambientRadiance(vec3(0.0,1.0,0.0),vLight.y);
+#if DIMENSION == 0
+            crestLight+=sunRadiance*max(lightDirection().y,0.0)*
+                        shadowVisibility(vPlayer,geometric,false)*vCloudShadow;
+#endif
+            color=mix(color,vec3(0.72,0.80,0.82)*crestLight,crest*0.14);
+        }
+#endif
         // The opaque background has already been transmitted exactly once.
         gl_FragData[0]=vec4(max(color,vec3(0)),1.0);
         return;

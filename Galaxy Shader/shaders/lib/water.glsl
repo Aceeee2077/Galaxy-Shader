@@ -1,6 +1,14 @@
 #ifndef SE_WATER
 #define SE_WATER
 #include "/lib/weather.glsl"
+// Wind-driven whitecaps: only a steep wave slope with a matching noise crest
+// produces foam, and storms add more. Calm water is exactly zero.
+float crestFoamAmount(vec2 slope, float noise, float storm) {
+    float steep = smoothstep(0.12, 0.45, length(slope));
+    float broken = smoothstep(0.52, 0.82, noise);
+    return steep * broken * (0.35 + 0.65 * sat(storm));
+}
+
 // Small spectral separation for the top water profile. The red channel samples
 // slightly to one side of the refracted UV and blue to the other; green stays
 // on the physical UV so the image does not shift as a whole.
