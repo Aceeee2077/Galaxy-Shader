@@ -15,7 +15,10 @@ float gtaoVisibility(vec2 uv, vec3 view, vec3 worldNormal) {
                     radius / max(-view.z, 1.0) * 0.5;
     radiusUV = min(radiusUV, vec2(0.14));
 #if AO_QUALITY == 1
-    const int directions = 3;
+    // Two directions are enough for the low profile's broad horizon term;
+    // the edge weights still reject silhouettes, and the four fetches replace
+    // the previous six.
+    const int directions = 2;
     const int steps = 2;
 #elif AO_QUALITY == 2
     const int directions = 4;

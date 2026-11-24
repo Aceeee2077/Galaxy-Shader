@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.14 reduces only the `AO_QUALITY == 1` loop in `gtao.glsl` from three directions to two. The projected world radius, normal weight, range weight and silhouette rejection are unchanged, so the low profile keeps its broad horizon occlusion with four depth fetches instead of six. Higher AO profiles keep their budgets. `tools/test_ao_low.py` checks the compiled low branch, source budget and bounded output.
+
 1.16.13 extracts `blurRoughReflection` in `reflections.glsl`. `SSR_QUALITY >= 4` uses the centre at 0.40 and four axis taps at 0.15 each; lower profiles keep the previous centre plus diagonal cross. The sampled UV, hit confidence and distance fade are untouched, so only the rough reflection kernel changes. `tools/test_ssr_rough.py` checks the normalized constant field and the top branch.
 
 1.16.12 adds `volumetricMultipleScatter(mean) = mean^2 * 0.16` and uses it only when `VOLUMETRIC_QUALITY >= 3`. The existing single-scatter shaft term is unchanged; the tail is zero for a fully shadowed path and grows with the normalized mean visibility, approximating light that scatters more than once in the fog. `directionalRadiance()` is still evaluated once per pixel and shared by both terms.
