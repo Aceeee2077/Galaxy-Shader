@@ -1,0 +1,14 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "0477482b29a5b6caa0a111d7e1aad5e5c07ff897ee0ceaa8fd51643a048781c8",
+  "profile": "BLOOM_QUALITY=1",
+  "bright_pass_mean": 0.0,
+  "low_blur_mean": 0.5,
+  "full_blur_mean": 0.499756,
+  "max_low_full_difference": 0.000244140625,
+  "taps": {
+    "bright_pass": 4,
+    "blur_per_axis": 3
+  },
+  "status": "the low profile preserves the constant-field bloom energy with a 2x2 bright pass and three-tap blur"
+}

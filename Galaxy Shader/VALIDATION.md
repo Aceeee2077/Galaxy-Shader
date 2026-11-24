@@ -1,5 +1,7 @@
 # Validation — 2026-11-24
 
+1.16.3（2026-11-24）：低配泛光改用 2×2 亮部采样与三抽头模糊。`test_bloom_low.py` 四项 GPU 回归全部通过：常量场上低档三抽头与五抽头模糊均值一致（最大差 2.4e-4），亮部输出稳定，确定性重放一致；低档源码使用 2×2 亮部循环并在两个模糊 pass 调用 `gaussianBlurLow`。`render_bloom_low.py` 记录亮部与模糊均值，见 `validation/bloom-low-report.json`。完整 GPU 编译矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）、十类场景/六档预设、全部 363 项回归与 Iris 1.11.2 实际解析器检查重新通过。不新增贴图、查表或渲染目标；游戏内观感与 FPS 仍待实测。
+
 1.16.2（2026-11-24）：低配阴影固定四采样核。`test_shadow_low_kernel.py` 四项 GPU 回归全部通过：`SHADOW_QUALITY 1` 的 `shadowVisibility` 不再调用 `valueNoise`（调用数 0），固定十字核仍产生 0–1 的完整半影范围，确定性重放逐像素一致，低档分支源码不含 `valueNoise(`、`cos(`、`sin(`。`render_shadow_low_kernel.py` 记录调用数与半影统计，见 `validation/shadow-low-kernel-report.json`；该优化改变低档采样核，不生成误导性的画质预览。完整 GPU 编译矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）、十类场景/六档预设、全部 359 项回归与 Iris 1.11.2 实际解析器检查重新通过。不新增贴图、查表或渲染目标；游戏内观感与 FPS 仍待实测。
 
 1.16.1（2026-11-24）：低配优化，背光受光地表跳过日光透射链。`test_radiance_gate.py` 六项 GPU 回归全部通过：背对光源、完全受光且非植被的地表，`directionalRadiance` 每像素调用从 1 次降到 0 次；云影、植被与朝光面仍为 1 次；四组场景新旧着色最大绝对差为 0；相同参数逐像素一致。`render_radiance_gate.py` 记录四组参数的调用数与差值，见 `validation/radiance-gate-report.json`；该优化不可见，不生成预览图。完整 GPU 编译矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）、十类场景/六档预设、全部 355 项回归与 Iris 1.11.2 实际解析器检查重新通过。不新增贴图、查表或渲染目标；游戏内观感与 FPS 仍待实测。

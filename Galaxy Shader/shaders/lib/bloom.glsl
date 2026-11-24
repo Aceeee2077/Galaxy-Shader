@@ -14,4 +14,11 @@ vec3 gaussianBlur(sampler2D source, vec2 uv, vec2 direction) {
     c+=(texture2D(source,uv+direction*3.230769).rgb+texture2D(source,uv-direction*3.230769).rgb)*0.070270;
     return c;
 }
+vec3 gaussianBlurLow(sampler2D source, vec2 uv, vec2 direction) {
+    // Three taps with normalized weights. A constant field keeps its exact
+    // value, so the low profile saves two fetches per blur pass without
+    // changing the overall bloom energy.
+    return texture2D(source,uv).rgb*0.5+
+           (texture2D(source,uv+direction).rgb+texture2D(source,uv-direction).rgb)*0.25;
+}
 #endif

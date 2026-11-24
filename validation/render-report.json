@@ -268,8 +268,8 @@
       }
     },
     "profile_POTATO": {
-      "mean": 0.6591123342514038,
-      "std": 0.18445377051830292,
+      "mean": 0.6590889096260071,
+      "std": 0.18447063863277435,
       "stages": {
         "composite": {
           "min": 0.0240020751953125,
@@ -277,15 +277,15 @@
         },
         "composite1": {
           "min": 0.0,
-          "max": 4.0
+          "max": 4.3125
         },
         "composite2": {
           "min": 0.0,
-          "max": 3.03125
+          "max": 3.84375
         },
         "composite3": {
           "min": 0.0,
-          "max": 2.21875
+          "max": 3.25
         },
         "composite4": {
           "min": 0.165771484375,
@@ -294,8 +294,8 @@
       }
     },
     "profile_LOW": {
-      "mean": 0.6627270579338074,
-      "std": 0.18472816050052643,
+      "mean": 0.6627052426338196,
+      "std": 0.18474413454532623,
       "stages": {
         "composite": {
           "min": 0.025970458984375,
@@ -303,15 +303,15 @@
         },
         "composite1": {
           "min": 0.0,
-          "max": 4.0625
+          "max": 4.3125
         },
         "composite2": {
           "min": 0.0,
-          "max": 3.0625
+          "max": 3.9375
         },
         "composite3": {
           "min": 0.0,
-          "max": 2.3125
+          "max": 3.3125
         },
         "composite4": {
           "min": 0.159912109375,
@@ -450,7 +450,7 @@
       }
     }
   },
-  "shader_sha256": "453ca3d4a1d68ef3bac6a112f0bcf5378ae351f07b27847256727d2f2c844516",
+  "shader_sha256": "d8101b5e4707a95e92714d2afa03995adf93276b34ce3791bf064f68d277aded",
   "weather_state_mean_separation": {
     "day_vs_cloudy": 0.1473526954650879,
     "cloudy_vs_rain": 0.04981106519699097,

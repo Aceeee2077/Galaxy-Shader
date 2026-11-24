@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.2 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.3 · Community Project**
+
+**1.16.3 低配泛光：2×2 亮部采样与三抽头模糊（2026-11-24）：** `BLOOM_QUALITY 1` 的亮部采样从 4×4 降到 2×2，两次高斯模糊从五抽头降到归一化三抽头；常量场的均值不变，泛光总能量不变，亮部软阈值与最终强度也不变。中高档路径保持原样。合成 GPU 测试确认低档与完整模糊的常量场均值一致，低档源码确实走小核。不新增选项、贴图、查表或渲染目标。
 
 **1.16.2 低配阴影：固定四采样核（2026-11-24）：** `SHADOW_QUALITY 1` 没有 blocker search，四抽头半径固定；此前仍为每个柔阴影像素计算 `valueNoise` 与 `sin/cos` 来旋转采样核。现在低档改为固定十字四采样加 2×2 屏幕抖动，保留四抽头预算，去掉噪声与三角函数；中高档 PCSS 路径不变。合成 GPU 测试中低档 `valueNoise` 调用为 0，固定核仍覆盖完整半影，确定性重放一致。不新增选项、贴图、查表或渲染目标。
 
@@ -334,9 +336,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.16.2.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.16.3.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.16.2.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.16.3.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。
