@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.19 raises the top motion-blur loop to fifteen taps and weights sample i by `1 - |i/count - 0.5|`, a triangular shutter profile. The centre of the shutter therefore contributes more than the ends, avoiding a flat average during fast pans. Lower profiles keep uniform weights and their existing counts; velocity scaling, depth rejection and hand exclusion are shared. `tools/test_motion_high.py` checks the top branch.
+
 1.16.18 adds `dofApertureWeight`: DOF_QUALITY 3 returns 0.55 at the disc centre and rises to 1.0 at the rim, so out-of-focus highlights keep a defined bokeh edge instead of a flat disc. Lower profiles return 1.0 and keep the previous uniform weighted average. The depth weight, circle-of-confusion radius and hand rejection are shared. `tools/test_dof_high.py` checks both profiles.
 
 1.16.17 adds a guarded second loop to `screenColoredLight` for `COLORED_LIGHT_QUALITY >= 3`. It uses six samples at 1.65× the base screen radius and 0.35 weight, approximating the first screen-space bounce of colored light beyond the primary gather. The source, occlusion, depth and falloff terms are shared with the first loop; lower profiles compile the block out. `tools/test_colored_light_high.py` checks the branch and a finite render.

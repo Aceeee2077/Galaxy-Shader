@@ -45,14 +45,21 @@ vec3 cameraEffects(vec2 uv, vec3 inputColor) {
             velocity*=min(1.0,0.035/max(length(velocity),0.0001));
             vec3 accum=color; float weight=1.0;
             int count=MOTION_BLUR*4;
-            for(int i=1;i<12;++i) {
+            for(int i=1;i<16;++i) {
                 if(i>=count) break;
                 vec2 suv=uv-velocity*(float(i)/float(count)-0.5)*0.5;
                 if(screenInside(suv)<0.5 || texture2D(colortex3,suv).b>0.5) continue;
                 float sd=texture2D(depthtex0,suv).r;
                 float z=-viewPosition(uv,depth).z, sz=-viewPosition(suv,sd).z;
                 if(abs(sz-z)>max(0.2,z*0.08)) continue;
+#if MOTION_BLUR >= 3
+                // Triangular reconstruction: the centre of the shutter keeps
+                // more weight, so a fast pan does not smear into a flat average.
+                float w=1.0-abs(float(i)/float(count)-0.5);
+                accum+=texture2D(colortex0,suv).rgb*w; weight+=w;
+#else
                 accum+=texture2D(colortex0,suv).rgb; weight+=1.0;
+#endif
             }
             color=accum/weight;
         }
