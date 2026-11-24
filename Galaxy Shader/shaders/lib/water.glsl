@@ -39,6 +39,12 @@ vec3 waterNormal(vec3 world, vec3 geometric, float distanceToEye) {
     gradient+=vec2(sin(world.x*4.7+world.z*0.8-t*2.5),
                    sin(world.z*5.3-world.x*0.6+t*2.1))*0.008;
 #endif
+#if WATER_QUALITY >= 3
+    // A second, higher-frequency capillary train. The amplitude is small so it
+    // reads as micro-roughness on the glints, not as another visible wave.
+    gradient+=vec2(sin(world.x*9.3-world.z*2.1+t*3.7),
+                   sin(world.z*8.7+world.x*1.6-t*3.1))*0.0035;
+#endif
     float rain=weatherRainAmount();
     if(rain>0.001) {
         vec3 ripple=rainRippleField(world.xz,1.35);

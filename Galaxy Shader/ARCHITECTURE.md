@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.23 adds a third, high-frequency capillary term to `waterNormal` only at `WATER_QUALITY >= 3`. Its amplitude is 0.0035, well below the main wave slopes, so it changes the micro-roughness around glints without adding a visible wave train. Lower profiles keep the existing two waves plus one capillary field; absorption, dispersion, crest foam and rain ripples are untouched. `tools/test_water_detail.py` compares the top and lower normals.
+
 1.16.22 adds `atmosphereMultiScatter`, a 10% second-order term that falls off as `(1 - h)^2` and is enabled only at `COSMIC_SKY_QUALITY 3`. It is added after the daytime golden-haze block, so the horizon receives a small lift on the longest optical paths while the zenith and night are unaffected. Lower profiles return exactly zero. `tools/test_atmosphere_multi.py` checks the horizon, zenith and lower-profile values.
 
 1.16.21 adds `endRingShadow`: it intersects the surface-to-star ray with the ring plane and darkens the planet only when the hit radius lies in the ring annulus. The annulus edges use a small smoothstep, so the shadow has a soft rim. The ring's own planet shadow, band noise, surface texture and orbit are unchanged. `tools/test_end_ring_shadow.py` exercises an annulus hit, an overhead star and the integration line.
