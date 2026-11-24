@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.11 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.12 · Community Project**
+
+**1.16.12 — high-profile volumetrics: multiple-scattering tail (2026-11-24):** `VOLUMETRIC_QUALITY 3/4` now adds a broad tail driven by the squared mean visibility on top of the single-scatter shafts, approximating light scattered more than once in the fog. A fully shadowed path gets zero and a lit path gets a bounded lift; lower profiles are unchanged. The synthetic GPU fixture confirms the zero path, monotonic growth and the top-profile gate. No option, texture, lookup or render target is added.
 
 **1.16.11 — top-profile bloom: dual-radius halo (2026-11-24):** `BLOOM_QUALITY 3` now blends the existing four-pixel Gaussian with an eight-pixel radius at 65/35 in both blur passes. The compact highlight remains while a wider, softer halo is added without another render target. Lower profiles keep their three-tap or five-tap paths. The synthetic GPU fixture confirms constant-field energy and both real composite branches. No option, texture, lookup or render target is added.
 
@@ -352,9 +354,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.16.11.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.16.12.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.16.11.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.16.12.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

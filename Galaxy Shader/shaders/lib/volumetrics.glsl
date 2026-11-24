@@ -2,6 +2,13 @@
 #define SE_VOLUMETRICS
 #include "/lib/shadows.glsl"
 #include "/lib/weather.glsl"
+// Cheap multiple-scattering tail for the high volumetric profiles: light that
+// scattered once inside the fog is not lost, so a second, broad term follows
+// the squared mean visibility. It is zero for an unlit path and bounded.
+float volumetricMultipleScatter(float mean) {
+    return mean * mean * 0.16;
+}
+
 vec3 volumetricLight(vec3 player, bool sky) {
     vec3 result=vec3(0.0);
 #if VOLUMETRIC_QUALITY > 0 && DIMENSION == 0
@@ -87,8 +94,15 @@ vec3 volumetricLight(vec3 player, bool sky) {
         // one seen against the sun. Without this lobe the beam energy lit the
         // entire dome evenly, so a clear morning sky matched an overcast one.
         float shaftPhase=0.10+0.90*pow(forward,2.0);
-        result=directionalRadiance()*(mean*broadPhase+shaftContrast*1.7*shaftPhase)*
+        vec3 shaftRadiance=directionalRadiance();
+        result=shaftRadiance*(mean*broadPhase+shaftContrast*1.7*shaftPhase)*
                extinction*GODRAY_STRENGTH;
+#if VOLUMETRIC_QUALITY >= 3
+        // Multiple scattering: a broad tail that fills the haze without
+        // flattening the shadowed shafts.
+        result+=shaftRadiance*volumetricMultipleScatter(mean)*
+                extinction*GODRAY_STRENGTH;
+#endif
     }
     // Lightning survives a zero god-ray slider: it is a separate storm flash,
     // not part of the shaft integral.

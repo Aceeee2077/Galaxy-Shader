@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.12 adds `volumetricMultipleScatter(mean) = mean^2 * 0.16` and uses it only when `VOLUMETRIC_QUALITY >= 3`. The existing single-scatter shaft term is unchanged; the tail is zero for a fully shadowed path and grows with the normalized mean visibility, approximating light that scatters more than once in the fog. `directionalRadiance()` is still evaluated once per pixel and shared by both terms.
+
 1.16.11 gives only `BLOOM_QUALITY >= 3` a second blur radius in `composite2/3`: the existing four-pixel Gaussian and an eight-pixel Gaussian are blended 65/35 horizontally and vertically. The compact highlight survives while a wider halo is added without another render target. Lower bloom profiles keep the three-tap or five-tap path. `tools/test_bloom_high.py` checks the constant-field mean and the real composite branches.
 
 1.16.10 adds `crestFoamAmount` to `water.glsl` and uses it only in the `WATER_QUALITY >= 3` branch of `translucent.fsh`. The amount is the product of a steep-slope gate, a broken-crest noise gate and a storm scale; calm water and a flat crest are exactly zero. The crest noise drifts with the same wind direction as the wave field, and the foam reuses the ambient plus shadowed sun light rather than a new probe.
