@@ -7,7 +7,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / 'Galaxy Shader'
 SHADERS = PACK / 'shaders'
-VERSION = '1.16.16'
+VERSION = '1.16.17'
 
 PROGRAMS = {
     'gbuffers_basic': ('geometry', 'effect', ['BASIC']),

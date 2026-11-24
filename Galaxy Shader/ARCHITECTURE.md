@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.17 adds a guarded second loop to `screenColoredLight` for `COLORED_LIGHT_QUALITY >= 3`. It uses six samples at 1.65× the base screen radius and 0.35 weight, approximating the first screen-space bounce of colored light beyond the primary gather. The source, occlusion, depth and falloff terms are shared with the first loop; lower profiles compile the block out. `tools/test_colored_light_high.py` checks the branch and a finite render.
+
 1.16.16 gates the second, finer particle-noise octave on `PARTICLE_LAYER > 1`. The low profile evaluates one broad `particleNoise3` field instead of blending two, cutting three valueNoise calls while keeping the sparse world-space distribution. The density threshold, drift, weather mix and distance fade are unchanged. `tools/test_particle_low.py` checks the low/high source branches and a finite render.
 
 1.16.15 reduces only the `SSR_QUALITY == 1` march in `reflections.glsl` from eight steps and 36 blocks to six steps and 34 blocks. The near-camera step curve, depth thickness test, refinement and confidence terms are unchanged; higher SSR profiles keep their budgets. `tools/test_ssr_low.py` compiles the real low branch and checks the source budget.
