@@ -27,7 +27,7 @@ def clamp_source(quality, history):
               f'''
 uniform vec2 testUV;
 void main() {{
-    gl_FragColor = vec4(clampTemporalHistory(colortex0, testUV, vec3({history})), 1.0);
+    gl_FragColor = vec4(clampTemporalHistory(colortex0, testUV, vec3({history}), 0.0), 1.0);
 }}''')
     return source.replace('#define TAA_QUALITY 3',
                           f'#define TAA_QUALITY {quality}')

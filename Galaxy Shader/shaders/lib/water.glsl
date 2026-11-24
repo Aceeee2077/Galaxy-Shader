@@ -1,6 +1,15 @@
 #ifndef SE_WATER
 #define SE_WATER
 #include "/lib/weather.glsl"
+// Small spectral separation for the top water profile. The red channel samples
+// slightly to one side of the refracted UV and blue to the other; green stays
+// on the physical UV so the image does not shift as a whole.
+vec3 chromaticRefraction(sampler2D scene, vec2 uv, vec2 offset) {
+    vec2 lo=clamp(uv+offset,pixelSize(),1.0-pixelSize());
+    vec2 hi=clamp(uv-offset,pixelSize(),1.0-pixelSize());
+    return vec3(texture2D(scene,lo).r, texture2D(scene,uv).g,
+                texture2D(scene,hi).b);
+}
 vec3 waterNormal(vec3 world, vec3 geometric, float distanceToEye) {
     float t=frameTimeCounter;
     vec2 gradient=vec2(0.0);

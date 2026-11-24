@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.6 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.7 · Community Project**
+
+**1.16.7 — top-profile water: refractive dispersion (2026-11-24):** `WATER_QUALITY 3` now samples red and blue about 18% of the refracted offset to opposite sides while green stays on the physical UV, producing a subtle spectral edge. The offset scales with wave slope, thickness and distance, so calm shallow water stays neutral. Lower water profiles keep the single clear lookup. The synthetic GPU fixture confirms the channel separation, a stable green channel and an exact zero-offset case. No option, texture, lookup or render target is added.
 
 **1.16.6 — top-profile TAA: variance clipping (2026-11-24):** `TAA_QUALITY 3` now clamps its 3×3 history in YCoCg to mean ±1.5σ instead of a pure min/max box **on moving pixels**. Static detail stays inside the envelope, while a lone bright ghost is pulled back toward the local mean, reducing trails on high-contrast edges. Still pixels keep min/max so repeated rendering cannot oscillate; TAA 1/2 keep their existing clamps. The synthetic GPU fixture confirms the outlier is reduced and a flat region stays stable. No option, texture, lookup or render target is added.
 
@@ -342,9 +344,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.16.6.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.16.7.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.16.6.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.16.7.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

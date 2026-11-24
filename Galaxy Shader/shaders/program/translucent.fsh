@@ -35,7 +35,15 @@ void main() {
                          (1.0+viewDistance*0.012),pixelSize(),1.0-pixelSize());
         float rd=texture2D(depthtex1,refrUV).r;
         if(skyDepth(rd)<0.5 && length(viewPosition(refrUV,rd))<viewDistance+0.05) refrUV=uv;
+#if WATER_QUALITY >= 3
+        // Dispersion is a fraction of the physical refraction offset: red and
+        // blue separate while green stays on the geometric ray.
+        vec2 chroma=slope*refractStrength*min(thickness,4.0)*0.18/
+                    (1.0+viewDistance*0.012);
+        vec3 behind=chromaticRefraction(colortex4,refrUV,chroma);
+#else
         vec3 behind=texture2D(colortex4,refrUV).rgb;
+#endif
 #if WATER_QUALITY > 1
         // Clear weather uses one sharp lookup; rain adds a little blur.
         if(rain>0.05) {
