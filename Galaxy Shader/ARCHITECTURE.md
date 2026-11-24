@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.24 adds a second fine erosion octave to `cloudDensity3D` for `CLOUD_QUALITY 4` view samples. It runs only when `detail > 0.5 && !lightSample && shape > 0`, so light transport and lower profiles never pay for it. The density is still clamped to the same 0–1 range; extinction, phase, silver lining and cloud shadows are unchanged. `tools/test_cloud_detail.py` compares the top and high profiles at three cloud points.
+
 1.16.23 adds a third, high-frequency capillary term to `waterNormal` only at `WATER_QUALITY >= 3`. Its amplitude is 0.0035, well below the main wave slopes, so it changes the micro-roughness around glints without adding a visible wave train. Lower profiles keep the existing two waves plus one capillary field; absorption, dispersion, crest foam and rain ripples are untouched. `tools/test_water_detail.py` compares the top and lower normals.
 
 1.16.22 adds `atmosphereMultiScatter`, a 10% second-order term that falls off as `(1 - h)^2` and is enabled only at `COSMIC_SKY_QUALITY 3`. It is added after the daytime golden-haze block, so the horizon receives a small lift on the longest optical paths while the zenith and night are unaffected. Lower profiles return exactly zero. `tools/test_atmosphere_multi.py` checks the horizon, zenith and lower-profile values.

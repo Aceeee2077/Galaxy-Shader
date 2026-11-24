@@ -98,6 +98,13 @@ float cloudDensity3D(vec3 p, bool lightSample, float detail) {
     float erosion=0.05*(1.0-shape);
     if(detail>0.5 && !lightSample && shape>0.0)
         erosion=volumeNoise(q*8.1)*0.10*(1.0-shape);
+#if CLOUD_QUALITY >= 4
+    // A second, finer erosion pass at the top cloud profile breaks the last
+    // smooth rim into wisps. It only touches view samples, not the cheaper
+    // light-transport samples or lower cloud profiles.
+    if(detail>0.5 && !lightSample && shape>0.0)
+        erosion+=volumeNoise(q*16.2-3.0)*0.03*(1.0-shape);
+#endif
     shape=sat(shape-erosion);
     float sheet=smoothstep(0.40-coverage*0.24,0.72,base)*vertical;
     return mix(shape*edgeBottom*edgeTop,sheet,wStrat*0.60+wCirrus*0.60);

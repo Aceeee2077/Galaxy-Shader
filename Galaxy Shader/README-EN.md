@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.23 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.24 · Community Project**
+
+**1.16.24 — top-profile clouds: second fine erosion pass (2026-11-24):** `CLOUD_QUALITY 4` adds a higher-frequency, low-amplitude erosion octave to view samples, breaking the last smooth cloud rim into wisps. Light-transport samples and lower profiles are untouched. The fixture confirms a measurable density difference at three cloud points while staying within 0–1. No option, texture, lookup or render target is added.
 
 **1.16.23 — top-profile water: high-frequency capillary detail (2026-11-24):** `WATER_QUALITY 3` adds a third high-frequency, low-amplitude capillary slope train that refines the micro-roughness around low-sun glints without creating another visible wave. Lower profiles keep their exact normals; absorption, dispersion, crest foam and rain ripples are unchanged. The fixture bounds the top/lower normal difference between 1e-3 and 0.08. No option, texture, lookup or render target is added.
 
@@ -376,9 +378,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.16.23.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.16.24.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.16.23.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.16.24.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.
