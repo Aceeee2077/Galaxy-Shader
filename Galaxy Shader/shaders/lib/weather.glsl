@@ -51,6 +51,16 @@ float goldenHourAmount() {
     return smoothstep(-0.075,0.015,h)*(1.0-smoothstep(0.06,0.22,h));
 }
 
+// High-profile rain is sheared by a slow gust instead of one fixed wind
+// vector. The low profiles return exactly zero so their streaks are unchanged.
+float rainWindShear(vec2 world, vec2 wind, float time, float storm) {
+#if WEATHER_QUALITY >= 4
+    return sin(dot(world, wind) * 0.045 + time * 1.3) * (0.4 + storm);
+#else
+    return 0.0;
+#endif
+}
+
 vec2 weatherWindDirection() {
     vec2 direction = vec2(0.84, 0.38);
     float turn = valueNoise(vec2(frameTimeCounter * 0.015, 17.0)) - 0.5;

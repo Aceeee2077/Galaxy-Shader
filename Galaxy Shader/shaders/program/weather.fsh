@@ -28,6 +28,12 @@ void main() {
     vec2 rainUV = vTex;
     float shear = (0.075 + WIND_STRENGTH * 0.045 + storm * 0.045) *
                   mix(1.0,0.68,farDensity);
+#if WEATHER_QUALITY >= 4
+    // A slow gust bends the whole streak field; the fixed wind still sets the
+    // average direction and the low profiles keep their exact old shear.
+    shear += rainWindShear(vPlayer.xz + cameraPosition.xz, wind,
+                           frameTimeCounter, storm) * 0.018;
+#endif
     rainUV.x += (vTex.y - 0.5) * wind.x * shear;
     rainUV = clamp(rainUV, vec2(0.002), vec2(0.998));
     source = texture2D(texture, rainUV) * vColor;
