@@ -320,8 +320,8 @@
       }
     },
     "profile_MEDIUM": {
-      "mean": 0.7094760537147522,
-      "std": 0.19432169198989868,
+      "mean": 0.7109649777412415,
+      "std": 0.19537843763828278,
       "stages": {
         "composite": {
           "min": 0.0262908935546875,
@@ -450,7 +450,7 @@
       }
     }
   },
-  "shader_sha256": "d8101b5e4707a95e92714d2afa03995adf93276b34ce3791bf064f68d277aded",
+  "shader_sha256": "2752460cacfe07918cc6188c5248eb3dad2a8c5df38d2ce67d25aed3c7db4569",
   "weather_state_mean_separation": {
     "day_vs_cloudy": 0.1473526954650879,
     "cloudy_vs_rain": 0.04981106519699097,

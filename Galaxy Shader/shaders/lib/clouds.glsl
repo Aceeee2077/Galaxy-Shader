@@ -106,8 +106,11 @@ float cloudDensity3D(vec3 p, bool lightSample, float detail) {
 // Cheap forward light march for self-shadowing and sun-facing silver linings.
 float cloudLightShadow(vec3 p, float detail) {
 #if CLOUD_QUALITY == 2
-    int taps = 2;
-    float stepSize = 35.0;
+    // One longer light sample instead of two short ones. The integrated path
+    // length is close to the old 35 + 63 block span, so the medium profile
+    // keeps the broad self-shadow gradient with one density evaluation.
+    int taps = 1;
+    float stepSize = 72.0;
 #elif CLOUD_QUALITY == 3
     int taps = 2;
     // Two longer light samples replace three short ones: the integrated path

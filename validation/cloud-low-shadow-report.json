@@ -1,0 +1,36 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "c267c4a5224db7ccd00ce2363a53279f52b190f068bb4212d151dee7c364cfc7",
+  "profile": "CLOUD_QUALITY=2",
+  "cases": {
+    "210": {
+      "calls_before": 128.0,
+      "calls_after": 64.0,
+      "shadow_before": 0.913574,
+      "shadow_after": 0.936035,
+      "max_abs_difference": 0.0224609375
+    },
+    "230": {
+      "calls_before": 128.0,
+      "calls_after": 64.0,
+      "shadow_before": 0.836426,
+      "shadow_after": 0.876953,
+      "max_abs_difference": 0.04052734375
+    },
+    "260": {
+      "calls_before": 128.0,
+      "calls_after": 64.0,
+      "shadow_before": 0.77832,
+      "shadow_after": 0.832031,
+      "max_abs_difference": 0.0537109375
+    },
+    "300": {
+      "calls_before": 128.0,
+      "calls_after": 64.0,
+      "shadow_before": 0.842285,
+      "shadow_after": 0.881348,
+      "max_abs_difference": 0.0390625
+    }
+  },
+  "status": "the medium profile evaluates one longer cloud light sample instead of two short ones while keeping the broad shadow"
+}

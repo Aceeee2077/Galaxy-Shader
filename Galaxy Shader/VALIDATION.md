@@ -1,5 +1,7 @@
 # Validation — 2026-11-24
 
+1.16.4（2026-11-24）：中配云自阴影单次长采样。`test_cloud_low_shadow.py` 三项 GPU 回归全部通过：`CLOUD_QUALITY 2` 的 `cloudDensity3D` 调用从每样本 2 次降到 1 次；四组云高下阴影仍在 0–1，新旧最大差 0.022–0.054；确定性重放一致。`render_cloud_low_shadow.py` 记录四组高度的调用数与差值，见 `validation/cloud-low-shadow-report.json`。完整 GPU 编译矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）、十类场景/六档预设、全部 366 项回归与 Iris 1.11.2 实际解析器检查重新通过。不新增贴图、查表或渲染目标；游戏内观感与 FPS 仍待实测。
+
 1.16.3（2026-11-24）：低配泛光改用 2×2 亮部采样与三抽头模糊。`test_bloom_low.py` 四项 GPU 回归全部通过：常量场上低档三抽头与五抽头模糊均值一致（最大差 2.4e-4），亮部输出稳定，确定性重放一致；低档源码使用 2×2 亮部循环并在两个模糊 pass 调用 `gaussianBlurLow`。`render_bloom_low.py` 记录亮部与模糊均值，见 `validation/bloom-low-report.json`。完整 GPU 编译矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）、十类场景/六档预设、全部 363 项回归与 Iris 1.11.2 实际解析器检查重新通过。不新增贴图、查表或渲染目标；游戏内观感与 FPS 仍待实测。
 
 1.16.2（2026-11-24）：低配阴影固定四采样核。`test_shadow_low_kernel.py` 四项 GPU 回归全部通过：`SHADOW_QUALITY 1` 的 `shadowVisibility` 不再调用 `valueNoise`（调用数 0），固定十字核仍产生 0–1 的完整半影范围，确定性重放逐像素一致，低档分支源码不含 `valueNoise(`、`cos(`、`sin(`。`render_shadow_low_kernel.py` 记录调用数与半影统计，见 `validation/shadow-low-kernel-report.json`；该优化改变低档采样核，不生成误导性的画质预览。完整 GPU 编译矩阵（73 项选项、2,048 组入口配置、去重后 1,062 对程序）、十类场景/六档预设、全部 359 项回归与 Iris 1.11.2 实际解析器检查重新通过。不新增贴图、查表或渲染目标；游戏内观感与 FPS 仍待实测。

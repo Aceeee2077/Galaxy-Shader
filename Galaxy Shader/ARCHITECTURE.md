@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.4 changes only the `CLOUD_QUALITY == 2` budget in `cloudLightShadow`: one 72-block light sample replaces two samples at roughly 35 and 63 blocks. The integrated optical path is close to the old span, so the broad self-shadow gradient survives with half the density evaluations. `tools/test_cloud_low_shadow.py` counts the calls and bounds the change against the old two-sample build at four cloud heights.
+
 1.16.3 reduces the low bloom profile from a 4×4 bright-pass footprint and five-tap Gaussian to a 2×2 footprint and normalized three-tap blur. Both kernels preserve a constant field exactly (up to texture filtering), so the bloom energy is unchanged while `composite1` saves twelve fetches and each blur pass saves two. `tools/test_bloom_low.py` compares the constant-field means and checks the low branches used by `composite1/2/3`.
 
 1.16.2 gives `SHADOW_QUALITY == 1` its own early path in `shadowVisibility`: four fixed cross taps plus a 2×2 `gl_FragCoord` jitter at the constant 0.8-texel radius. The low profile has no blocker search, so the previous per-pixel `valueNoise` and `sin/cos` rotation could not change the radius and only dithered the four taps. Medium and higher profiles keep the rotated PCSS kernel and its contact-hardening radius. `tools/test_shadow_low_kernel.py` counts zero `valueNoise` calls in the low path and checks that the fixed kernel still spans a full penumbra.
