@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.1 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.2 · Community Project**
+
+**1.16.2 — low-end shadows: fixed four-tap kernel (2026-11-24):** `SHADOW_QUALITY 1` has no blocker search, so its four-tap radius is constant; the shader still evaluated `valueNoise` and `sin/cos` to rotate the kernel for every soft-shadow pixel. The low profile now uses a fixed cross with a 2×2 screen jitter, keeping the four-tap budget while removing the noise and trigonometry. Medium and higher PCSS paths are unchanged. In the synthetic GPU fixture the low path makes zero `valueNoise` calls, still spans a full penumbra, and replays deterministically. No option, texture, lookup or render target is added.
 
 **1.16.1 — low-end optimisation: back-facing lit terrain skips the sunlight transmittance chain (2026-11-24):** The diffuse, specular, thin-leaf transmission and shadow-bounce terms in `shadeSurface` share one sun/moon radiance. On a non-foliage surface that faces away from the light and is fully lit, all four terms are exactly zero, yet the shader used to evaluate the three-band atmospheric transmittance (two vector exponentials and normalisations) before multiplying it away. The block is now skipped; cloud-shaded surfaces, foliage and front-facing surfaces still evaluate it. `specularBRDF` also returns immediately for `nl <= 0`, before the half-vector and GGX work. In the synthetic GPU fixture a back-facing lit fragment drops from one `directionalRadiance` call to zero, cloud shade, foliage and front-facing fragments stay at one, and all four outputs match the previous build exactly (maximum absolute difference 0). No option, texture, lookup or render target is added; the full matrix and all 355 regressions pass.
 
@@ -332,9 +334,9 @@ End rift core and ringed giant close-up:
 ## Installation
 
 1. Install Minecraft Java 26.2 with the matching Fabric, Iris, and Sodium builds (or use the [Iris installer](https://irisshaders.dev/download/) and select the game version).
-2. Put **Galaxy Shader-1.16.1.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
+2. Put **Galaxy Shader-1.16.2.zip** into that instance's `.minecraft/shaderpacks/` folder. Do not extract it.
 3. Launch the Fabric instance and open `Options → Video Settings → Shader Packs`.
-4. Select `Galaxy Shader-1.16.1.zip` and click `Apply`.
+4. Select `Galaxy Shader-1.16.2.zip` and click `Apply`.
 5. Open the shader settings and choose `HIGH` or `MEDIUM`. Menu labels are provided in both Chinese and English.
 
 The source folder is also installable: copy the whole `Galaxy Shader` directory into `shaderpacks/` so the path resolves to `shaderpacks/Galaxy Shader/shaders/shaders.properties`. Inside the ZIP, files live directly under `shaders/` with no extra nesting.

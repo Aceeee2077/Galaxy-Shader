@@ -1,6 +1,8 @@
 # Galaxy Shader
 
-**Photorealistic Minecraft Shader · 1.16.1 · Community Project**
+**Photorealistic Minecraft Shader · 1.16.2 · Community Project**
+
+**1.16.2 低配阴影：固定四采样核（2026-11-24）：** `SHADOW_QUALITY 1` 没有 blocker search，四抽头半径固定；此前仍为每个柔阴影像素计算 `valueNoise` 与 `sin/cos` 来旋转采样核。现在低档改为固定十字四采样加 2×2 屏幕抖动，保留四抽头预算，去掉噪声与三角函数；中高档 PCSS 路径不变。合成 GPU 测试中低档 `valueNoise` 调用为 0，固定核仍覆盖完整半影，确定性重放一致。不新增选项、贴图、查表或渲染目标。
 
 **1.16.1 低配优化：背光受光地表跳过日光透射链（2026-11-24）：** 地表着色里的主漫反射、镜面、叶片透射和阴影暖色反弹共用同一份日光/月光辐射；当表面背对光源、不是植被、并且完全受光时，这四项都精确为零。此前每个这样的像素仍会先算完三波段大气透射（两组向量指数与归一化）再乘零，现在整段跳过；云影下、植被和朝光面照常计算。`specularBRDF` 也在 `nl<=0` 时提前返回，省掉半角向量与 GGX 项。合成 GPU 测试中，背光受光地表的 `directionalRadiance` 调用从每像素 1 次降到 0 次，云影/植被/朝光面仍为 1 次，四组场景输出与旧版最大绝对差为 0。不新增选项、贴图、查表或渲染目标；完整矩阵与全部 355 项回归继续通过。
 
@@ -332,9 +334,9 @@ Iris 的 26.2 正式构建已在[官方 Modrinth 发布页](https://modrinth.com
 ## 安装
 
 1. 安装 Minecraft Java 26.2 及相应的 Fabric、Iris、Sodium。也可以使用 [Iris 官方安装器](https://irisshaders.dev/download/)选择对应游戏版本。
-2. 将 **Galaxy Shader-1.16.1.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
+2. 将 **Galaxy Shader-1.16.2.zip** 直接放进该游戏实例的 `.minecraft/shaderpacks/`，不必解压。
 3. 启动对应 Fabric 实例，打开 `Options → Video Settings → Shader Packs`。
-4. 选择 `Galaxy Shader-1.16.1.zip`，点击 `Apply`。
+4. 选择 `Galaxy Shader-1.16.2.zip`，点击 `Apply`。
 5. 打开光影设置，选择 `HIGH` 或 `MEDIUM`。界面提供中文与英文标签。
 
 源码文件夹同样可安装：将整个 `Galaxy Shader` 目录放进 `shaderpacks/`，确认路径为 `shaderpacks/Galaxy Shader/shaders/shaders.properties`。ZIP 内则直接是 `shaders/`，没有重复目录。

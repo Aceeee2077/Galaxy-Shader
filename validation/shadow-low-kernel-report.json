@@ -1,0 +1,19 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "bfec1fb0c4e6b3db4e5fb048572db65cedfea7a4716a7ac9ee4a46b1053ae735",
+  "resolution": [
+    32,
+    32
+  ],
+  "profile": "SHADOW_QUALITY=1",
+  "value_noise_calls": 0.0,
+  "visibility_min": 0.0,
+  "visibility_max": 1.0,
+  "visibility_mean": 0.341553,
+  "visibility_range": 1.0,
+  "status": "the low profile uses a fixed four-tap cross with 2x2 jitter; it no longer calls valueNoise or sin/cos for kernel rotation",
+  "source_check": {
+    "valueNoise_in_low_branch": false,
+    "trig_in_low_branch": false
+  }
+}

@@ -17,15 +17,30 @@ float shadowVisibility(vec3 player, vec3 normal, bool soft) {
     float bias = 0.00008+0.00015*slope;
     if (!soft) return step(coord.z-bias,texture2D(shadowtex0,coord.xy).r);
 
+#if SHADOW_QUALITY == 1
+    // The low profile has no blocker search, so its four taps always use the
+    // same radius. It previously rotated the kernel with valueNoise + sin/cos
+    // for every soft-shadow pixel. A fixed cross plus a 2x2 screen jitter keeps
+    // the four-tap budget and removes that noise and trigonometry entirely.
+    vec2 jitter = (vec2(mod(gl_FragCoord.x, 2.0), mod(gl_FragCoord.y, 2.0)) - 0.5) * 0.35;
+    const vec2 taps[4] = vec2[4](vec2(1.0, 0.0), vec2(0.0, 1.0),
+                                 vec2(-1.0, 0.0), vec2(0.0, -1.0));
+    float lowVisibility = 0.0;
+    for (int i = 0; i < 4; ++i) {
+        vec2 offset = (taps[i] + jitter) * 0.8 / float(shadowMapResolution);
+        lowVisibility += step(coord.z - bias, texture2D(shadowtex0, coord.xy + offset).r);
+    }
+    lowVisibility *= 0.25;
+    float lowFade = smoothstep(shadowDistance*0.75, shadowDistance*0.98,
+                               length(player.xz));
+    return mix(lowVisibility, 1.0, lowFade);
+#else
     float distanceFade = length(player.xz) / shadowDistance;
     float sunStretch = 1.0 + 1.35 * (1.0 - abs(sunDirection().y));
     float angle = valueNoise((player.xz + cameraPosition.xz) * 0.25) * 2.0 * PI;
     mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
 
-#if SHADOW_QUALITY == 1
-    const int blockerSamples = 0;
-    const int filterSamples = 4;
-#elif SHADOW_QUALITY == 2
+#if SHADOW_QUALITY == 2
     const int blockerSamples = 3;
     const int filterSamples = 6;
 #elif SHADOW_QUALITY == 3
@@ -84,6 +99,7 @@ float shadowVisibility(vec3 player, vec3 normal, bool soft) {
     visibility /= float(count);
     float fade = smoothstep(shadowDistance*0.75,shadowDistance*0.98,length(player.xz));
     return mix(visibility,1.0,fade);
+#endif
 #endif
 }
 #endif
