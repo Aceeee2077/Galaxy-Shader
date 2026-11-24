@@ -109,6 +109,17 @@ vec3 directionalRadiance() {
     return mix(moon,sun,d)*(1.0-0.55*weatherOvercastAmount())*(1.0-0.64*weatherRainAmount())*
            (1.0-0.42*weatherStormAmount())*(1.0-0.88*eclipseAmount());
 }
+// A small second-order sky term for the top cosmic profile. It lifts the
+// horizon relative to the zenith, where the optical path is longest, without
+// touching lower profiles or the night sky.
+vec3 atmosphereMultiScatter(vec3 scatter, float h) {
+#if COSMIC_SKY_QUALITY >= 3
+    return scatter * (0.10 * pow(max(1.0 - h, 0.0), 2.0));
+#else
+    return vec3(0.0);
+#endif
+}
+
 vec3 atmosphere(vec3 ray, bool disks) {
 #if DIMENSION == -1
     float ash = fbm(ray.xz*4.0+frameTimeCounter*0.005,3);
@@ -157,6 +168,7 @@ vec3 atmosphere(vec3 ray, bool disks) {
         scatter*=mix(vec3(1.0),vec3(0.98,0.91,0.68),goldenAir);
         scatter+=vec3(0.48,0.22,0.065)*golden*pow(1.0-h,2.5)*
                  (0.06+0.94*pow(max(mu,0.0),4.0));
+        scatter+=atmosphereMultiScatter(scatter,h);
     }
     vec3 night = mix(vec3(0.006,0.009,0.018),vec3(0.018,0.023,0.037),pow(1.0-h,3.0))*NIGHT_BRIGHTNESS;
     vec3 sky = mix(night,scatter,day);
