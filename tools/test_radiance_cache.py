@@ -11,7 +11,8 @@ from render_smoke import Renderer, U
 
 W, H = 8, 8
 VERTEX = '#version 330 compatibility\nvoid main(){gl_Position=gl_Vertex;}'
-DECL_NEW = '    vec3 sunRadiance=directionalRadiance();\n'
+DECL_NEW = ('    bool needsRadiance = nl > 0.0 || foliage > 0.5 || shadow < 1.0;\n'
+            '    vec3 sunRadiance = needsRadiance ? directionalRadiance() : vec3(0.0);\n')
 DECL_OLD = ''
 DIRECT_NEW = ('    direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*'
               'sunRadiance*shadow;')

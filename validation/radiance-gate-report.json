@@ -1,0 +1,36 @@
+{
+  "type": "Synthetic GPU report; not a Minecraft screenshot",
+  "shader_sha256": "3201e64df719e847c613185a4ef995f28ef2823ae7fd66c8934efe1cdd25eeb2",
+  "resolution": [
+    8,
+    8
+  ],
+  "pixels": 64,
+  "cases": {
+    "back_facing_lit": {
+      "radiance_calls_before": 64.0,
+      "radiance_calls_after": 0.0,
+      "calls_saved_per_pixel": 1.0,
+      "max_abs_difference": 0.0
+    },
+    "back_facing_cloud_shade": {
+      "radiance_calls_before": 64.0,
+      "radiance_calls_after": 64.0,
+      "calls_saved_per_pixel": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "back_facing_foliage": {
+      "radiance_calls_before": 64.0,
+      "radiance_calls_after": 64.0,
+      "calls_saved_per_pixel": 0.0,
+      "max_abs_difference": 0.0
+    },
+    "front_facing_lit": {
+      "radiance_calls_before": 64.0,
+      "radiance_calls_after": 64.0,
+      "calls_saved_per_pixel": 0.0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "status": "back-facing fully lit terrain now skips the atmospheric transmittance chain; foliage, cloud shade and front-facing terrain keep it"
+}

@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.1 gates `directionalRadiance()` in `shadeSurface` on `nl > 0 || foliage > 0.5 || shadow < 1`. All four direct terms (diffuse, specular, thin-leaf transmission and the shadow bounce) are exactly zero when a non-foliage surface faces away from the light and is fully lit, so the transmittance chain is skipped instead of being multiplied by zero. `specularBRDF` also returns immediately when `nl <= 0`, before the half-vector and GGX evaluation. The gate is a pure predicate over values the shader already computed; `tools/test_radiance_gate.py` proves the outputs stay identical and counts one saved radiance evaluation per back-facing lit fragment.
+
 1.16.0 begins the 1.16 series and gates the sunward fill in `skyIrradiance` on `lowSun * day`: `dawnDuskAmount()` is exactly zero above about 33 degrees and `dayAmount()` is exactly zero at night, so the `sunlightColor` evaluation is skipped for high sun and for the whole night while every output stays identical. The gate covers terrain, water and cloud ambient light, which all share the probe.
 
 1.15.63 adds a heiligenschein lobe to the foliage branch of `shadeSurface`: `pow(sat(dot(v, light)), 48)` computed as six squarings, gated by a morning dew window on `worldTime`, scaled by the surface cosine and shadow visibility, and tinted by the leaf albedo. The lobe is about ten degrees wide and sits on top of the shared `sunRadiance`, so it adds one dot product and six multiplications to vegetation and nothing to other blocks.

@@ -32,7 +32,12 @@ vec3 shadeSurface(Material m, vec3 player, vec2 lm, float id) {
     // moon radiance. Evaluate it once: every call repeats the atmospheric
     // transmittance exponentials, and opaque terrain is the budget that decides
     // whether a low-end GPU keeps its frame rate.
-    vec3 sunRadiance=directionalRadiance();
+    // The diffuse and specular lobes are both multiplied by nl, the leaf lobe
+    // only runs on foliage, and the warm bounce only runs when shadow < 1.
+    // When all three are zero the whole transmittance chain would be
+    // multiplied by zero; skip it for back-facing, fully lit terrain.
+    bool needsRadiance = nl > 0.0 || foliage > 0.5 || shadow < 1.0;
+    vec3 sunRadiance = needsRadiance ? directionalRadiance() : vec3(0.0);
     direct=(m.albedo*(1.0-m.metal)*nl+specularBRDF(m,v,light))*sunRadiance*shadow;
     // Thin leaves/grass transmit a bounded warm lobe when viewed against the
     // sun. The same shadow visibility prevents transmission through terrain.

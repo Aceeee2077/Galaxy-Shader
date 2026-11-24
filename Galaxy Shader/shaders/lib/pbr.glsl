@@ -33,8 +33,13 @@ void decodeLabPBR(inout Material m, vec4 normalMap, vec4 specMap, mat3 tbn) {
 }
 vec3 fresnelSchlick(vec3 f0, float cosine) { return f0+(1.0-f0)*pow(1.0-sat(cosine),5.0); }
 vec3 specularBRDF(Material m, vec3 v, vec3 l) {
+    float nl=max(dot(m.normal,l),0.0);
+    // The GGX lobe is multiplied by nl, so a surface facing away from the
+    // light contributes exactly zero. Skip the half-vector, distribution and
+    // visibility chain for those fragments.
+    if(nl<=0.0) return vec3(0.0);
     vec3 h=safeNormalize(v+l);
-    float nv=max(dot(m.normal,v),0.001), nl=max(dot(m.normal,l),0.0);
+    float nv=max(dot(m.normal,v),0.001);
     float nh=max(dot(m.normal,h),0.0);
     float a2=m.roughness*m.roughness;
     float den=nh*nh*(a2-1.0)+1.0;
