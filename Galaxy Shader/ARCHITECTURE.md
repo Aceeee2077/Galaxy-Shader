@@ -1,5 +1,7 @@
 # Rendering architecture
 
+1.16.13 extracts `blurRoughReflection` in `reflections.glsl`. `SSR_QUALITY >= 4` uses the centre at 0.40 and four axis taps at 0.15 each; lower profiles keep the previous centre plus diagonal cross. The sampled UV, hit confidence and distance fade are untouched, so only the rough reflection kernel changes. `tools/test_ssr_rough.py` checks the normalized constant field and the top branch.
+
 1.16.12 adds `volumetricMultipleScatter(mean) = mean^2 * 0.16` and uses it only when `VOLUMETRIC_QUALITY >= 3`. The existing single-scatter shaft term is unchanged; the tail is zero for a fully shadowed path and grows with the normalized mean visibility, approximating light that scatters more than once in the fog. `directionalRadiance()` is still evaluated once per pixel and shared by both terms.
 
 1.16.11 gives only `BLOOM_QUALITY >= 3` a second blur radius in `composite2/3`: the existing four-pixel Gaussian and an eight-pixel Gaussian are blended 65/35 horizontally and vertically. The compact highlight survives while a wider halo is added without another render target. Lower bloom profiles keep the three-tap or five-tap path. `tools/test_bloom_high.py` checks the constant-field mean and the real composite branches.

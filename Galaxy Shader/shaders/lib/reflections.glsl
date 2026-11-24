@@ -2,6 +2,22 @@
 #define SE_REFLECTIONS
 #include "/lib/clouds.glsl"
 uniform sampler2D depthtex1;
+// Rough hits are a soft sheen. The top SSR profile uses four axis taps plus
+// the centre; lower profiles keep the cheaper diagonal cross.
+vec3 blurRoughReflection(sampler2D scene, vec2 uv, vec2 blur, vec3 center) {
+#if SSR_QUALITY >= 4
+    return center * 0.40 +
+           (texture2D(scene, uv + vec2(blur.x, 0.0)).rgb +
+            texture2D(scene, uv - vec2(blur.x, 0.0)).rgb +
+            texture2D(scene, uv + vec2(0.0, blur.y)).rgb +
+            texture2D(scene, uv - vec2(0.0, blur.y)).rgb) * 0.15;
+#else
+    return center * 0.62 +
+           (texture2D(scene, uv + vec2(blur.x, blur.y)).rgb +
+            texture2D(scene, uv - vec2(blur.x, blur.y)).rgb) * 0.19;
+#endif
+}
+
 vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughness) {
     vec3 n=safeNormalize(mat3(gbufferModelView)*worldNormal);
     vec3 direction=reflect(safeNormalize(view),n);
@@ -59,13 +75,8 @@ vec4 traceReflection(sampler2D scene, vec3 view, vec3 worldNormal, float roughne
             float roughnessConfidence=1.0-smoothstep(0.15,0.62,roughness);
             vec2 blur=pixelSize()*(1.0+roughness*8.0);
             vec3 reflected=texture2D(scene,uv).rgb;
-            if(roughness>0.15) {
-                // One diagonal cross instead of four axis taps: rough hits are
-                // a soft sheen, so the cheaper kernel is visually equivalent.
-                reflected*=0.62;
-                reflected+=(texture2D(scene,uv+vec2(blur.x,blur.y)).rgb+
-                            texture2D(scene,uv-vec2(blur.x,blur.y)).rgb)*0.19;
-            }
+            if(roughness>0.15)
+                reflected=blurRoughReflection(scene,uv,blur,reflected);
             float confidence=edge*depthConfidence*angleConfidence*
                              distanceConfidence*roughnessConfidence;
             result=vec4(reflected,confidence);
